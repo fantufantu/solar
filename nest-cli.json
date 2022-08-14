@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "generateOptions": {
+    "spec": false
+  },
+  "monorepo": true,
+  "projects": {
+    "sun": {
+      "type": "application",
+      "root": "apps/sun",
+      "entryFile": "main",
+      "sourceRoot": "apps/sun/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sun/tsconfig.app.json"
+      }
+    },
+    "mercury": {
+      "type": "application",
+      "root": "apps/mercury",
+      "entryFile": "main",
+      "sourceRoot": "apps/mercury/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/mercury/tsconfig.app.json"
+      }
+    }
+  }
+}
