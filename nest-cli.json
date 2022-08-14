@@ -5,6 +5,11 @@
     "spec": false
   },
   "monorepo": true,
+
+  "compilerOptions": {
+    "webpack": true
+  },
+
   "projects": {
     "sun": {
       "type": "application",
@@ -22,6 +27,15 @@
       "sourceRoot": "apps/mercury/src",
       "compilerOptions": {
         "tsConfigPath": "apps/mercury/tsconfig.app.json"
+      }
+    },
+    "pluto": {
+      "type": "application",
+      "root": "apps/pluto",
+      "entryFile": "main",
+      "sourceRoot": "apps/pluto/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/pluto/tsconfig.app.json"
       }
     }
   }
