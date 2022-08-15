@@ -59,7 +59,11 @@
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
     "roots": [
-      "<rootDir>/apps/"
-    ]
+      "<rootDir>/apps/",
+      "<rootDir>/libs/"
+    ],
+    "moduleNameMapper": {
+      "^@app/pluto-config(|/.*)$": "<rootDir>/libs/pluto-config/src/$1"
+    }
   }
 }

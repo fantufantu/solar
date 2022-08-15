@@ -5,11 +5,9 @@
     "spec": false
   },
   "monorepo": true,
-
   "compilerOptions": {
     "webpack": true
   },
-
   "projects": {
     "sun": {
       "type": "application",
@@ -36,6 +34,15 @@
       "sourceRoot": "apps/pluto/src",
       "compilerOptions": {
         "tsConfigPath": "apps/pluto/tsconfig.app.json"
+      }
+    },
+    "pluto-config": {
+      "type": "library",
+      "root": "libs/pluto-config",
+      "entryFile": "index",
+      "sourceRoot": "libs/pluto-config/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/pluto-config/tsconfig.lib.json"
       }
     }
   }
