@@ -1,25 +1,28 @@
 // nest
+
 import { Module } from '@nestjs/common';
-import { ClientProxyFactory, Transport } from '@nestjs/microservices';
+import { ClientProxyFactory } from '@nestjs/microservices';
 // project
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PlutoConfigModule, PlutoConfigService } from '@app/pluto-config';
 
 @Module({
-  imports: [],
+  imports: [PlutoConfigModule],
   controllers: [AppController],
   providers: [
     AppService,
     {
       provide: 'PLUTO_SERVICE',
-      useFactory: () => {
+      useFactory: (plutoConfigService: PlutoConfigService) => {
         return ClientProxyFactory.create({
-          transport: Transport.TCP,
+          transport: plutoConfigService.getServiceTransport(),
           options: {
-            port: 3001,
+            port: plutoConfigService.getServicePort(),
           },
         });
       },
+      inject: [PlutoConfigService],
     },
   ],
 })

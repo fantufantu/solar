@@ -1,17 +1,21 @@
 // nest
 import { NestFactory } from '@nestjs/core';
-import { Transport } from '@nestjs/microservices';
 import type { MicroserviceOptions } from '@nestjs/microservices';
 // project
 import { AppModule } from './app.module';
+import { PlutoConfigService } from '@app/pluto-config';
 
 async function bootstrap() {
+  // 创建服务上下文
+  const appContext = await NestFactory.createApplicationContext(AppModule);
+  const plutoConfigService = appContext.get(PlutoConfigService);
+
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
-      transport: Transport.TCP,
+      transport: plutoConfigService.getServiceTransport(),
       options: {
-        port: 3001,
+        port: plutoConfigService.getServicePort(),
       },
     },
   );
