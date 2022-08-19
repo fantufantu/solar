@@ -6,6 +6,7 @@ import { ClientProxyFactory } from '@nestjs/microservices';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PlutoConfigModule, PlutoConfigService } from '@app/pluto-config';
+import { PLUTO_CLIENT } from 'assets/constants';
 
 @Module({
   imports: [PlutoConfigModule],
@@ -13,7 +14,7 @@ import { PlutoConfigModule, PlutoConfigService } from '@app/pluto-config';
   providers: [
     AppService,
     {
-      provide: 'PLUTO_SERVICE',
+      provide: PLUTO_CLIENT,
       useFactory: (plutoConfigService: PlutoConfigService) => {
         return ClientProxyFactory.create({
           transport: plutoConfigService.getServiceTransport(),

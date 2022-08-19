@@ -1,4 +1,4 @@
 /**
- * pluto 微服务名称
+ * pluto 微服务客户端
  */
-export const PLUTO_SERVICE = 'pluto-service';
+export const PLUTO_CLIENT = 'pluto-client';
