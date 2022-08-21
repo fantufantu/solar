@@ -1,30 +1,19 @@
 // nest
-
 import { Module } from '@nestjs/common';
-import { ClientProxyFactory } from '@nestjs/microservices';
 // project
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PlutoConfigModule, PlutoConfigService } from '@app/pluto-config';
-import { PLUTO_CLIENT } from 'assets/constants';
+import { GraphQLModule } from '@app/graphql';
+import { PlutoClientModule } from '@app/pluto-client';
 
 @Module({
-  imports: [PlutoConfigModule],
-  controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: PLUTO_CLIENT,
-      useFactory: (plutoConfigService: PlutoConfigService) => {
-        return ClientProxyFactory.create({
-          transport: plutoConfigService.getServiceTransport(),
-          options: {
-            port: plutoConfigService.getServicePort(),
-          },
-        });
-      },
-      inject: [PlutoConfigService],
-    },
+  imports: [
+    // 微服务pluto对应的配置模块
+    PlutoClientModule,
+    // GraphQL 模块
+    GraphQLModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

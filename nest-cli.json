@@ -44,6 +44,24 @@
       "compilerOptions": {
         "tsConfigPath": "libs/pluto-config/tsconfig.lib.json"
       }
+    },
+    "graphql": {
+      "type": "library",
+      "root": "libs/graphql",
+      "entryFile": "index",
+      "sourceRoot": "libs/graphql/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/graphql/tsconfig.lib.json"
+      }
+    },
+    "pluto-client": {
+      "type": "library",
+      "root": "libs/pluto-client",
+      "entryFile": "index",
+      "sourceRoot": "libs/pluto-client/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/pluto-client/tsconfig.lib.json"
+      }
     }
   }
 }

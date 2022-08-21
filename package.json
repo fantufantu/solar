@@ -10,6 +10,7 @@
     "dev:mercury": "nest start mercury --watch"
   },
   "dependencies": {
+    "@apollo/subgraph": "^2.0.5",
     "@nestjs/apollo": "^10.0.22",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
@@ -76,7 +77,9 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@app/pluto-config(|/.*)$": "<rootDir>/libs/pluto-config/src/$1"
+      "^@app/pluto-config(|/.*)$": "<rootDir>/libs/pluto-config/src/$1",
+      "^@app/graphql(|/.*)$": "<rootDir>/libs/graphql/src/$1",
+      "^@app/pluto-client(|/.*)$": "<rootDir>/libs/pluto-client/src/$1"
     }
   }
 }

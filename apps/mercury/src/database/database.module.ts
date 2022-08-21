@@ -11,6 +11,7 @@ import { AppServiceIdentity } from 'assets/enums';
       host: 'localhost',
       port: 3306,
       database: AppServiceIdentity.Mercury,
+      autoLoadEntities: true,
     }),
   ],
 })

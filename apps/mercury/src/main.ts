@@ -2,16 +2,16 @@
 import { NestFactory } from '@nestjs/core';
 // project
 import { AppModule } from './app.module';
-import { PLUTO_CLIENT } from 'assets/constants';
 import { AppServiceIdentity } from 'assets/enums';
+import { PlutoClientService } from '@app/pluto-client';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const plutoClient = app.get(PLUTO_CLIENT);
+  const plutoClientService = app.get(PlutoClientService);
 
   // 获取服务对应的监听端口
-  const port = plutoClient.send(
-    { cmd: 'sum' },
+  const port = await plutoClientService.send<number>(
+    { cmd: 'config.get' },
     `port.${AppServiceIdentity.Mercury}`,
   );
 

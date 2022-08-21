@@ -23,6 +23,18 @@
       ],
       "@app/pluto-config/*": [
         "libs/pluto-config/src/*"
+      ],
+      "@app/graphql": [
+        "libs/graphql/src"
+      ],
+      "@app/graphql/*": [
+        "libs/graphql/src/*"
+      ],
+      "@app/pluto-client": [
+        "libs/pluto-client/src"
+      ],
+      "@app/pluto-client/*": [
+        "libs/pluto-client/src/*"
       ]
     }
   }
