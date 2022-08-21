@@ -35,6 +35,12 @@
       ],
       "@app/pluto-client/*": [
         "libs/pluto-client/src/*"
+      ],
+      "@app/passport": [
+        "libs/passport/src"
+      ],
+      "@app/passport/*": [
+        "libs/passport/src/*"
       ]
     }
   }
