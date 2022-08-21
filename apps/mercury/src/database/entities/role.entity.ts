@@ -1,0 +1,24 @@
+// nest
+import { ObjectType, Field } from '@nestjs/graphql';
+
+// third
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+// project
+import { Foundation } from 'assets/entities/foundation.entity';
+import { Authorization, User } from '.';
+
+@Entity()
+@ObjectType()
+export class Role extends Foundation {
+  @Field(() => String, { description: '角色名称' })
+  @Column()
+  name: string;
+
+  @ManyToMany(() => User, (user) => user.roles)
+  @JoinTable()
+  users: User[];
+
+  @ManyToMany(() => Authorization)
+  @JoinTable()
+  authorizations: Authorization[];
+}
