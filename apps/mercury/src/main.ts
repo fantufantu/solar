@@ -1,5 +1,6 @@
 // nest
 import { NestFactory } from '@nestjs/core';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 // project
 import { AppModule } from './app.module';
 import { AppServiceIdentity } from 'assets/enums';
@@ -15,6 +16,14 @@ async function bootstrap() {
     `port.${AppServiceIdentity.Mercury}`,
   );
 
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.TCP,
+    options: {
+      port: 3333,
+    },
+  });
+
+  app.startAllMicroservices();
   await app.listen(port);
 }
 bootstrap();

@@ -41,6 +41,18 @@
       ],
       "@app/passport/*": [
         "libs/passport/src/*"
+      ],
+      "@app/database": [
+        "libs/database/src"
+      ],
+      "@app/database/*": [
+        "libs/database/src/*"
+      ],
+      "@app/mercury-config": [
+        "libs/mercury-config/src"
+      ],
+      "@app/mercury-config/*": [
+        "libs/mercury-config/src/*"
       ]
     }
   }

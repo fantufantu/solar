@@ -71,6 +71,24 @@
       "compilerOptions": {
         "tsConfigPath": "libs/passport/tsconfig.lib.json"
       }
+    },
+    "database": {
+      "type": "library",
+      "root": "libs/database",
+      "entryFile": "index",
+      "sourceRoot": "libs/database/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/database/tsconfig.lib.json"
+      }
+    },
+    "mercury-config": {
+      "type": "library",
+      "root": "libs/mercury-config",
+      "entryFile": "index",
+      "sourceRoot": "libs/mercury-config/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/mercury-config/tsconfig.lib.json"
+      }
     }
   }
 }

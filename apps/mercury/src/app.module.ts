@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GraphQLModule } from '@app/graphql';
 import { PlutoClientModule } from '@app/pluto-client';
+import { DatabaseModule } from '@app/database';
+import { AppServiceIdentity } from 'assets/enums';
 
 @Module({
   imports: [
@@ -12,6 +14,8 @@ import { PlutoClientModule } from '@app/pluto-client';
     PlutoClientModule,
     // GraphQL 模块
     GraphQLModule,
+    // 数据库模块
+    DatabaseModule.forRoot(AppServiceIdentity.Mercury),
   ],
   controllers: [AppController],
   providers: [AppService],
