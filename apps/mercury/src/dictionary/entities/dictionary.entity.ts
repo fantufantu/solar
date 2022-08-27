@@ -3,8 +3,8 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 // third
 import { Column, Entity, OneToMany } from 'typeorm';
 // project
-import { DictionaryEnum } from '.';
 import { Foundation } from 'assets/entities/foundation.entity';
+import { DictionaryEnum } from '../../dictionary-enum/entities/dictionary-enum.entity';
 
 @Entity()
 @ObjectType()

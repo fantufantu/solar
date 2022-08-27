@@ -16,7 +16,8 @@ import { IsEmail, MaxLength, MinLength, isURL } from 'class-validator';
 import { v4 } from 'uuid';
 // project
 import { Foundation } from 'assets/entities/foundation.entity';
-import { UserEmail, Role } from '.';
+import { UserEmail } from './user-email.entity';
+import { Role } from '../../role/entities/role.entity';
 
 @InputType({ isAbstract: true })
 @ObjectType()

@@ -3,8 +3,8 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 // third
 import { Column, Entity, ManyToOne } from 'typeorm';
 // project
-import { Dictionary } from '.';
 import { Foundation } from 'assets/entities/foundation.entity';
+import { Dictionary } from '../../dictionary/entities/dictionary.entity';
 
 @Entity()
 @ObjectType()

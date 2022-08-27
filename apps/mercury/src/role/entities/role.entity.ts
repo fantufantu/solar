@@ -5,7 +5,8 @@ import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 // project
 import { Foundation } from 'assets/entities/foundation.entity';
-import { Authorization, User } from '.';
+import { User } from '../../user/entities/user.entity';
+import { Authorization } from '../../auth/entities/authorization.entity';
 
 @Entity()
 @ObjectType()

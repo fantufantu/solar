@@ -12,7 +12,8 @@ import {
   OneToMany,
 } from 'typeorm';
 // project
-import { AuthorizationResource, Tenant } from '.';
+import { AuthorizationResource } from '../../auth/entities/authorization-resource.entity';
+import { Tenant } from '../../tenant/entities/tenant.entity';
 
 @ObjectType()
 @Entity()

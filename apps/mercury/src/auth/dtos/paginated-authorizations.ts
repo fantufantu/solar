@@ -1,6 +1,8 @@
-import { Authorization } from '@app/data-base/entities/boomemory';
+// nest
 import { ObjectType } from '@nestjs/graphql';
-import { Paginated } from 'utils/dto';
+// project
+import { Paginated } from 'assets/dtos';
+import { Authorization } from '../entities/authorization.entity';
 
 @ObjectType()
 export class PaginatedAuthorizations extends Paginated(Authorization) {}

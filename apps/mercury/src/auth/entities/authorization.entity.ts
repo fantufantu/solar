@@ -3,9 +3,16 @@ import { ObjectType } from '@nestjs/graphql';
 // third
 import { Column, Entity, ManyToOne, Unique } from 'typeorm';
 // peoject
-import { AuthorizationActionCode } from './authorization-action.entity';
-import { AuthorizationResourceCode } from './authorization-resource.entity';
+import {
+  AuthorizationAction,
+  AuthorizationActionCode,
+} from './authorization-action.entity';
+import {
+  AuthorizationResource,
+  AuthorizationResourceCode,
+} from './authorization-resource.entity';
 import { Foundation } from 'assets/entities/foundation.entity';
+import { Tenant } from '../../tenant/entities/tenant.entity';
 
 @Entity()
 @Unique(['tenant', 'resource', 'action'])

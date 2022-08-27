@@ -4,7 +4,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { MaxLength } from 'class-validator';
 // project
-import { Menu } from '.';
+import { Menu } from '../../menu/entities/menu.entity';
 
 @ObjectType({
   description: '租户',

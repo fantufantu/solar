@@ -1,5 +1,7 @@
-import { User } from '@app/data-base/entities/boomemory';
+// nest
 import { Field, InputType, PickType } from '@nestjs/graphql';
+// project
+import { User } from '../entities/user.entity';
 
 @InputType()
 export class RegisterInput extends PickType(

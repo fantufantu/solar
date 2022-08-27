@@ -12,24 +12,27 @@ import { AuthModule } from './auth/auth.module';
 import { TenantModule } from './tenant/tenant.module';
 import { MenuModule } from './menu/menu.module';
 import { RoleModule } from './role/role.module';
-import { UserModule } from './user/user.module';
 import { DictionaryModule } from './dictionary/dictionary.module';
 import { DictionaryEnumModule } from './dictionary-enum/dictionary-enum.module';
+import { PassportModule } from '@app/passport';
 
 @Module({
   imports: [
-    // 微服务pluto对应的配置模块
+    // 微服务pluto客户端
     PlutoClientModule,
+    // 微服务mercury服务端
     MercuryConfigModule,
     // GraphQL 模块
     GraphQLModule,
     // 数据库模块
     DatabaseModule.forRoot(AppServiceIdentity.Mercury),
+    // 认证模块
+    PassportModule,
+    // 业务模块
     AuthModule,
     TenantModule,
     MenuModule,
     RoleModule,
-    UserModule,
     DictionaryModule,
     DictionaryEnumModule,
   ],
