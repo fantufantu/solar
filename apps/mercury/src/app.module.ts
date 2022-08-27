@@ -11,6 +11,10 @@ import { MercuryConfigModule } from '@app/mercury-config';
 import { AuthModule } from './auth/auth.module';
 import { TenantModule } from './tenant/tenant.module';
 import { MenuModule } from './menu/menu.module';
+import { RoleModule } from './role/role.module';
+import { UserModule } from './user/user.module';
+import { DictionaryModule } from './dictionary/dictionary.module';
+import { DictionaryEnumModule } from './dictionary-enum/dictionary-enum.module';
 
 @Module({
   imports: [
@@ -24,6 +28,10 @@ import { MenuModule } from './menu/menu.module';
     AuthModule,
     TenantModule,
     MenuModule,
+    RoleModule,
+    UserModule,
+    DictionaryModule,
+    DictionaryEnumModule,
   ],
   controllers: [AppController],
   providers: [AppService],
