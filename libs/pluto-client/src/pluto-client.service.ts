@@ -5,7 +5,7 @@ import type { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 // project
 import { CustomProviderToken } from 'assets/enums';
-import type { Pattern } from 'typings/micro-service';
+import type { Pattern, SendInput } from 'typings/micro-service';
 
 @Injectable()
 export class PlutoClientService {
@@ -17,7 +17,7 @@ export class PlutoClientService {
   /**
    * sending messages
    */
-  async send<T, V = any>(pattern: Pattern, data: V) {
+  async send<T, P extends Pattern>(pattern: P, data: SendInput<P>) {
     return await lastValueFrom(this.client.send<T>(pattern, data));
   }
 }

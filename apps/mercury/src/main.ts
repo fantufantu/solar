@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions } from '@nestjs/microservices';
 // project
 import { AppModule } from './app.module';
-import { AppServiceIdentity, PlutoServiceCMD } from 'assets/enums';
+import { AppServiceIdentity, PlutoServiceCmd } from 'assets/enums';
 import { PlutoClientService } from '@app/pluto-client';
 import { MercuryConfigService } from '@app/mercury-config';
 
@@ -14,7 +14,7 @@ async function bootstrap() {
 
   // 获取服务对应的监听端口
   const port = await plutoClientService.send<number>(
-    { cmd: PlutoServiceCMD.GetConfig },
+    { cmd: PlutoServiceCmd.GetConfig },
     `port.${AppServiceIdentity.Mercury}`,
   );
 

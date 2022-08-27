@@ -3,14 +3,15 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 // project
 import { ConfigService } from './config.service';
-import { PlutoServiceCMD } from 'assets/enums';
+import { PlutoServiceCmd } from 'assets/enums';
+import { GetConfigInput } from 'typings/micro-service';
 
 @Controller()
 export class ConfigController {
   constructor(private readonly configService: ConfigService) {}
 
-  @MessagePattern({ cmd: PlutoServiceCMD.GetConfig })
-  get(propertyPath: string) {
-    return this.configService.get(propertyPath);
+  @MessagePattern({ cmd: PlutoServiceCmd.GetConfig })
+  get({ token, property }: GetConfigInput) {
+    return this.configService.get(`${token}.${property}`);
   }
 }

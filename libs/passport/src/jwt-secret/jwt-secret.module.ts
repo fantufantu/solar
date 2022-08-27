@@ -1,6 +1,13 @@
-import { PlutoClientModule, PlutoClientService } from '@app/pluto-client';
+// nest
 import { Module } from '@nestjs/common';
-import { CustomProviderToken, PlutoServiceCMD } from 'assets/enums';
+// project
+import { PlutoClientModule, PlutoClientService } from '@app/pluto-client';
+import {
+  ConfigJwtProperty,
+  ConfigRegisterToken,
+  CustomProviderToken,
+  PlutoServiceCmd,
+} from 'assets/enums';
 
 @Module({
   exports: [
@@ -11,9 +18,12 @@ import { CustomProviderToken, PlutoServiceCMD } from 'assets/enums';
       useFactory: async (plutoClientService: PlutoClientService) => {
         return await plutoClientService.send(
           {
-            cmd: PlutoServiceCMD.GetConfig,
+            cmd: PlutoServiceCmd.GetConfig,
           },
-          'jwt.secret',
+          {
+            token: ConfigRegisterToken.Jwt,
+            property: ConfigJwtProperty.Secret,
+          },
         );
       },
     },

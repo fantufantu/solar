@@ -11,7 +11,12 @@ import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/servic
 import { PassportService } from '@app/passport';
 import { User } from './entities/user.entity';
 import { PlutoClientService } from '@app/pluto-client';
-import { PlutoServiceCMD } from 'assets/enums';
+import {
+  ConfigRegisterToken,
+  ConfigRsaProperty,
+  ConfigTencentCloudProperty,
+  PlutoServiceCmd,
+} from 'assets/enums';
 import { RegisterInput } from './dtos/register.input';
 import { UserEmail } from './entities/user-email.entity';
 import { paginateQuery } from 'utils/api';
@@ -44,7 +49,9 @@ export class AuthService {
     private readonly plutoClientService: PlutoClientService,
     private readonly passportService: PassportService,
     private readonly tenantService: TenantService,
-  ) {}
+  ) {
+    this.initSesClient();
+  }
 
   /**
    * 登录
@@ -265,9 +272,12 @@ export class AuthService {
         payload.password,
         await this.plutoClientService.send(
           {
-            cmd: PlutoServiceCMD.GetConfig,
+            cmd: PlutoServiceCmd.GetConfig,
           },
-          'rsa.privateKey',
+          {
+            token: ConfigRegisterToken.Rsa,
+            property: ConfigRsaProperty.PrivateKey,
+          },
         ),
       ),
       user.password,
@@ -359,9 +369,12 @@ export class AuthService {
       password,
       await this.plutoClientService.send(
         {
-          cmd: PlutoServiceCMD.GetConfig,
+          cmd: PlutoServiceCmd.GetConfig,
         },
-        'rsa.privateKey',
+        {
+          token: ConfigRegisterToken.Rsa,
+          property: ConfigRsaProperty.PrivateKey,
+        },
       ),
     );
 
@@ -405,20 +418,26 @@ export class AuthService {
   /**
    * 初始化 ses client (发送邮件)
    */
-  async initSesClient() {
+  private async initSesClient() {
     const clientConfig: ClientConfig = {
       credential: {
         secretId: await this.plutoClientService.send(
           {
-            cmd: PlutoServiceCMD.GetConfig,
+            cmd: PlutoServiceCmd.GetConfig,
           },
-          'tencentCloud.secretId',
+          {
+            token: ConfigRegisterToken.TencentCloud,
+            property: ConfigTencentCloudProperty.SecretId,
+          },
         ),
         secretKey: await this.plutoClientService.send(
           {
-            cmd: PlutoServiceCMD.GetConfig,
+            cmd: PlutoServiceCmd.GetConfig,
           },
-          'tencentCloud.secretKey',
+          {
+            token: ConfigRegisterToken.TencentCloud,
+            property: ConfigTencentCloudProperty.SecretKey,
+          },
         ),
       },
       region: 'ap-hongkong',

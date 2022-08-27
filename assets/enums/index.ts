@@ -19,7 +19,7 @@ export enum CustomProviderToken {
 /**
  * pluto 服务 cmd
  */
-export enum PlutoServiceCMD {
+export enum PlutoServiceCmd {
   GetConfig = 'config.get',
 }
 
@@ -30,12 +30,7 @@ export enum MercuryServiceCMD {
   GetUser = 'user.get',
 }
 
-/**
- * config 注册枚举
- */
-export enum ConfigRegisterToken {
-  TencentCloud = 'tencentCloud',
-  Port = 'port',
-  Jwt = 'jwt',
-  Service = 'service',
-}
+export { RegisterToken as ConfigRegisterToken } from './config';
+export { Property as ConfigTencentCloudProperty } from './config/tencent-cloud';
+export { Property as ConfigJwtProperty } from './config/jwt';
+export { Property as ConfigRsaProperty } from './config/rsa';
