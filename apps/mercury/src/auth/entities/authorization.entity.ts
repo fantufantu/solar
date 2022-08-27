@@ -3,7 +3,6 @@ import { ObjectType } from '@nestjs/graphql';
 // third
 import { Column, Entity, ManyToOne, Unique } from 'typeorm';
 // peoject
-import { Tenant, AuthorizationAction, AuthorizationResource } from '.';
 import { AuthorizationActionCode } from './authorization-action.entity';
 import { AuthorizationResourceCode } from './authorization-resource.entity';
 import { Foundation } from 'assets/entities/foundation.entity';
