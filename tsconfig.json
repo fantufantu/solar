@@ -53,6 +53,12 @@
       ],
       "@app/mercury-config/*": [
         "libs/mercury-config/src/*"
+      ],
+      "@app/mercury-client": [
+        "libs/mercury-client/src"
+      ],
+      "@app/mercury-client/*": [
+        "libs/mercury-client/src/*"
       ]
     }
   }

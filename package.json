@@ -86,7 +86,8 @@
       "^@app/pluto-client(|/.*)$": "<rootDir>/libs/pluto-client/src/$1",
       "^@app/passport(|/.*)$": "<rootDir>/libs/passport/src/$1",
       "^@app/database(|/.*)$": "<rootDir>/libs/database/src/$1",
-      "^@app/mercury-config(|/.*)$": "<rootDir>/libs/mercury-config/src/$1"
+      "^@app/mercury-config(|/.*)$": "<rootDir>/libs/mercury-config/src/$1",
+      "^@app/mercury-client(|/.*)$": "<rootDir>/libs/mercury-client/src/$1"
     }
   }
 }

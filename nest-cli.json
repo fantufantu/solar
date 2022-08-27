@@ -89,6 +89,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/mercury-config/tsconfig.lib.json"
       }
+    },
+    "mercury-client": {
+      "type": "library",
+      "root": "libs/mercury-client",
+      "entryFile": "index",
+      "sourceRoot": "libs/mercury-client/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/mercury-client/tsconfig.lib.json"
+      }
     }
   }
 }

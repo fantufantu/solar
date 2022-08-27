@@ -4,25 +4,24 @@ import { ClientProxyFactory } from '@nestjs/microservices';
 // project
 import { PlutoConfigModule, PlutoConfigService } from '@app/pluto-config';
 import { PlutoClientService } from './pluto-client.service';
-import { MicroServiceClientIdentity } from 'assets/enums';
+import { CustomProviderToken } from 'assets/enums';
 
 @Module({
   imports: [PlutoConfigModule],
   providers: [
     PlutoClientService,
     {
-      provide: MicroServiceClientIdentity.Pluto,
-      useFactory: (plutoConfigService: PlutoConfigService) => {
-        return ClientProxyFactory.create({
+      provide: CustomProviderToken.PlutoClientProxy,
+      inject: [PlutoConfigService],
+      useFactory: (plutoConfigService: PlutoConfigService) =>
+        ClientProxyFactory.create({
           transport: plutoConfigService.getServiceTransport(),
           options: {
             port: plutoConfigService.getServicePort(),
           },
-        });
-      },
-      inject: [PlutoConfigService],
+        }),
     },
   ],
-  exports: [PlutoClientService, MicroServiceClientIdentity.Pluto],
+  exports: [PlutoClientService],
 })
 export class PlutoClientModule {}

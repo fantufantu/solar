@@ -4,24 +4,23 @@ import { PassportModule as NativePassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 // project
 import { PassportService } from './passport.service';
-import { PlutoClientModule, PlutoClientService } from '@app/pluto-client';
-import { PlutoServiceCMD } from 'assets/enums';
+import { MercuryClientModule } from 'libs/mercury-client/src';
+import { JwtSecretModule } from './jwt-secret/jwt-secret.module';
+import { CustomProviderToken } from 'assets/enums';
 
 @Module({
   imports: [
     // 原生
     NativePassportModule,
+    // jwt secret
+    JwtSecretModule,
+    // 微服务模块注入
+    MercuryClientModule,
     // jwt模块
     JwtModule.registerAsync({
-      imports: [PlutoClientModule],
-      inject: [PlutoClientService],
-      useFactory: async (plutoClieSntervice: PlutoClientService) => ({
-        secret: await plutoClieSntervice.send(
-          {
-            cmd: PlutoServiceCMD.GetConfig,
-          },
-          '',
-        ),
+      inject: [CustomProviderToken.JwtSecretService],
+      useFactory: async (jwtSecretService: string) => ({
+        secret: jwtSecretService,
       }),
     }),
   ],

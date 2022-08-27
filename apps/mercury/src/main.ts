@@ -1,6 +1,6 @@
 // nest
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { MicroserviceOptions } from '@nestjs/microservices';
 // project
 import { AppModule } from './app.module';
 import { AppServiceIdentity, PlutoServiceCMD } from 'assets/enums';
@@ -18,8 +18,9 @@ async function bootstrap() {
     `port.${AppServiceIdentity.Mercury}`,
   );
 
+  // 创建微服务
   app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.TCP,
+    transport: mercuryConfigService.getServiceTransport(),
     options: {
       port: mercuryConfigService.getServicePort(),
     },
