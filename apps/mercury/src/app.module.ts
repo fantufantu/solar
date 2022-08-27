@@ -8,6 +8,7 @@ import { PlutoClientModule } from '@app/pluto-client';
 import { DatabaseModule } from '@app/database';
 import { AppServiceIdentity } from 'assets/enums';
 import { MercuryConfigModule } from '@app/mercury-config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MercuryConfigModule } from '@app/mercury-config';
     GraphQLModule,
     // 数据库模块
     DatabaseModule.forRoot(AppServiceIdentity.Mercury),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
