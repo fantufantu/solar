@@ -12,3 +12,10 @@ export enum AppServiceIdentity {
 export enum MicroServiceClientIdentity {
   Pluto = 'pluto-client',
 }
+
+/**
+ * pluto 服务 cmd
+ */
+export enum PlutoServiceCMD {
+  GetConfig = 'config.get',
+}
