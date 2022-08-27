@@ -10,6 +10,7 @@ import { AppServiceIdentity } from 'assets/enums';
 import { MercuryConfigModule } from '@app/mercury-config';
 import { AuthModule } from './auth/auth.module';
 import { TenantModule } from './tenant/tenant.module';
+import { MenuModule } from './menu/menu.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { TenantModule } from './tenant/tenant.module';
     DatabaseModule.forRoot(AppServiceIdentity.Mercury),
     AuthModule,
     TenantModule,
+    MenuModule,
   ],
   controllers: [AppController],
   providers: [AppService],
