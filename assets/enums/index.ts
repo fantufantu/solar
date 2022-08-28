@@ -26,8 +26,16 @@ export enum PlutoServiceCmd {
 /**
  * Mercury 服务 cmd
  */
-export enum MercuryServiceCMD {
+export enum MercuryServiceCmd {
   GetUser = 'user.get',
+  Permit = 'role.permit',
+}
+
+/**
+ * 自定义的插件 token
+ */
+export enum CustomMetadataKey {
+  Permission = 'permission',
 }
 
 export { RegisterToken as ConfigRegisterToken } from './config';

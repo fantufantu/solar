@@ -4,7 +4,8 @@ import type { ClientProxy } from '@nestjs/microservices';
 // third
 import { lastValueFrom } from 'rxjs';
 // project
-import { MercuryServiceCMD, CustomProviderToken } from 'assets/enums';
+import { MercuryServiceCmd, CustomProviderToken } from 'assets/enums';
+import type { Options } from 'assets/decorators/permission.decorator';
 
 @Injectable()
 export class MercuryClientService {
@@ -20,9 +21,26 @@ export class MercuryClientService {
     return await lastValueFrom(
       this.client.send(
         {
-          cmd: MercuryServiceCMD.GetUser,
+          cmd: MercuryServiceCmd.GetUser,
         },
         id,
+      ),
+    );
+  }
+
+  /**
+   * 鉴权
+   */
+  async isPermitted(userId: number, options: Options) {
+    return await lastValueFrom(
+      this.client.send(
+        {
+          cmd: MercuryServiceCmd.Permit,
+        },
+        {
+          userId,
+          ...options,
+        },
       ),
     );
   }
