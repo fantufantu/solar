@@ -1,6 +1,8 @@
-import { AuthorizationActionCode } from '@app/data-base/entities/boomemory/authorization-action.entity';
-import { AuthorizationResourceCode } from '@app/data-base/entities/boomemory/authorization-resource.entity';
+// nest
 import { ArgsType, Field, InputType } from '@nestjs/graphql';
+// project
+import { AuthorizationActionCode } from '../entities/authorization-action.entity';
+import { AuthorizationResourceCode } from '../entities/authorization-resource.entity';
 
 @InputType()
 class AuthorizationInput {

@@ -391,28 +391,25 @@ export class AuthService {
    * 不存在则创建
    */
   async getOrGenerateUserEmail(emailAddress: string): Promise<UserEmail> {
-    // 获取已经存在的
-    const existed = await this.userEmailRepository.findOneBy({
+    // 尝试获取存在的用户邮件信息
+    const userEmail = await this.userEmailRepository.findOneBy({
       address: emailAddress,
     });
-
-    // 不存在，生成新的userEmail
-    if (!existed) {
+    // 不存在，执行创建后返回
+    if (!userEmail) {
       return await this.userEmailRepository.save(
         this.userEmailRepository.create({
           address: emailAddress,
         }),
       );
     }
-
     // 验证码存在有效期，验证码失效时，需要重新生成验证码
-    if (dayjs().isAfter(existed.validTo)) {
-      existed.generateCaptcha();
-      existed.sentAt = null;
-      this.userEmailRepository.save(existed);
+    if (dayjs().isAfter(userEmail.validTo)) {
+      userEmail.generateCaptcha();
+      userEmail.sentAt = null;
+      this.userEmailRepository.save(userEmail);
     }
-
-    return existed;
+    return userEmail;
   }
 
   /**
