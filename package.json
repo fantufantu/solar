@@ -24,6 +24,7 @@
     "apollo-server-express": "^3.10.1",
     "bcrypt": "^5.0.1",
     "class-validator": "^0.13.2",
+    "dataloader": "^2.1.0",
     "dayjs": "^1.11.5",
     "graphql": "^16.6.0",
     "mysql2": "^2.3.3",

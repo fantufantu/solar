@@ -1,6 +1,5 @@
 // nest
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Foundation } from 'assets/entities/foundation.entity';
 // third
 import { IsString, MaxLength } from 'class-validator';
 import {
@@ -14,6 +13,7 @@ import {
 // project
 import { AuthorizationResource } from '../../auth/entities/authorization-resource.entity';
 import { Tenant } from '../../tenant/entities/tenant.entity';
+import { Foundation } from 'assets/entities/foundation.entity';
 
 @ObjectType()
 @Entity()

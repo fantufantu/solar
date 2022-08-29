@@ -2,7 +2,7 @@
 import { ObjectType } from '@nestjs/graphql';
 // project
 import { Paginated } from 'assets/dtos';
-import { Menu } from '../entities/menu.entity';
+import { Role } from '../entities/role.entity';
 
 @ObjectType()
-export class PaginatedMenus extends Paginated(Menu) {}
+export class PaginatedRole extends Paginated(Role) {}

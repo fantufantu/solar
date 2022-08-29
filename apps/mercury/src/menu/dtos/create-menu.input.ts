@@ -1,6 +1,8 @@
-import { Menu } from '@app/data-base/entities/boomemory';
-import { AuthorizationResourceCode } from '@app/data-base/entities/boomemory/authorization-resource.entity';
+// nest
 import { PickType, InputType, Field } from '@nestjs/graphql';
+// project
+import { Menu } from '../entities/menu.entity';
+import { AuthorizationResourceCode } from '../../auth/entities/authorization-resource.entity';
 
 @InputType()
 export class CreateMenuInput extends PickType(
