@@ -6,8 +6,8 @@ import { In, Not, Repository } from 'typeorm';
 // project
 import { Menu } from './entities/menu.entity';
 import { paginateQuery } from 'utils/api';
+import { RoleService } from '../role/role.service';
 import type { QueryParams } from 'typings/api';
-import type { RoleService } from '../role/role.service';
 import type { CreateMenuInput } from './dtos/create-menu.input';
 import type { FilterMenuInput } from './dtos/filter-menu.input';
 import type { UpdateMenuInput } from './dtos/update-menu.input';

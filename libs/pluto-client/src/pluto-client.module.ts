@@ -1,11 +1,12 @@
 // nest
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ClientProxyFactory } from '@nestjs/microservices';
 // project
 import { PlutoConfigModule, PlutoConfigService } from '@app/pluto-config';
 import { PlutoClientService } from './pluto-client.service';
 import { CustomProviderToken } from 'assets/enums';
 
+@Global()
 @Module({
   imports: [PlutoConfigModule],
   providers: [

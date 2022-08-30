@@ -30,8 +30,8 @@ import { PassportModule } from '@app/passport';
     PassportModule,
     // 业务模块
     AuthModule,
-    TenantModule,
     MenuModule,
+    TenantModule,
     RoleModule,
     DictionaryModule,
     DictionaryEnumModule,

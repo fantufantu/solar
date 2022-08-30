@@ -1,14 +1,18 @@
+// nest
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+// third
 import DataLoader = require('dataloader');
-import { In, Repository } from 'typeorm';
-import { AppID } from 'utils/app/assets';
+import { In } from 'typeorm';
+import type { Repository } from 'typeorm';
+// project
+import { Menu } from './entities/menu.entity';
 import { MenuService } from './menu.service';
 
 @Injectable()
 export class MenuLoader {
   constructor(
-    @InjectRepository(Menu, AppID.Boomemory)
+    @InjectRepository(Menu)
     private readonly menuRepository: Repository<Menu>,
     private readonly menuService: MenuService,
   ) {}

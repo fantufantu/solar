@@ -1,8 +1,29 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { MenuService } from './menu.service';
+// nest
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
+// project
 import { Menu } from './entities/menu.entity';
-import { CreateMenuInput } from './dtos/create-menu.input';
-import { UpdateMenuInput } from './dtos/update-menu.input';
+import { Permission } from 'assets/decorators/permission.decorator';
+import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
+import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
+import { PaginatedMenus } from './dtos/paginated-menus';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '@app/passport/guards';
+import { CurrentUser } from 'assets/decorators/current-user.decorator';
+import { User } from '../auth/entities/user.entity';
+import { MenuService } from './menu.service';
+import { MenuLoader } from './menu.loader';
+import type { CreateMenuInput } from './dtos/create-menu.input';
+import type { UpdateMenuInput } from './dtos/update-menu.input';
+import type { PaginateInput } from 'assets/dtos';
+import type { FilterMenuInput } from './dtos/filter-menu.input';
 
 @Resolver(() => Menu)
 export class MenuResolver {

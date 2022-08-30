@@ -10,10 +10,10 @@ import {
 } from 'assets/enums';
 
 @Module({
-  exports: [
+  imports: [PlutoClientModule],
+  providers: [
     {
       provide: CustomProviderToken.JwtSecretService,
-      imports: [PlutoClientModule],
       inject: [PlutoClientService],
       useFactory: async (plutoClientService: PlutoClientService) => {
         return await plutoClientService.send(
@@ -28,5 +28,6 @@ import {
       },
     },
   ],
+  exports: [CustomProviderToken.JwtSecretService],
 })
 export class JwtSecretModule {}
