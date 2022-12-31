@@ -18,48 +18,14 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@app/pluto-config": [
-        "libs/pluto-config/src"
-      ],
-      "@app/pluto-config/*": [
-        "libs/pluto-config/src/*"
-      ],
-      "@app/graphql": [
-        "libs/graphql/src"
-      ],
-      "@app/graphql/*": [
-        "libs/graphql/src/*"
-      ],
-      "@app/pluto-client": [
-        "libs/pluto-client/src"
-      ],
-      "@app/pluto-client/*": [
-        "libs/pluto-client/src/*"
-      ],
-      "@app/passport": [
-        "libs/passport/src"
-      ],
-      "@app/passport/*": [
-        "libs/passport/src/*"
-      ],
-      "@app/database": [
-        "libs/database/src"
-      ],
-      "@app/database/*": [
-        "libs/database/src/*"
-      ],
-      "@app/mercury-config": [
-        "libs/mercury-config/src"
-      ],
-      "@app/mercury-config/*": [
-        "libs/mercury-config/src/*"
-      ],
-      "@app/mercury-client": [
-        "libs/mercury-client/src"
-      ],
-      "@app/mercury-client/*": [
-        "libs/mercury-client/src/*"
-      ]
+      "@app/graphql": ["libs/graphql/src"],
+      "@app/graphql/*": ["libs/graphql/src/*"],
+      "@app/passport": ["libs/passport/src"],
+      "@app/passport/*": ["libs/passport/src/*"],
+      "@app/database": ["libs/database/src"],
+      "@app/database/*": ["libs/database/src/*"],
+      "@app/mercury-client": ["libs/mercury-client/src"],
+      "@app/mercury-client/*": ["libs/mercury-client/src/*"]
     }
   }
 }

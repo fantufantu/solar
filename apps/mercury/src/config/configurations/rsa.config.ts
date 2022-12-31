@@ -1,7 +1,7 @@
 import { registerAs } from '@nestjs/config';
 import { generateKeyPairSync } from 'crypto';
 
-export const rsaConfig = registerAs('rsa', () => {
+export default registerAs('rsa', () => {
   // 利用 crypto 生成公私密钥对
   const { publicKey, privateKey } = generateKeyPairSync('rsa', {
     modulusLength: 1024,

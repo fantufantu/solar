@@ -1,43 +1,23 @@
 // nest
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions } from '@nestjs/microservices';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 // project
 import { AppModule } from './app.module';
-import {
-  AppServiceIdentity,
-  ConfigRegisterToken,
-  PlutoServiceCmd,
-} from 'assets/enums';
-import { PlutoClientService } from '@app/pluto-client';
-import { MercuryConfigService } from '@app/mercury-config';
+import { MicroservicePort, ServicePort } from 'assets/ports';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const plutoClientService = app.get(PlutoClientService);
-  const mercuryConfigService = app.get(MercuryConfigService);
-
-  // 获取服务对应的监听端口
-  const port = await plutoClientService
-    .send<number>(
-      { cmd: PlutoServiceCmd.GetConfig },
-      {
-        token: ConfigRegisterToken.Port,
-        property: AppServiceIdentity.Mercury,
-      },
-    )
-    .catch(() => undefined);
 
   // 创建微服务
   app.connectMicroservice<MicroserviceOptions>({
-    transport: mercuryConfigService.getServiceTransport(),
+    transport: Transport.TCP,
     options: {
-      port: mercuryConfigService.getServicePort(),
+      port: MicroservicePort.Mercury,
     },
   });
 
   app.startAllMicroservices();
-  await app.listen(port);
-
-  console.log('mercury is running on');
+  await app.listen(ServicePort.Mercury);
+  console.log(`mercury is running on http:localhost:${ServicePort.Mercury}`);
 }
 bootstrap();

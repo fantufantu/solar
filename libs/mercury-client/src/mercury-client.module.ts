@@ -1,23 +1,21 @@
 // nest
 import { Module } from '@nestjs/common';
-import { ClientProxyFactory } from '@nestjs/microservices';
+import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 // project
-import { MercuryConfigModule, MercuryConfigService } from '@app/mercury-config';
-import { CustomProviderToken } from 'assets/enums';
+import { ProviderToken } from 'assets/enums';
+import { MicroservicePort } from 'assets/ports';
 import { MercuryClientService } from './mercury-client.service';
 
 @Module({
-  imports: [MercuryConfigModule],
   providers: [
     MercuryClientService,
     {
-      provide: CustomProviderToken.MercuryClientProxy,
-      inject: [MercuryConfigService],
-      useFactory: (mercuryConfigService: MercuryConfigService) =>
+      provide: ProviderToken.MercuryClientProxy,
+      useFactory: () =>
         ClientProxyFactory.create({
-          transport: mercuryConfigService.getServiceTransport(),
+          transport: Transport.TCP,
           options: {
-            port: mercuryConfigService.getServicePort(),
+            port: MicroservicePort.Mercury,
           },
         }),
     },

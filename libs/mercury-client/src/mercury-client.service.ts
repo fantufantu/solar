@@ -4,13 +4,13 @@ import type { ClientProxy } from '@nestjs/microservices';
 // third
 import { lastValueFrom } from 'rxjs';
 // project
-import { MercuryServiceCmd, CustomProviderToken } from 'assets/enums';
-import type { Options } from 'assets/decorators/permission.decorator';
+import { MercuryServiceCmd, ProviderToken } from 'assets/enums';
+import type { Options } from 'assets/decorators';
 
 @Injectable()
 export class MercuryClientService {
   constructor(
-    @Inject(CustomProviderToken.MercuryClientProxy)
+    @Inject(ProviderToken.MercuryClientProxy)
     private readonly client: ClientProxy,
   ) {}
 
@@ -31,9 +31,9 @@ export class MercuryClientService {
   /**
    * 鉴权
    */
-  async isPermitted(userId: number, options: Options) {
-    return await lastValueFrom(
-      this.client.send(
+  isPermitted(userId: number, options: Options) {
+    return lastValueFrom(
+      this.client.send<boolean>(
         {
           cmd: MercuryServiceCmd.Permit,
         },
@@ -41,6 +41,20 @@ export class MercuryClientService {
           userId,
           ...options,
         },
+      ),
+    );
+  }
+
+  /**
+   * 获取jwt secrect
+   */
+  getJwtSecrect() {
+    return lastValueFrom(
+      this.client.send<string, null>(
+        {
+          cmd: MercuryServiceCmd.GetJwtSecret,
+        },
+        null,
       ),
     );
   }

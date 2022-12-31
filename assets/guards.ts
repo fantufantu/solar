@@ -5,7 +5,7 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 // project
 import { CustomMetadataKey } from 'assets/enums';
 import { MercuryClientService } from '@app/mercury-client';
-import type { Options } from 'assets/decorators/permission.decorator';
+import type { Options } from './decorators';
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
@@ -20,7 +20,7 @@ export class PermissionGuard implements CanActivate {
       [context.getHandler(), context.getClass()],
     );
 
-    //  无需鉴权
+    // 无需鉴权
     if (!options) return true;
     // 获取用户信息
     const { user } = GqlExecutionContext.create(context).getContext().req;

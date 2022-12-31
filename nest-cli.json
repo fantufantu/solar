@@ -27,24 +27,6 @@
         "tsConfigPath": "apps/mercury/tsconfig.app.json"
       }
     },
-    "pluto": {
-      "type": "application",
-      "root": "apps/pluto",
-      "entryFile": "main",
-      "sourceRoot": "apps/pluto/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/pluto/tsconfig.app.json"
-      }
-    },
-    "pluto-config": {
-      "type": "library",
-      "root": "libs/pluto-config",
-      "entryFile": "index",
-      "sourceRoot": "libs/pluto-config/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/pluto-config/tsconfig.lib.json"
-      }
-    },
     "graphql": {
       "type": "library",
       "root": "libs/graphql",
@@ -52,15 +34,6 @@
       "sourceRoot": "libs/graphql/src",
       "compilerOptions": {
         "tsConfigPath": "libs/graphql/tsconfig.lib.json"
-      }
-    },
-    "pluto-client": {
-      "type": "library",
-      "root": "libs/pluto-client",
-      "entryFile": "index",
-      "sourceRoot": "libs/pluto-client/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/pluto-client/tsconfig.lib.json"
       }
     },
     "passport": {
@@ -79,15 +52,6 @@
       "sourceRoot": "libs/database/src",
       "compilerOptions": {
         "tsConfigPath": "libs/database/tsconfig.lib.json"
-      }
-    },
-    "mercury-config": {
-      "type": "library",
-      "root": "libs/mercury-config",
-      "entryFile": "index",
-      "sourceRoot": "libs/mercury-config/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/mercury-config/tsconfig.lib.json"
       }
     },
     "mercury-client": {

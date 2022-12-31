@@ -1,33 +1,20 @@
 // nest
 import { Module } from '@nestjs/common';
 // project
-import { PlutoClientModule, PlutoClientService } from '@app/pluto-client';
-import {
-  ConfigJwtProperty,
-  ConfigRegisterToken,
-  CustomProviderToken,
-  PlutoServiceCmd,
-} from 'assets/enums';
+import { MercuryClientModule, MercuryClientService } from '@app/mercury-client';
+import { ProviderToken } from 'assets/tokens';
 
 @Module({
-  imports: [PlutoClientModule],
+  imports: [MercuryClientModule],
   providers: [
     {
-      provide: CustomProviderToken.JwtSecretService,
-      inject: [PlutoClientService],
-      useFactory: async (plutoClientService: PlutoClientService) => {
-        return await plutoClientService.send(
-          {
-            cmd: PlutoServiceCmd.GetConfig,
-          },
-          {
-            token: ConfigRegisterToken.Jwt,
-            property: ConfigJwtProperty.Secret,
-          },
-        );
+      provide: ProviderToken.JwtSecretService,
+      inject: [MercuryClientService],
+      useFactory: async (client: MercuryClientService) => {
+        return await client.getJwtSecrect();
       },
     },
   ],
-  exports: [CustomProviderToken.JwtSecretService],
+  exports: [ProviderToken.JwtSecretService],
 })
 export class JwtSecretModule {}

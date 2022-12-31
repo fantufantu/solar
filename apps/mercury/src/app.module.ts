@@ -3,37 +3,40 @@ import { Module } from '@nestjs/common';
 // project
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { GraphQLModule } from '@app/graphql';
-import { PlutoClientModule } from '@app/pluto-client';
-import { DatabaseModule } from '@app/database';
 import { AppServiceIdentity } from 'assets/enums';
-import { MercuryConfigModule } from '@app/mercury-config';
+// modules
+import { GraphQLModule } from '@app/graphql';
+import { DatabaseModule } from '@app/database';
+import { PassportModule } from '@app/passport';
+import { ConfigModule } from './config/config.module';
 import { AuthModule } from './auth/auth.module';
 import { TenantModule } from './tenant/tenant.module';
 import { MenuModule } from './menu/menu.module';
 import { RoleModule } from './role/role.module';
 import { DictionaryModule } from './dictionary/dictionary.module';
 import { DictionaryEnumModule } from './dictionary-enum/dictionary-enum.module';
-import { PassportModule } from '@app/passport';
 
 @Module({
   imports: [
-    // 微服务pluto客户端
-    PlutoClientModule,
-    // 微服务mercury服务端
-    MercuryConfigModule,
-    // GraphQL 模块
+    // 配置
+    ConfigModule,
+    // api
     GraphQLModule,
-    // 数据库模块
+    // 数据库
     DatabaseModule.forRoot(AppServiceIdentity.Mercury),
-    // 认证模块
+    // 认证
     PassportModule,
-    // 业务模块
+    // 用户权限
     AuthModule,
+    // 菜单
     MenuModule,
+    // 租户
     TenantModule,
+    // 角色
     RoleModule,
+    // 字典
     DictionaryModule,
+    // 字典枚举
     DictionaryEnumModule,
   ],
   controllers: [AppController],

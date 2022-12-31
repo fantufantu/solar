@@ -6,15 +6,15 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import type { Request } from 'express';
 // project
 import { MercuryClientService } from 'libs/mercury-client/src';
-import { CustomProviderToken } from 'assets/enums';
+import { ProviderToken } from 'assets/tokens';
 import type { Authentication } from '../dtos/authentication';
-import type { User } from 'apps/mercury/src/user/entities/user.entity';
+import type { User } from 'apps/mercury/src/auth/entities/user.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @Inject(CustomProviderToken.JwtSecretService) jwtSecret: string,
-    private readonly mercuryClientService: MercuryClientService,
+    @Inject(ProviderToken.JwtSecretService) jwtSecret: string,
+    private readonly client: MercuryClientService,
   ) {
     super({
       jwtFromRequest: (req: Request) => {
@@ -37,7 +37,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: Authentication): Promise<User> {
     // token有效
     // 获取数据库中的user信息
-    const user = await this.mercuryClientService.getUserById(payload.id);
+    const user = await this.client.getUserById(payload.id);
 
     if (!user)
       throw new UnauthorizedException(

@@ -6,7 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportService } from './passport.service';
 import { MercuryClientModule } from 'libs/mercury-client/src';
 import { JwtSecretModule } from './jwt-secret/jwt-secret.module';
-import { CustomProviderToken } from 'assets/enums';
+import { ProviderToken } from 'assets/tokens';
 
 @Global()
 @Module({
@@ -18,7 +18,7 @@ import { CustomProviderToken } from 'assets/enums';
     // jwt模块
     JwtModule.registerAsync({
       imports: [JwtSecretModule],
-      inject: [CustomProviderToken.JwtSecretService],
+      inject: [ProviderToken.JwtSecretService],
       useFactory: async (jwtSecretService: string) => ({
         secret: jwtSecretService,
       }),

@@ -2,17 +2,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule as NativeConfigModule } from '@nestjs/config';
 // project
-import { jwtConfig, portConfig } from './configurations';
-import { ConfigController } from './config.controller';
+import { jwtConfig, rsaConfig, tenantCloudConfig } from './configurations';
 import { ConfigService } from './config.service';
 
 @Module({
   imports: [
     NativeConfigModule.forRoot({
-      load: [jwtConfig, portConfig],
+      load: [jwtConfig, rsaConfig, tenantCloudConfig],
     }),
   ],
-  controllers: [ConfigController],
   providers: [ConfigService],
 })
 export class ConfigModule {}
