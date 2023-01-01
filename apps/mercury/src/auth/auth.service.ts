@@ -10,13 +10,6 @@ import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/servic
 // project
 import { PassportService } from '@app/passport';
 import { User } from './entities/user.entity';
-import { PlutoClientService } from '@app/pluto-client';
-import {
-  ConfigRegisterToken,
-  ConfigRsaProperty,
-  ConfigTencentCloudProperty,
-  PlutoServiceCmd,
-} from 'assets/enums';
 import { RegisterInput } from './dtos/register.input';
 import { UserEmail } from './entities/user-email.entity';
 import { paginateQuery } from 'utils/api';
@@ -46,11 +39,10 @@ export class AuthService {
     private readonly authorizationResourceRepository: Repository<AuthorizationResource>,
     @InjectRepository(AuthorizationAction)
     private readonly authorizationActionRepository: Repository<AuthorizationAction>,
-    private readonly plutoClientService: PlutoClientService,
     private readonly passportService: PassportService,
     private readonly tenantService: TenantService,
   ) {
-    this.initSesClient();
+    this.initializeSesClient();
   }
 
   /**
@@ -270,15 +262,7 @@ export class AuthService {
     const isPasswordValidate = compareSync(
       this.decryptByRsaPrivateKey(
         payload.password,
-        await this.plutoClientService.send(
-          {
-            cmd: PlutoServiceCmd.GetConfig,
-          },
-          {
-            token: ConfigRegisterToken.Rsa,
-            property: ConfigRsaProperty.PrivateKey,
-          },
-        ),
+        await this.mercuryClientService.getJwtSecrect(),
       ),
       user.password,
     );
@@ -367,15 +351,7 @@ export class AuthService {
     // 注册密码解密
     const decryptedPassword = this.decryptByRsaPrivateKey(
       password,
-      await this.plutoClientService.send(
-        {
-          cmd: PlutoServiceCmd.GetConfig,
-        },
-        {
-          token: ConfigRegisterToken.Rsa,
-          property: ConfigRsaProperty.PrivateKey,
-        },
-      ),
+      await this.mercuryClientService.getRsaPrivateKey(),
     );
 
     return this.userRepository.save(
@@ -415,27 +391,11 @@ export class AuthService {
   /**
    * 初始化 ses client (发送邮件)
    */
-  private async initSesClient() {
+  private async initializeSesClient() {
     const clientConfig: ClientConfig = {
       credential: {
-        secretId: await this.plutoClientService.send(
-          {
-            cmd: PlutoServiceCmd.GetConfig,
-          },
-          {
-            token: ConfigRegisterToken.TencentCloud,
-            property: ConfigTencentCloudProperty.SecretId,
-          },
-        ),
-        secretKey: await this.plutoClientService.send(
-          {
-            cmd: PlutoServiceCmd.GetConfig,
-          },
-          {
-            token: ConfigRegisterToken.TencentCloud,
-            property: ConfigTencentCloudProperty.SecretKey,
-          },
-        ),
+        secretId: await this.mercuryClientService.getTencentCloudSecretId(),
+        secretKey: await this.mercuryClientService.getTencentCloudSecretKey(),
       },
       region: 'ap-hongkong',
     };

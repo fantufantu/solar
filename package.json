@@ -6,7 +6,6 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev:pluto": "nest start pluto --watch",
     "dev:mercury": "nest start mercury --watch"
   },
   "dependencies": {

@@ -22,10 +22,47 @@ export enum MetadataToken {
 }
 
 /**
+ * config 注册值
+ */
+export enum ConfigRegisterToken {
+  TencentCloud = 'tencentCloud',
+  Jwt = 'jwt',
+  Rsa = 'rsa',
+}
+
+/**
+ * tencent cloud 属性
+ */
+export enum TencentCloudPropertyToken {
+  Bucket = 'bucket',
+  Region = 'region',
+  SecretId = 'secretId',
+  SecretKey = 'secretKey',
+}
+
+/**
+ * rsa 属性
+ */
+export enum RsaPropertyToken {
+  PublicKey = 'publicKey',
+  PrivateKey = 'privateKey',
+}
+
+/**
+ * jwt 属性
+ */
+export enum JwtPropertyToken {
+  Secret = 'secret',
+}
+
+/**
  * 服务 cmd
  */
 export enum CommandToken {
   GetJwtSecret = 'jwt.secret',
+  GetRsaPrivateKey = 'rsa.privateKey',
+  GetTencentCloudSecretId = 'tencentCloud.secretId',
+  GetTencentCloudSecretKey = 'tencentCloud.secretKey',
   GetUser = 'user.get',
   Permit = 'role.permit',
 }

@@ -8,7 +8,7 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 // project
-import { Permission } from 'assets/decorators/permission.decorator';
+import { Permission } from 'assets/decorators';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import { Menu } from '../menu/entities/menu.entity';

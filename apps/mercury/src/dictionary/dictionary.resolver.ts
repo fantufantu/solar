@@ -3,7 +3,7 @@ import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 // project
 import { DictionaryService } from './dictionary.service';
 import { Dictionary } from './entities/dictionary.entity';
-import { Permission } from 'assets/decorators/permission.decorator';
+import { Permission } from 'assets/decorators';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import { PaginatedDictionaries } from './dtos/paginated-dictionaries';

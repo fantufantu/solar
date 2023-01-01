@@ -1,9 +1,9 @@
 // nest
 import { registerAs } from '@nestjs/config';
 // project
-import { ConfigJwtProperty, ConfigRegisterToken } from 'assets/enums';
+import { JwtPropertyToken, ConfigRegisterToken } from 'assets/tokens';
 
-export default registerAs<Record<ConfigJwtProperty, string>>(
+export default registerAs<Record<JwtPropertyToken, string>>(
   ConfigRegisterToken.Jwt,
   () => ({
     secret: '1',

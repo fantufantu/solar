@@ -12,7 +12,7 @@ import type { Authorization } from '../auth/entities/authorization.entity';
 import type { User } from '../auth/entities/user.entity';
 import type { CreateRoleInput } from './dtos/create-role.input';
 import type { UpdateRoleInput } from './dtos/update-role.input';
-import type { Options } from 'assets/decorators/permission.decorator';
+import type { Options } from 'assets/decorators';
 import type { QueryParams } from 'typings/api';
 
 @Injectable()

@@ -4,11 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import type { DynamicModule } from '@nestjs/common';
 // project
 import { DatabaseService } from './database.service';
-import { AppServiceIdentity } from 'assets/enums';
+import { ApplicationToken } from 'assets/tokens';
 
 @Module({})
 export class DatabaseModule {
-  static forRoot(identity: AppServiceIdentity): DynamicModule {
+  static forRoot(database: ApplicationToken): DynamicModule {
     return {
       module: DatabaseModule,
       imports: [
@@ -16,7 +16,7 @@ export class DatabaseModule {
           type: 'mysql',
           host: 'localhost',
           port: 3306,
-          database: identity,
+          database,
           autoLoadEntities: true,
         }),
       ],

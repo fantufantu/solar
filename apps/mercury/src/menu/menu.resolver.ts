@@ -10,13 +10,12 @@ import {
 } from '@nestjs/graphql';
 // project
 import { Menu } from './entities/menu.entity';
-import { Permission } from 'assets/decorators/permission.decorator';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import { PaginatedMenus } from './dtos/paginated-menus';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@app/passport/guards';
-import { CurrentUser } from 'assets/decorators/current-user.decorator';
+import { CurrentUser, Permission } from 'assets/decorators';
 import { User } from '../auth/entities/user.entity';
 import { MenuService } from './menu.service';
 import { MenuLoader } from './menu.loader';

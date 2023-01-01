@@ -2,7 +2,7 @@
 import { Module } from '@nestjs/common';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 // project
-import { ProviderToken } from 'assets/enums';
+import { ProviderToken } from 'assets/tokens';
 import { MicroservicePort } from 'assets/ports';
 import { MercuryClientService } from './mercury-client.service';
 

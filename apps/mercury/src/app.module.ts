@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 // project
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AppServiceIdentity } from 'assets/enums';
+import { ApplicationToken } from 'assets/tokens';
 // modules
 import { GraphQLModule } from '@app/graphql';
 import { DatabaseModule } from '@app/database';
@@ -23,7 +23,7 @@ import { DictionaryEnumModule } from './dictionary-enum/dictionary-enum.module';
     // api
     GraphQLModule,
     // 数据库
-    DatabaseModule.forRoot(AppServiceIdentity.Mercury),
+    DatabaseModule.forRoot(ApplicationToken.Mercury),
     // 认证
     PassportModule,
     // 用户权限

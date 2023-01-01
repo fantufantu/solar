@@ -1,9 +1,9 @@
 // nest
 import { registerAs } from '@nestjs/config';
 // project
-import { ConfigRegisterToken, ConfigTencentCloudProperty } from 'assets/enums';
+import { ConfigRegisterToken, TencentCloudPropertyToken } from 'assets/tokens';
 
-export default registerAs<Record<ConfigTencentCloudProperty, string>>(
+export default registerAs<Record<TencentCloudPropertyToken, string>>(
   ConfigRegisterToken.TencentCloud,
   () => ({
     bucket: process.env.BUCKET,

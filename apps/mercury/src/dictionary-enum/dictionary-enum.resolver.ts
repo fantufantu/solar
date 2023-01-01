@@ -1,7 +1,7 @@
 // nest
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 // project
-import { Permission } from 'assets/decorators/permission.decorator';
+import { Permission } from 'assets/decorators';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import { DictionaryEnumService } from './dictionary-enum.service';

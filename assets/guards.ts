@@ -3,7 +3,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 // project
-import { CustomMetadataKey } from 'assets/enums';
+import { MetadataToken } from 'assets/tokens';
 import { MercuryClientService } from '@app/mercury-client';
 import type { Options } from './decorators';
 
@@ -16,7 +16,7 @@ export class PermissionGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const options = this.reflector.getAllAndOverride<Options>(
-      CustomMetadataKey.Permission,
+      MetadataToken.Permission,
       [context.getHandler(), context.getClass()],
     );
 

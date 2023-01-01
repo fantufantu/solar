@@ -11,7 +11,7 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 import { JwtAuthGuard } from '@app/passport/guards';
 import { AuthorizationActionCode } from 'apps/mercury/src/auth/entities/authorization-action.entity';
 import { AuthorizationResourceCode } from 'apps/mercury/src/auth/entities/authorization-resource.entity';
-import { CustomMetadataKey } from 'assets/enums';
+import { MetadataToken } from 'assets/tokens';
 import { PermissionGuard } from 'assets/guards';
 
 /**
@@ -34,7 +34,7 @@ export interface Options {
  */
 export const Permission = (options: Options) => {
   return applyDecorators(
-    SetMetadata(CustomMetadataKey, options),
+    SetMetadata(MetadataToken.Permission, options),
     UseGuards(JwtAuthGuard, PermissionGuard),
   );
 };

@@ -4,7 +4,7 @@ import type { ClientProxy } from '@nestjs/microservices';
 // third
 import { lastValueFrom } from 'rxjs';
 // project
-import { MercuryServiceCmd, ProviderToken } from 'assets/enums';
+import { CommandToken, ProviderToken } from 'assets/tokens';
 import type { Options } from 'assets/decorators';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class MercuryClientService {
     return await lastValueFrom(
       this.client.send(
         {
-          cmd: MercuryServiceCmd.GetUser,
+          cmd: CommandToken.GetUser,
         },
         id,
       ),
@@ -35,7 +35,7 @@ export class MercuryClientService {
     return lastValueFrom(
       this.client.send<boolean>(
         {
-          cmd: MercuryServiceCmd.Permit,
+          cmd: CommandToken.Permit,
         },
         {
           userId,
@@ -46,13 +46,55 @@ export class MercuryClientService {
   }
 
   /**
-   * 获取jwt secrect
+   * 获取 jwt secrect
    */
   getJwtSecrect() {
     return lastValueFrom(
       this.client.send<string, null>(
         {
-          cmd: MercuryServiceCmd.GetJwtSecret,
+          cmd: CommandToken.GetJwtSecret,
+        },
+        null,
+      ),
+    );
+  }
+
+  /**
+   * 获取 rsa 密钥
+   */
+  getRsaPrivateKey() {
+    return lastValueFrom(
+      this.client.send<string, null>(
+        {
+          cmd: CommandToken.GetRsaPrivateKey,
+        },
+        null,
+      ),
+    );
+  }
+
+  /**
+   * 获取 腾讯云 id
+   */
+  getTencentCloudSecretId() {
+    return lastValueFrom(
+      this.client.send<string, null>(
+        {
+          cmd: CommandToken.GetTencentCloudSecretId,
+        },
+        null,
+      ),
+    );
+  }
+
+  /**
+   * 获取 腾讯云 key
+   */
+  getTencentCloudSecretKey() {
+    return lastValueFrom(
+      this.client.send<string, null>(
+        {
+          cmd: CommandToken.GetTencentCloudSecretKey,
         },
         null,
       ),
