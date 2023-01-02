@@ -44,18 +44,4 @@ export class MercuryClientService {
       ),
     );
   }
-
-  /**
-   * 获取配置项
-   */
-  getConfig(propertyPath: string) {
-    return lastValueFrom(
-      this.client.send<string, string>(
-        {
-          cmd: CommandToken.GetConfig,
-        },
-        propertyPath,
-      ),
-    );
-  }
 }

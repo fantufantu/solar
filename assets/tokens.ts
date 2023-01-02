@@ -10,6 +10,7 @@ export enum ApplicationToken {
  * 自定义的 provider token
  */
 export enum ProviderToken {
+  PlutoClientProxy = 'PlutoClientProxy',
   MercuryClientProxy = 'MercuryClientProxy',
   JwtSecretService = 'JwtSecretService',
 }

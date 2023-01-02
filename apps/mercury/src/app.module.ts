@@ -4,25 +4,21 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ApplicationToken } from 'assets/tokens';
-// modules
 import { GraphQLModule } from '@app/graphql';
 import { DatabaseModule } from '@app/database';
 import { PassportModule } from '@app/passport';
-import { ConfigModule } from '../../pluto/src/config/config.module';
+import { PlutoClientModule } from '@app/pluto-client';
 import { AuthModule } from './auth/auth.module';
 import { TenantModule } from './tenant/tenant.module';
 import { MenuModule } from './menu/menu.module';
 import { RoleModule } from './role/role.module';
 import { DictionaryModule } from './dictionary/dictionary.module';
 import { DictionaryEnumModule } from './dictionary-enum/dictionary-enum.module';
-import { MercuryClientModule } from '@app/mercury-client';
 
 @Module({
   imports: [
-    // 配置
-    ConfigModule,
-    // 微服务
-    MercuryClientModule,
+    // pluto微服务客户端
+    PlutoClientModule,
     // api
     GraphQLModule,
     // 数据库
