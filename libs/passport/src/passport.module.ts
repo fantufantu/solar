@@ -7,15 +7,18 @@ import { PassportService } from './passport.service';
 import { MercuryClientModule } from 'libs/mercury-client/src';
 import { JwtSecretModule } from './jwt-secret/jwt-secret.module';
 import { ProviderToken } from 'assets/tokens';
+import { JwtStrategy } from './strategies';
 
 @Global()
 @Module({
   imports: [
-    // 原生
+    // 原生 passport
     NativePassportModule,
-    // 微服务模块注入
+    // mercury 微服务
     MercuryClientModule,
-    // jwt模块
+    // jwt 密钥
+    JwtSecretModule,
+    // jwt 模块
     JwtModule.registerAsync({
       imports: [JwtSecretModule],
       inject: [ProviderToken.JwtSecretService],
@@ -26,7 +29,7 @@ import { ProviderToken } from 'assets/tokens';
       },
     }),
   ],
-  providers: [PassportService],
+  providers: [PassportService, JwtStrategy],
   exports: [PassportService],
 })
 export class PassportModule {}

@@ -406,8 +406,6 @@ export class AuthService {
    * 初始化 ses client (发送邮件)
    */
   private async initializeSesClient() {
-    console.log('11111');
-
     const clientConfig: ClientConfig = {
       credential: {
         secretId: await this.plutoClient.getConfig<string>({
@@ -423,7 +421,5 @@ export class AuthService {
     };
 
     this.sesClient = new SesClient(clientConfig);
-
-    console.log('this.sesClient====', this.sesClient);
   }
 }

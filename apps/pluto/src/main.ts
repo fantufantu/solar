@@ -1,9 +1,9 @@
 // nest
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { MicroservicePort } from 'assets/ports';
 // project
 import { AppModule } from './app.module';
+import { MicroservicePort } from 'assets/ports';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
@@ -17,6 +17,7 @@ async function bootstrap() {
   );
 
   await app.listen();
+  console.log(`pluto is running`);
 }
 
 bootstrap();
