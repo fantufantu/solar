@@ -15,11 +15,14 @@ import { MenuModule } from './menu/menu.module';
 import { RoleModule } from './role/role.module';
 import { DictionaryModule } from './dictionary/dictionary.module';
 import { DictionaryEnumModule } from './dictionary-enum/dictionary-enum.module';
+import { MercuryClientModule } from '@app/mercury-client';
 
 @Module({
   imports: [
     // 配置
     ConfigModule,
+    // 微服务
+    MercuryClientModule,
     // api
     GraphQLModule,
     // 数据库

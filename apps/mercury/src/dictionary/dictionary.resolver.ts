@@ -7,9 +7,9 @@ import { Permission } from 'assets/decorators';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import { PaginatedDictionaries } from './dtos/paginated-dictionaries';
-import type { PaginateInput } from 'assets/dtos';
-import type { CreateDictionaryInput } from './dtos/create-dictionary.input';
-import type { UpdateDictionaryInput } from './dtos/update-dictionary.input';
+import { PaginateInput } from 'assets/dtos';
+import { CreateDictionaryInput } from './dtos/create-dictionary.input';
+import { UpdateDictionaryInput } from './dtos/update-dictionary.input';
 
 @Resolver()
 export class DictionaryResolver {

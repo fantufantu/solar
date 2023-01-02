@@ -19,10 +19,10 @@ import { CurrentUser, Permission } from 'assets/decorators';
 import { User } from '../auth/entities/user.entity';
 import { MenuService } from './menu.service';
 import { MenuLoader } from './menu.loader';
-import type { CreateMenuInput } from './dtos/create-menu.input';
-import type { UpdateMenuInput } from './dtos/update-menu.input';
-import type { PaginateInput } from 'assets/dtos';
-import type { FilterMenuInput } from './dtos/filter-menu.input';
+import { CreateMenuInput } from './dtos/create-menu.input';
+import { UpdateMenuInput } from './dtos/update-menu.input';
+import { PaginateInput } from 'assets/dtos';
+import { FilterMenuInput } from './dtos/filter-menu.input';
 
 @Resolver(() => Menu)
 export class MenuResolver {

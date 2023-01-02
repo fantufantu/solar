@@ -46,57 +46,15 @@ export class MercuryClientService {
   }
 
   /**
-   * 获取 jwt secrect
+   * 获取配置项
    */
-  getJwtSecrect() {
+  getConfig(propertyPath: string) {
     return lastValueFrom(
-      this.client.send<string, null>(
+      this.client.send<string, string>(
         {
-          cmd: CommandToken.GetJwtSecret,
+          cmd: CommandToken.GetConfig,
         },
-        null,
-      ),
-    );
-  }
-
-  /**
-   * 获取 rsa 密钥
-   */
-  getRsaPrivateKey() {
-    return lastValueFrom(
-      this.client.send<string, null>(
-        {
-          cmd: CommandToken.GetRsaPrivateKey,
-        },
-        null,
-      ),
-    );
-  }
-
-  /**
-   * 获取 腾讯云 id
-   */
-  getTencentCloudSecretId() {
-    return lastValueFrom(
-      this.client.send<string, null>(
-        {
-          cmd: CommandToken.GetTencentCloudSecretId,
-        },
-        null,
-      ),
-    );
-  }
-
-  /**
-   * 获取 腾讯云 key
-   */
-  getTencentCloudSecretKey() {
-    return lastValueFrom(
-      this.client.send<string, null>(
-        {
-          cmd: CommandToken.GetTencentCloudSecretKey,
-        },
-        null,
+        propertyPath,
       ),
     );
   }

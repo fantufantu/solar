@@ -1,5 +1,5 @@
 // nest
-import { ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 // third
 import { Column, Entity, ManyToOne, Unique } from 'typeorm';
 // peoject
@@ -28,6 +28,9 @@ export class Authorization extends Foundation {
   })
   tenant: Tenant;
 
+  @Field(() => AuthorizationResourceCode, {
+    description: '资源code',
+  })
   @Column({
     type: 'enum',
     enum: AuthorizationResourceCode,

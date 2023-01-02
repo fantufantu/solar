@@ -1,11 +1,12 @@
 // nest
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 // project
 import { ProviderToken } from 'assets/tokens';
 import { MicroservicePort } from 'assets/ports';
 import { MercuryClientService } from './mercury-client.service';
 
+@Global()
 @Module({
   providers: [
     MercuryClientService,

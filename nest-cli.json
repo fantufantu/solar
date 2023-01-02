@@ -62,6 +62,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/mercury-client/tsconfig.lib.json"
       }
+    },
+    "pluto": {
+      "type": "application",
+      "root": "apps/pluto",
+      "entryFile": "main",
+      "sourceRoot": "apps/pluto/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/pluto/tsconfig.app.json"
+      }
     }
   }
 }

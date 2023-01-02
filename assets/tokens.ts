@@ -59,10 +59,7 @@ export enum JwtPropertyToken {
  * 服务 cmd
  */
 export enum CommandToken {
-  GetJwtSecret = 'jwt.secret',
-  GetRsaPrivateKey = 'rsa.privateKey',
-  GetTencentCloudSecretId = 'tencentCloud.secretId',
-  GetTencentCloudSecretKey = 'tencentCloud.secretKey',
+  GetConfig = 'config.get',
   GetUser = 'user.get',
   Permit = 'role.permit',
 }

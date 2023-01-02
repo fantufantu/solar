@@ -8,6 +8,7 @@ import { constants, privateDecrypt } from 'crypto';
 import { ClientConfig } from 'tencentcloud-sdk-nodejs/tencentcloud/common/interface';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
 // project
+import { ConfigService } from '../config/config.service';
 import { PassportService } from '@app/passport';
 import { User } from './entities/user.entity';
 import { RegisterInput } from './dtos/register.input';
@@ -39,6 +40,7 @@ export class AuthService {
     private readonly authorizationResourceRepository: Repository<AuthorizationResource>,
     @InjectRepository(AuthorizationAction)
     private readonly authorizationActionRepository: Repository<AuthorizationAction>,
+    private readonly configService: ConfigService,
     private readonly passportService: PassportService,
     private readonly tenantService: TenantService,
   ) {
@@ -262,7 +264,7 @@ export class AuthService {
     const isPasswordValidate = compareSync(
       this.decryptByRsaPrivateKey(
         payload.password,
-        await this.mercuryClientService.getJwtSecrect(),
+        this.configService.getJwtSecret(),
       ),
       user.password,
     );
@@ -351,7 +353,7 @@ export class AuthService {
     // 注册密码解密
     const decryptedPassword = this.decryptByRsaPrivateKey(
       password,
-      await this.mercuryClientService.getRsaPrivateKey(),
+      this.configService.getRsaPrivateKey(),
     );
 
     return this.userRepository.save(
@@ -394,8 +396,8 @@ export class AuthService {
   private async initializeSesClient() {
     const clientConfig: ClientConfig = {
       credential: {
-        secretId: await this.mercuryClientService.getTencentCloudSecretId(),
-        secretKey: await this.mercuryClientService.getTencentCloudSecretKey(),
+        secretId: this.configService.getTencentCloudSecretId(),
+        secretKey: this.configService.getTencentCloudSecretKey(),
       },
       region: 'ap-hongkong',
     };

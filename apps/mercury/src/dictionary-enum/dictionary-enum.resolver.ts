@@ -7,9 +7,9 @@ import { AuthorizationResourceCode } from '../auth/entities/authorization-resour
 import { DictionaryEnumService } from './dictionary-enum.service';
 import { PaginatedDictionaryEnum } from './dtos/paginated-dictionary-enums';
 import { DictionaryEnum } from './entities/dictionary-enum.entity';
-import type { PaginateInput } from 'assets/dtos';
-import type { CreateDictionaryEnumInput } from './dtos/create-dictionary-enum.input';
-import type { UpdateDictionaryEnumInput } from './dtos/update-dictionary-enum.input';
+import { PaginateInput } from 'assets/dtos';
+import { CreateDictionaryEnumInput } from './dtos/create-dictionary-enum.input';
+import { UpdateDictionaryEnumInput } from './dtos/update-dictionary-enum.input';
 
 @Resolver()
 export class DictionaryEnumResolver {

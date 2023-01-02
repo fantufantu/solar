@@ -15,11 +15,11 @@ import { Menu } from '../menu/entities/menu.entity';
 import { PaginatedTenants } from './dtos/paginated-tenants';
 import { Tenant } from './entities/tenant.entity';
 import { TenantService } from './tenant.service';
-import type { PaginateInput } from 'assets/dtos';
-import type { CreateTenantInput } from './dtos/create-tenant.input';
-import type { UpdateTenantInput } from './dtos/update-tenant.input';
+import { PaginateInput } from 'assets/dtos';
+import { CreateTenantInput } from './dtos/create-tenant.input';
+import { UpdateTenantInput } from './dtos/update-tenant.input';
 
-@Resolver()
+@Resolver(() => Tenant)
 export class TenantResolver {
   constructor(private readonly tenantService: TenantService) {}
 

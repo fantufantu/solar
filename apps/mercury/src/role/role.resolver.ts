@@ -16,10 +16,10 @@ import { AuthorizationResourceCode } from '../auth/entities/authorization-resour
 import { PaginatedRole } from './dtos/paginated-roles';
 import { Role } from './entities/role.entity';
 import { RoleService } from './role.service';
-import type { CreateRoleInput } from './dtos/create-role.input';
-import type { UpdateRoleInput } from './dtos/update-role.input';
+import { CreateRoleInput } from './dtos/create-role.input';
+import { UpdateRoleInput } from './dtos/update-role.input';
 
-@Resolver()
+@Resolver(() => Role)
 export class RoleResolver {
   constructor(private readonly roleService: RoleService) {}
 

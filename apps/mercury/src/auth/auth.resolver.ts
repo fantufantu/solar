@@ -6,10 +6,10 @@ import { PaginatedAuthorizations } from './dtos/paginated-authorizations';
 import { AuthorizationNode } from './dtos/authorization-node';
 import { AuthorizationResource } from './entities/authorization-resource.entity';
 import { AuthorizationAction } from './entities/authorization-action.entity';
-import type { LoginInput } from './dtos/login.input';
-import type { RegisterInput } from './dtos/register.input';
-import type { AuthorizationsArgs } from './dtos/authorizations.args';
-import type { SendCaptchaArgs } from './dtos/send-captcha.args';
+import { LoginInput } from './dtos/login.input';
+import { RegisterInput } from './dtos/register.input';
+import { AuthorizationsArgs } from './dtos/authorizations.args';
+import { SendCaptchaArgs } from './dtos/send-captcha.args';
 
 @Resolver()
 export class AuthResolver {

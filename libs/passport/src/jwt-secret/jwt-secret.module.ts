@@ -2,7 +2,11 @@
 import { Module } from '@nestjs/common';
 // project
 import { MercuryClientModule, MercuryClientService } from '@app/mercury-client';
-import { ProviderToken } from 'assets/tokens';
+import {
+  ConfigRegisterToken,
+  JwtPropertyToken,
+  ProviderToken,
+} from 'assets/tokens';
 
 @Module({
   imports: [MercuryClientModule],
@@ -11,7 +15,10 @@ import { ProviderToken } from 'assets/tokens';
       provide: ProviderToken.JwtSecretService,
       inject: [MercuryClientService],
       useFactory: async (client: MercuryClientService) => {
-        return await client.getJwtSecrect();
+        // return await client.getConfig(
+        //   `${ConfigRegisterToken.Jwt}.${JwtPropertyToken.Secret}`,
+        // );
+        return '11';
       },
     },
   ],
