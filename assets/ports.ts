@@ -1,6 +1,7 @@
 export enum ServicePort {
   Sun = 3000,
   Mercury = 3100,
+  Venus = 3200,
 }
 
 export enum MicroservicePort {

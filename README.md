@@ -6,8 +6,8 @@
 
 - sun = gateway
 - mercury = 基础服务
-- venus = 个人主页的业务服务
-- earth = 记账 app 的业务服务
+- venus = 记账 app 的业务服务
+- earth = 个人主页的业务服务
 - pluto = 用于配置环境变量
 
 ### 服务器重装系统步骤

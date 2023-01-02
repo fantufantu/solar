@@ -80,6 +80,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/pluto-client/tsconfig.lib.json"
       }
+    },
+    "venus": {
+      "type": "application",
+      "root": "apps/venus",
+      "entryFile": "main",
+      "sourceRoot": "apps/venus/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/venus/tsconfig.app.json"
+      }
     }
   }
 }
