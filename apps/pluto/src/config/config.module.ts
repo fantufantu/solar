@@ -8,7 +8,9 @@ import { ConfigService } from './config.service';
 @Module({
   imports: [
     NativeConfigModule.forRoot({
+      isGlobal: true,
       load: [jwtConfig, rsaConfig, tenantCloudConfig],
+      envFilePath: ['apps/pluto/.env.local', 'apps/pluto/.env'],
     }),
   ],
   providers: [ConfigService],

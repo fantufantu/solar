@@ -8,7 +8,7 @@ import type { GetConfigInput } from 'typings/micro-service';
 export class AppService {
   constructor(private readonly configService: ConfigService) {}
 
-  getConfig(input: GetConfigInput) {
-    return this.configService.get(`${input.token}.${input.property}`);
+  getConfig<T>(input: GetConfigInput) {
+    return this.configService.get<T>(`${input.token}.${input.property}`);
   }
 }

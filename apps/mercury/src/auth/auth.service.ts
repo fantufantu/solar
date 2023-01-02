@@ -8,7 +8,7 @@ import { constants, privateDecrypt } from 'crypto';
 import { ClientConfig } from 'tencentcloud-sdk-nodejs/tencentcloud/common/interface';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
 // project
-import { ConfigService } from '../../../pluto/src/config/config.service';
+import { PlutoClientService } from '@app/pluto-client';
 import { PassportService } from '@app/passport';
 import { User } from './entities/user.entity';
 import { RegisterInput } from './dtos/register.input';
@@ -20,6 +20,12 @@ import { AuthorizationResource } from './entities/authorization-resource.entity'
 import { AuthorizationAction } from './entities/authorization-action.entity';
 import { AuthorizationsArgs } from './dtos/authorizations.args';
 import { SendCaptchaArgs } from './dtos/send-captcha.args';
+import {
+  ConfigRegisterToken,
+  JwtPropertyToken,
+  RsaPropertyToken,
+  TencentCloudPropertyToken,
+} from 'assets/tokens';
 import type { QueryParams } from 'typings/api';
 import type { LoginInput } from './dtos/login.input';
 import type { FindOneOptions, Repository } from 'typeorm';
@@ -40,7 +46,7 @@ export class AuthService {
     private readonly authorizationResourceRepository: Repository<AuthorizationResource>,
     @InjectRepository(AuthorizationAction)
     private readonly authorizationActionRepository: Repository<AuthorizationAction>,
-    private readonly configService: ConfigService,
+    private readonly plutoClient: PlutoClientService,
     private readonly passportService: PassportService,
     private readonly tenantService: TenantService,
   ) {
@@ -264,7 +270,10 @@ export class AuthService {
     const isPasswordValidate = compareSync(
       this.decryptByRsaPrivateKey(
         payload.password,
-        this.configService.getJwtSecret(),
+        await this.plutoClient.getConfig<string>({
+          token: ConfigRegisterToken.Jwt,
+          property: JwtPropertyToken.Secret,
+        }),
       ),
       user.password,
     );
@@ -353,7 +362,10 @@ export class AuthService {
     // 注册密码解密
     const decryptedPassword = this.decryptByRsaPrivateKey(
       password,
-      this.configService.getRsaPrivateKey(),
+      await this.plutoClient.getConfig<string>({
+        token: ConfigRegisterToken.Rsa,
+        property: RsaPropertyToken.PrivateKey,
+      }),
     );
 
     return this.userRepository.save(
@@ -394,14 +406,24 @@ export class AuthService {
    * 初始化 ses client (发送邮件)
    */
   private async initializeSesClient() {
+    console.log('11111');
+
     const clientConfig: ClientConfig = {
       credential: {
-        secretId: this.configService.getTencentCloudSecretId(),
-        secretKey: this.configService.getTencentCloudSecretKey(),
+        secretId: await this.plutoClient.getConfig<string>({
+          token: ConfigRegisterToken.TencentCloud,
+          property: TencentCloudPropertyToken.SecretId,
+        }),
+        secretKey: await this.plutoClient.getConfig<string>({
+          token: ConfigRegisterToken.TencentCloud,
+          property: TencentCloudPropertyToken.SecretKey,
+        }),
       },
       region: 'ap-hongkong',
     };
 
     this.sesClient = new SesClient(clientConfig);
+
+    console.log('this.sesClient====', this.sesClient);
   }
 }

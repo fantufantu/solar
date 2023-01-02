@@ -11,7 +11,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @MessagePattern({ cmd: CommandToken.GetConfig })
-  getConfig(input: GetConfigInput) {
-    return this.appService.getConfig(input);
+  getConfig<T>(input: GetConfigInput) {
+    return this.appService.getConfig<T>(input);
   }
 }

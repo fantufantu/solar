@@ -17,8 +17,8 @@ export class PlutoClientService {
   /**
    * 获取配置项
    */
-  getConfig<T>(input: GetConfigInput) {
-    return lastValueFrom(
+  async getConfig<T>(input: GetConfigInput) {
+    return await lastValueFrom(
       this.client.send<T, GetConfigInput>(
         {
           cmd: CommandToken.GetConfig,

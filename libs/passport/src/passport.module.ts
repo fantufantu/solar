@@ -19,9 +19,11 @@ import { ProviderToken } from 'assets/tokens';
     JwtModule.registerAsync({
       imports: [JwtSecretModule],
       inject: [ProviderToken.JwtSecretService],
-      useFactory: async (jwtSecretService: string) => ({
-        secret: jwtSecretService,
-      }),
+      useFactory: (jwtSecretService: string) => {
+        return {
+          secret: jwtSecretService,
+        };
+      },
     }),
   ],
   providers: [PassportService],
