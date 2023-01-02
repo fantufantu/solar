@@ -6,6 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "dev:pluto": "nest start pluto --watch",
     "dev:mercury": "nest start mercury --watch"
   },
   "dependencies": {
@@ -88,7 +89,8 @@
       "^@app/graphql(|/.*)$": "<rootDir>/libs/graphql/src/$1",
       "^@app/passport(|/.*)$": "<rootDir>/libs/passport/src/$1",
       "^@app/database(|/.*)$": "<rootDir>/libs/database/src/$1",
-      "^@app/mercury-client(|/.*)$": "<rootDir>/libs/mercury-client/src/$1"
+      "^@app/mercury-client(|/.*)$": "<rootDir>/libs/mercury-client/src/$1",
+      "^@app/pluto-client(|/.*)$": "<rootDir>/libs/pluto-client/src/$1"
     }
   }
 }

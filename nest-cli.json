@@ -71,6 +71,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/pluto/tsconfig.app.json"
       }
+    },
+    "pluto-client": {
+      "type": "library",
+      "root": "libs/pluto-client",
+      "entryFile": "index",
+      "sourceRoot": "libs/pluto-client/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/pluto-client/tsconfig.lib.json"
+      }
     }
   }
 }

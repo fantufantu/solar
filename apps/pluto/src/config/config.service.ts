@@ -48,4 +48,11 @@ export class ConfigService {
       `${ConfigRegisterToken.TencentCloud}.${TencentCloudPropertyToken.SecretKey}`,
     );
   }
+
+  /**
+   * 通用获取配置
+   */
+  get<T>(propertyPath: string) {
+    return this.nativeConfigService.get<T>(propertyPath);
+  }
 }

@@ -1,43 +1,32 @@
 // project
 import type {
-  AppServiceIdentity,
-  ConfigJwtProperty,
+  CommandToken,
   ConfigRegisterToken,
-  ConfigRsaProperty,
-  ConfigTencentCloudProperty,
-  PlutoServiceCmd,
-} from 'assets/enums';
+  TencentCloudPropertyToken,
+  JwtPropertyToken,
+  RsaPropertyToken,
+} from 'assets/tokens';
 
 /**
- * ts声明：微服务运行指令
+ * 微服务指令
  */
 export interface Pattern {
-  cmd: PlutoServiceCmd;
+  cmd: CommandToken;
 }
 
+/**
+ * 获取环境配置的入参
+ */
 export type GetConfigInput =
   | {
       token: ConfigRegisterToken.TencentCloud;
-      property: ConfigTencentCloudProperty;
+      property: TencentCloudPropertyToken;
     }
   | {
       token: ConfigRegisterToken.Jwt;
-      property: ConfigJwtProperty;
-    }
-  | {
-      token: ConfigRegisterToken.Port;
-      property: AppServiceIdentity;
+      property: JwtPropertyToken;
     }
   | {
       token: ConfigRegisterToken.Rsa;
-      property: ConfigRsaProperty;
+      property: RsaPropertyToken;
     };
-
-/**
- * 类型控制
- */
-export type SendInput<P extends Pattern> = P extends {
-  cmd: PlutoServiceCmd.GetConfig;
-}
-  ? GetConfigInput
-  : never;

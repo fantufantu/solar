@@ -10,7 +10,7 @@ import { Authorization } from './entities/authorization.entity';
 import { AuthorizationResource } from './entities/authorization-resource.entity';
 import { AuthorizationAction } from './entities/authorization-action.entity';
 import { TenantModule } from '../tenant/tenant.module';
-import { ConfigModule } from '../config/config.module';
+import { ConfigModule } from '../../../pluto/src/config/config.module';
 
 @Module({
   imports: [

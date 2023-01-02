@@ -4,5 +4,6 @@ export enum ServicePort {
 }
 
 export enum MicroservicePort {
+  Pluto = 3001,
   Mercury = 3101,
 }

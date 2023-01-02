@@ -8,7 +8,7 @@ import { ApplicationToken } from 'assets/tokens';
 import { GraphQLModule } from '@app/graphql';
 import { DatabaseModule } from '@app/database';
 import { PassportModule } from '@app/passport';
-import { ConfigModule } from './config/config.module';
+import { ConfigModule } from '../../pluto/src/config/config.module';
 import { AuthModule } from './auth/auth.module';
 import { TenantModule } from './tenant/tenant.module';
 import { MenuModule } from './menu/menu.module';

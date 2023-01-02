@@ -41,6 +41,12 @@
       ],
       "@app/mercury-client/*": [
         "libs/mercury-client/src/*"
+      ],
+      "@app/pluto-client": [
+        "libs/pluto-client/src"
+      ],
+      "@app/pluto-client/*": [
+        "libs/pluto-client/src/*"
       ]
     }
   }

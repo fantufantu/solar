@@ -1,8 +1,14 @@
+// nest
 import { Injectable } from '@nestjs/common';
+// project
+import type { ConfigService } from './config/config.service';
+import type { GetConfigInput } from 'typings/micro-service';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  constructor(private readonly configService: ConfigService) {}
+
+  getConfig(input: GetConfigInput) {
+    return this.configService.get(`${input.token}.${input.property}`);
   }
 }

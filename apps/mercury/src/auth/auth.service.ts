@@ -8,7 +8,7 @@ import { constants, privateDecrypt } from 'crypto';
 import { ClientConfig } from 'tencentcloud-sdk-nodejs/tencentcloud/common/interface';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
 // project
-import { ConfigService } from '../config/config.service';
+import { ConfigService } from '../../../pluto/src/config/config.service';
 import { PassportService } from '@app/passport';
 import { User } from './entities/user.entity';
 import { RegisterInput } from './dtos/register.input';
