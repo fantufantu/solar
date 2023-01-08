@@ -9,19 +9,19 @@ import {
 
 export class Foundation {
   @Field(() => Int, {
-    description: 'id唯一键',
+    description: 'id',
   })
   @PrimaryGeneratedColumn()
   id: number;
 
   @Field(() => Date, {
-    description: '创建日期',
+    description: '创建时间',
   })
   @CreateDateColumn()
   createdAt: Date;
 
   @Field(() => Date, {
-    description: '上次更新日期',
+    description: '更新时间',
   })
   @UpdateDateColumn()
   updatedAt: Date;
