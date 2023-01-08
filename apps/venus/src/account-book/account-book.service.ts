@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { Share, TargetType } from '../share/entities/share.entity';
 import { ShareService } from '../share/share.service';
 import { CreateAccountBookInput } from './dto/create-account-book.input';
+import { SetDefaultArgs } from './dto/set-default.args';
 import { UpdateAccountBookInput } from './dto/update-account-book.input';
 import { AccountBook } from './entities/account-book.entity';
 
@@ -127,5 +128,37 @@ export class AccountBookService {
         })
       ).affected
     );
+  }
+
+  /**
+   * 切换默认账本
+   * 切换账本是否默认
+   */
+  async setDefault(setDefaultArgs: SetDefaultArgs, userId: number) {
+    let existed = await this.userProfileRepository.findOneBy({
+      userId,
+    });
+
+    // 不存在用户信息则创建
+    if (!existed) {
+      existed = await this.userProfileRepository.save(
+        this.userProfileRepository.create({
+          userId,
+        }),
+      );
+    }
+
+    // 更新用户信息
+    const isUpdated = !!(
+      await this.userProfileRepository.update(userId, {
+        defaultBillingId: switchDefaultArgs.isDefault
+          ? switchDefaultArgs.id
+          : null,
+      })
+    ).affected;
+
+    // 返回默认的账本信息
+
+    return isUpdated;
   }
 }
