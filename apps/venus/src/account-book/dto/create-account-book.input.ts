@@ -1,7 +1,11 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+// nest
+import { InputType, PickType } from '@nestjs/graphql';
+// project
+import { AccountBook } from '../entities/account-book.entity';
 
 @InputType()
-export class CreateAccountBookInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
-}
+export class CreateAccountBookInput extends PickType(
+  AccountBook,
+  ['name'],
+  InputType,
+) {}

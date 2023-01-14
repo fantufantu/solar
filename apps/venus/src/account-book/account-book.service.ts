@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 // project
 import { Share, TargetType } from '../share/entities/share.entity';
 import { ShareService } from '../share/share.service';
+import { UserProfileService } from '../user-profile/user-profile.service';
 import { CreateAccountBookInput } from './dto/create-account-book.input';
 import { SetDefaultArgs } from './dto/set-default.args';
 import { UpdateAccountBookInput } from './dto/update-account-book.input';
@@ -17,6 +18,7 @@ export class AccountBookService {
     @InjectRepository(AccountBook)
     private readonly accountBookRepository: Repository<AccountBook>,
     private readonly shareService: ShareService,
+    private readonly userProfileService: UserProfileService,
   ) {}
 
   /**
@@ -135,30 +137,22 @@ export class AccountBookService {
    * 切换账本是否默认
    */
   async setDefault(setDefaultArgs: SetDefaultArgs, userId: number) {
-    let existed = await this.userProfileRepository.findOneBy({
-      userId,
-    });
-
-    // 不存在用户信息则创建
-    if (!existed) {
-      existed = await this.userProfileRepository.save(
-        this.userProfileRepository.create({
-          userId,
-        }),
-      );
-    }
+    // 处理默认账本信息
+    // 取消默认账本，账本 id = null
+    const defaultAccountBookId = setDefaultArgs.isDefault
+      ? setDefaultArgs.id
+      : null;
 
     // 更新用户信息
-    const isUpdated = !!(
-      await this.userProfileRepository.update(userId, {
-        defaultBillingId: switchDefaultArgs.isDefault
-          ? switchDefaultArgs.id
-          : null,
-      })
-    ).affected;
-
-    // 返回默认的账本信息
-
-    return isUpdated;
+    // 不存在 => 创建用户信息
+    return (
+      (await this.userProfileService.update(userId, {
+        defaultAccountBookId,
+      })) ||
+      !!(await this.userProfileService.create({
+        userId,
+        defaultAccountBookId,
+      }))
+    );
   }
 }

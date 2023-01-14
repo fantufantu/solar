@@ -19,6 +19,7 @@ export class DatabaseModule {
           username: 'root',
           database,
           autoLoadEntities: true,
+          synchronize: true,
         }),
       ],
       providers: [DatabaseService],

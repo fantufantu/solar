@@ -1,48 +1,60 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+// nest
+import { UseGuards } from '@nestjs/common';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
+// project
 import { AccountBookService } from './account-book.service';
 import { AccountBook } from './entities/account-book.entity';
 import { CreateAccountBookInput } from './dto/create-account-book.input';
 import { UpdateAccountBookInput } from './dto/update-account-book.input';
-import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '@app/passport/guards';
 import { CurrentUser } from 'assets/decorators';
 import { User } from 'apps/mercury/src/auth/entities/user.entity';
 import { SetDefaultArgs } from './dto/set-default.args';
+import { Share } from '../share/entities/share.entity';
+import { AccountBookLoader } from './account-book.loader';
 
 @Resolver(() => AccountBook)
 export class AccountBookResolver {
-  constructor(private readonly accountBookService: AccountBookService) {}
+  constructor(
+    private readonly accountBookService: AccountBookService,
+    private readonly accountBookLoader: AccountBookLoader,
+  ) {}
 
   @Mutation(() => AccountBook, {
     description: '创建账本',
   })
   @UseGuards(JwtAuthGuard)
-  // @UseInterceptors(ShareInterceptor)
-  createBilling(
+  createAccountBook(
     @Args('createAccountBookInput')
     createAccountBookInput: CreateAccountBookInput,
     @CurrentUser() user: User,
   ) {
-    return this.accountBookService.create(createAccountBookInput, user.id);
+    return this.accountBookService.create(createAccountBookInput, user?.id);
   }
 
   @Query(() => [AccountBook], {
     name: 'accountBooks',
-    description: '查询多个账本',
+    description: '查询账本列表',
   })
   @UseGuards(new JwtAuthGuard(true))
-  // @UseInterceptors(ShareInterceptor)
   getAccountBooks(@CurrentUser() user: User) {
     return this.accountBookService.getAccountBooks(user.id);
   }
 
   @Query(() => AccountBook, {
     name: 'accountBook',
-    description: '查询单个账本',
+    description: '查询账本',
     nullable: true,
   })
   @UseGuards(new JwtAuthGuard(true))
-  // @UseInterceptors(ShareInterceptor)
   getAccountBook(
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
     @CurrentUser() user: User,
@@ -80,22 +92,22 @@ export class AccountBookResolver {
     @Args() setDefaultArgs: SetDefaultArgs,
     @CurrentUser() user: User,
   ) {
-    return this.accountBookService.switchDefault(setDefaultArgs, user.id);
+    return this.accountBookService.setDefault(setDefaultArgs, user.id);
   }
 
   @ResolveField('shares', () => [Share], {
     description: '分享',
     nullable: true,
   })
-  getShares(@Parent() billing: Billing) {
-    return this.billingLoader.getSharesByTargetId.load(billing.id);
+  getShares(@Parent() accountBook: AccountBook) {
+    return this.accountBookLoader.getSharesByAccountBookId.load(accountBook.id);
   }
 
   @ResolveField('createdBy', () => User, {
     description: '创建人',
     nullable: true,
   })
-  getCreatedBy(@Parent() billing: Billing) {
-    return this.billingLoader.getUserById.load(billing.createdById);
+  getCreatedBy(@Parent() accountBook: AccountBook) {
+    return this.accountBookLoader.getUserById.load(accountBook.createdById);
   }
 }

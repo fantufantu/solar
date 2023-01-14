@@ -1,8 +1,13 @@
+// nest
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+// project
 import { UserProfileService } from './user-profile.service';
-import { UserProfileResolver } from './user-profile.resolver';
+import { UserProfile } from './entities/user-profile.entity';
 
 @Module({
-  providers: [UserProfileResolver, UserProfileService]
+  imports: [TypeOrmModule.forFeature([UserProfile])],
+  providers: [UserProfileService],
+  exports: [UserProfileService],
 })
 export class UserProfileModule {}

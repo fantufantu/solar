@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 // project
 import { CreateShareInput } from './dto/create-share.input';
+import { GetSharesArgs } from './dto/get-shares.args';
 import { RemoveShareInput } from './dto/remove-share.input';
 import { Share } from './entities/share.entity';
 
@@ -17,8 +18,10 @@ export class ShareService {
 
   /**
    * 分享
+   * @param createShareInput
+   * @returns
    */
-  async create(createShareInput: CreateShareInput): Promise<boolean> {
+  async create(createShareInput: CreateShareInput): Promise<Share[]> {
     // 删除已经存在的分享
     await this.remove({
       targetType: createShareInput.targetType,
@@ -26,7 +29,7 @@ export class ShareService {
     });
 
     // 存储分享
-    await this.shareRepository.save(
+    return await this.shareRepository.save(
       createShareInput.sharedByIds.map((sharedById) =>
         this.shareRepository.create({
           sharedById,
@@ -35,12 +38,12 @@ export class ShareService {
         }),
       ),
     );
-
-    return true;
   }
 
   /**
    * 删除分享
+   * @param removeShareInput
+   * @returns
    */
   async remove(removeShareInput: RemoveShareInput) {
     const qb = this.shareRepository
@@ -59,8 +62,23 @@ export class ShareService {
       });
     }
 
-    const { affected } = await qb.execute();
+    return (await qb.execute()).affected > 0;
+  }
 
-    return !!affected;
+  /**
+   * 查询分享列表
+   * @param args
+   * @returns
+   */
+  async getShares(args: GetSharesArgs) {
+    return await this.shareRepository
+      .createQueryBuilder()
+      .where('targetType = :targetType', {
+        targetType: args.targetType,
+      })
+      .andWhere('targetId IN (:...targetIds)', {
+        targetIds: args.targetIds,
+      })
+      .getMany();
   }
 }

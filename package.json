@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "dev:pluto": "nest start pluto --watch",
-    "dev:mercury": "nest start mercury --watch"
+    "dev:mercury": "nest start mercury --watch",
+    "dev:venus": "nest start venus --watch"
   },
   "dependencies": {
     "@apollo/federation": "^0.38.1",

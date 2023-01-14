@@ -1,7 +1,5 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+// project
+import { UserProfile } from '../entities/user-profile.entity';
 
-@InputType()
-export class CreateUserProfileInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
-}
+export interface CreateUserProfileInput
+  extends Pick<UserProfile, 'userId' | 'defaultAccountBookId'> {}

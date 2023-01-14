@@ -2,11 +2,9 @@
 import { Module } from '@nestjs/common';
 // project
 import { GraphQLModule } from '@app/graphql';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { DatabaseModule } from '@app/database';
-import { ApplicationToken } from 'assets/tokens';
 import { PassportModule } from '@app/passport';
+import { ApplicationToken } from 'assets/tokens';
 import { AccountBookModule } from './account-book/account-book.module';
 import { ShareModule } from './share/share.module';
 import { UserProfileModule } from './user-profile/user-profile.module';
@@ -21,14 +19,16 @@ import { TransactionModule } from './transaction/transaction.module';
     DatabaseModule.forRoot(ApplicationToken.Venus),
     // 鉴权
     PassportModule,
+    // 用户信息
+    UserProfileModule,
     // 账本
     AccountBookModule,
+    // 分享
     ShareModule,
-    UserProfileModule,
+    // 分类
     CategoryModule,
+    // 交易
     TransactionModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

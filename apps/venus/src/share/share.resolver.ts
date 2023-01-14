@@ -1,35 +1,45 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+// nest
+import {
+  Resolver,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
+// project
 import { ShareService } from './share.service';
 import { Share } from './entities/share.entity';
 import { CreateShareInput } from './dto/create-share.input';
-import { UpdateShareInput } from './dto/update-share.input';
+import { ShareLoader } from './share.loader';
+import { User } from 'apps/mercury/src/auth/entities/user.entity';
+import { RemoveShareInput } from './dto/remove-share.input';
 
 @Resolver(() => Share)
 export class ShareResolver {
-  constructor(private readonly shareService: ShareService) {}
+  constructor(
+    private readonly shareService: ShareService,
+    private readonly shareLoader: ShareLoader,
+  ) {}
 
-  @Mutation(() => Share)
+  @Mutation(() => Boolean, {
+    description: '创建分享',
+  })
   createShare(@Args('createShareInput') createShareInput: CreateShareInput) {
     return this.shareService.create(createShareInput);
   }
 
-  @Query(() => [Share], { name: 'share' })
-  findAll() {
-    return this.shareService.findAll();
+  @Mutation(() => Boolean, {
+    description: '删除分享',
+  })
+  removeShare(@Args('removeShareInput') removeShareInput: RemoveShareInput) {
+    return this.shareService.remove(removeShareInput);
   }
 
-  @Query(() => Share, { name: 'share' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.shareService.findOne(id);
-  }
-
-  @Mutation(() => Share)
-  updateShare(@Args('updateShareInput') updateShareInput: UpdateShareInput) {
-    return this.shareService.update(updateShareInput.id, updateShareInput);
-  }
-
-  @Mutation(() => Share)
-  removeShare(@Args('id', { type: () => Int }) id: number) {
-    return this.shareService.remove(id);
+  @ResolveField('sharedBy', () => User, {
+    description: '分享人员',
+    nullable: true,
+  })
+  getSharedBy(@Parent() share: Share) {
+    return this.shareLoader.getUserById.load(share.sharedById);
   }
 }
