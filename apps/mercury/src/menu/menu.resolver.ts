@@ -48,7 +48,7 @@ export class MenuResolver {
   getMenus(
     @Args('paginateInput', { nullable: true }) paginateInput: PaginateInput,
     @Args('filterInput', { nullable: true }) filterInput: FilterMenuInput,
-    @CurrentUser() user: User,
+    @CurrentUser() user: User | null,
   ) {
     return this.menuService.getMenus(
       {

@@ -37,14 +37,14 @@ export class AccountBookResolver {
     createAccountBookInput: CreateAccountBookInput,
     @CurrentUser() user: User,
   ) {
-    return this.accountBookService.create(createAccountBookInput, user?.id);
+    return this.accountBookService.create(createAccountBookInput, user.id);
   }
 
   @Query(() => [AccountBook], {
     name: 'accountBooks',
     description: '查询账本列表',
   })
-  @UseGuards(new JwtAuthGuard(true))
+  @UseGuards(JwtAuthGuard)
   getAccountBooks(@CurrentUser() user: User) {
     return this.accountBookService.getAccountBooks(user.id);
   }
@@ -54,7 +54,7 @@ export class AccountBookResolver {
     description: '查询账本',
     nullable: true,
   })
-  @UseGuards(new JwtAuthGuard(true))
+  @UseGuards(JwtAuthGuard)
   getAccountBook(
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
     @CurrentUser() user: User,
@@ -65,6 +65,7 @@ export class AccountBookResolver {
   @Mutation(() => Boolean, {
     description: '更新账本',
   })
+  @UseGuards(JwtAuthGuard)
   updateAccountBook(
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
     @Args('updateAccountBookInput')
@@ -85,7 +86,7 @@ export class AccountBookResolver {
   }
 
   @Mutation(() => Boolean, {
-    description: '设置账本为默认账本',
+    description: '设置默认账本',
   })
   @UseGuards(JwtAuthGuard)
   setDefault(
