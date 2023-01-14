@@ -11,9 +11,9 @@ import {
   ManyToMany,
   OneToOne,
 } from 'typeorm';
+import { randomUUID } from 'crypto';
 import { hashSync } from 'bcrypt';
 import { IsEmail, MaxLength, MinLength, isURL } from 'class-validator';
-import { v4 } from 'uuid';
 // project
 import { Foundation } from 'assets/entities/foundation.entity';
 import { UserEmail } from './user-email.entity';
@@ -98,6 +98,6 @@ export class User extends Foundation {
   @BeforeInsert()
   private generateUsername() {
     if (this.username) return;
-    this.username = v4();
+    this.username = randomUUID();
   }
 }
