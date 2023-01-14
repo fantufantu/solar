@@ -17,7 +17,7 @@ import { DictionaryEnumModule } from './dictionary-enum/dictionary-enum.module';
 
 @Module({
   imports: [
-    // pluto微服务客户端
+    // pluto 微服务客户端
     PlutoClientModule,
     // api
     GraphQLModule,

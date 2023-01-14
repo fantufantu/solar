@@ -10,9 +10,12 @@ import { ShareModule } from './share/share.module';
 import { UserProfileModule } from './user-profile/user-profile.module';
 import { CategoryModule } from './category/category.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { MercuryClientModule } from '@app/mercury-client';
 
 @Module({
   imports: [
+    // mercury 微服务客户端
+    MercuryClientModule,
     // api
     GraphQLModule,
     // 数据库
