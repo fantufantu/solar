@@ -9,6 +9,9 @@ import { ApplicationToken } from 'assets/tokens';
 import { PassportModule } from '@app/passport';
 import { AccountBookModule } from './account-book/account-book.module';
 import { ShareModule } from './share/share.module';
+import { UserProfileModule } from './user-profile/user-profile.module';
+import { CategoryModule } from './category/category.module';
+import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
   imports: [
@@ -21,6 +24,9 @@ import { ShareModule } from './share/share.module';
     // 账本
     AccountBookModule,
     ShareModule,
+    UserProfileModule,
+    CategoryModule,
+    TransactionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
