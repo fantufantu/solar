@@ -31,3 +31,14 @@
 * 进入 mysql 使用 sql 更新认证方式
 * `UPDATE user SET plugin='mysql_native_password' WHERE User='root';`
 * `FLUSH PRIVILEGES;`
+
+- 安装 git
+* `add-apt-repository ppa:git-core/ppa`
+* `apt update`
+* `apt install git`
+
+- 安装 node
+```
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
+sudo apt-get install -y nodejs
+```
