@@ -4,7 +4,7 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 import { FindOperator } from 'typeorm';
 
 @InputType()
-export class FilterMenuArgs {
+export class FilterMenuInput {
   @Field(() => Int, { nullable: true, description: '上级菜单id' })
   parentId?: number;
 

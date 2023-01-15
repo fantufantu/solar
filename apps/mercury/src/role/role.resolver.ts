@@ -10,7 +10,7 @@ import {
 } from '@nestjs/graphql';
 // project
 import { Pagination, Permission } from 'assets/decorators';
-import { PaginateArgs } from 'assets/dtos';
+import { PaginationInput } from 'assets/dtos';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import { PaginatedRole } from './dtos/paginated-roles';
@@ -42,9 +42,9 @@ export class RoleResolver {
     resource: AuthorizationResourceCode.Role,
     action: AuthorizationActionCode.Retrieve,
   })
-  getRoles(@Pagination() paginateArgs: PaginateArgs) {
+  getRoles(@Pagination() pagination: PaginationInput) {
     return this.roleService.getRoles({
-      paginateArgs,
+      pagination,
     });
   }
 

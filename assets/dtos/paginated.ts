@@ -2,12 +2,12 @@
 import { Type } from '@nestjs/common';
 import { Field, Int, ObjectType, PickType } from '@nestjs/graphql';
 // project
-import { PaginateArgs } from './paginate.args';
+import { PaginationInput } from './';
 
 export const Paginated = <T>(classRef: Type<T>): any => {
   @ObjectType({ isAbstract: true })
   abstract class PaginatedType extends PickType(
-    PaginateArgs,
+    PaginationInput,
     ['page', 'limit'],
     ObjectType,
   ) {

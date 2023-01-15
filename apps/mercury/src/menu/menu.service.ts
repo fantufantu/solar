@@ -9,7 +9,7 @@ import { paginateQuery } from 'utils/api';
 import { RoleService } from '../role/role.service';
 import type { QueryParameters } from 'typings/api';
 import type { CreateMenuInput } from './dtos/create-menu.input';
-import type { FilterMenuArgs } from './dtos/filter-menu.args';
+import type { FilterMenuInput } from './dtos/filter-menu.args';
 import type { UpdateMenuInput } from './dtos/update-menu.input';
 import type { AuthorizationResource } from '../auth/entities/authorization-resource.entity';
 
@@ -44,15 +44,18 @@ export class MenuService {
   /**
    * 分页查询菜单
    */
-  async getMenus(queryArgs?: QueryParameters<FilterMenuArgs>, userId?: number) {
-    const { filterArgs, ...otherQueryArgs } = queryArgs || {};
-    const mergedFilterArgs = [filterArgs];
+  async getMenus(
+    queryParams?: QueryParameters<FilterMenuInput>,
+    userId?: number,
+  ) {
+    const { filter, ...otherQueryParams } = queryParams || {};
+    const filters = [filter];
 
     // 角色权限
     if (userId) {
       const resourceCodes = await this.roleService.getResourceCodesByUserId(
         userId,
-        queryArgs?.filterArgs?.tenantCode,
+        queryParams?.filter?.tenantCode,
       );
 
       // 排除权限外的menu id
@@ -61,7 +64,7 @@ export class MenuService {
           .createQueryBuilder('menu')
           .leftJoinAndSelect('menu.resources', 'resource')
           .select('menu.id', 'id')
-          .where(filterArgs || {})
+          .where(filter || {})
           .andWhere(
             resourceCodes.length
               ? 'resource.code NOT IN (:...resourceCodes)'
@@ -74,14 +77,14 @@ export class MenuService {
       ).map((item) => item.id);
 
       menuIds.length &&
-        mergedFilterArgs.push({
+        filters.push({
           id: Not(In([menuIds])),
         });
     }
 
-    return paginateQuery<Menu, FilterMenuArgs[]>(this.menuRepository, {
-      ...otherQueryArgs,
-      filterArgs: mergedFilterArgs,
+    return paginateQuery<Menu, FilterMenuInput[]>(this.menuRepository, {
+      ...otherQueryParams,
+      filter: filters,
     });
   }
 

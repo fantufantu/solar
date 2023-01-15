@@ -1,11 +1,11 @@
 // nest
-import { ArgsType, Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { Paginated } from 'assets/dtos';
 // project
 import { Direction, Transaction } from '../entities/transaction.entity';
 
-@ArgsType()
-export class FilterTransactionArgs {
+@InputType()
+export class FilterTransactionInput {
   @Field(() => Int, {
     description: '账本id',
   })

@@ -1,3 +1,3 @@
-export * from './paginate.args';
+export * from './pagination.input';
 export * from './paginated';
 export * from './duration.args';

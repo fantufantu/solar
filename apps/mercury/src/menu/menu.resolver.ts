@@ -21,8 +21,8 @@ import { MenuService } from './menu.service';
 import { MenuLoader } from './menu.loader';
 import { CreateMenuInput } from './dtos/create-menu.input';
 import { UpdateMenuInput } from './dtos/update-menu.input';
-import { PaginateArgs } from 'assets/dtos';
-import { FilterMenuArgs } from './dtos/filter-menu.args';
+import { PaginationInput } from 'assets/dtos';
+import { FilterMenuInput } from './dtos/filter-menu.args';
 
 @Resolver(() => Menu)
 export class MenuResolver {
@@ -46,15 +46,15 @@ export class MenuResolver {
   })
   @UseGuards(new JwtAuthGuard(true))
   getMenus(
-    @Pagination() paginateArgs: PaginateArgs,
-    @Filter() filterArgs: FilterMenuArgs,
+    @Pagination() pagination: PaginationInput,
+    @Filter() filter: FilterMenuInput,
     @WhoAmI() user: User | null,
   ) {
     return this.menuService.getMenus(
       {
-        paginateArgs,
-        filterArgs,
-        sortArgs: {
+        pagination,
+        filter,
+        sort: {
           sortBy: 'ASC',
         },
       },

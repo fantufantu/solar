@@ -5,7 +5,7 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 // project
 import { MetadataToken } from 'assets/tokens';
 import { MercuryClientService } from '@app/mercury-client';
-import type { Options } from './decorators';
+import type { PermissionOptions } from './decorators';
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
@@ -15,7 +15,7 @@ export class PermissionGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const options = this.reflector.getAllAndOverride<Options>(
+    const options = this.reflector.getAllAndOverride<PermissionOptions>(
       MetadataToken.Permission,
       [context.getHandler(), context.getClass()],
     );

@@ -16,13 +16,13 @@ import { UpdateTransactionInput } from './dto/update-transaction.input';
 import { TransactionLoader } from './transaction.loader';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@app/passport/guards';
-import { Pagination, WhoAmI } from 'assets/decorators';
+import { Filter, Pagination, WhoAmI } from 'assets/decorators';
 import { User } from 'apps/mercury/src/auth/entities/user.entity';
 import {
-  FilterTransactionArgs,
+  FilterTransactionInput,
   PaginatedTransactions,
-} from './dto/filter-transaction.args';
-import { PaginateArgs } from 'assets/dtos';
+} from './dto/filter-transaction.input';
+import { PaginationInput } from 'assets/dtos';
 import { Category } from '../category/entities/category.entity';
 
 @Resolver(() => Transaction)
@@ -52,16 +52,15 @@ export class TransactionResolver {
   })
   @UseGuards(JwtAuthGuard)
   getTransactions(
-    @Args('filter', {
-      type: () => FilterTransactionArgs,
-      description: '查询交易筛选条件',
+    @Filter({
+      type: () => FilterTransactionInput,
     })
-    filterArgs: FilterTransactionArgs,
-    @Pagination() paginateArgs: PaginateArgs,
+    filter: FilterTransactionInput,
+    @Pagination() pagination: PaginationInput,
   ) {
     return this.transactionService.getTransactions({
-      filterArgs,
-      paginateArgs,
+      filter,
+      pagination,
     });
   }
 

@@ -15,7 +15,7 @@ import { Menu } from '../menu/entities/menu.entity';
 import { PaginatedTenants } from './dtos/paginated-tenants';
 import { Tenant } from './entities/tenant.entity';
 import { TenantService } from './tenant.service';
-import { PaginateArgs } from 'assets/dtos';
+import { PaginationInput } from 'assets/dtos';
 import { CreateTenantInput } from './dtos/create-tenant.input';
 import { UpdateTenantInput } from './dtos/update-tenant.input';
 
@@ -38,8 +38,8 @@ export class TenantResolver {
     name: 'tenants',
     description: '分页查询租户',
   })
-  getTenants(@Pagination() paginateArgs: PaginateArgs) {
-    return this.tenantService.getTenants({ paginateArgs });
+  getTenants(@Pagination() pagination: PaginationInput) {
+    return this.tenantService.getTenants({ pagination });
   }
 
   @Query(() => Tenant, {

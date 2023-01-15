@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 // project
 import { CreateTransactionInput } from './dto/create-transaction.input';
-import { FilterTransactionArgs } from './dto/filter-transaction.args';
+import { FilterTransactionInput } from './dto/filter-transaction.input';
 import { UpdateTransactionInput } from './dto/update-transaction.input';
 import { Direction, Transaction } from './entities/transaction.entity';
 import { paginateQuery } from 'utils/api';
@@ -36,20 +36,20 @@ export class TransactionService {
 
   /**
    * 查询交易列表
-   * @param queryArgs
+   * @param queryParams
    * @returns
    */
-  getTransactions(queryArgs?: QueryParameters<FilterTransactionArgs>) {
-    const { filterArgs, ...otherQueryArgs } = queryArgs;
-    const { directions, ...otherFilterArgs } = filterArgs;
+  getTransactions(queryParams?: QueryParameters<FilterTransactionInput>) {
+    const { filter, ...otherQueryParams } = queryParams;
+    const { directions, ...otherFilterArgs } = filter;
 
     return paginateQuery(this.transactionRepository, {
-      ...otherQueryArgs,
-      filterArgs: {
+      ...otherQueryParams,
+      filter: {
         ...otherFilterArgs,
         direction: In(directions),
       },
-      sortArgs: {
+      sort: {
         createdAt: 'DESC',
       },
     });

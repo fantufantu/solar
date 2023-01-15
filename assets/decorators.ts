@@ -6,7 +6,7 @@ import {
   applyDecorators,
   UseGuards,
 } from '@nestjs/common';
-import { Args, GqlExecutionContext } from '@nestjs/graphql';
+import { Args, ArgsOptions, GqlExecutionContext } from '@nestjs/graphql';
 // project
 import { JwtAuthGuard } from '@app/passport/guards';
 import { AuthorizationActionCode } from 'apps/mercury/src/auth/entities/authorization-action.entity';
@@ -54,9 +54,11 @@ export const Pagination = () => {
 /**
  * 筛选入参
  */
-export const Filter = () => {
+export const Filter = (options?: Pick<ArgsOptions, 'type'>) => {
   return Args('filter', {
     nullable: true,
+    description: '筛选条件',
+    ...options,
   });
 };
 

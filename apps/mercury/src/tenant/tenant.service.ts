@@ -83,10 +83,10 @@ export class TenantService {
   async getTenantMenus(tenantCode: string) {
     return (
       await this.menuService.getMenus({
-        filterArgs: {
+        filter: {
           tenantCode,
         },
-        sortArgs: {
+        sort: {
           sortBy: 'ASC',
         },
       })

@@ -7,7 +7,7 @@ import { Pagination, Permission } from 'assets/decorators';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import { PaginatedDictionaries } from './dtos/paginated-dictionaries';
-import { PaginateArgs } from 'assets/dtos';
+import { PaginationInput } from 'assets/dtos';
 import { CreateDictionaryInput } from './dtos/create-dictionary.input';
 import { UpdateDictionaryInput } from './dtos/update-dictionary.input';
 
@@ -34,9 +34,9 @@ export class DictionaryResolver {
     resource: AuthorizationResourceCode.Dictionary,
     action: AuthorizationActionCode.Retrieve,
   })
-  getDictionaries(@Pagination() paginateArgs: PaginateArgs) {
+  getDictionaries(@Pagination() pagination: PaginationInput) {
     return this.dictionaryService.getDictionaries({
-      paginateArgs,
+      pagination,
     });
   }
 

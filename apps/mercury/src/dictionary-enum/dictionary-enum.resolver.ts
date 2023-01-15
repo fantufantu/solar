@@ -7,7 +7,7 @@ import { AuthorizationResourceCode } from '../auth/entities/authorization-resour
 import { DictionaryEnumService } from './dictionary-enum.service';
 import { PaginatedDictionaryEnum } from './dtos/paginated-dictionary-enums';
 import { DictionaryEnum } from './entities/dictionary-enum.entity';
-import { PaginateArgs } from 'assets/dtos';
+import { PaginationInput } from 'assets/dtos';
 import { CreateDictionaryEnumInput } from './dtos/create-dictionary-enum.input';
 import { UpdateDictionaryEnumInput } from './dtos/update-dictionary-enum.input';
 
@@ -37,9 +37,9 @@ export class DictionaryEnumResolver {
     resource: AuthorizationResourceCode.DictionaryEnum,
     action: AuthorizationActionCode.Retrieve,
   })
-  getDictionaryEnums(@Pagination() paginateArgs: PaginateArgs) {
+  getDictionaryEnums(@Pagination() pagination: PaginationInput) {
     return this.dictionaryEnumService.getDictionaryEnums({
-      paginateArgs,
+      pagination,
     });
   }
 

@@ -1,4 +1,4 @@
-import { PaginateArgs } from 'assets/dtos/paginate.args';
+import { PaginateArgs } from 'assets/dtos/pagination.input';
 
 interface SortArgs {
   [columnName: string]:
@@ -10,7 +10,7 @@ interface SortArgs {
 }
 
 export interface QueryParameters<F = Record<string, any>> {
-  paginateArgs?: PaginateArgs;
-  filterArgs?: F;
-  sortArgs?: SortArgs;
+  pagination?: PaginateArgs;
+  filter?: F;
+  sort?: SortArgs;
 }

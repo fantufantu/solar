@@ -24,7 +24,7 @@ export class MenuLoader {
     async (ids: number[]) => {
       const menus = (
         await this.menuService.getMenus({
-          filterInput: {
+          filter: {
             id: In(ids),
           },
         })
