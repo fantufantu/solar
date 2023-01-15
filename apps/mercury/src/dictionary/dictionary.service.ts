@@ -29,8 +29,8 @@ export class DictionaryService {
   /**
    * 分页查询字典
    */
-  getDictionaries(queryArgs?: QueryParameters) {
-    return paginateQuery(this.dictionaryRepository, queryArgs);
+  getDictionaries(queryParams?: QueryParameters) {
+    return paginateQuery(this.dictionaryRepository, queryParams);
   }
 
   /**

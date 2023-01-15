@@ -32,8 +32,8 @@ export class RoleService {
   /**
    * 分页查询角色
    */
-  getRoles(queryArgs?: QueryParameters) {
-    return paginateQuery(this.roleRepository, queryArgs);
+  getRoles(queryParams?: QueryParameters) {
+    return paginateQuery(this.roleRepository, queryParams);
   }
 
   /**

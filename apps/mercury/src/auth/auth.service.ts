@@ -84,8 +84,8 @@ export class AuthService {
   /**
    * 分页查询权限
    */
-  getAuthorizations(queryArgs?: QueryParameters) {
-    return paginateQuery(this.authorizationRepository, queryArgs);
+  getAuthorizations(queryParams?: QueryParameters) {
+    return paginateQuery(this.authorizationRepository, queryParams);
   }
 
   /**

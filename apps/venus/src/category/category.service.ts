@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 // project
 import { CreateCategoryInput } from './dto/create-category.input';
-import { FilterCategoryArgs } from './dto/filter-category.args';
+import { FilterCategoryInput } from './dto/filter-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { Category } from './entities/category.entity';
 import { QueryParameters } from 'typings/api';
@@ -34,14 +34,14 @@ export class CategoryService {
    * @param query
    * @returns
    */
-  getCategories(queryArgs?: QueryParameters<FilterCategoryArgs>) {
-    const { filterArgs, ...otherQueryArgs } = queryArgs;
-    const { ids, ...otherFilterArgs } = filterArgs || {};
+  getCategories(queryParams?: QueryParameters<FilterCategoryInput>) {
+    const { filter, ...otherQueryParams } = queryParams;
+    const { ids, ...otherFilter } = filter || {};
 
     return paginateQuery(this.categoryRepository, {
-      ...otherQueryArgs,
-      filterInput: {
-        ...otherFilterArgs,
+      ...otherQueryParams,
+      filter: {
+        ...otherFilter,
         ...(ids && {
           id: In(ids),
         }),

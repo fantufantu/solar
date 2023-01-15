@@ -31,8 +31,8 @@ export class TenantService {
   /**
    * 分页查询租户
    */
-  getTenants(queryArgs?: QueryParameters) {
-    return paginateQuery(this.tenantRepository, queryArgs);
+  getTenants(queryParams?: QueryParameters) {
+    return paginateQuery(this.tenantRepository, queryParams);
   }
 
   /**

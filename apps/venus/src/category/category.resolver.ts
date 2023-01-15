@@ -15,10 +15,10 @@ import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { CategoryLoader } from './category.loader';
 import {
-  FilterCategoryArgs,
+  FilterCategoryInput,
   PaginatedCategories,
-} from './dto/filter-category.args';
-import { PaginateArgs } from 'assets/dtos';
+} from './dto/filter-category.input';
+import { PaginationInput } from 'assets/dtos';
 import { Filter, Pagination } from 'assets/decorators';
 
 @Resolver(() => Category)
@@ -42,12 +42,12 @@ export class CategoryResolver {
     description: '分页查询分类',
   })
   getCategories(
-    @Pagination() paginateArgs: PaginateArgs,
-    @Filter() filterArgs: FilterCategoryArgs,
+    @Pagination() pagination: PaginationInput,
+    @Filter() filter: FilterCategoryInput,
   ) {
     return this.categoryService.getCategories({
-      paginateArgs,
-      filterArgs,
+      pagination,
+      filter,
     });
   }
 

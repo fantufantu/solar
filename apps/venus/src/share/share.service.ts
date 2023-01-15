@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 // project
 import { CreateShareInput } from './dto/create-share.input';
-import { GetSharesArgs } from './dto/get-shares.args';
+import { FilterShareArgs } from './dto/filter-share.args';
 import { RemoveShareInput } from './dto/remove-share.input';
 import { Share } from './entities/share.entity';
 
@@ -70,7 +70,7 @@ export class ShareService {
    * @param args
    * @returns
    */
-  async getShares(args: GetSharesArgs) {
+  async getShares(args: FilterShareArgs) {
     return await this.shareRepository
       .createQueryBuilder()
       .where('targetType = :targetType', {
