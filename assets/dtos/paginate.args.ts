@@ -1,7 +1,7 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { ArgsType, Field, Int } from '@nestjs/graphql';
 
-@InputType()
-export class PaginateInput {
+@ArgsType()
+export class PaginateArgs {
   @Field(() => Int, { defaultValue: 1, description: '当前页码' })
   page: number;
 

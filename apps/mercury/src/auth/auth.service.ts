@@ -26,7 +26,7 @@ import {
   RsaPropertyToken,
   TencentCloudPropertyToken,
 } from 'assets/tokens';
-import type { QueryParams } from 'typings/api';
+import type { QueryParameters } from 'typings/api';
 import type { LoginInput } from './dtos/login.input';
 import type { FindOneOptions, Repository } from 'typeorm';
 import type { AuthorizationNode } from './dtos/authorization-node';
@@ -84,8 +84,8 @@ export class AuthService {
   /**
    * 分页查询权限
    */
-  getAuthorizations(query?: QueryParams) {
-    return paginateQuery(this.authorizationRepository, query);
+  getAuthorizations(queryArgs?: QueryParameters) {
+    return paginateQuery(this.authorizationRepository, queryArgs);
   }
 
   /**

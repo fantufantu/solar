@@ -12,8 +12,8 @@ import type { Authorization } from '../auth/entities/authorization.entity';
 import type { User } from '../auth/entities/user.entity';
 import type { CreateRoleInput } from './dtos/create-role.input';
 import type { UpdateRoleInput } from './dtos/update-role.input';
-import type { Options } from 'assets/decorators';
-import type { QueryParams } from 'typings/api';
+import type { PermissionOptions } from 'assets/decorators';
+import type { QueryParameters } from 'typings/api';
 
 @Injectable()
 export class RoleService {
@@ -32,8 +32,8 @@ export class RoleService {
   /**
    * 分页查询角色
    */
-  getRoles(query?: QueryParams) {
-    return paginateQuery(this.roleRepository, query);
+  getRoles(queryArgs?: QueryParameters) {
+    return paginateQuery(this.roleRepository, queryArgs);
   }
 
   /**
@@ -127,7 +127,7 @@ export class RoleService {
   /**
    * 鉴权
    */
-  async isPermitted(userId: number, options: Options) {
+  async isPermitted(userId: number, options: PermissionOptions) {
     return !!(await this.roleRepository
       .createQueryBuilder('role')
       .innerJoin('role.users', 'user')

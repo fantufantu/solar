@@ -15,7 +15,7 @@ import { AccountBook } from './entities/account-book.entity';
 import { CreateAccountBookInput } from './dto/create-account-book.input';
 import { UpdateAccountBookInput } from './dto/update-account-book.input';
 import { JwtAuthGuard } from '@app/passport/guards';
-import { CurrentUser } from 'assets/decorators';
+import { WhoAmI } from 'assets/decorators';
 import { User } from 'apps/mercury/src/auth/entities/user.entity';
 import { SetDefaultArgs } from './dto/set-default.args';
 import { Share } from '../share/entities/share.entity';
@@ -35,7 +35,7 @@ export class AccountBookResolver {
   createAccountBook(
     @Args('createAccountBookInput')
     createAccountBookInput: CreateAccountBookInput,
-    @CurrentUser() user: User,
+    @WhoAmI() user: User,
   ) {
     return this.accountBookService.create(createAccountBookInput, user.id);
   }
@@ -45,7 +45,7 @@ export class AccountBookResolver {
     description: '查询账本列表',
   })
   @UseGuards(JwtAuthGuard)
-  getAccountBooks(@CurrentUser() user: User) {
+  getAccountBooks(@WhoAmI() user: User) {
     return this.accountBookService.getAccountBooks(user.id);
   }
 
@@ -57,7 +57,7 @@ export class AccountBookResolver {
   @UseGuards(JwtAuthGuard)
   getAccountBook(
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
-    @CurrentUser() user: User,
+    @WhoAmI() user: User,
   ) {
     return this.accountBookService.getAccountBook(id, user.id);
   }
@@ -80,7 +80,7 @@ export class AccountBookResolver {
   @UseGuards(JwtAuthGuard)
   removeAccountBook(
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
-    @CurrentUser() user: User,
+    @WhoAmI() user: User,
   ) {
     return this.accountBookService.remove(id, user.id);
   }
@@ -89,10 +89,7 @@ export class AccountBookResolver {
     description: '设置默认账本',
   })
   @UseGuards(JwtAuthGuard)
-  setDefault(
-    @Args() setDefaultArgs: SetDefaultArgs,
-    @CurrentUser() user: User,
-  ) {
+  setDefault(@Args() setDefaultArgs: SetDefaultArgs, @WhoAmI() user: User) {
     return this.accountBookService.setDefault(setDefaultArgs, user.id);
   }
 

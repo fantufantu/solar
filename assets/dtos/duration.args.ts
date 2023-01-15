@@ -1,7 +1,8 @@
-import { Field, InputType } from '@nestjs/graphql';
+// nest
+import { ArgsType, Field } from '@nestjs/graphql';
 
-@InputType()
-export class TimeRangeInput {
+@ArgsType()
+export class DurationArgs {
   @Field(() => Date, {
     description: '起始时间',
     nullable: true,

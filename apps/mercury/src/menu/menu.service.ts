@@ -7,9 +7,9 @@ import { In, Not, Repository } from 'typeorm';
 import { Menu } from './entities/menu.entity';
 import { paginateQuery } from 'utils/api';
 import { RoleService } from '../role/role.service';
-import type { QueryParams } from 'typings/api';
+import type { QueryParameters } from 'typings/api';
 import type { CreateMenuInput } from './dtos/create-menu.input';
-import type { FilterMenuInput } from './dtos/filter-menu.input';
+import type { FilterMenuArgs } from './dtos/filter-menu.args';
 import type { UpdateMenuInput } from './dtos/update-menu.input';
 import type { AuthorizationResource } from '../auth/entities/authorization-resource.entity';
 
@@ -44,15 +44,15 @@ export class MenuService {
   /**
    * 分页查询菜单
    */
-  async getMenus(query?: QueryParams<FilterMenuInput>, userId?: number) {
-    const { filterInput, ...otherQuery } = query || {};
-    const filterInputs = [filterInput];
+  async getMenus(queryArgs?: QueryParameters<FilterMenuArgs>, userId?: number) {
+    const { filterArgs, ...otherQueryArgs } = queryArgs || {};
+    const mergedFilterArgs = [filterArgs];
 
     // 角色权限
     if (userId) {
       const resourceCodes = await this.roleService.getResourceCodesByUserId(
         userId,
-        query?.filterInput?.tenantCode,
+        queryArgs?.filterArgs?.tenantCode,
       );
 
       // 排除权限外的menu id
@@ -61,7 +61,7 @@ export class MenuService {
           .createQueryBuilder('menu')
           .leftJoinAndSelect('menu.resources', 'resource')
           .select('menu.id', 'id')
-          .where(filterInput || {})
+          .where(filterArgs || {})
           .andWhere(
             resourceCodes.length
               ? 'resource.code NOT IN (:...resourceCodes)'
@@ -74,14 +74,14 @@ export class MenuService {
       ).map((item) => item.id);
 
       menuIds.length &&
-        filterInputs.push({
+        mergedFilterArgs.push({
           id: Not(In([menuIds])),
         });
     }
 
-    return paginateQuery<Menu, FilterMenuInput[]>(this.menuRepository, {
-      ...otherQuery,
-      filterInput: filterInputs,
+    return paginateQuery<Menu, FilterMenuArgs[]>(this.menuRepository, {
+      ...otherQueryArgs,
+      filterArgs: mergedFilterArgs,
     });
   }
 

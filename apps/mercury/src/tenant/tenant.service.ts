@@ -9,7 +9,7 @@ import { paginateQuery } from 'utils/api';
 import { MenuService } from '../menu/menu.service';
 import type { CreateTenantInput } from './dtos/create-tenant.input';
 import type { UpdateTenantInput } from './dtos/update-tenant.input';
-import type { QueryParams } from 'typings/api';
+import type { QueryParameters } from 'typings/api';
 
 @Injectable()
 export class TenantService {
@@ -31,8 +31,8 @@ export class TenantService {
   /**
    * 分页查询租户
    */
-  getTenants(query?: QueryParams) {
-    return paginateQuery(this.tenantRepository, query);
+  getTenants(queryArgs?: QueryParameters) {
+    return paginateQuery(this.tenantRepository, queryArgs);
   }
 
   /**
@@ -83,10 +83,10 @@ export class TenantService {
   async getTenantMenus(tenantCode: string) {
     return (
       await this.menuService.getMenus({
-        filterInput: {
+        filterArgs: {
           tenantCode,
         },
-        sortInput: {
+        sortArgs: {
           sortBy: 'ASC',
         },
       })

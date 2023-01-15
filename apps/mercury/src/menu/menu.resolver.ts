@@ -15,14 +15,14 @@ import { AuthorizationActionCode } from '../auth/entities/authorization-action.e
 import { PaginatedMenus } from './dtos/paginated-menus';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@app/passport/guards';
-import { CurrentUser, Permission } from 'assets/decorators';
+import { WhoAmI, Pagination, Permission, Filter } from 'assets/decorators';
 import { User } from '../auth/entities/user.entity';
 import { MenuService } from './menu.service';
 import { MenuLoader } from './menu.loader';
 import { CreateMenuInput } from './dtos/create-menu.input';
 import { UpdateMenuInput } from './dtos/update-menu.input';
-import { PaginateInput } from 'assets/dtos';
-import { FilterMenuInput } from './dtos/filter-menu.input';
+import { PaginateArgs } from 'assets/dtos';
+import { FilterMenuArgs } from './dtos/filter-menu.args';
 
 @Resolver(() => Menu)
 export class MenuResolver {
@@ -46,15 +46,15 @@ export class MenuResolver {
   })
   @UseGuards(new JwtAuthGuard(true))
   getMenus(
-    @Args('paginateInput', { nullable: true }) paginateInput: PaginateInput,
-    @Args('filterInput', { nullable: true }) filterInput: FilterMenuInput,
-    @CurrentUser() user: User | null,
+    @Pagination() paginateArgs: PaginateArgs,
+    @Filter() filterArgs: FilterMenuArgs,
+    @WhoAmI() user: User | null,
   ) {
     return this.menuService.getMenus(
       {
-        paginateInput,
-        filterInput,
-        sortInput: {
+        paginateArgs,
+        filterArgs,
+        sortArgs: {
           sortBy: 'ASC',
         },
       },

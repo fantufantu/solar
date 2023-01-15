@@ -7,7 +7,7 @@ import type { Repository } from 'typeorm';
 import { Dictionary } from './entities/dictionary.entity';
 import { paginateQuery } from 'utils/api';
 import type { CreateDictionaryInput } from './dtos/create-dictionary.input';
-import type { QueryParams } from 'typings/api';
+import type { QueryParameters } from 'typings/api';
 import type { UpdateDictionaryInput } from './dtos/update-dictionary.input';
 
 @Injectable()
@@ -29,8 +29,8 @@ export class DictionaryService {
   /**
    * 分页查询字典
    */
-  getDictionaries(query?: QueryParams) {
-    return paginateQuery(this.dictionaryRepository, query);
+  getDictionaries(queryArgs?: QueryParameters) {
+    return paginateQuery(this.dictionaryRepository, queryArgs);
   }
 
   /**

@@ -1,7 +1,11 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+// nest
+import { InputType, PickType } from '@nestjs/graphql';
+// project
+import { Category } from '../entities/category.entity';
 
 @InputType()
-export class CreateCategoryInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
-}
+export class CreateCategoryInput extends PickType(
+  Category,
+  ['name', 'icon'],
+  InputType,
+) {}

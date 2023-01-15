@@ -1,13 +1,13 @@
 // nest
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 // project
-import { Permission } from 'assets/decorators';
+import { Pagination, Permission } from 'assets/decorators';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import { DictionaryEnumService } from './dictionary-enum.service';
 import { PaginatedDictionaryEnum } from './dtos/paginated-dictionary-enums';
 import { DictionaryEnum } from './entities/dictionary-enum.entity';
-import { PaginateInput } from 'assets/dtos';
+import { PaginateArgs } from 'assets/dtos';
 import { CreateDictionaryEnumInput } from './dtos/create-dictionary-enum.input';
 import { UpdateDictionaryEnumInput } from './dtos/update-dictionary-enum.input';
 
@@ -37,11 +37,9 @@ export class DictionaryEnumResolver {
     resource: AuthorizationResourceCode.DictionaryEnum,
     action: AuthorizationActionCode.Retrieve,
   })
-  getDictionaryEnums(
-    @Args('paginateInput', { nullable: true }) paginateInput: PaginateInput,
-  ) {
+  getDictionaryEnums(@Pagination() paginateArgs: PaginateArgs) {
     return this.dictionaryEnumService.getDictionaryEnums({
-      paginateInput,
+      paginateArgs,
     });
   }
 

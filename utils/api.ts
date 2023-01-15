@@ -1,43 +1,43 @@
 // third
 import { Repository } from 'typeorm';
 // project
-import { QueryParams } from 'typings/api';
+import { QueryParameters } from 'typings/api';
 
 /**
  * 对数据库进行分页查询
  */
 export const paginateQuery = async <T, F>(
   repository: Repository<T>,
-  query?: QueryParams<F>,
+  queryArgs?: QueryParameters<F>,
 ) => {
   // 入参存在分页需求，计算 skip 值
   // 入参不存在分页需求，以第一条开始取值 skip = 0
-  const skip = query?.paginateInput
-    ? (query?.paginateInput?.page - 1) * query?.paginateInput?.limit
+  const skip = queryArgs?.paginateArgs
+    ? (queryArgs?.paginateArgs?.page - 1) * queryArgs?.paginateArgs?.limit
     : 0;
 
   // 生成查询 sql qb
   const queryBuild = repository.createQueryBuilder();
 
   // 注入where条件
-  const filterInput = query?.filterInput || {};
+  const filterArgs = queryArgs?.filterArgs || {};
 
-  if (Array.isArray(filterInput)) {
-    filterInput.forEach((where) => queryBuild.andWhere(where || {}));
+  if (Array.isArray(filterArgs)) {
+    filterArgs.forEach((where) => queryBuild.andWhere(where || {}));
   } else {
-    queryBuild.where(filterInput);
+    queryBuild.where(filterArgs);
   }
 
   // 执行sql
   const [items, totalCount] = await queryBuild
     .skip(skip)
-    .take(query?.paginateInput?.limit)
-    .orderBy(query?.sortInput)
+    .take(queryArgs?.paginateArgs?.limit)
+    .orderBy(queryArgs?.sortArgs)
     .getManyAndCount();
 
   // 计算 limit
-  const limit = query?.paginateInput
-    ? query?.paginateInput.limit
+  const limit = queryArgs?.paginateArgs
+    ? queryArgs?.paginateArgs.limit
     : items.length;
 
   // 计算总页数
@@ -49,7 +49,7 @@ export const paginateQuery = async <T, F>(
 
   return {
     items,
-    page: query?.paginateInput?.page,
+    page: queryArgs?.paginateArgs?.page,
     limit,
     totalCount,
     pageCount,

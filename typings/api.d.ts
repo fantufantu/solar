@@ -1,6 +1,6 @@
-import { PaginateInput } from 'assets/dtos/paginate.input';
+import { PaginateArgs } from 'assets/dtos/paginate.args';
 
-interface SortInput {
+interface SortArgs {
   [columnName: string]:
     | ('ASC' | 'DESC')
     | {
@@ -9,8 +9,8 @@ interface SortInput {
       };
 }
 
-export interface QueryParams<F = Record<string, any>> {
-  paginateInput?: PaginateInput;
-  filterInput?: F;
-  sortInput?: SortInput;
+export interface QueryParameters<F = Record<string, any>> {
+  paginateArgs?: PaginateArgs;
+  filterArgs?: F;
+  sortArgs?: SortArgs;
 }

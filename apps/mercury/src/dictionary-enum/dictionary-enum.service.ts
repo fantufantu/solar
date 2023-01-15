@@ -6,7 +6,7 @@ import type { Repository } from 'typeorm';
 // project
 import { DictionaryEnum } from './entities/dictionary-enum.entity';
 import { paginateQuery } from 'utils/api';
-import type { QueryParams } from 'typings/api';
+import type { QueryParameters } from 'typings/api';
 import type { CreateDictionaryEnumInput } from './dtos/create-dictionary-enum.input';
 import type { UpdateDictionaryEnumInput } from './dtos/update-dictionary-enum.input';
 
@@ -29,8 +29,8 @@ export class DictionaryEnumService {
   /**
    * 分页查询字典枚举
    */
-  getDictionaryEnums(query?: QueryParams) {
-    return paginateQuery(this.dictionaryEnumRepository, query);
+  getDictionaryEnums(queryArgs?: QueryParameters) {
+    return paginateQuery(this.dictionaryEnumRepository, queryArgs);
   }
 
   /**
