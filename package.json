@@ -6,9 +6,9 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev:pluto": "nest start pluto --watch",
-    "dev:mercury": "nest start mercury --watch",
-    "dev:venus": "nest start venus --watch"
+    "start:pluto": "nest start pluto --watch",
+    "start:mercury": "nest start mercury --watch",
+    "start:venus": "nest start venus --watch"
   },
   "dependencies": {
     "@apollo/federation": "^0.38.1",

@@ -33,12 +33,20 @@
 * `FLUSH PRIVILEGES;`
 
 - 安装 git
+
 * `add-apt-repository ppa:git-core/ppa`
 * `apt update`
 * `apt install git`
 
 - 安装 node
+
 ```
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
 sudo apt-get install -y nodejs
+```
+
+- 安装 pm2
+
+```
+npm i -g pm2
 ```
