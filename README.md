@@ -50,3 +50,9 @@ sudo apt-get install -y nodejs
 ```
 npm i -g pm2
 ```
+
+- 安装 nginx
+
+```
+apt install -y nginx
+```
