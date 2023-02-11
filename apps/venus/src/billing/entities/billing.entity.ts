@@ -7,7 +7,7 @@ import { Foundation } from 'assets/entities/foundation.entity';
 
 @ObjectType()
 @Entity()
-export class AccountBook extends Foundation {
+export class Billing extends Foundation {
   @Field(() => String, { description: '账本名称' })
   @Column()
   name: string;

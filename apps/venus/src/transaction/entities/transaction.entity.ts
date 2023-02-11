@@ -10,8 +10,8 @@ import {
 import { Column, Entity, ManyToOne } from 'typeorm';
 // project
 import { Foundation } from 'assets/entities/foundation.entity';
-import { AccountBook } from '../../account-book/entities/account-book.entity';
 import { Category } from '../../category/entities/category.entity';
+import { Billing } from '../../billing/entities/billing.entity';
 
 /**
  * 交易方向
@@ -33,10 +33,10 @@ export class Transaction extends Foundation {
     description: '账本id',
   })
   @Column()
-  accountBookId: number;
+  billingId: number;
 
-  @ManyToOne(() => AccountBook)
-  accountBook: AccountBook;
+  @ManyToOne(() => Billing)
+  billing: Billing;
 
   @Field(() => Int, {
     description: '分类id',

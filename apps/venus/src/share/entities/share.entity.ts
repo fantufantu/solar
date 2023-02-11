@@ -4,7 +4,7 @@ import { ObjectType, Field, Int, registerEnumType } from '@nestjs/graphql';
 import { Entity, PrimaryColumn, Unique } from 'typeorm';
 
 export enum TargetType {
-  AccountBook = 'account-book',
+  Billing = 'billing',
   Transaction = 'transaction',
 }
 

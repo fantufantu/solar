@@ -7,16 +7,16 @@ import { Repository } from 'typeorm';
 import { Share, TargetType } from '../share/entities/share.entity';
 import { ShareService } from '../share/share.service';
 import { UserProfileService } from '../user-profile/user-profile.service';
-import { CreateAccountBookInput } from './dto/create-account-book.input';
+import { CreateBillingInput } from './dto/create-billing.input';
 import { SetDefaultArgs } from './dto/set-default.args';
-import { UpdateAccountBookInput } from './dto/update-account-book.input';
-import { AccountBook } from './entities/account-book.entity';
+import { UpdateBillingInput } from './dto/update-billing.input';
+import { Billing } from './entities/billing.entity';
 
 @Injectable()
-export class AccountBookService {
+export class BillingService {
   constructor(
-    @InjectRepository(AccountBook)
-    private readonly accountBookRepository: Repository<AccountBook>,
+    @InjectRepository(Billing)
+    private readonly billingRepository: Repository<Billing>,
     private readonly shareService: ShareService,
     private readonly userProfileService: UserProfileService,
   ) {}
@@ -24,10 +24,10 @@ export class AccountBookService {
   /**
    * 创建账本
    */
-  create(createAccountBookInput: CreateAccountBookInput, createdById: number) {
-    return this.accountBookRepository.save(
-      this.accountBookRepository.create({
-        ...createAccountBookInput,
+  create(createBillingInput: CreateBillingInput, createdById: number) {
+    return this.billingRepository.save(
+      this.billingRepository.create({
+        ...createBillingInput,
         createdById,
       }),
     );
@@ -36,22 +36,22 @@ export class AccountBookService {
   /**
    * 查询多个账本
    */
-  async getAccountBooks(userId: number) {
-    return await this.accountBookRepository
-      .createQueryBuilder('accountBook')
+  async getBillings(userId: number) {
+    return await this.billingRepository
+      .createQueryBuilder('billing')
       .leftJoinAndSelect(
         Share,
         'share',
-        'share.targetType = :targetType AND share.targetId = accountBook.id',
+        'share.targetType = :targetType AND share.targetId = billing.id',
         {
-          targetType: TargetType.AccountBook,
+          targetType: TargetType.Billing,
         },
       )
       .where('isDeleted = :isDeleted', {
         isDeleted: false,
       })
       .andWhere(
-        '( accountBook.createdById = :userId OR share.sharedById = :userId )',
+        '( billing.createdById = :userId OR share.sharedById = :userId )',
         {
           userId,
         },
@@ -62,15 +62,15 @@ export class AccountBookService {
   /**
    * 查询单个账本
    */
-  getAccountBook(id: number, userId: number) {
-    return this.accountBookRepository
-      .createQueryBuilder('accountBook')
+  getBilling(id: number, userId: number) {
+    return this.billingRepository
+      .createQueryBuilder('billing')
       .leftJoinAndSelect(
         Share,
         'share',
-        'share.targetType = :targetType AND share.targetId = accountBook.id',
+        'share.targetType = :targetType AND share.targetId = billing.id',
         {
-          targetType: TargetType.AccountBook,
+          targetType: TargetType.Billing,
         },
       )
       .whereInIds(id)
@@ -78,7 +78,7 @@ export class AccountBookService {
         isDeleted: false,
       })
       .andWhere(
-        '( accountBook.createdById = :userId OR share.sharedById = :userId )',
+        '( billing.createdById = :userId OR share.sharedById = :userId )',
         {
           userId,
         },
@@ -89,8 +89,8 @@ export class AccountBookService {
   /**
    * 更新账本信息
    */
-  update(id: number, updateAccountBookInput: UpdateAccountBookInput) {
-    return this.accountBookRepository.update(id, updateAccountBookInput);
+  update(id: number, updateBillingInput: UpdateBillingInput) {
+    return this.billingRepository.update(id, updateBillingInput);
   }
 
   /**
@@ -99,33 +99,33 @@ export class AccountBookService {
    * 操作人非账本所有人，仅删除账本的相关分享
    */
   async remove(id: number, userId: number) {
-    const accountBook = await this.accountBookRepository.findOneBy({
+    const billing = await this.billingRepository.findOneBy({
       id,
       isDeleted: false,
     });
 
-    if (!accountBook) {
+    if (!billing) {
       return true;
     }
 
-    const isCreator = accountBook.createdById === userId;
+    const isMine = billing.createdById === userId;
 
     // 删除分享
     // 账本创建人，删除当前账本的全部分享 -> 删除账本
     // 非账本创建人，仅删除当前账本的被分享条目即可
     const isShareRemoved = await this.shareService.remove({
       targetId: id,
-      targetType: TargetType.AccountBook,
-      sharedById: isCreator ? undefined : userId,
+      targetType: TargetType.Billing,
+      sharedById: isMine ? undefined : userId,
     });
 
-    if (!isCreator) return isShareRemoved;
+    if (!isMine) return isShareRemoved;
 
     // 分享删除成功执行删除账本
     return (
       isShareRemoved &&
       !!(
-        await this.accountBookRepository.update(id, {
+        await this.billingRepository.update(id, {
           isDeleted: true,
         })
       ).affected
@@ -139,7 +139,7 @@ export class AccountBookService {
   async setDefault(setDefaultArgs: SetDefaultArgs, userId: number) {
     // 处理默认账本信息
     // 取消默认账本，账本 id = null
-    const defaultAccountBookId = setDefaultArgs.isDefault
+    const defaultBillingId = setDefaultArgs.isDefault
       ? setDefaultArgs.id
       : null;
 
@@ -147,11 +147,11 @@ export class AccountBookService {
     // 不存在 => 创建用户信息
     return (
       (await this.userProfileService.update(userId, {
-        defaultAccountBookId,
+        defaultBillingId,
       })) ||
       !!(await this.userProfileService.create({
         userId,
-        defaultAccountBookId,
+        defaultBillingId,
       }))
     );
   }

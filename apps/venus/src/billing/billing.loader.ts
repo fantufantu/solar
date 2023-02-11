@@ -8,18 +8,18 @@ import { User } from 'apps/mercury/src/auth/entities/user.entity';
 import { ShareService } from '../share/share.service';
 
 @Injectable()
-export class AccountBookLoader {
+export class BillingLoader {
   constructor(private readonly shareService: ShareService) {}
 
   /**
    * 根据账本 id 获取分享信息
    */
-  public readonly getSharesByAccountBookId = new DataLoader<number, Share[]>(
-    async (accountBookIds: number[]) => {
+  public readonly getSharesByBillingId = new DataLoader<number, Share[]>(
+    async (billingIds: number[]) => {
       // 查询分享列表
       const shares = await this.shareService.getShares({
-        targetType: TargetType.AccountBook,
-        targetIds: accountBookIds,
+        targetType: TargetType.Billing,
+        targetIds: billingIds,
       });
 
       // 按账本 id 归类
@@ -30,9 +30,7 @@ export class AccountBookLoader {
         );
       }, new Map<number, Share[]>());
 
-      return accountBookIds.map((accountBookId) =>
-        groupedShares.get(accountBookId),
-      );
+      return billingIds.map((billingId) => groupedShares.get(billingId));
     },
     {
       cache: false,

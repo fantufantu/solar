@@ -5,7 +5,7 @@ import { GraphQLModule } from '@app/graphql';
 import { DatabaseModule } from '@app/database';
 import { PassportModule } from '@app/passport';
 import { ApplicationToken } from 'assets/tokens';
-import { AccountBookModule } from './account-book/account-book.module';
+import { BillingModule } from './billing/billing.module';
 import { ShareModule } from './share/share.module';
 import { UserProfileModule } from './user-profile/user-profile.module';
 import { CategoryModule } from './category/category.module';
@@ -25,7 +25,7 @@ import { MercuryClientModule } from '@app/mercury-client';
     // 用户信息
     UserProfileModule,
     // 账本
-    AccountBookModule,
+    BillingModule,
     // 分享
     ShareModule,
     // 分类
