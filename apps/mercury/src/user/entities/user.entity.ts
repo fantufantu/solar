@@ -1,6 +1,6 @@
 // nest
 import { BadRequestException } from '@nestjs/common';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Directive, Field, ObjectType } from '@nestjs/graphql';
 // third
 import {
   BeforeInsert,
@@ -20,6 +20,7 @@ import { UserEmail } from './user-email.entity';
 import { Role } from '../../role/entities/role.entity';
 
 @ObjectType()
+@Directive('@key(fields: "id")')
 @Entity()
 export class User extends Foundation {
   @Field(() => String, {

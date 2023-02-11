@@ -17,13 +17,13 @@ import { TransactionLoader } from './transaction.loader';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@app/passport/guards';
 import { Filter, Pagination, WhoAmI } from 'assets/decorators';
-import { User } from 'apps/mercury/src/auth/entities/user.entity';
 import {
   FilterTransactionInput,
   PaginatedTransactions,
 } from './dto/filter-transaction.input';
 import { PaginationInput } from 'assets/dtos';
 import { Category } from '../category/entities/category.entity';
+import { User } from '../user/entities/user.entity';
 
 @Resolver(() => Transaction)
 export class TransactionResolver {

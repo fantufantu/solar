@@ -3,9 +3,9 @@ import { Injectable } from '@nestjs/common';
 // third
 import DataLoader = require('dataloader');
 // project
-import { User } from 'apps/mercury/src/auth/entities/user.entity';
 import { CategoryService } from '../category/category.service';
 import { Category } from '../category/entities/category.entity';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class TransactionLoader {

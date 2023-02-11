@@ -1,6 +1,9 @@
 // nest
-import { PickType } from '@nestjs/graphql';
-// project
-import { User } from 'apps/mercury/src/auth/entities/user.entity';
+import { Field, Int } from '@nestjs/graphql';
 
-export class Authentication extends PickType(User, ['id']) {}
+export class Authentication {
+  @Field(() => Int, {
+    description: 'id',
+  })
+  id: number;
+}

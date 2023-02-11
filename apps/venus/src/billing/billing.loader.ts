@@ -4,8 +4,8 @@ import { Injectable } from '@nestjs/common';
 import DataLoader = require('dataloader');
 // project
 import { Sharing, TargetType } from '../sharing/entities/sharing.entity';
-import { User } from 'apps/mercury/src/auth/entities/user.entity';
 import { SharingService } from '../sharing/sharing.service';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class BillingLoader {

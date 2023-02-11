@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 // third
 import DataLoader = require('dataloader');
 // project
-import { User } from 'apps/mercury/src/auth/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class SharingLoader {
@@ -12,6 +12,7 @@ export class SharingLoader {
    */
   public readonly getUserById = new DataLoader<number, User>(
     async (userIds: number[]) => {
+      console.log('userIds====', userIds);
       return [];
     },
   );

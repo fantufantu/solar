@@ -14,7 +14,7 @@
   "dependencies": {
     "@apollo/federation": "^0.38.1",
     "@apollo/gateway": "^2.3.2",
-    "@apollo/subgraph": "^2.2.3",
+    "@apollo/subgraph": "^2.3.2",
     "@nestjs/apollo": "^10.1.7",
     "@nestjs/common": "^9.2.1",
     "@nestjs/config": "^2.2.0",
@@ -87,7 +87,6 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@app/graphql(|/.*)$": "<rootDir>/libs/graphql/src/$1",
       "^@app/passport(|/.*)$": "<rootDir>/libs/passport/src/$1",
       "^@app/database(|/.*)$": "<rootDir>/libs/database/src/$1",
       "^@app/mercury-client(|/.*)$": "<rootDir>/libs/mercury-client/src/$1",

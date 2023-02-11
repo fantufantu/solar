@@ -18,6 +18,7 @@ import {
   ApolloFederationDriver,
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -26,7 +27,9 @@ import {
     // api
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
-      autoSchemaFile: true,
+      autoSchemaFile: {
+        federation: 2,
+      },
     }),
     // 数据库
     DatabaseModule.forRoot(ApplicationToken.Mercury),
@@ -44,6 +47,7 @@ import {
     DictionaryModule,
     // 字典枚举
     DictionaryEnumModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

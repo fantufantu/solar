@@ -12,7 +12,7 @@ import { PlutoClientService } from '@app/pluto-client';
 import { PassportService } from '@app/passport';
 import { User } from './entities/user.entity';
 import { RegisterInput } from './dtos/register.input';
-import { UserEmail } from './entities/user-email.entity';
+import { UserEmail } from '../user/entities/user-email.entity';
 import { paginateQuery } from 'utils/api';
 import { Authorization } from './entities/authorization.entity';
 import { TenantService } from '../tenant/tenant.service';

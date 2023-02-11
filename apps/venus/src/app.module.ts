@@ -24,7 +24,9 @@ import {
     // api
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
-      autoSchemaFile: true,
+      autoSchemaFile: {
+        federation: 2,
+      },
     }),
     // 数据库
     DatabaseModule.forRoot(ApplicationToken.Venus),

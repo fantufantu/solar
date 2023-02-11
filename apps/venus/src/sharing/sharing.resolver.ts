@@ -11,8 +11,8 @@ import { SharingService } from './sharing.service';
 import { Sharing } from './entities/sharing.entity';
 import { CreateSharingInput } from './dto/create-sharing.input';
 import { SharingLoader } from './sharing.loader';
-import { User } from 'apps/mercury/src/auth/entities/user.entity';
 import { RemoveSharingInput } from './dto/remove-sharing.input';
+import { User } from '../user/entities/user.entity';
 
 @Resolver(() => Sharing)
 export class SharingResolver {

@@ -1,5 +1,5 @@
 // nest
-import { Field, Int } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 // third
 import {
   CreateDateColumn,
@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+@ObjectType()
 export class Foundation {
   @Field(() => Int, {
     description: 'id',

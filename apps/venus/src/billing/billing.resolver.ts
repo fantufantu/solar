@@ -16,10 +16,10 @@ import { CreateBillingInput } from './dto/create-billing.input';
 import { UpdateBillingInput } from './dto/update-billing.input';
 import { JwtAuthGuard } from '@app/passport/guards';
 import { WhoAmI } from 'assets/decorators';
-import { User } from 'apps/mercury/src/auth/entities/user.entity';
 import { SetDefaultArgs } from './dto/set-default.args';
 import { Sharing } from '../sharing/entities/sharing.entity';
 import { BillingLoader } from './billing.loader';
+import { User } from '../user/entities/user.entity';
 
 @Resolver(() => Billing)
 export class BillingResolver {
