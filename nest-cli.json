@@ -89,6 +89,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/venus/tsconfig.app.json"
       }
+    },
+    "halley": {
+      "type": "application",
+      "root": "apps/halley",
+      "entryFile": "main",
+      "sourceRoot": "apps/halley/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/halley/tsconfig.app.json"
+      }
     }
   }
 }
