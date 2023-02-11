@@ -16,7 +16,6 @@ import { CreateBillingInput } from './dto/create-billing.input';
 import { UpdateBillingInput } from './dto/update-billing.input';
 import { JwtAuthGuard } from '@app/passport/guards';
 import { WhoAmI } from 'assets/decorators';
-import { SetDefaultArgs } from './dto/set-default.args';
 import { Sharing } from '../sharing/entities/sharing.entity';
 import { BillingLoader } from './billing.loader';
 import { User } from '../user/entities/user.entity';
@@ -83,14 +82,6 @@ export class BillingResolver {
     @WhoAmI() user: User,
   ) {
     return this.billingService.remove(id, user.id);
-  }
-
-  @Mutation(() => Boolean, {
-    description: '设置默认账本',
-  })
-  @UseGuards(JwtAuthGuard)
-  setDefault(@Args() setDefaultArgs: SetDefaultArgs, @WhoAmI() user: User) {
-    return this.billingService.setDefault(setDefaultArgs, user.id);
   }
 
   @ResolveField('sharings', () => [Sharing], {

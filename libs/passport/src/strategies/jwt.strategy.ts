@@ -8,7 +8,6 @@ import type { Request } from 'express';
 import { MercuryClientService } from 'libs/mercury-client/src';
 import { ProviderToken } from 'assets/tokens';
 import type { Authentication } from '../dtos/authentication';
-import type { User } from 'apps/mercury/src/user/entities/user.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -34,16 +33,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: Authentication): Promise<User> {
+  async validate(payload: Authentication) {
     // token有效
     // 获取数据库中的user信息
     const user = await this.client.getUserById(payload.id);
-
     if (!user)
       throw new UnauthorizedException(
         '非常抱歉，服务端没有匹配到正确的用户信息！',
       );
-
     return user;
   }
 }

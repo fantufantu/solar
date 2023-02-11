@@ -6,6 +6,7 @@ import { lastValueFrom } from 'rxjs';
 // project
 import { CommandToken, ProviderToken } from 'assets/tokens';
 import type { PermissionOptions } from 'assets/decorators';
+import { User } from 'apps/mercury/src/user/entities/user.entity';
 
 @Injectable()
 export class MercuryClientService {
@@ -17,7 +18,7 @@ export class MercuryClientService {
   /**
    * 根据用户id获取用户信息
    */
-  async getUserById(id: number) {
+  async getUserById(id: number): Promise<User> {
     return await lastValueFrom(
       this.client.send(
         {

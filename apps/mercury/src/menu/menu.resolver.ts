@@ -48,7 +48,7 @@ export class MenuResolver {
   getMenus(
     @Pagination() pagination: PaginationInput,
     @Filter() filter: FilterMenuInput,
-    @WhoAmI() user: User | null,
+    @WhoAmI() user: User,
   ) {
     return this.menuService.getMenus(
       {
@@ -58,7 +58,7 @@ export class MenuResolver {
           sortBy: 'ASC',
         },
       },
-      user?.id,
+      user.id,
     );
   }
 

@@ -8,7 +8,7 @@ import { Sharing, TargetType } from '../sharing/entities/sharing.entity';
 import { SharingService } from '../sharing/sharing.service';
 import { UserService } from '../user/user.service';
 import { CreateBillingInput } from './dto/create-billing.input';
-import { SetDefaultArgs } from './dto/set-default.args';
+import { SetDefaultArgs } from '../user/dto/set-default.args';
 import { UpdateBillingInput } from './dto/update-billing.input';
 import { Billing } from './entities/billing.entity';
 
@@ -129,30 +129,6 @@ export class BillingService {
           isDeleted: true,
         })
       ).affected
-    );
-  }
-
-  /**
-   * 切换默认账本
-   * 切换账本是否默认
-   */
-  async setDefault(setDefaultArgs: SetDefaultArgs, userId: number) {
-    // 处理默认账本信息
-    // 取消默认账本，账本 id = null
-    const defaultBillingId = setDefaultArgs.isDefault
-      ? setDefaultArgs.id
-      : null;
-
-    // 更新用户信息
-    // 不存在 => 创建用户信息
-    return (
-      (await this.userService.update(userId, {
-        defaultBillingId,
-      })) ||
-      !!(await this.userService.create({
-        id: userId,
-        defaultBillingId,
-      }))
     );
   }
 }
