@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Directive, Field, ObjectType } from '@nestjs/graphql';
 import {
   Column,
   CreateDateColumn,
@@ -10,6 +10,7 @@ import {
 import { Billing } from '../../billing/entities/billing.entity';
 
 @ObjectType()
+@Directive('@key(fields: "id")')
 @Entity()
 export class User {
   @PrimaryColumn()

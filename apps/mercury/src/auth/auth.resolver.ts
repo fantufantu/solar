@@ -10,8 +10,9 @@ import { LoginInput } from './dtos/login.input';
 import { RegisterInput } from './dtos/register.input';
 import { AuthorizationsArgs } from './dtos/authorizations.args';
 import { SendCaptchaArgs } from './dtos/send-captcha.args';
+import { User } from './entities/user.entity';
 
-@Resolver()
+@Resolver(() => User)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
@@ -70,5 +71,10 @@ export class AuthResolver {
   })
   sendCaptcha(@Args() sendCaptchaArgs: SendCaptchaArgs) {
     return this.authService.sendCaptcha(sendCaptchaArgs);
+  }
+
+  @Query(() => User)
+  getUser() {
+    return null;
   }
 }

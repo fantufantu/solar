@@ -4,7 +4,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ApplicationToken } from 'assets/tokens';
-import { GraphQLModule } from '@app/graphql';
 import { DatabaseModule } from '@app/database';
 import { PassportModule } from '@app/passport';
 import { PlutoClientModule } from '@app/pluto-client';
@@ -14,13 +13,21 @@ import { MenuModule } from './menu/menu.module';
 import { RoleModule } from './role/role.module';
 import { DictionaryModule } from './dictionary/dictionary.module';
 import { DictionaryEnumModule } from './dictionary-enum/dictionary-enum.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import {
+  ApolloFederationDriver,
+  ApolloFederationDriverConfig,
+} from '@nestjs/apollo';
 
 @Module({
   imports: [
     // pluto 微服务客户端
     PlutoClientModule,
     // api
-    GraphQLModule,
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      autoSchemaFile: true,
+    }),
     // 数据库
     DatabaseModule.forRoot(ApplicationToken.Mercury),
     // 认证

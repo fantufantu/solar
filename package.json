@@ -8,7 +8,8 @@
   "scripts": {
     "start:pluto": "nest start pluto --watch",
     "start:mercury": "nest start mercury --watch",
-    "start:venus": "nest start venus --watch"
+    "start:venus": "nest start venus --watch",
+    "start:halley": "nest start halley --watch"
   },
   "dependencies": {
     "@apollo/federation": "^0.38.1",

@@ -1,6 +1,6 @@
 // nest
 import { BadRequestException } from '@nestjs/common';
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 // third
 import {
   BeforeInsert,
@@ -19,7 +19,6 @@ import { Foundation } from 'assets/entities/foundation.entity';
 import { UserEmail } from './user-email.entity';
 import { Role } from '../../role/entities/role.entity';
 
-@InputType({ isAbstract: true })
 @ObjectType()
 @Entity()
 export class User extends Foundation {

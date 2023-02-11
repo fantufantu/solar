@@ -2,20 +2,26 @@ import { IntrospectAndCompose } from '@apollo/gateway';
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
+import { ServicePort } from 'assets/ports';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloGatewayDriverConfig>({
       driver: ApolloGatewayDriver,
       server: {
-        // ... Apollo server options
         cors: true,
       },
       gateway: {
         supergraphSdl: new IntrospectAndCompose({
           subgraphs: [
-            { name: 'users', url: 'http://user-service/graphql' },
-            { name: 'posts', url: 'http://post-service/graphql' },
+            {
+              name: 'mercury',
+              url: `http://localhost:${ServicePort.Mercury}/graphql`,
+            },
+            {
+              name: 'venus',
+              url: `http://localhost:${ServicePort.Venus}/graphql`,
+            },
           ],
         }),
       },

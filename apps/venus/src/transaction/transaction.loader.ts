@@ -18,7 +18,7 @@ export class TransactionLoader {
     async (ids: number[]) => {
       const categories = (
         await this.categoryService.getCategories({
-          filterArgs: {
+          filter: {
             ids,
           },
         })
