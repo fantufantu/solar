@@ -21,7 +21,7 @@ import {
   FilterTransactionInput,
   PaginatedTransactions,
 } from './dto/filter-transaction.input';
-import { PaginationInput } from 'assets/dtos';
+import { PaginationInput } from 'assets/dto';
 import { Category } from '../category/entities/category.entity';
 import { User } from '../user/entities/user.entity';
 

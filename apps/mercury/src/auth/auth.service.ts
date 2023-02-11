@@ -10,16 +10,16 @@ import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/servic
 // project
 import { PlutoClientService } from '@app/pluto-client';
 import { PassportService } from '@app/passport';
-import { User } from './entities/user.entity';
-import { RegisterInput } from './dtos/register.input';
+import { User } from '../user/entities/user.entity';
+import { RegisterInput } from './dto/register.input';
 import { UserEmail } from '../user/entities/user-email.entity';
 import { paginateQuery } from 'utils/api';
 import { Authorization } from './entities/authorization.entity';
 import { TenantService } from '../tenant/tenant.service';
 import { AuthorizationResource } from './entities/authorization-resource.entity';
 import { AuthorizationAction } from './entities/authorization-action.entity';
-import { AuthorizationsArgs } from './dtos/authorizations.args';
-import { SendCaptchaArgs } from './dtos/send-captcha.args';
+import { AuthorizationsArgs } from './dto/authorizations.args';
+import { SendCaptchaArgs } from '../user/dto/send-captcha.args';
 import {
   ConfigRegisterToken,
   JwtPropertyToken,
@@ -27,9 +27,9 @@ import {
   TencentCloudPropertyToken,
 } from 'assets/tokens';
 import type { QueryParameters } from 'typings/api';
-import type { LoginInput } from './dtos/login.input';
+import type { LoginInput } from './dto/login.input';
 import type { FindOneOptions, Repository } from 'typeorm';
-import type { AuthorizationNode } from './dtos/authorization-node';
+import type { AuthorizationNode } from './dto/authorization-node';
 
 @Injectable()
 export class AuthService {

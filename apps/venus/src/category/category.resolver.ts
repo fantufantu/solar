@@ -18,7 +18,7 @@ import {
   FilterCategoryInput,
   PaginatedCategories,
 } from './dto/filter-category.input';
-import { PaginationInput } from 'assets/dtos';
+import { PaginationInput } from 'assets/dto';
 import { Filter, Pagination } from 'assets/decorators';
 
 @Resolver(() => Category)

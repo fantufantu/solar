@@ -12,17 +12,17 @@ import {
 import { Menu } from './entities/menu.entity';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
-import { PaginatedMenus } from './dtos/paginated-menus';
+import { PaginatedMenus } from './dto/paginated-menus';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@app/passport/guards';
 import { WhoAmI, Pagination, Permission, Filter } from 'assets/decorators';
-import { User } from '../auth/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { MenuService } from './menu.service';
 import { MenuLoader } from './menu.loader';
-import { CreateMenuInput } from './dtos/create-menu.input';
-import { UpdateMenuInput } from './dtos/update-menu.input';
-import { PaginationInput } from 'assets/dtos';
-import { FilterMenuInput } from './dtos/filter-menu.args';
+import { CreateMenuInput } from './dto/create-menu.input';
+import { UpdateMenuInput } from './dto/update-menu.input';
+import { PaginationInput } from 'assets/dto';
+import { FilterMenuInput } from './dto/filter-menu.args';
 
 @Resolver(() => Menu)
 export class MenuResolver {

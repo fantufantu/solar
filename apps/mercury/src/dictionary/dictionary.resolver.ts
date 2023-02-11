@@ -6,10 +6,10 @@ import { Dictionary } from './entities/dictionary.entity';
 import { Pagination, Permission } from 'assets/decorators';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
-import { PaginatedDictionaries } from './dtos/paginated-dictionaries';
-import { PaginationInput } from 'assets/dtos';
-import { CreateDictionaryInput } from './dtos/create-dictionary.input';
-import { UpdateDictionaryInput } from './dtos/update-dictionary.input';
+import { PaginatedDictionaries } from './dto/paginated-dictionaries';
+import { PaginationInput } from 'assets/dto';
+import { CreateDictionaryInput } from './dto/create-dictionary.input';
+import { UpdateDictionaryInput } from './dto/update-dictionary.input';
 
 @Resolver()
 export class DictionaryResolver {

@@ -8,9 +8,9 @@ import { Menu } from './entities/menu.entity';
 import { paginateQuery } from 'utils/api';
 import { RoleService } from '../role/role.service';
 import type { QueryParameters } from 'typings/api';
-import type { CreateMenuInput } from './dtos/create-menu.input';
-import type { FilterMenuInput } from './dtos/filter-menu.args';
-import type { UpdateMenuInput } from './dtos/update-menu.input';
+import type { CreateMenuInput } from './dto/create-menu.input';
+import type { FilterMenuInput } from './dto/filter-menu.args';
+import type { UpdateMenuInput } from './dto/update-menu.input';
 import type { AuthorizationResource } from '../auth/entities/authorization-resource.entity';
 
 @Injectable()

@@ -7,8 +7,8 @@ import type { Repository } from 'typeorm';
 import { DictionaryEnum } from './entities/dictionary-enum.entity';
 import { paginateQuery } from 'utils/api';
 import type { QueryParameters } from 'typings/api';
-import type { CreateDictionaryEnumInput } from './dtos/create-dictionary-enum.input';
-import type { UpdateDictionaryEnumInput } from './dtos/update-dictionary-enum.input';
+import type { CreateDictionaryEnumInput } from './dto/create-dictionary-enum.input';
+import type { UpdateDictionaryEnumInput } from './dto/update-dictionary-enum.input';
 
 @Injectable()
 export class DictionaryEnumService {

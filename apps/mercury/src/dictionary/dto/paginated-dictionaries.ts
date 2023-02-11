@@ -1,7 +1,7 @@
 // nest
 import { ObjectType } from '@nestjs/graphql';
 // project
-import { Paginated } from 'assets/dtos';
+import { Paginated } from 'assets/dto';
 import { Dictionary } from '../entities/dictionary.entity';
 
 @ObjectType()

@@ -2,14 +2,13 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 // project
 import { AuthService } from './auth.service';
-import { PaginatedAuthorizations } from './dtos/paginated-authorizations';
-import { AuthorizationNode } from './dtos/authorization-node';
+import { PaginatedAuthorizations } from './dto/paginated-authorizations';
+import { AuthorizationNode } from './dto/authorization-node';
 import { AuthorizationResource } from './entities/authorization-resource.entity';
 import { AuthorizationAction } from './entities/authorization-action.entity';
-import { LoginInput } from './dtos/login.input';
-import { RegisterInput } from './dtos/register.input';
-import { AuthorizationsArgs } from './dtos/authorizations.args';
-import { SendCaptchaArgs } from './dtos/send-captcha.args';
+import { LoginInput } from './dto/login.input';
+import { RegisterInput } from './dto/register.input';
+import { AuthorizationsArgs } from './dto/authorizations.args';
 
 @Resolver()
 export class AuthResolver {
@@ -62,13 +61,5 @@ export class AuthResolver {
   })
   setAuthorizations(@Args() args: AuthorizationsArgs) {
     return this.authService.setAuthorizations(args);
-  }
-
-  @Mutation(() => Date, {
-    description: '发送验证码',
-    nullable: true,
-  })
-  sendCaptcha(@Args() sendCaptchaArgs: SendCaptchaArgs) {
-    return this.authService.sendCaptcha(sendCaptchaArgs);
   }
 }

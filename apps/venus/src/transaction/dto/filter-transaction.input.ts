@@ -1,6 +1,6 @@
 // nest
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
-import { Paginated } from 'assets/dtos';
+import { Paginated } from 'assets/dto';
 // project
 import { Direction, Transaction } from '../entities/transaction.entity';
 

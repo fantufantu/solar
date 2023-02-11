@@ -1,4 +1,4 @@
-import { PaginateArgs } from 'assets/dtos/pagination.input';
+import { PaginateArgs } from 'assets/dto/pagination.input';
 
 interface SortArgs {
   [columnName: string]:

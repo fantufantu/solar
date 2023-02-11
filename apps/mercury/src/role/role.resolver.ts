@@ -10,14 +10,14 @@ import {
 } from '@nestjs/graphql';
 // project
 import { Pagination, Permission } from 'assets/decorators';
-import { PaginationInput } from 'assets/dtos';
+import { PaginationInput } from 'assets/dto';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
-import { PaginatedRole } from './dtos/paginated-roles';
+import { PaginatedRole } from './dto/paginated-roles';
 import { Role } from './entities/role.entity';
 import { RoleService } from './role.service';
-import { CreateRoleInput } from './dtos/create-role.input';
-import { UpdateRoleInput } from './dtos/update-role.input';
+import { CreateRoleInput } from './dto/create-role.input';
+import { UpdateRoleInput } from './dto/update-role.input';
 
 @Resolver(() => Role)
 export class RoleResolver {

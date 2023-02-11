@@ -12,12 +12,12 @@ import { Pagination, Permission } from 'assets/decorators';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import { Menu } from '../menu/entities/menu.entity';
-import { PaginatedTenants } from './dtos/paginated-tenants';
+import { PaginatedTenants } from './dto/paginated-tenants';
 import { Tenant } from './entities/tenant.entity';
 import { TenantService } from './tenant.service';
-import { PaginationInput } from 'assets/dtos';
-import { CreateTenantInput } from './dtos/create-tenant.input';
-import { UpdateTenantInput } from './dtos/update-tenant.input';
+import { PaginationInput } from 'assets/dto';
+import { CreateTenantInput } from './dto/create-tenant.input';
+import { UpdateTenantInput } from './dto/update-tenant.input';
 
 @Resolver(() => Tenant)
 export class TenantResolver {

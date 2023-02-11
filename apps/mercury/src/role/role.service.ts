@@ -9,9 +9,9 @@ import { paginateQuery } from 'utils/api';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import type { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import type { Authorization } from '../auth/entities/authorization.entity';
-import type { User } from '../auth/entities/user.entity';
-import type { CreateRoleInput } from './dtos/create-role.input';
-import type { UpdateRoleInput } from './dtos/update-role.input';
+import type { User } from '../user/entities/user.entity';
+import type { CreateRoleInput } from './dto/create-role.input';
+import type { UpdateRoleInput } from './dto/update-role.input';
 import type { PermissionOptions } from 'assets/decorators';
 import type { QueryParameters } from 'typings/api';
 

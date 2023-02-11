@@ -5,11 +5,11 @@ import { Pagination, Permission } from 'assets/decorators';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import { DictionaryEnumService } from './dictionary-enum.service';
-import { PaginatedDictionaryEnum } from './dtos/paginated-dictionary-enums';
+import { PaginatedDictionaryEnum } from './dto/paginated-dictionary-enums';
 import { DictionaryEnum } from './entities/dictionary-enum.entity';
-import { PaginationInput } from 'assets/dtos';
-import { CreateDictionaryEnumInput } from './dtos/create-dictionary-enum.input';
-import { UpdateDictionaryEnumInput } from './dtos/update-dictionary-enum.input';
+import { PaginationInput } from 'assets/dto';
+import { CreateDictionaryEnumInput } from './dto/create-dictionary-enum.input';
+import { UpdateDictionaryEnumInput } from './dto/update-dictionary-enum.input';
 
 @Resolver()
 export class DictionaryEnumResolver {

@@ -6,9 +6,9 @@ import type { Repository } from 'typeorm';
 // project
 import { Dictionary } from './entities/dictionary.entity';
 import { paginateQuery } from 'utils/api';
-import type { CreateDictionaryInput } from './dtos/create-dictionary.input';
+import type { CreateDictionaryInput } from './dto/create-dictionary.input';
 import type { QueryParameters } from 'typings/api';
-import type { UpdateDictionaryInput } from './dtos/update-dictionary.input';
+import type { UpdateDictionaryInput } from './dto/update-dictionary.input';
 
 @Injectable()
 export class DictionaryService {

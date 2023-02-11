@@ -7,8 +7,8 @@ import type { Repository } from 'typeorm';
 import { Tenant } from './entities/tenant.entity';
 import { paginateQuery } from 'utils/api';
 import { MenuService } from '../menu/menu.service';
-import type { CreateTenantInput } from './dtos/create-tenant.input';
-import type { UpdateTenantInput } from './dtos/update-tenant.input';
+import type { CreateTenantInput } from './dto/create-tenant.input';
+import type { UpdateTenantInput } from './dto/update-tenant.input';
 import type { QueryParameters } from 'typings/api';
 
 @Injectable()

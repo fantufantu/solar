@@ -1,7 +1,7 @@
 // nest
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 // project
-import { Paginated } from 'assets/dtos';
+import { Paginated } from 'assets/dto';
 import { Category } from '../entities/category.entity';
 
 @InputType()

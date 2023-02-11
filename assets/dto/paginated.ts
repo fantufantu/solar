@@ -2,7 +2,7 @@
 import { Type } from '@nestjs/common';
 import { Field, Int, ObjectType, PickType } from '@nestjs/graphql';
 // project
-import { PaginationInput } from './';
+import { PaginationInput } from '.';
 
 export const Paginated = <T>(classRef: Type<T>): any => {
   @ObjectType({ isAbstract: true })
