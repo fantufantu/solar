@@ -3,34 +3,34 @@ import { Injectable } from '@nestjs/common';
 // third
 import DataLoader = require('dataloader');
 // project
-import { Share, TargetType } from '../share/entities/share.entity';
+import { Sharing, TargetType } from '../sharing/entities/sharing.entity';
 import { User } from 'apps/mercury/src/auth/entities/user.entity';
-import { ShareService } from '../share/share.service';
+import { SharingService } from '../sharing/sharing.service';
 
 @Injectable()
 export class BillingLoader {
-  constructor(private readonly shareService: ShareService) {}
+  constructor(private readonly sharingService: SharingService) {}
 
   /**
    * 根据账本 id 获取分享信息
    */
-  public readonly getSharesByBillingId = new DataLoader<number, Share[]>(
+  public readonly getSharingsByBillingId = new DataLoader<number, Sharing[]>(
     async (billingIds: number[]) => {
       // 查询分享列表
-      const shares = await this.shareService.getShares({
+      const sharings = await this.sharingService.getSharings({
         targetType: TargetType.Billing,
         targetIds: billingIds,
       });
 
       // 按账本 id 归类
-      const groupedShares = shares.reduce((prev, share) => {
+      const groupedSharings = sharings.reduce((prev, sharing) => {
         return prev.set(
-          share.targetId,
-          (prev.get(share.targetId) || []).concat(share),
+          sharing.targetId,
+          (prev.get(sharing.targetId) || []).concat(sharing),
         );
-      }, new Map<number, Share[]>());
+      }, new Map<number, Sharing[]>());
 
-      return billingIds.map((billingId) => groupedShares.get(billingId));
+      return billingIds.map((billingId) => groupedSharings.get(billingId));
     },
     {
       cache: false,

@@ -6,7 +6,7 @@ import DataLoader = require('dataloader');
 import { User } from 'apps/mercury/src/auth/entities/user.entity';
 
 @Injectable()
-export class ShareLoader {
+export class SharingLoader {
   /**
    * 根据用户id获取用户信息
    */

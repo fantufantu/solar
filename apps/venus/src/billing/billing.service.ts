@@ -4,8 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 // third
 import { Repository } from 'typeorm';
 // project
-import { Share, TargetType } from '../share/entities/share.entity';
-import { ShareService } from '../share/share.service';
+import { Sharing, TargetType } from '../sharing/entities/sharing.entity';
+import { SharingService } from '../sharing/sharing.service';
 import { UserService } from '../user/user.service';
 import { CreateBillingInput } from './dto/create-billing.input';
 import { SetDefaultArgs } from './dto/set-default.args';
@@ -17,7 +17,7 @@ export class BillingService {
   constructor(
     @InjectRepository(Billing)
     private readonly billingRepository: Repository<Billing>,
-    private readonly shareService: ShareService,
+    private readonly sharingService: SharingService,
     private readonly userService: UserService,
   ) {}
 
@@ -40,9 +40,9 @@ export class BillingService {
     return await this.billingRepository
       .createQueryBuilder('billing')
       .leftJoinAndSelect(
-        Share,
-        'share',
-        'share.targetType = :targetType AND share.targetId = billing.id',
+        Sharing,
+        'sharing',
+        'sharing.targetType = :targetType AND sharing.targetId = billing.id',
         {
           targetType: TargetType.Billing,
         },
@@ -51,7 +51,7 @@ export class BillingService {
         isDeleted: false,
       })
       .andWhere(
-        '( billing.createdById = :userId OR share.sharedById = :userId )',
+        '( billing.createdById = :userId OR sharing.sharedById = :userId )',
         {
           userId,
         },
@@ -66,9 +66,9 @@ export class BillingService {
     return this.billingRepository
       .createQueryBuilder('billing')
       .leftJoinAndSelect(
-        Share,
-        'share',
-        'share.targetType = :targetType AND share.targetId = billing.id',
+        Sharing,
+        'sharing',
+        'sharing.targetType = :targetType AND sharing.targetId = billing.id',
         {
           targetType: TargetType.Billing,
         },
@@ -78,7 +78,7 @@ export class BillingService {
         isDeleted: false,
       })
       .andWhere(
-        '( billing.createdById = :userId OR share.sharedById = :userId )',
+        '( billing.createdById = :userId OR sharing.sharedById = :userId )',
         {
           userId,
         },
@@ -113,17 +113,17 @@ export class BillingService {
     // 删除分享
     // 账本创建人，删除当前账本的全部分享 -> 删除账本
     // 非账本创建人，仅删除当前账本的被分享条目即可
-    const isShareRemoved = await this.shareService.remove({
+    const isSharingRemoved = await this.sharingService.remove({
       targetId: id,
       targetType: TargetType.Billing,
       sharedById: isMine ? undefined : userId,
     });
 
-    if (!isMine) return isShareRemoved;
+    if (!isMine) return isSharingRemoved;
 
     // 分享删除成功执行删除账本
     return (
-      isShareRemoved &&
+      isSharingRemoved &&
       !!(
         await this.billingRepository.update(id, {
           isDeleted: true,

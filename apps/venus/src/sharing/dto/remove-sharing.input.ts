@@ -1,10 +1,10 @@
 // nest
 import { Field, InputType, Int } from '@nestjs/graphql';
 // project
-import { TargetType } from '../entities/share.entity';
+import { TargetType } from '../entities/sharing.entity';
 
 @InputType()
-export class RemoveShareInput {
+export class RemoveSharingInput {
   @Field(() => TargetType, {
     description: '目标类型',
   })

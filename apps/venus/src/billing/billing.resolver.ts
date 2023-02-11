@@ -18,7 +18,7 @@ import { JwtAuthGuard } from '@app/passport/guards';
 import { WhoAmI } from 'assets/decorators';
 import { User } from 'apps/mercury/src/auth/entities/user.entity';
 import { SetDefaultArgs } from './dto/set-default.args';
-import { Share } from '../share/entities/share.entity';
+import { Sharing } from '../sharing/entities/sharing.entity';
 import { BillingLoader } from './billing.loader';
 
 @Resolver(() => Billing)
@@ -93,12 +93,12 @@ export class BillingResolver {
     return this.billingService.setDefault(setDefaultArgs, user.id);
   }
 
-  @ResolveField('shares', () => [Share], {
+  @ResolveField('sharings', () => [Sharing], {
     description: '分享',
     nullable: true,
   })
-  getShares(@Parent() billing: Billing) {
-    return this.billingLoader.getSharesByBillingId.load(billing.id);
+  getSharings(@Parent() billing: Billing) {
+    return this.billingLoader.getSharingsByBillingId.load(billing.id);
   }
 
   @ResolveField('createdBy', () => User, {

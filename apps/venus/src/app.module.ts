@@ -6,7 +6,7 @@ import { DatabaseModule } from '@app/database';
 import { PassportModule } from '@app/passport';
 import { ApplicationToken } from 'assets/tokens';
 import { BillingModule } from './billing/billing.module';
-import { ShareModule } from './share/share.module';
+import { SharingModule } from './sharing/sharing.module';
 import { UserProfileModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
 import { TransactionModule } from './transaction/transaction.module';
@@ -27,7 +27,7 @@ import { MercuryClientModule } from '@app/mercury-client';
     // 账本
     BillingModule,
     // 分享
-    ShareModule,
+    SharingModule,
     // 分类
     CategoryModule,
     // 交易

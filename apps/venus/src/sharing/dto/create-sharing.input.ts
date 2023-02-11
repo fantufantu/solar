@@ -1,10 +1,10 @@
 // nest
 import { Field, InputType, Int } from '@nestjs/graphql';
 // project
-import { TargetType } from '../entities/share.entity';
+import { TargetType } from '../entities/sharing.entity';
 
 @InputType()
-export class CreateShareInput {
+export class CreateSharingInput {
   @Field(() => Int, {
     description: '目标id',
   })

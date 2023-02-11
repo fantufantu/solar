@@ -2,7 +2,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 // project
-import { ShareModule } from '../share/share.module';
+import { SharingModule } from '../sharing/sharing.module';
 import { BillingService } from './billing.service';
 import { BillingResolver } from './billing.resolver';
 import { BillingLoader } from './billing.loader';
@@ -13,7 +13,7 @@ import { Billing } from './entities/billing.entity';
   imports: [
     TypeOrmModule.forFeature([Billing]),
     UserProfileModule,
-    ShareModule,
+    SharingModule,
   ],
   providers: [BillingLoader, BillingService, BillingResolver],
 })

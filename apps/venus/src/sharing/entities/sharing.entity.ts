@@ -9,14 +9,14 @@ export enum TargetType {
 }
 
 registerEnumType(TargetType, {
-  name: 'ShareTargetType',
+  name: 'SharingTargetType',
   description: '共享对象类型',
 });
 
 @ObjectType()
 @Unique(['targetType', 'targetId', 'sharedById'])
 @Entity()
-export class Share {
+export class Sharing {
   @Field(() => TargetType, {
     description: '共享对象类型',
   })
