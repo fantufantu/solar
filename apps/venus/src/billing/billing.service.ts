@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 // project
 import { Share, TargetType } from '../share/entities/share.entity';
 import { ShareService } from '../share/share.service';
-import { UserProfileService } from '../user-profile/user-profile.service';
+import { UserService } from '../user/user.service';
 import { CreateBillingInput } from './dto/create-billing.input';
 import { SetDefaultArgs } from './dto/set-default.args';
 import { UpdateBillingInput } from './dto/update-billing.input';
@@ -18,7 +18,7 @@ export class BillingService {
     @InjectRepository(Billing)
     private readonly billingRepository: Repository<Billing>,
     private readonly shareService: ShareService,
-    private readonly userProfileService: UserProfileService,
+    private readonly userService: UserService,
   ) {}
 
   /**
@@ -146,11 +146,11 @@ export class BillingService {
     // 更新用户信息
     // 不存在 => 创建用户信息
     return (
-      (await this.userProfileService.update(userId, {
+      (await this.userService.update(userId, {
         defaultBillingId,
       })) ||
-      !!(await this.userProfileService.create({
-        userId,
+      !!(await this.userService.create({
+        id: userId,
         defaultBillingId,
       }))
     );

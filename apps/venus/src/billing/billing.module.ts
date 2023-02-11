@@ -6,7 +6,7 @@ import { ShareModule } from '../share/share.module';
 import { BillingService } from './billing.service';
 import { BillingResolver } from './billing.resolver';
 import { BillingLoader } from './billing.loader';
-import { UserProfileModule } from '../user-profile/user-profile.module';
+import { UserProfileModule } from '../user/user.module';
 import { Billing } from './entities/billing.entity';
 
 @Module({

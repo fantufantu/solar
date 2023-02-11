@@ -1,12 +1,19 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Billing } from '../../billing/entities/billing.entity';
 
 @ObjectType()
 @Entity()
-export class UserProfile {
+export class User {
   @PrimaryColumn()
-  userId: number;
+  id: number;
 
   @Column({
     nullable: true,
@@ -21,4 +28,10 @@ export class UserProfile {
     nullable: true,
   })
   defaultBilling?: Billing;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
