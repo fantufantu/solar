@@ -13,12 +13,13 @@ export class RegisterInput extends PickType(
     description: '用户名',
     nullable: true,
   })
-  username: string;
+  username?: string;
 
   @Field(() => String, {
     description: '密码',
+    nullable: true,
   })
-  password: string;
+  password?: string;
 
   @Field(() => String, {
     description: '验证码',

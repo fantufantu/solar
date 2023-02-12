@@ -48,8 +48,8 @@ export class User extends Foundation {
   emailAddress: string;
 
   @Field(() => String, {
-    nullable: true,
     description: '头像',
+    nullable: true,
   })
   @Column({
     nullable: true,

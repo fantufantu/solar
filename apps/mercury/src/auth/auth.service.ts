@@ -3,7 +3,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 // third
 import { compareSync } from 'bcrypt';
-import { constants, privateDecrypt } from 'crypto';
+import { constants, privateDecrypt, randomUUID } from 'crypto';
 // project
 import { PlutoClientService } from '@app/pluto-client';
 import { PassportService } from '@app/passport';
@@ -56,7 +56,7 @@ export class AuthService {
    * 注册
    */
   async register(registerInput: RegisterInput) {
-    // 验证邮箱有效性
+    // 邮箱验证
     await this.userService.verify({
       emailAddress: registerInput.emailAddress,
       captcha: registerInput.captcha,
@@ -232,13 +232,15 @@ export class AuthService {
   async signUp(registerInput: RegisterInput) {
     const { password, ...register } = registerInput;
     // 注册密码解密
-    const decryptedPassword = this.decryptByRsaPrivateKey(
-      password,
-      await this.plutoClient.getConfig<string>({
-        token: ConfigRegisterToken.Rsa,
-        property: RsaPropertyToken.PrivateKey,
-      }),
-    );
+    const decryptedPassword = password
+      ? this.decryptByRsaPrivateKey(
+          password,
+          await this.plutoClient.getConfig<string>({
+            token: ConfigRegisterToken.Rsa,
+            property: RsaPropertyToken.PrivateKey,
+          }),
+        )
+      : randomUUID();
 
     return await this.userService.create({
       ...register,
