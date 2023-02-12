@@ -18,8 +18,8 @@ export class MercuryClientService {
   /**
    * 根据用户id获取用户信息
    */
-  async getUserById(id: number): Promise<User> {
-    return await lastValueFrom(
+  async getUserById(id: number) {
+    return await lastValueFrom<User>(
       this.client.send(
         {
           cmd: CommandToken.GetUser,

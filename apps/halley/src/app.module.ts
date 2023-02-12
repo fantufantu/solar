@@ -1,8 +1,15 @@
-import { IntrospectAndCompose } from '@apollo/gateway';
+import { IntrospectAndCompose, RemoteGraphQLDataSource } from '@apollo/gateway';
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ServicePort } from 'assets/ports';
+
+class AuthenticatedDataSource extends RemoteGraphQLDataSource {
+  willSendRequest({ request, context }) {
+    const jwt = context.req?.headers.authorization;
+    jwt && request.http.headers.set('authorization', jwt);
+  }
+}
 
 @Module({
   imports: [
@@ -24,6 +31,9 @@ import { ServicePort } from 'assets/ports';
             },
           ],
         }),
+        buildService: (definition) => {
+          return new AuthenticatedDataSource(definition);
+        },
       },
     }),
   ],

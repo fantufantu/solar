@@ -8,6 +8,6 @@ import { JwtPropertyToken, ConfigRegisterToken } from 'assets/tokens';
 export default registerAs<Record<JwtPropertyToken, string>>(
   ConfigRegisterToken.Jwt,
   () => ({
-    secret: randomUUID(),
+    secret: process.env.JWT_SECRET || randomUUID(),
   }),
 );
