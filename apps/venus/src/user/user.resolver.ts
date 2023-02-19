@@ -21,13 +21,9 @@ export class UserResolver {
 
   @ResolveReference()
   resolveReference(reference: { __typename: string; id: number }) {
-    console.log('reference====', reference);
-
     return {
-      id: 3,
-      defaultBilling: {
-        id: 4,
-      },
+      id: reference.id,
+      defaultBilling: null,
     };
   }
 }
