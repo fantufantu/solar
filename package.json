@@ -37,7 +37,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^4.1.1",
     "rxjs": "^7.8.0",
-    "tencentcloud-sdk-nodejs": "^4.0.527",
+    "tencentcloud-sdk-nodejs": "^4.0.542",
     "typeorm": "^0.3.11"
   },
   "devDependencies": {
