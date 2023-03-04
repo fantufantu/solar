@@ -10,14 +10,11 @@
     "dev:mercury": "nest start mercury --watch",
     "dev:venus": "nest start venus --watch",
     "dev:halley": "nest start halley --watch",
-    "build:pluto": "nest build pluto",
-    "build:mercury": "nest build mercury",
-    "build:venus": "nest build venus",
-    "build:halley": "nest build halley",
     "start:pluto": "nest start pluto",
     "start:mercury": "nest start mercury",
     "start:venus": "nest start venus",
-    "start:halley": "nest start halley"
+    "start:halley": "nest start halley",
+    "build": "nest build pluto && nest build mercury && nest build venus && nest build halley"
   },
   "dependencies": {
     "@apollo/federation": "^0.38.1",
