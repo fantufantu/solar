@@ -8,7 +8,6 @@ import { Sharing, TargetType } from '../sharing/entities/sharing.entity';
 import { SharingService } from '../sharing/sharing.service';
 import { UserService } from '../user/user.service';
 import { CreateBillingInput } from './dto/create-billing.input';
-import { SetDefaultArgs } from '../user/dto/set-default.args';
 import { UpdateBillingInput } from './dto/update-billing.input';
 import { Billing } from './entities/billing.entity';
 
