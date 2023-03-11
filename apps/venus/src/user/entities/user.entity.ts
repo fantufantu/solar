@@ -19,6 +19,10 @@ export class User {
   @PrimaryColumn()
   id: number;
 
+  @Field(() => Int, {
+    nullable: true,
+    description: '默认账本 id',
+  })
   @Column({
     nullable: true,
   })

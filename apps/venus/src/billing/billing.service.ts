@@ -2,11 +2,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 // third
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 // project
 import { Sharing, TargetType } from '../sharing/entities/sharing.entity';
 import { SharingService } from '../sharing/sharing.service';
-import { UserService } from '../user/user.service';
 import { CreateBillingInput } from './dto/create-billing.input';
 import { UpdateBillingInput } from './dto/update-billing.input';
 import { Billing } from './entities/billing.entity';
@@ -17,7 +16,6 @@ export class BillingService {
     @InjectRepository(Billing)
     private readonly billingRepository: Repository<Billing>,
     private readonly sharingService: SharingService,
-    private readonly userService: UserService,
   ) {}
 
   /**
@@ -33,9 +31,9 @@ export class BillingService {
   }
 
   /**
-   * 查询多个账本
+   * 查询指定用户 id 相关的账本列表
    */
-  async getBillings(userId: number) {
+  async getBillingsByUserId(userId: number) {
     return await this.billingRepository
       .createQueryBuilder('billing')
       .leftJoinAndSelect(
@@ -129,5 +127,16 @@ export class BillingService {
         })
       ).affected
     );
+  }
+
+  /**
+   * 根据账本 id 列表，查询账本列表
+   */
+  async getBillingsByIds(ids: number[]): Promise<Billing[]> {
+    if (!(ids.length > 0)) return [];
+
+    return await this.billingRepository.findBy({
+      id: In(ids),
+    });
   }
 }

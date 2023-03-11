@@ -47,6 +47,7 @@ import { UserModule } from './user/user.module';
     DictionaryModule,
     // 字典枚举
     DictionaryEnumModule,
+    // 用户模块
     UserModule,
   ],
   controllers: [AppController],

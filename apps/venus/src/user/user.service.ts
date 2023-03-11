@@ -17,12 +17,12 @@ export class UserService {
   ) {}
 
   /**
-   * 查询用户信息
+   * 根据 id 查询用户信息
    * @param id
    * @returns
    */
-  getUser(id: number) {
-    return this.userRepository.findOneBy({
+  async getUserById(id: number) {
+    return await this.userRepository.findOneBy({
       id,
     });
   }

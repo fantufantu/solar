@@ -45,7 +45,7 @@ export class BillingResolver {
   })
   @UseGuards(JwtAuthGuard)
   getBillings(@WhoAmI() user: User) {
-    return this.billingService.getBillings(user.id);
+    return this.billingService.getBillingsByUserId(user.id);
   }
 
   @Query(() => Billing, {
