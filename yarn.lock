@@ -6148,10 +6148,10 @@ tar@^6.1.11:
     mkdirp "^1.0.3"
     yallist "^4.0.0"
 
-tencentcloud-sdk-nodejs@^4.0.527:
-  version "4.0.551"
-  resolved "https://registry.yarnpkg.com/tencentcloud-sdk-nodejs/-/tencentcloud-sdk-nodejs-4.0.551.tgz#e355331b08f21aff1bacfc62356cf70f13bec5f4"
-  integrity sha512-jTnjWwWxoNQXeKwqoLWKk6WYxGJXZ+p2+kBmnzOBMflyhUHCvyLYay/q6rKOaI4fsAvZ2u1Rph6fN5fO8RS5Hg==
+tencentcloud-sdk-nodejs@^4.0.558:
+  version "4.0.558"
+  resolved "https://registry.yarnpkg.com/tencentcloud-sdk-nodejs/-/tencentcloud-sdk-nodejs-4.0.558.tgz#86a74c18397fb9f54da00ec28599a8ab0a5f1ecb"
+  integrity sha512-nvvKvueQC2BhMo+AtoegJtbiyGEmo0umPiEGpm4z3I+y9xp0Sscsm5hZDvRlgdi0Kb9LRMVaLodkonYxgCNc2Q==
   dependencies:
     form-data "^3.0.0"
     get-stream "^6.0.0"
