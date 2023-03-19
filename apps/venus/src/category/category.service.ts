@@ -20,8 +20,6 @@ export class CategoryService {
 
   /**
    * 创建分类
-   * @param createCategoryInput
-   * @returns
    */
   create(createCategoryInput: CreateCategoryInput) {
     return this.categoryRepository.save(
@@ -31,8 +29,6 @@ export class CategoryService {
 
   /**
    * 查询分类列表
-   * @param query
-   * @returns
    */
   getCategories(queryParams?: QueryParameters<FilterCategoryInput>) {
     const { filter, ...otherQueryParams } = queryParams;
@@ -51,8 +47,6 @@ export class CategoryService {
 
   /**
    * 查询分类
-   * @param id
-   * @returns
    */
   getCategory(id: number) {
     return this.categoryRepository.findOneBy({
@@ -62,9 +56,6 @@ export class CategoryService {
 
   /**
    * 更新分类
-   * @param id
-   * @param updateCategoryInput
-   * @returns
    */
   async update(id: number, updateCategoryInput: UpdateCategoryInput) {
     return !!(
@@ -76,8 +67,6 @@ export class CategoryService {
 
   /**
    * 删除分类
-   * @param id
-   * @returns
    */
   async remove(id: number) {
     return !!(await this.categoryRepository.delete(id)).affected;

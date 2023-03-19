@@ -4,7 +4,7 @@ import { Field, Int, ObjectType, PickType } from '@nestjs/graphql';
 // project
 import { PaginationInput } from '.';
 
-export const Paginated = <T>(classRef: Type<T>): any => {
+export const Paginated = <T>(classRef: Type<T>) => {
   @ObjectType({ isAbstract: true })
   abstract class PaginatedType extends PickType(
     PaginationInput,
@@ -15,10 +15,7 @@ export const Paginated = <T>(classRef: Type<T>): any => {
     items: T[];
 
     @Field(() => Int, { description: '总条目数' })
-    totalCount: number;
-
-    @Field(() => Int, { description: '总页数' })
-    pageCount: number;
+    total: number;
   }
 
   return PaginatedType;

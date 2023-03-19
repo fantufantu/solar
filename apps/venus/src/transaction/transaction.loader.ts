@@ -16,13 +16,11 @@ export class TransactionLoader {
    */
   readonly getCategoryById = new DataLoader<number, Category>(
     async (ids: number[]) => {
-      const categories = (
-        await this.categoryService.getCategories({
-          filter: {
-            ids,
-          },
-        })
-      ).items;
+      const [categories] = await this.categoryService.getCategories({
+        filter: {
+          ids,
+        },
+      });
 
       return ids.map((id) => categories.find((category) => category.id === id));
     },

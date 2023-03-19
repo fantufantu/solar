@@ -44,7 +44,7 @@ export class BillingService {
           targetType: TargetType.Billing,
         },
       )
-      .where('isDeleted = :isDeleted', {
+      .where('billing.isDeleted = :isDeleted', {
         isDeleted: false,
       })
       .andWhere(
@@ -53,7 +53,7 @@ export class BillingService {
           userId,
         },
       )
-      .getMany();
+      .getManyAndCount();
   }
 
   /**

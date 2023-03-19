@@ -1,16 +1,10 @@
-import { PaginateArgs } from 'assets/dto/pagination.input';
+import { PaginationInput } from 'assets/dto/pagination.input';
+import { FindOperator, OrderByCondition } from 'typeorm';
 
-interface SortArgs {
-  [columnName: string]:
-    | ('ASC' | 'DESC')
-    | {
-        order: 'ASC' | 'DESC';
-        nulls?: 'NULLS FIRST' | 'NULLS LAST';
-      };
-}
+export type Filter = Record<string, string | number | boolean | FindOperator>;
 
-export interface QueryParameters<F = Record<string, any>> {
-  pagination?: PaginateArgs;
+export interface QueryParameters<F extends Filter | Filter[]> {
+  pagination?: PaginationInput;
   filter?: F;
-  sort?: SortArgs;
+  sort?: OrderByCondition;
 }
