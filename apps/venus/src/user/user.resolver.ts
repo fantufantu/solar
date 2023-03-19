@@ -41,6 +41,7 @@ export class UserResolver {
     nullable: true,
   })
   getDefaultBilling(@Parent() user: User) {
+    if (!user.defaultBillingId) return null;
     return this.userLoader.getBillingById.load(user.defaultBillingId);
   }
 }
