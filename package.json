@@ -17,10 +17,9 @@
     "build": "nest build pluto && nest build mercury && nest build venus && nest build halley"
   },
   "dependencies": {
-    "@apollo/federation": "^0.38.1",
     "@apollo/gateway": "^2.3.2",
     "@apollo/server": "^4.5.0",
-    "@apollo/subgraph": "^2.3.2",
+    "@apollo/subgraph": "^2.4.0",
     "@nestjs/apollo": "^11.0.3",
     "@nestjs/common": "^9.2.1",
     "@nestjs/config": "^2.2.0",
