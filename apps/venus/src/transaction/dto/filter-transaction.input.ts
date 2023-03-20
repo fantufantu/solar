@@ -1,8 +1,7 @@
 // nest
-import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
-import { Paginated } from 'assets/dto';
+import { Field, InputType, Int } from '@nestjs/graphql';
 // project
-import { Direction, Transaction } from '../entities/transaction.entity';
+import { Direction } from '../entities/transaction.entity';
 
 @InputType()
 export class FilterTransactionInput {
@@ -16,6 +15,3 @@ export class FilterTransactionInput {
   })
   directions: Direction[];
 }
-
-@ObjectType()
-export class PaginatedTransactions extends Paginated(Transaction) {}

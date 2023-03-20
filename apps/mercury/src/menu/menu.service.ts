@@ -7,7 +7,7 @@ import { In, Not, Repository } from 'typeorm';
 import { Menu } from './entities/menu.entity';
 import { paginateQuery } from 'utils/api';
 import { RoleService } from '../role/role.service';
-import type { QueryParameters } from 'typings/api';
+import type { QueryBy } from 'typings/api';
 import type { CreateMenuInput } from './dto/create-menu.input';
 import type { FilterMenuInput } from './dto/filter-menu.args';
 import type { UpdateMenuInput } from './dto/update-menu.input';
@@ -44,21 +44,18 @@ export class MenuService {
   /**
    * 分页查询菜单
    */
-  async getMenus(
-    queryParams?: QueryParameters<FilterMenuInput>,
-    userId?: number,
-  ) {
-    const { filter, ...otherQueryParams } = queryParams || {};
+  async getMenus(queryBy?: QueryBy<FilterMenuInput>, userId?: number) {
+    const { filter, ...otherQueryParams } = queryBy || {};
     const filters = [filter];
 
     // 角色权限
     if (userId) {
       const resourceCodes = await this.roleService.getResourceCodesByUserId(
         userId,
-        queryParams?.filter?.tenantCode,
+        queryBy?.filter?.tenantCode,
       );
 
-      // 排除权限外的menu id
+      // 排除权限外的 menu id
       const menuIds = (
         (await this.menuRepository
           .createQueryBuilder('menu')

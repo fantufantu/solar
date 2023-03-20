@@ -10,7 +10,7 @@ import { UpdateTransactionInput } from './dto/update-transaction.input';
 import { Direction, Transaction } from './entities/transaction.entity';
 import { paginateQuery } from 'utils/api';
 import { GroupedExpense, GroupExpenseArgs } from './dto/group-expense.args';
-import { QueryParameters } from 'typings/api';
+import { QueryBy } from 'typings/api';
 
 @Injectable()
 export class TransactionService {
@@ -36,11 +36,9 @@ export class TransactionService {
 
   /**
    * 查询交易列表
-   * @param queryParams
-   * @returns
    */
-  getTransactions(queryParams?: QueryParameters<FilterTransactionInput>) {
-    const { filter, ...otherQueryParams } = queryParams;
+  getTransactions(queryBy?: QueryBy<FilterTransactionInput>) {
+    const { filter, ...otherQueryParams } = queryBy;
     const { directions, ...otherFilterArgs } = filter;
 
     return paginateQuery(this.transactionRepository, {

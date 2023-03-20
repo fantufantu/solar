@@ -20,7 +20,7 @@ import {
   RsaPropertyToken,
 } from 'assets/tokens';
 import { UserService } from '../user/user.service';
-import type { QueryParameters } from 'typings/api';
+import type { QueryBy } from 'typings/api';
 import type { LoginInput } from './dto/login.input';
 import type { Repository } from 'typeorm';
 import type { AuthorizationNode } from './dto/authorization-node';
@@ -70,8 +70,8 @@ export class AuthService {
   /**
    * 分页查询权限
    */
-  getAuthorizations(queryParams?: QueryParameters) {
-    return paginateQuery(this.authorizationRepository, queryParams);
+  getAuthorizations(queryBy?: QueryBy) {
+    return paginateQuery(this.authorizationRepository, queryBy);
   }
 
   /**
@@ -79,7 +79,7 @@ export class AuthService {
    */
   async getAuthorizationTree() {
     // 查询租户列表
-    const tenants = (await this.tenantService.getTenants()).items;
+    const [tenants] = await this.tenantService.getTenants();
 
     // 权限表查询
     const authorizations = await this.authorizationRepository.find({

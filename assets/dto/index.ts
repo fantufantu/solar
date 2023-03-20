@@ -1,3 +1,3 @@
 export * from './pagination.input';
-export * from './paginated';
+export * from './paginated.factory';
 export * from './duration.args';

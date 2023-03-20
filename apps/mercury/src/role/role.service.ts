@@ -12,8 +12,8 @@ import type { Authorization } from '../auth/entities/authorization.entity';
 import type { User } from '../user/entities/user.entity';
 import type { CreateRoleInput } from './dto/create-role.input';
 import type { UpdateRoleInput } from './dto/update-role.input';
-import type { PermissionOptions } from 'assets/decorators';
-import type { QueryParameters } from 'typings/api';
+import type { PermitBy } from 'assets/decorators';
+import type { QueryBy } from 'typings/api';
 
 @Injectable()
 export class RoleService {
@@ -32,8 +32,8 @@ export class RoleService {
   /**
    * 分页查询角色
    */
-  getRoles(queryParams?: QueryParameters) {
-    return paginateQuery(this.roleRepository, queryParams);
+  getRoles(queryBy?: QueryBy) {
+    return paginateQuery(this.roleRepository, queryBy);
   }
 
   /**
@@ -127,7 +127,7 @@ export class RoleService {
   /**
    * 鉴权
    */
-  async isPermitted(userId: number, options: PermissionOptions) {
+  async isPermitted(userId: number, permitBy: PermitBy) {
     return !!(await this.roleRepository
       .createQueryBuilder('role')
       .innerJoin('role.users', 'user')
@@ -136,10 +136,10 @@ export class RoleService {
         userId,
       })
       .andWhere('authorization.resource = :resource', {
-        resource: options.resource,
+        resource: permitBy.resource,
       })
       .andWhere('authorization.action = :action', {
-        action: options.action,
+        action: permitBy.action,
       })
       .getCount());
   }

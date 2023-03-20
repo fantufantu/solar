@@ -1,8 +1,5 @@
 // nest
-import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
-// project
-import { Paginated } from 'assets/dto';
-import { Category } from '../entities/category.entity';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class FilterCategoryInput {
@@ -11,6 +8,3 @@ export class FilterCategoryInput {
   })
   ids: number[];
 }
-
-@ObjectType()
-export class PaginatedCategories extends Paginated(Category) {}

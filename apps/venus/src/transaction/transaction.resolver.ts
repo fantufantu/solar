@@ -17,13 +17,11 @@ import { TransactionLoader } from './transaction.loader';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@app/passport/guards';
 import { Filter, Pagination, WhoAmI } from 'assets/decorators';
-import {
-  FilterTransactionInput,
-  PaginatedTransactions,
-} from './dto/filter-transaction.input';
+import { FilterTransactionInput } from './dto/filter-transaction.input';
 import { PaginationInput } from 'assets/dto';
 import { Category } from '../category/entities/category.entity';
 import { User } from '../user/entities/user.entity';
+import { PaginatedTransactions } from './dto/paginated-transactions';
 
 @Resolver(() => Transaction)
 export class TransactionResolver {

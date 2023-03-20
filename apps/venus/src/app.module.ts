@@ -1,7 +1,11 @@
 // nest
 import { Module } from '@nestjs/common';
+import {
+  ApolloFederationDriver,
+  ApolloFederationDriverConfig,
+} from '@nestjs/apollo';
+import { GraphQLModule } from '@nestjs/graphql';
 // project
-
 import { DatabaseModule } from '@app/database';
 import { PassportModule } from '@app/passport';
 import { ApplicationToken } from 'assets/tokens';
@@ -11,11 +15,7 @@ import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { MercuryClientModule } from '@app/mercury-client';
-import { GraphQLModule } from '@nestjs/graphql';
-import {
-  ApolloFederationDriver,
-  ApolloFederationDriverConfig,
-} from '@nestjs/apollo';
+
 
 @Module({
   imports: [

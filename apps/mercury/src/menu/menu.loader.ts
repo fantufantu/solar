@@ -22,13 +22,11 @@ export class MenuLoader {
    */
   public readonly getMenuById = new DataLoader<number, Menu>(
     async (ids: number[]) => {
-      const menus = (
-        await this.menuService.getMenus({
-          filter: {
-            id: In(ids),
-          },
-        })
-      ).items;
+      const [menus] = await this.menuService.getMenus({
+        filter: {
+          id: In(ids),
+        },
+      });
 
       return ids.map((id) => menus.find((menu) => menu.id === id));
     },

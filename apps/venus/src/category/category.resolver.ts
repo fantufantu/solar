@@ -14,12 +14,10 @@ import { Category } from './entities/category.entity';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { CategoryLoader } from './category.loader';
-import {
-  FilterCategoryInput,
-  PaginatedCategories,
-} from './dto/filter-category.input';
+import { FilterCategoryInput } from './dto/filter-category.input';
 import { PaginationInput } from 'assets/dto';
 import { Filter, Pagination } from 'assets/decorators';
+import { PaginatedCategories } from './dto/paginated-categories';
 
 @Resolver(() => Category)
 export class CategoryResolver {
