@@ -4,7 +4,7 @@ import { Field, InputType, Int, PickType } from '@nestjs/graphql';
 import { DictionaryEnum } from '../entities/dictionary-enum.entity';
 
 @InputType()
-export class CreateDictionaryEnumInput extends PickType(
+export class CreateDictionaryEnumBy extends PickType(
   DictionaryEnum,
   ['code', 'description', 'sortBy'],
   InputType,

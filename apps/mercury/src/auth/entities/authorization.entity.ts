@@ -57,4 +57,12 @@ export class Authorization extends Foundation {
     default: false,
   })
   isDeleted: boolean;
+
+  public static uniqueBy(
+    tenantCode: string,
+    resourceCode: string,
+    actionCode: string,
+  ) {
+    return `${tenantCode}-${resourceCode}-${actionCode}`;
+  }
 }

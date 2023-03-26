@@ -1,11 +1,11 @@
 // nest
-import { ArgsType, Field, InputType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 // project
 import { AuthorizationActionCode } from '../entities/authorization-action.entity';
 import { AuthorizationResourceCode } from '../entities/authorization-resource.entity';
 
 @InputType()
-class AuthorizationInput {
+class Authorization {
   @Field(() => AuthorizationResourceCode, {
     description: '权限资源code',
   })
@@ -17,15 +17,15 @@ class AuthorizationInput {
   actionCodes: AuthorizationActionCode[];
 }
 
-@ArgsType()
-export class AuthorizationsArgs {
+@InputType()
+export class AuthorizeBy {
   @Field(() => String, {
-    description: '租户code',
+    description: '租户 code',
   })
   tenantCode: string;
 
-  @Field(() => [AuthorizationInput], {
-    description: '权限分配',
+  @Field(() => [Authorization], {
+    description: '权限范围',
   })
-  authorizations: AuthorizationInput[];
+  authorizations: Authorization[];
 }

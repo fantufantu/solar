@@ -4,4 +4,4 @@ import { InputType, PickType } from '@nestjs/graphql';
 import { Role } from '../entities/role.entity';
 
 @InputType()
-export class CreateRoleInput extends PickType(Role, ['name'], InputType) {}
+export class CreateRoleBy extends PickType(Role, ['name'], InputType) {}

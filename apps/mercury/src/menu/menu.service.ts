@@ -8,9 +8,9 @@ import { Menu } from './entities/menu.entity';
 import { paginateQuery } from 'utils/api';
 import { RoleService } from '../role/role.service';
 import type { QueryBy } from 'typings/api';
-import type { CreateMenuInput } from './dto/create-menu.input';
-import type { FilterMenuInput } from './dto/filter-menu.args';
-import type { UpdateMenuInput } from './dto/update-menu.input';
+import type { CreateMenuBy } from './dto/create-menu-by.input';
+import type { FilterMenuBy } from './dto/filter-menu-by.args';
+import type { UpdateMenuBy } from './dto/update-menu-by.input';
 import type { AuthorizationResource } from '../auth/entities/authorization-resource.entity';
 
 @Injectable()
@@ -24,11 +24,11 @@ export class MenuService {
   /**
    * 创建菜单
    */
-  async create(menu: CreateMenuInput) {
-    const { resourceCodes, ...createMenuInput } = menu;
+  async create(createBy: CreateMenuBy) {
+    const { resourceCodes, ...createByWithout } = createBy;
 
     const createdMenu = await this.menuRepository.save(
-      this.menuRepository.create(createMenuInput),
+      this.menuRepository.create(createByWithout),
     );
 
     resourceCodes &&
@@ -44,7 +44,7 @@ export class MenuService {
   /**
    * 分页查询菜单
    */
-  async getMenus(queryBy?: QueryBy<FilterMenuInput>, userId?: number) {
+  async getMenus(queryBy?: QueryBy<FilterMenuBy>, userId?: number) {
     const { filterBy = {}, ...queryByWithout } = queryBy || {};
     const filterBys = [filterBy];
 
@@ -79,7 +79,7 @@ export class MenuService {
         });
     }
 
-    return paginateQuery<Menu, FilterMenuInput[]>(this.menuRepository, {
+    return paginateQuery<Menu, FilterMenuBy[]>(this.menuRepository, {
       ...queryByWithout,
       filterBy: filterBys,
     });
@@ -95,16 +95,16 @@ export class MenuService {
   /**
    * 更新菜单
    */
-  async update(id: number, menu: UpdateMenuInput) {
-    const { resourceCodes, ...updateMenuInput } = menu;
+  async update(id: number, updateBy: UpdateMenuBy) {
+    const { resourceCodes, ...updateByWithout } = updateBy;
 
     // 更新菜单
-    !!Object.keys(updateMenuInput).length &&
+    !!Object.keys(updateByWithout).length &&
       (await this.menuRepository
         .createQueryBuilder()
         .update()
         .whereInIds(id)
-        .set(updateMenuInput)
+        .set(this.menuRepository.create(updateByWithout))
         .execute());
 
     // 更新关联的权限资源codes

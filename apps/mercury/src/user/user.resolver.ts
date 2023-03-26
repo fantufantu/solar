@@ -1,8 +1,10 @@
-import { JwtAuthGuard } from '@app/passport/guards';
+// nest
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+// project
+import { JwtAuthGuard } from '@app/passport/guards';
 import { WhoAmI } from 'assets/decorators';
-import { SendCaptchaArgs } from './dto/send-captcha.args';
+import { SendCaptchaBy } from './dto/send-captcha-by.input';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 
@@ -22,7 +24,7 @@ export class UserResolver {
     description: '发送验证码',
     nullable: true,
   })
-  sendCaptcha(@Args() sendCaptchaArgs: SendCaptchaArgs) {
-    return this.userService.sendCaptcha(sendCaptchaArgs);
+  sendCaptcha(@Args('sendCaptchaBy') sendCaptchaBy: SendCaptchaBy) {
+    return this.userService.sendCaptcha(sendCaptchaBy);
   }
 }

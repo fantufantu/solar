@@ -6,9 +6,9 @@ import type { Repository } from 'typeorm';
 // project
 import { Dictionary } from './entities/dictionary.entity';
 import { paginateQuery } from 'utils/api';
-import type { CreateDictionaryInput } from './dto/create-dictionary.input';
+import type { CreateDictionaryBy } from './dto/create-dictionary-by.input';
 import type { QueryBy } from 'typings/api';
-import type { UpdateDictionaryInput } from './dto/update-dictionary.input';
+import type { UpdateDictionaryBy } from './dto/update-dictionary-by.input';
 
 @Injectable()
 export class DictionaryService {
@@ -20,9 +20,9 @@ export class DictionaryService {
   /**
    * 创建字典
    */
-  create(dictionary: CreateDictionaryInput) {
+  create(createBy: CreateDictionaryBy) {
     return this.dictionaryRepository.save(
-      this.dictionaryRepository.create(dictionary),
+      this.dictionaryRepository.create(createBy),
     );
   }
 
@@ -43,14 +43,12 @@ export class DictionaryService {
   /**
    * 更新字典
    */
-  async update(id: number, dictionary: UpdateDictionaryInput) {
+  async update(id: number, updateBy: UpdateDictionaryBy) {
     return !!(
       await this.dictionaryRepository
         .createQueryBuilder()
         .update()
-        .set({
-          ...dictionary,
-        })
+        .set(this.dictionaryRepository.create(updateBy))
         .whereInIds(id)
         .execute()
     ).affected;

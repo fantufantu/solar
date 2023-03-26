@@ -7,9 +7,9 @@ import { AuthorizationResourceCode } from '../auth/entities/authorization-resour
 import { DictionaryEnumService } from './dictionary-enum.service';
 import { PaginatedDictionaryEnum } from './dto/paginated-dictionary-enums';
 import { DictionaryEnum } from './entities/dictionary-enum.entity';
-import { PaginationInput } from 'assets/dto';
-import { CreateDictionaryEnumInput } from './dto/create-dictionary-enum.input';
-import { UpdateDictionaryEnumInput } from './dto/update-dictionary-enum.input';
+import { PaginateBy } from 'assets/dto';
+import { CreateDictionaryEnumBy } from './dto/create-dictionary-enum-by.input';
+import { UpdateDictionaryEnumBy } from './dto/update-dictionary-enum-by.input';
 
 @Resolver()
 export class DictionaryEnumResolver {
@@ -23,10 +23,10 @@ export class DictionaryEnumResolver {
     action: AuthorizationActionCode.Create,
   })
   createDictionaryEnum(
-    @Args('createDictionaryEnumInput')
-    dictionaryEnum: CreateDictionaryEnumInput,
+    @Args('createDictionaryEnumBy')
+    createBy: CreateDictionaryEnumBy,
   ) {
-    return this.dictionaryEnumService.create(dictionaryEnum);
+    return this.dictionaryEnumService.create(createBy);
   }
 
   @Query(() => PaginatedDictionaryEnum, {
@@ -37,9 +37,9 @@ export class DictionaryEnumResolver {
     resource: AuthorizationResourceCode.DictionaryEnum,
     action: AuthorizationActionCode.Retrieve,
   })
-  getDictionaryEnums(@Pagination() pagination: PaginationInput) {
+  getDictionaryEnums(@Pagination() paginateBy: PaginateBy) {
     return this.dictionaryEnumService.getDictionaryEnums({
-      pagination,
+      paginateBy,
     });
   }
 
@@ -64,10 +64,10 @@ export class DictionaryEnumResolver {
   })
   updateDictionaryEnum(
     @Args('id', { type: () => Int }) id: number,
-    @Args('updateDictionaryEnumInput')
-    updateDictionaryEnumInput: UpdateDictionaryEnumInput,
+    @Args('updateDictionaryEnumBy')
+    updateBy: UpdateDictionaryEnumBy,
   ) {
-    return this.dictionaryEnumService.update(id, updateDictionaryEnumInput);
+    return this.dictionaryEnumService.update(id, updateBy);
   }
 
   @Mutation(() => Boolean, {

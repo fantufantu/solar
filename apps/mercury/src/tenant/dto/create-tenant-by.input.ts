@@ -4,7 +4,7 @@ import { InputType, PickType } from '@nestjs/graphql';
 import { Tenant } from '../entities/tenant.entity';
 
 @InputType()
-export class CreateTenantInput extends PickType(
+export class CreateTenantBy extends PickType(
   Tenant,
   ['code', 'name'],
   InputType,

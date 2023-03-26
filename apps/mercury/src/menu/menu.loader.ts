@@ -20,22 +20,22 @@ export class MenuLoader {
   /**
    * 根据id获取菜单
    */
-  public readonly getMenuById = new DataLoader<number, Menu>(
+  public readonly getMenuById = new DataLoader<number, Menu | undefined>(
     async (ids: number[]) => {
       const menus = (
         await this.menuService.getMenus({
-          filter: {
+          filterBy: {
             id: In(ids),
           },
         })
-      ).items;
+      )[0];
 
       return ids.map((id) => menus.find((menu) => menu.id === id));
     },
   );
 
   /**
-   * 根据id获取子菜单
+   * 根据 id 获取子菜单
    */
   public readonly getChildrenById = new DataLoader<number, Menu[]>(
     async (ids) => {
@@ -50,7 +50,9 @@ export class MenuLoader {
         .whereInIds(ids)
         .getMany();
 
-      return ids.map((id) => menus.find((menu) => menu.id === id).children);
+      return ids.map(
+        (id) => menus.find((menu) => menu.id === id)?.children || [],
+      );
     },
   );
 }

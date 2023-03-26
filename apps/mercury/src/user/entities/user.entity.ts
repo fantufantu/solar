@@ -16,7 +16,7 @@ import { hashSync } from 'bcrypt';
 import { IsEmail, MaxLength, MinLength, isURL } from 'class-validator';
 // project
 import { Foundation } from 'assets/entities/foundation.entity';
-import { UserEmail } from './user-email.entity';
+import { UserEmail } from './user-verification.entity';
 import { Role } from '../../role/entities/role.entity';
 
 @ObjectType()

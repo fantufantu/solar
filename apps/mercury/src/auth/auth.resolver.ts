@@ -8,7 +8,7 @@ import { AuthorizationResource } from './entities/authorization-resource.entity'
 import { AuthorizationAction } from './entities/authorization-action.entity';
 import { LoginBy } from './dto/login-by.input';
 import { RegisterBy } from './dto/register-by.input';
-import { AuthorizationsArgs } from './dto/authorizations.args';
+import { AuthorizeBy } from './dto/authorize-by.input';
 
 @Resolver()
 export class AuthResolver {
@@ -57,9 +57,9 @@ export class AuthResolver {
   }
 
   @Mutation(() => Boolean, {
-    description: '分配权限',
+    description: '授权',
   })
-  setAuthorizations(@Args() args: AuthorizationsArgs) {
-    return this.authService.setAuthorizations(args);
+  authorize(@Args('authorizeBy') authorizeBy: AuthorizeBy) {
+    return this.authService.authorize(authorizeBy);
   }
 }

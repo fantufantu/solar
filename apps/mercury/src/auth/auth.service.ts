@@ -13,7 +13,7 @@ import { Authorization } from './entities/authorization.entity';
 import { TenantService } from '../tenant/tenant.service';
 import { AuthorizationResource } from './entities/authorization-resource.entity';
 import { AuthorizationAction } from './entities/authorization-action.entity';
-import { AuthorizationsArgs } from './dto/authorizations.args';
+import { AuthorizeBy } from './dto/authorize-by.input';
 import {
   ConfigRegisterToken,
   JwtPropertyToken,
@@ -24,6 +24,7 @@ import type { QueryBy } from 'typings/api';
 import type { LoginBy } from './dto/login-by.input';
 import type { Repository } from 'typeorm';
 import type { AuthorizationNode } from './dto/authorization-node';
+import { Type } from '../user/entities/user-verification.entity';
 
 @Injectable()
 export class AuthService {
@@ -58,8 +59,9 @@ export class AuthService {
   async register(registerBy: RegisterBy) {
     // 邮箱验证
     await this.userService.verify({
-      emailAddress: registerBy.emailAddress,
+      verifiedBy: registerBy.emailAddress,
       captcha: registerBy.captcha,
+      type: Type.Email,
     });
     // 用户注册
     const user = await this.signUp(registerBy);
@@ -115,7 +117,10 @@ export class AuthService {
           // 不存在：生成资源节点 and 添加操作节点
           tenantNode.children.push({
             // 生成唯一key
-            key: `${authorization.tenant.code}:${authorization.resource.code}`,
+            key: [
+              authorization.tenant.code,
+              authorization.resource.code,
+            ].join(),
             title: authorization.resource.name,
             code: authorization.resource.code,
             children: [actionNode],
@@ -155,43 +160,53 @@ export class AuthService {
   /**
    * 分配权限
    */
-  async setAuthorizations(args: AuthorizationsArgs) {
-    const authorizeds = await this.authorizationRepository.find({
-      where: {
-        tenantCode: args.tenantCode,
-      },
-    });
+  async authorize(authorizeBy: AuthorizeBy) {
+    const authorizeds = (
+      await this.authorizationRepository.find({
+        where: {
+          tenantCode: authorizeBy.tenantCode,
+        },
+      })
+    ).reduce((prev, current) => {
+      return prev.set(
+        [current.tenantCode, current.resourceCode, current.actionCode].join(),
+        {
+          ...current,
+          isDeleted: true,
+        },
+      );
+    }, new Map<string, Authorization>());
 
-    // 设置为删除
-    authorizeds.forEach((authorized) => (authorized.isDeleted = true));
+    authorizeBy.authorizations.forEach((resource) => {
+      resource.actionCodes.forEach((actionCode) => {
+        const uniqueBy = [
+          authorizeBy.tenantCode,
+          resource.resourceCode,
+          actionCode,
+        ].join();
+        const authorized = authorizeds.get(uniqueBy);
 
-    args.authorizations.forEach((resource) => {
-      return resource.actionCodes.forEach((actionCode) => {
-        const authorized = authorizeds.find(
-          (authorized) =>
-            authorized.actionCode === actionCode &&
-            authorized.tenantCode === args.tenantCode &&
-            authorized.resourceCode === resource.resourceCode,
-        );
-
-        // 已存在，更新
-        if (authorized) {
-          authorized.isDeleted = false;
+        // 未授权，授权
+        if (!authorized) {
+          authorizeds.set(
+            uniqueBy,
+            this.authorizationRepository.create({
+              tenantCode: authorizeBy.tenantCode,
+              resourceCode: resource.resourceCode,
+              actionCode,
+            }),
+          );
           return;
         }
 
-        // 未存在，创建
-        authorizeds.push(
-          this.authorizationRepository.create({
-            tenantCode: args.tenantCode,
-            resourceCode: resource.resourceCode,
-            actionCode,
-          }),
-        );
+        authorized.isDeleted = false;
       });
     });
 
-    return !!(await this.authorizationRepository.save(authorizeds)).length;
+    return (
+      (await this.authorizationRepository.save([...authorizeds.values()]))
+        .length > 0
+    );
   }
 
   /**

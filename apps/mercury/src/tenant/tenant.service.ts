@@ -7,8 +7,8 @@ import type { Repository } from 'typeorm';
 import { Tenant } from './entities/tenant.entity';
 import { paginateQuery } from 'utils/api';
 import { MenuService } from '../menu/menu.service';
-import type { CreateTenantInput } from './dto/create-tenant.input';
-import type { UpdateTenantInput } from './dto/update-tenant.input';
+import type { CreateTenantBy } from './dto/create-tenant-by.input';
+import type { UpdateTenantBy } from './dto/update-tenant-by.input';
 import type { QueryBy } from 'typings/api';
 
 @Injectable()
@@ -22,10 +22,8 @@ export class TenantService {
   /**
    * 创建租户
    */
-  create(createTenantInput: CreateTenantInput) {
-    return this.tenantRepository.save(
-      this.tenantRepository.create(createTenantInput),
-    );
+  create(createBy: CreateTenantBy) {
+    return this.tenantRepository.save(this.tenantRepository.create(createBy));
   }
 
   /**
@@ -51,15 +49,13 @@ export class TenantService {
   /**
    * 更新租户
    */
-  async update(code: string, updateTenantInput: UpdateTenantInput) {
+  async update(code: string, updateBy: UpdateTenantBy) {
     return !!(
       await this.tenantRepository
         .createQueryBuilder()
         .update()
         .whereInIds(code)
-        .set({
-          ...updateTenantInput,
-        })
+        .set(this.tenantRepository.create(updateBy))
         .execute()
     ).affected;
   }

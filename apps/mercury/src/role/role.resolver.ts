@@ -10,14 +10,14 @@ import {
 } from '@nestjs/graphql';
 // project
 import { Pagination, Permission } from 'assets/decorators';
-import { PaginationInput } from 'assets/dto';
+import { PaginateBy } from 'assets/dto';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import { PaginatedRole } from './dto/paginated-roles';
 import { Role } from './entities/role.entity';
 import { RoleService } from './role.service';
-import { CreateRoleInput } from './dto/create-role.input';
-import { UpdateRoleInput } from './dto/update-role.input';
+import { CreateRoleBy } from './dto/create-role-by.input';
+import { UpdateRoleBy } from './dto/update-role-by.input';
 
 @Resolver(() => Role)
 export class RoleResolver {
@@ -30,8 +30,8 @@ export class RoleResolver {
     resource: AuthorizationResourceCode.Role,
     action: AuthorizationActionCode.Create,
   })
-  createRole(@Args('createRoleInput') role: CreateRoleInput) {
-    return this.roleService.create(role);
+  createRole(@Args('createRoleBy') createBy: CreateRoleBy) {
+    return this.roleService.create(createBy);
   }
 
   @Query(() => PaginatedRole, {
@@ -42,9 +42,9 @@ export class RoleResolver {
     resource: AuthorizationResourceCode.Role,
     action: AuthorizationActionCode.Retrieve,
   })
-  getRoles(@Pagination() pagination: PaginationInput) {
+  getRoles(@Pagination() paginateBy: PaginateBy) {
     return this.roleService.getRoles({
-      pagination,
+      paginateBy,
     });
   }
 
@@ -69,9 +69,9 @@ export class RoleResolver {
       type: () => Int,
     })
     id: number,
-    @Args('updateRoleInput') role: UpdateRoleInput,
+    @Args('updateRoleBy') updateBy: UpdateRoleBy,
   ) {
-    return this.roleService.update(id, role);
+    return this.roleService.update(id, updateBy);
   }
 
   @Mutation(() => Boolean, {

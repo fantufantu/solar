@@ -15,9 +15,9 @@ import { Menu } from '../menu/entities/menu.entity';
 import { PaginatedTenants } from './dto/paginated-tenants';
 import { Tenant } from './entities/tenant.entity';
 import { TenantService } from './tenant.service';
-import { PaginationInput } from 'assets/dto';
-import { CreateTenantInput } from './dto/create-tenant.input';
-import { UpdateTenantInput } from './dto/update-tenant.input';
+import { PaginateBy } from 'assets/dto';
+import { CreateTenantBy } from './dto/create-tenant-by.input';
+import { UpdateTenantBy } from './dto/update-tenant-by.input';
 
 @Resolver(() => Tenant)
 export class TenantResolver {
@@ -28,18 +28,16 @@ export class TenantResolver {
     resource: AuthorizationResourceCode.Tenant,
     action: AuthorizationActionCode.Create,
   })
-  createTenant(
-    @Args('createTenantInput') createTenantInput: CreateTenantInput,
-  ) {
-    return this.tenantService.create(createTenantInput);
+  createTenant(@Args('createTenantBy') createBy: CreateTenantBy) {
+    return this.tenantService.create(createBy);
   }
 
   @Query(() => PaginatedTenants, {
     name: 'tenants',
     description: '分页查询租户',
   })
-  getTenants(@Pagination() pagination: PaginationInput) {
-    return this.tenantService.getTenants({ pagination });
+  getTenants(@Pagination() paginateBy: PaginateBy) {
+    return this.tenantService.getTenants({ paginateBy });
   }
 
   @Query(() => Tenant, {
@@ -67,9 +65,9 @@ export class TenantResolver {
   })
   updateTenant(
     @Args('code', { type: () => String }) code: string,
-    @Args('updateTenantInput') updateTenantInput: UpdateTenantInput,
+    @Args('updateTenantBy') updateBy: UpdateTenantBy,
   ) {
-    return this.tenantService.update(code, updateTenantInput);
+    return this.tenantService.update(code, updateBy);
   }
 
   @Mutation(() => Boolean, { description: '删除租户' })

@@ -46,7 +46,7 @@ export const WhoAmI = createParamDecorator(
  * 分页入参
  */
 export const Pagination = () => {
-  return Args('pagination', {
+  return Args('paginateBy', {
     nullable: true,
   });
 };
@@ -55,7 +55,7 @@ export const Pagination = () => {
  * 筛选入参
  */
 export const Filter = (options?: Pick<ArgsOptions, 'type' | 'nullable'>) => {
-  return Args('filter', {
+  return Args('filterBy', {
     nullable: true,
     description: '筛选条件',
     ...options,

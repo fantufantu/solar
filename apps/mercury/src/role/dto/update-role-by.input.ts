@@ -1,10 +1,10 @@
 // nest
 import { Field, InputType, Int, PartialType } from '@nestjs/graphql';
 // project
-import { CreateRoleInput } from './create-role.input';
+import { CreateRoleBy } from './create-role-by.input';
 
 @InputType()
-export class UpdateRoleInput extends PartialType(CreateRoleInput) {
+export class UpdateRoleBy extends PartialType(CreateRoleBy) {
   @Field(() => [Int], {
     description: '角色关联的用户id',
     nullable: true,

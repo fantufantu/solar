@@ -10,8 +10,8 @@ import { AuthorizationActionCode } from '../auth/entities/authorization-action.e
 import type { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import type { Authorization } from '../auth/entities/authorization.entity';
 import type { User } from '../user/entities/user.entity';
-import type { CreateRoleInput } from './dto/create-role.input';
-import type { UpdateRoleInput } from './dto/update-role.input';
+import type { CreateRoleBy } from './dto/create-role-by.input';
+import type { UpdateRoleBy } from './dto/update-role-by.input';
 import type { PermissionOptions } from 'assets/decorators';
 import type { QueryBy } from 'typings/api';
 
@@ -25,8 +25,8 @@ export class RoleService {
   /**
    * 创建角色
    */
-  create(role: CreateRoleInput) {
-    return this.roleRepository.save(this.roleRepository.create(role));
+  create(createBy: CreateRoleBy) {
+    return this.roleRepository.save(this.roleRepository.create(createBy));
   }
 
   /**
@@ -46,8 +46,8 @@ export class RoleService {
   /**
    * 更新角色
    */
-  async update(id: number, role: UpdateRoleInput) {
-    const { userIds, authorizationIds, ...updateRoleInput } = role;
+  async update(id: number, updateBy: UpdateRoleBy) {
+    const { userIds, authorizationIds, ...updateByWithout } = updateBy;
 
     // 更新关联的用户
     userIds?.length &&
@@ -79,7 +79,7 @@ export class RoleService {
       await this.roleRepository
         .createQueryBuilder()
         .update()
-        .set(updateRoleInput)
+        .set(this.roleRepository.create(updateByWithout))
         .whereInIds(id)
         .execute()
     ).affected;

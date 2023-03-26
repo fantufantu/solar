@@ -4,7 +4,7 @@ import { InputType, PickType } from '@nestjs/graphql';
 import { Dictionary } from '../entities/dictionary.entity';
 
 @InputType()
-export class CreateDictionaryInput extends PickType(
+export class CreateDictionaryBy extends PickType(
   Dictionary,
   ['code', 'description', 'sortBy'],
   InputType,

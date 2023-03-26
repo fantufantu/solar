@@ -19,10 +19,10 @@ import { WhoAmI, Pagination, Permission, Filter } from 'assets/decorators';
 import { User } from '../user/entities/user.entity';
 import { MenuService } from './menu.service';
 import { MenuLoader } from './menu.loader';
-import { CreateMenuInput } from './dto/create-menu.input';
-import { UpdateMenuInput } from './dto/update-menu.input';
-import { PaginationInput } from 'assets/dto';
-import { FilterMenuInput } from './dto/filter-menu.args';
+import { CreateMenuBy } from './dto/create-menu-by.input';
+import { UpdateMenuBy } from './dto/update-menu-by.input';
+import { PaginateBy } from 'assets/dto';
+import { FilterMenuBy } from './dto/filter-menu-by.args';
 
 @Resolver(() => Menu)
 export class MenuResolver {
@@ -36,8 +36,8 @@ export class MenuResolver {
     resource: AuthorizationResourceCode.Menu,
     action: AuthorizationActionCode.Create,
   })
-  createMenu(@Args('createMenuInput') menu: CreateMenuInput): Promise<boolean> {
-    return this.menuService.create(menu);
+  createMenu(@Args('createMenuBy') createBy: CreateMenuBy): Promise<boolean> {
+    return this.menuService.create(createBy);
   }
 
   @Query(() => PaginatedMenus, {
@@ -46,15 +46,15 @@ export class MenuResolver {
   })
   @UseGuards(new JwtAuthGuard(true))
   getMenus(
-    @Pagination() pagination: PaginationInput,
-    @Filter() filter: FilterMenuInput,
+    @Pagination() paginateBy: PaginateBy,
+    @Filter() filterBy: FilterMenuBy,
     @WhoAmI() user: User,
   ) {
     return this.menuService.getMenus(
       {
-        pagination,
-        filter,
-        sort: {
+        paginateBy,
+        filterBy,
+        sortBy: {
           sortBy: 'ASC',
         },
       },
@@ -78,9 +78,9 @@ export class MenuResolver {
   })
   updateMenu(
     @Args('id', { type: () => Int }) id: number,
-    @Args('updateMenuInput') menu: UpdateMenuInput,
+    @Args('updateMenuBy') updateBy: UpdateMenuBy,
   ) {
-    return this.menuService.update(id, menu);
+    return this.menuService.update(id, updateBy);
   }
 
   @Mutation(() => Boolean, { description: '删除菜单' })
@@ -98,6 +98,7 @@ export class MenuResolver {
     nullable: true,
   })
   getParent(@Parent() menu: Menu) {
+    if (!menu.parentId) return null;
     return this.menuLoader.getMenuById.load(menu.parentId);
   }
 

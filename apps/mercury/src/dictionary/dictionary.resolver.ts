@@ -7,9 +7,9 @@ import { Pagination, Permission } from 'assets/decorators';
 import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import { PaginatedDictionaries } from './dto/paginated-dictionaries';
-import { PaginationInput } from 'assets/dto';
-import { CreateDictionaryInput } from './dto/create-dictionary.input';
-import { UpdateDictionaryInput } from './dto/update-dictionary.input';
+import { PaginateBy } from 'assets/dto';
+import { CreateDictionaryBy } from './dto/create-dictionary-by.input';
+import { UpdateDictionaryBy } from './dto/update-dictionary-by.input';
 
 @Resolver()
 export class DictionaryResolver {
@@ -20,10 +20,8 @@ export class DictionaryResolver {
     resource: AuthorizationResourceCode.Dictionary,
     action: AuthorizationActionCode.Create,
   })
-  createDictionary(
-    @Args('createDictionaryInput') dictionary: CreateDictionaryInput,
-  ) {
-    return this.dictionaryService.create(dictionary);
+  createDictionary(@Args('createDictionaryBy') createBy: CreateDictionaryBy) {
+    return this.dictionaryService.create(createBy);
   }
 
   @Query(() => PaginatedDictionaries, {
@@ -34,9 +32,9 @@ export class DictionaryResolver {
     resource: AuthorizationResourceCode.Dictionary,
     action: AuthorizationActionCode.Retrieve,
   })
-  getDictionaries(@Pagination() pagination: PaginationInput) {
+  getDictionaries(@Pagination() paginateBy: PaginateBy) {
     return this.dictionaryService.getDictionaries({
-      pagination,
+      paginateBy,
     });
   }
 
@@ -56,9 +54,9 @@ export class DictionaryResolver {
   })
   updateDictionary(
     @Args('id', { type: () => Int }) id: number,
-    @Args('updateDictionaryInput') updateDictionaryInput: UpdateDictionaryInput,
+    @Args('updateDictionaryBy') updateBy: UpdateDictionaryBy,
   ) {
-    return this.dictionaryService.update(id, updateDictionaryInput);
+    return this.dictionaryService.update(id, updateBy);
   }
 
   @Mutation(() => Boolean, { description: '删除字典' })

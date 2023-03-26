@@ -5,7 +5,7 @@ import { Menu } from '../entities/menu.entity';
 import { AuthorizationResourceCode } from '../../auth/entities/authorization-resource.entity';
 
 @InputType()
-export class CreateMenuInput extends PickType(
+export class CreateMenuBy extends PickType(
   Menu,
   ['name', 'sortBy', 'icon', 'tenantCode', 'parentId', 'component', 'to'],
   InputType,

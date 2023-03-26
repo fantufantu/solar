@@ -1,19 +1,32 @@
 // nest
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 // third
 import dayjs = require('dayjs');
-import { BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
+
+export enum Type {
+  Email = 'email',
+  Phone = 'phone',
+}
 
 @ObjectType()
 @Entity()
-export class UserEmail {
+export class UserVerification {
   @Field(() => String, {
-    description: '地址',
+    description: '验证地址',
   })
   @PrimaryColumn()
-  address: string;
+  verifiedBy: string;
 
-  @Field(() => Int, {
+  @Field(() => String, {
+    description: '验证类型',
+  })
+  @PrimaryColumn({
+    enum: Type,
+  })
+  type: Type;
+
+  @Field(() => String, {
     description: '验证码',
   })
   @Column({
@@ -40,10 +53,9 @@ export class UserEmail {
     nullable: true,
     default: null,
   })
-  sentAt: Date;
+  sentAt: Date | null;
 
-  @BeforeInsert()
-  generateCaptcha() {
+  loadCaptcha() {
     this.captcha = ('000000' + Math.floor(Math.random() * 1000000)).slice(-6);
     this.validTo = dayjs().add(24, 'h').toDate();
   }
