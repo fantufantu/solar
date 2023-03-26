@@ -105,7 +105,6 @@ export class MenuResolver {
   @ResolveField(() => [Menu], {
     description: '下级菜单',
     name: 'children',
-    nullable: true,
   })
   async getChildren(@Parent() menu: Menu) {
     return this.menuLoader.getChildrenById.load(menu.id);
