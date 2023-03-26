@@ -2,7 +2,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class LoginInput {
+export class LoginBy {
   @Field(() => String, {
     description: '用户关键字',
   })

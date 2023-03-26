@@ -13,7 +13,7 @@ import type { User } from '../user/entities/user.entity';
 import type { CreateRoleInput } from './dto/create-role.input';
 import type { UpdateRoleInput } from './dto/update-role.input';
 import type { PermissionOptions } from 'assets/decorators';
-import type { QueryParameters } from 'typings/api';
+import type { QueryBy } from 'typings/api';
 
 @Injectable()
 export class RoleService {
@@ -32,8 +32,8 @@ export class RoleService {
   /**
    * 分页查询角色
    */
-  getRoles(queryParams?: QueryParameters) {
-    return paginateQuery(this.roleRepository, queryParams);
+  getRoles(queryBy?: QueryBy<Role>) {
+    return paginateQuery(this.roleRepository, queryBy);
   }
 
   /**

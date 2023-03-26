@@ -6,7 +6,7 @@ import { PaginatedAuthorizations } from './dto/paginated-authorizations';
 import { AuthorizationNode } from './dto/authorization-node';
 import { AuthorizationResource } from './entities/authorization-resource.entity';
 import { AuthorizationAction } from './entities/authorization-action.entity';
-import { LoginInput } from './dto/login.input';
+import { LoginBy } from './dto/login-by.input';
 import { RegisterInput } from './dto/register.input';
 import { AuthorizationsArgs } from './dto/authorizations.args';
 
@@ -15,8 +15,8 @@ export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
   @Mutation(() => String, { description: '登录' })
-  login(@Args('loginInput') login: LoginInput) {
-    return this.authService.login(login);
+  login(@Args('loginBy') loginBy: LoginBy) {
+    return this.authService.login(loginBy);
   }
 
   @Mutation(() => String, { description: '注册' })

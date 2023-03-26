@@ -17,13 +17,11 @@ import { TransactionLoader } from './transaction.loader';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@app/passport/guards';
 import { Filter, Pagination, WhoAmI } from 'assets/decorators';
-import {
-  FilterTransactionInput,
-  PaginatedTransactions,
-} from './dto/filter-transaction.input';
+import { FilterTransactionBy } from './dto/filter-transaction.input';
 import { PaginationInput } from 'assets/dto';
 import { Category } from '../category/entities/category.entity';
 import { User } from '../user/entities/user.entity';
+import { PaginatedTransactions } from './dto/pagineted-transactions';
 
 @Resolver(() => Transaction)
 export class TransactionResolver {
@@ -53,26 +51,27 @@ export class TransactionResolver {
   @UseGuards(JwtAuthGuard)
   getTransactions(
     @Filter({
-      type: () => FilterTransactionInput,
+      type: () => FilterTransactionBy,
+      nullable: false,
     })
-    filter: FilterTransactionInput,
+    filterBy: FilterTransactionBy,
     @Pagination() pagination: PaginationInput,
   ) {
     return this.transactionService.getTransactions({
-      filter,
+      filter: filterBy,
       pagination,
     });
   }
 
   @Query(() => Transaction, {
     name: 'transaction',
-    description: '查询单个交易',
+    description: '根据 id 查询交易',
   })
   @UseGuards(JwtAuthGuard)
-  getTransaction(
+  getTransactionById(
     @Args('id', { type: () => Int, description: '交易id' }) id: number,
   ) {
-    return this.transactionService.getTransaction(id);
+    return this.transactionService.getTransactionById(id);
   }
 
   @Mutation(() => Boolean, {

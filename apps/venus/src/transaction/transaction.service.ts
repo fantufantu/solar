@@ -5,12 +5,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 // project
 import { CreateTransactionInput } from './dto/create-transaction.input';
-import { FilterTransactionInput } from './dto/filter-transaction.input';
+import { FilterTransactionBy } from './dto/filter-transaction.input';
 import { UpdateTransactionInput } from './dto/update-transaction.input';
 import { Direction, Transaction } from './entities/transaction.entity';
 import { paginateQuery } from 'utils/api';
 import { GroupedExpense, GroupExpenseArgs } from './dto/group-expense.args';
-import { QueryParameters } from 'typings/api';
+import { QueryBy } from 'typings/api';
 
 @Injectable()
 export class TransactionService {
@@ -36,31 +36,29 @@ export class TransactionService {
 
   /**
    * 查询交易列表
-   * @param queryParams
-   * @returns
    */
-  getTransactions(queryParams?: QueryParameters<FilterTransactionInput>) {
-    const { filter, ...otherQueryParams } = queryParams;
-    const { directions, ...otherFilterArgs } = filter;
+  getTransactions(queryBy: QueryBy<FilterTransactionBy>) {
+    const { filterBy, ...queryByWithout } = queryBy;
+    const { directions = [], ...otherFilterArgs } = filterBy || {};
 
     return paginateQuery(this.transactionRepository, {
-      ...otherQueryParams,
-      filter: {
+      ...queryByWithout,
+      filterBy: {
         ...otherFilterArgs,
         direction: In(directions),
       },
-      sort: {
+      sortBy: {
         createdAt: 'DESC',
       },
     });
   }
 
   /**
-   * 查询交易
+   * 根据 id 查询交易
    * @param id
    * @returns
    */
-  getTransaction(id: number) {
+  getTransactionById(id: number) {
     return this.transactionRepository
       .createQueryBuilder('transaction')
       .whereInIds(id)
@@ -74,10 +72,9 @@ export class TransactionService {
    * @returns
    */
   async update(id: number, updateTransactionInput: UpdateTransactionInput) {
-    return (
-      (await this.transactionRepository.update(id, updateTransactionInput))
-        .affected > 0
-    );
+    return !!(
+      await this.transactionRepository.update(id, updateTransactionInput)
+    ).affected;
   }
 
   /**
@@ -86,7 +83,7 @@ export class TransactionService {
    * @returns
    */
   async remove(id: number) {
-    return (await this.transactionRepository.delete(id)).affected > 0;
+    return !!(await this.transactionRepository.delete(id)).affected;
   }
 
   /**

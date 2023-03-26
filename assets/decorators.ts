@@ -54,7 +54,7 @@ export const Pagination = () => {
 /**
  * 筛选入参
  */
-export const Filter = (options?: Pick<ArgsOptions, 'type'>) => {
+export const Filter = (options?: Pick<ArgsOptions, 'type' | 'nullable'>) => {
   return Args('filter', {
     nullable: true,
     description: '筛选条件',

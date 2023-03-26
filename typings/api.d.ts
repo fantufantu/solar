@@ -1,10 +1,8 @@
-import { PaginationInput } from 'assets/dto/pagination.input';
-import { FindOperator, OrderByCondition } from 'typeorm';
+import { PaginateBy } from 'assets/dto/paginate-by.input';
+import { ObjectLiteral, OrderByCondition } from 'typeorm';
 
-export type Filter = Record<string, string | number | boolean | FindOperator>;
-
-export interface QueryParameters<F extends Filter | Filter[]> {
-  pagination?: PaginationInput;
-  filter?: F;
-  sort?: OrderByCondition;
+export interface QueryBy<F extends ObjectLiteral | ObjectLiteral[]> {
+  paginateBy?: PaginateBy;
+  filterBy?: F;
+  sortBy?: OrderByCondition;
 }

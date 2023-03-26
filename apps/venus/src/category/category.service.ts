@@ -8,7 +8,7 @@ import { CreateCategoryInput } from './dto/create-category.input';
 import { FilterCategoryInput } from './dto/filter-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { Category } from './entities/category.entity';
-import { QueryParameters } from 'typings/api';
+import { QueryBy } from 'typings/api';
 import { paginateQuery } from 'utils/api';
 
 @Injectable()
@@ -30,14 +30,14 @@ export class CategoryService {
   /**
    * 查询分类列表
    */
-  getCategories(queryParams?: QueryParameters<FilterCategoryInput>) {
-    const { filter, ...otherQueryParams } = queryParams;
-    const { ids, ...otherFilter } = filter || {};
+  getCategories(queryBy?: QueryBy<FilterCategoryInput>) {
+    const { filterBy, ...queryByWithout } = queryBy || {};
+    const { ids, ...filterByWithout } = filterBy || {};
 
     return paginateQuery(this.categoryRepository, {
-      ...otherQueryParams,
-      filter: {
-        ...otherFilter,
+      ...queryByWithout,
+      filterBy: {
+        ...filterByWithout,
         ...(ids && {
           id: In(ids),
         }),

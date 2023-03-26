@@ -7,7 +7,7 @@ import { In, Not, Repository } from 'typeorm';
 import { Menu } from './entities/menu.entity';
 import { paginateQuery } from 'utils/api';
 import { RoleService } from '../role/role.service';
-import type { QueryParameters } from 'typings/api';
+import type { QueryBy } from 'typings/api';
 import type { CreateMenuInput } from './dto/create-menu.input';
 import type { FilterMenuInput } from './dto/filter-menu.args';
 import type { UpdateMenuInput } from './dto/update-menu.input';
@@ -44,18 +44,15 @@ export class MenuService {
   /**
    * 分页查询菜单
    */
-  async getMenus(
-    queryParams?: QueryParameters<FilterMenuInput>,
-    userId?: number,
-  ) {
-    const { filter, ...otherQueryParams } = queryParams || {};
-    const filters = [filter];
+  async getMenus(queryBy?: QueryBy<FilterMenuInput>, userId?: number) {
+    const { filterBy = {}, ...queryByWithout } = queryBy || {};
+    const filterBys = [filterBy];
 
     // 角色权限
     if (userId) {
       const resourceCodes = await this.roleService.getResourceCodesByUserId(
         userId,
-        queryParams?.filter?.tenantCode,
+        queryBy?.filterBy?.tenantCode,
       );
 
       // 排除权限外的menu id
@@ -64,7 +61,7 @@ export class MenuService {
           .createQueryBuilder('menu')
           .leftJoinAndSelect('menu.resources', 'resource')
           .select('menu.id', 'id')
-          .where(filter || {})
+          .where(filterBy)
           .andWhere(
             resourceCodes.length
               ? 'resource.code NOT IN (:...resourceCodes)'
@@ -77,14 +74,14 @@ export class MenuService {
       ).map((item) => item.id);
 
       menuIds.length &&
-        filters.push({
+        filterBys.push({
           id: Not(In([menuIds])),
         });
     }
 
     return paginateQuery<Menu, FilterMenuInput[]>(this.menuRepository, {
-      ...otherQueryParams,
-      filter: filters,
+      ...queryByWithout,
+      filterBy: filterBys,
     });
   }
 
