@@ -12,7 +12,7 @@ import type { Authorization } from '../auth/entities/authorization.entity';
 import type { User } from '../user/entities/user.entity';
 import type { CreateRoleBy } from './dto/create-role-by.input';
 import type { UpdateRoleBy } from './dto/update-role-by.input';
-import type { PermissionOptions } from 'assets/decorators';
+import type { PermitBy } from 'assets/decorators';
 import type { QueryBy } from 'typings/api';
 
 @Injectable()
@@ -127,7 +127,7 @@ export class RoleService {
   /**
    * 鉴权
    */
-  async isPermitted(userId: number, options: PermissionOptions) {
+  async isPermitted(userId: number, permitBy: PermitBy) {
     return !!(await this.roleRepository
       .createQueryBuilder('role')
       .innerJoin('role.users', 'user')
@@ -136,10 +136,10 @@ export class RoleService {
         userId,
       })
       .andWhere('authorization.resource = :resource', {
-        resource: options.resource,
+        resource: permitBy.resource,
       })
       .andWhere('authorization.action = :action', {
-        action: options.action,
+        action: permitBy.action,
       })
       .getCount());
   }

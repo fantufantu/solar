@@ -17,7 +17,7 @@ import { PermissionGuard } from 'assets/guards';
 /**
  * 权限路径
  */
-export interface PermissionOptions {
+export interface PermitBy {
   resource: AuthorizationResourceCode;
   action: AuthorizationActionCode;
 }
@@ -25,9 +25,9 @@ export interface PermissionOptions {
 /**
  * 鉴权
  */
-export const Permission = (options: PermissionOptions) => {
+export const Permission = (permitBy: PermitBy) => {
   return applyDecorators(
-    SetMetadata(MetadataToken.Permission, options),
+    SetMetadata(MetadataToken.Permission, permitBy),
     UseGuards(JwtAuthGuard, PermissionGuard),
   );
 };
@@ -43,30 +43,32 @@ export const WhoAmI = createParamDecorator(
 );
 
 /**
- * 分页入参
+ * 分页参数
  */
 export const Pagination = () => {
   return Args('paginateBy', {
     nullable: true,
+    description: '分页参数',
   });
 };
 
 /**
- * 筛选入参
+ * 筛选参数
  */
 export const Filter = (options?: Pick<ArgsOptions, 'type' | 'nullable'>) => {
   return Args('filterBy', {
     nullable: true,
-    description: '筛选条件',
+    description: '筛选参数',
     ...options,
   });
 };
 
 /**
- * 排序入参
+ * 排序参数
  */
 export const Sort = () => {
   return Args('sort', {
     nullable: true,
+    description: '排序参数',
   });
 };

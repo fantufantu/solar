@@ -18,7 +18,7 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@app/passport/guards';
 import { Filter, Pagination, WhoAmI } from 'assets/decorators';
 import { FilterTransactionBy } from './dto/filter-transaction.input';
-import { PaginationInput } from 'assets/dto';
+import { PaginateBy } from 'assets/dto';
 import { Category } from '../category/entities/category.entity';
 import { User } from '../user/entities/user.entity';
 import { PaginatedTransactions } from './dto/pagineted-transactions';
@@ -55,11 +55,11 @@ export class TransactionResolver {
       nullable: false,
     })
     filterBy: FilterTransactionBy,
-    @Pagination() pagination: PaginationInput,
+    @Pagination() paginateBy: PaginateBy,
   ) {
     return this.transactionService.getTransactions({
-      filter: filterBy,
-      pagination,
+      filterBy,
+      paginateBy,
     });
   }
 

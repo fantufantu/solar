@@ -5,8 +5,8 @@ import type { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 // project
 import { CommandToken, ProviderToken } from 'assets/tokens';
-import type { PermissionOptions } from 'assets/decorators';
 import { User } from 'apps/mercury/src/user/entities/user.entity';
+import type { PermitBy } from 'assets/decorators';
 
 @Injectable()
 export class MercuryClientService {
@@ -32,7 +32,7 @@ export class MercuryClientService {
   /**
    * 鉴权
    */
-  isPermitted(userId: number, options: PermissionOptions) {
+  isPermitted(userId: number, permitBy: PermitBy) {
     return lastValueFrom(
       this.client.send<boolean>(
         {
@@ -40,7 +40,7 @@ export class MercuryClientService {
         },
         {
           userId,
-          ...options,
+          ...permitBy,
         },
       ),
     );

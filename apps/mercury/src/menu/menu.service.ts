@@ -55,7 +55,7 @@ export class MenuService {
         queryBy?.filterBy?.tenantCode,
       );
 
-      // 排除权限外的menu id
+      // 排除权限外的 menu id
       const menuIds = (
         (await this.menuRepository
           .createQueryBuilder('menu')
