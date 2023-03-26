@@ -7,7 +7,7 @@ import { AuthorizationNode } from './dto/authorization-node';
 import { AuthorizationResource } from './entities/authorization-resource.entity';
 import { AuthorizationAction } from './entities/authorization-action.entity';
 import { LoginBy } from './dto/login-by.input';
-import { RegisterInput } from './dto/register.input';
+import { RegisterBy } from './dto/register-by.input';
 import { AuthorizationsArgs } from './dto/authorizations.args';
 
 @Resolver()
@@ -20,8 +20,8 @@ export class AuthResolver {
   }
 
   @Mutation(() => String, { description: '注册' })
-  register(@Args('registerInput') register: RegisterInput) {
-    return this.authService.register(register);
+  register(@Args('registerBy') registerBy: RegisterBy) {
+    return this.authService.register(registerBy);
   }
 
   @Query(() => PaginatedAuthorizations, {

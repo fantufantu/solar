@@ -7,7 +7,7 @@ import { constants, privateDecrypt, randomUUID } from 'crypto';
 // project
 import { PlutoClientService } from '@app/pluto-client';
 import { PassportService } from '@app/passport';
-import { RegisterInput } from './dto/register.input';
+import { RegisterBy } from './dto/register-by.input';
 import { paginateQuery } from 'utils/api';
 import { Authorization } from './entities/authorization.entity';
 import { TenantService } from '../tenant/tenant.service';
@@ -43,9 +43,9 @@ export class AuthService {
   /**
    * 登录
    */
-  async login(login: LoginBy) {
+  async login(loginBy: LoginBy) {
     // 匹配用户信息
-    const user = await this.getValidUser(login);
+    const user = await this.getValidUser(loginBy);
     // error: 用户信息不存在
     if (!user) throw new UnauthorizedException();
     // 加密生成token
@@ -55,14 +55,14 @@ export class AuthService {
   /**
    * 注册
    */
-  async register(registerInput: RegisterInput) {
+  async register(registerBy: RegisterBy) {
     // 邮箱验证
     await this.userService.verify({
-      emailAddress: registerInput.emailAddress,
-      captcha: registerInput.captcha,
+      emailAddress: registerBy.emailAddress,
+      captcha: registerBy.captcha,
     });
     // 用户注册
-    const user = await this.signUp(registerInput);
+    const user = await this.signUp(registerBy);
     // 加密生成token
     return this.passportService.sign(user.id);
   }
@@ -197,9 +197,9 @@ export class AuthService {
   /**
    * 验证用户名/密码
    */
-  async getValidUser(payload: LoginBy) {
+  async getValidUser(loginBy: LoginBy) {
     // 根据关键字获取用户
-    const user = await this.userService.getUser(payload.keyword, {
+    const user = await this.userService.getUser(loginBy.keyword, {
       select: {
         id: true,
         password: true,
@@ -211,7 +211,7 @@ export class AuthService {
     // 校验密码
     const isPasswordValidate = compareSync(
       this.decryptByRsaPrivateKey(
-        payload.password,
+        loginBy.password,
         await this.plutoClient.getConfig<string>({
           token: ConfigRegisterToken.Jwt,
           property: JwtPropertyToken.Secret,
@@ -229,8 +229,8 @@ export class AuthService {
   /**
    * 用户创建
    */
-  async signUp(registerInput: RegisterInput) {
-    const { password, ...register } = registerInput;
+  async signUp(registerBy: RegisterBy) {
+    const { password, ...registerByWithout } = registerBy;
     // 注册密码解密
     const decryptedPassword = password
       ? this.decryptByRsaPrivateKey(
@@ -243,7 +243,7 @@ export class AuthService {
       : randomUUID();
 
     return await this.userService.create({
-      ...register,
+      ...registerByWithout,
       password: decryptedPassword,
     });
   }

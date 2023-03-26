@@ -4,7 +4,7 @@ import { User } from '../../user/entities/user.entity';
 // project
 
 @InputType()
-export class RegisterInput extends PickType(
+export class RegisterBy extends PickType(
   User,
   ['avatar', 'emailAddress'],
   InputType,
