@@ -11,11 +11,11 @@ import {
 // project
 import { CategoryService } from './category.service';
 import { Category } from './entities/category.entity';
-import { CreateCategoryInput } from './dto/create-category.input';
+import { CreateCategoryBy } from './dto/create-category-by.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { CategoryLoader } from './category.loader';
-import { FilterCategoryInput } from './dto/filter-category.input';
-import { PaginationInput } from 'assets/dto';
+import { FilterCategoryBy } from './dto/filter-category-by.input';
+import { PaginateBy } from 'assets/dto';
 import { Filter, Pagination } from 'assets/decorators';
 import { PaginatedCategories } from './dto/paginated-categories';
 
@@ -29,10 +29,8 @@ export class CategoryResolver {
   @Mutation(() => Category, {
     description: '创建分类',
   })
-  createCategory(
-    @Args('createCategoryInput') createCategoryInput: CreateCategoryInput,
-  ) {
-    return this.categoryService.create(createCategoryInput);
+  createCategory(@Args('createCategoryBy') createCategoryBy: CreateCategoryBy) {
+    return this.categoryService.create(createCategoryBy);
   }
 
   @Query(() => PaginatedCategories, {
@@ -40,12 +38,12 @@ export class CategoryResolver {
     description: '分页查询分类',
   })
   getCategories(
-    @Pagination() pagination: PaginationInput,
-    @Filter() filter: FilterCategoryInput,
+    @Pagination() paginateBy: PaginateBy,
+    @Filter() filterBy: FilterCategoryBy,
   ) {
     return this.categoryService.getCategories({
-      pagination,
-      filter,
+      paginateBy,
+      filterBy,
     });
   }
 

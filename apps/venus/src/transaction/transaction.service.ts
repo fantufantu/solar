@@ -4,8 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 // third
 import { In, Repository } from 'typeorm';
 // project
-import { CreateTransactionInput } from './dto/create-transaction.input';
-import { FilterTransactionBy } from './dto/filter-transaction.input';
+import { CreateTransactionBy } from './dto/create-transaction-by.input';
+import { FilterTransactionBy } from './dto/filter-transaction-by.input';
 import { UpdateTransactionInput } from './dto/update-transaction.input';
 import { Direction, Transaction } from './entities/transaction.entity';
 import { paginateQuery } from 'utils/api';
@@ -21,14 +21,11 @@ export class TransactionService {
 
   /**
    * 创建交易
-   * @param createTransactionInput
-   * @param createdById
-   * @returns
    */
-  create(createTransactionInput: CreateTransactionInput, createdById: number) {
+  create(createTransactionBy: CreateTransactionBy, createdById: number) {
     return this.transactionRepository.save(
       this.transactionRepository.create({
-        ...createTransactionInput,
+        ...createTransactionBy,
         createdById,
       }),
     );
@@ -39,12 +36,12 @@ export class TransactionService {
    */
   getTransactions(queryBy: QueryBy<FilterTransactionBy>) {
     const { filterBy, ...queryByWithout } = queryBy;
-    const { directions = [], ...otherFilterArgs } = filterBy || {};
+    const { directions = [], ...filterByWithout } = filterBy || {};
 
     return paginateQuery(this.transactionRepository, {
       ...queryByWithout,
       filterBy: {
-        ...otherFilterArgs,
+        ...filterByWithout,
         direction: In(directions),
       },
       sortBy: {

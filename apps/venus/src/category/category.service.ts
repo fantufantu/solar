@@ -4,8 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 // third
 import { In, Repository } from 'typeorm';
 // project
-import { CreateCategoryInput } from './dto/create-category.input';
-import { FilterCategoryInput } from './dto/filter-category.input';
+import { CreateCategoryBy } from './dto/create-category-by.input';
+import { FilterCategoryBy } from './dto/filter-category-by.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { Category } from './entities/category.entity';
 import { QueryBy } from 'typings/api';
@@ -21,16 +21,16 @@ export class CategoryService {
   /**
    * 创建分类
    */
-  create(createCategoryInput: CreateCategoryInput) {
+  create(createCategoryBy: CreateCategoryBy) {
     return this.categoryRepository.save(
-      this.categoryRepository.create(createCategoryInput),
+      this.categoryRepository.create(createCategoryBy),
     );
   }
 
   /**
    * 查询分类列表
    */
-  getCategories(queryBy?: QueryBy<FilterCategoryInput>) {
+  getCategories(queryBy?: QueryBy<FilterCategoryBy>) {
     const { filterBy, ...queryByWithout } = queryBy || {};
     const { ids, ...filterByWithout } = filterBy || {};
 

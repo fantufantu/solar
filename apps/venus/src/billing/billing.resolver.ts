@@ -12,8 +12,8 @@ import {
 // project
 import { BillingService } from './billing.service';
 import { Billing } from './entities/billing.entity';
-import { CreateBillingInput } from './dto/create-billing.input';
-import { UpdateBillingInput } from './dto/update-billing.input';
+import { CreateBillingBy } from './dto/create-billing-by.input';
+import { UpdateBillingBy } from './dto/update-billing-by.input';
 import { JwtAuthGuard } from '@app/passport/guards';
 import { WhoAmI } from 'assets/decorators';
 import { Sharing } from '../sharing/entities/sharing.entity';
@@ -32,11 +32,11 @@ export class BillingResolver {
   })
   @UseGuards(JwtAuthGuard)
   createBilling(
-    @Args('createBillingInput')
-    createBillingInput: CreateBillingInput,
+    @Args('createBillingBy')
+    createBillingBy: CreateBillingBy,
     @WhoAmI() user: User,
   ) {
-    return this.billingService.create(createBillingInput, user.id);
+    return this.billingService.create(createBillingBy, user.id);
   }
 
   @Query(() => [Billing], {
@@ -67,10 +67,10 @@ export class BillingResolver {
   @UseGuards(JwtAuthGuard)
   updateBilling(
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
-    @Args('updateBillingInput')
-    updateBillingInput: UpdateBillingInput,
+    @Args('updateBillingBy')
+    updateBillingBy: UpdateBillingBy,
   ) {
-    return this.billingService.update(id, updateBillingInput);
+    return this.billingService.update(id, updateBillingBy);
   }
 
   @Mutation(() => Boolean, {

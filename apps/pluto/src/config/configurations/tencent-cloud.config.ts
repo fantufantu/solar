@@ -7,10 +7,10 @@ export default registerAs<Record<TencentCloudPropertyToken, string>>(
   ConfigRegisterToken.TencentCloud,
   () => {
     return {
-      bucket: process.env.BUCKET,
-      region: process.env.REGION,
-      secretId: process.env.TENCENT_CLOUD_SECRET_ID,
-      secretKey: process.env.TENCENT_CLOUD_SECRET_KEY,
+      bucket: process.env.BUCKET || '',
+      region: process.env.REGION || '',
+      secretId: process.env.TENCENT_CLOUD_SECRET_ID || '',
+      secretKey: process.env.TENCENT_CLOUD_SECRET_KEY || '',
     };
   },
 );

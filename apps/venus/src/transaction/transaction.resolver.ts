@@ -11,17 +11,17 @@ import {
 // project
 import { TransactionService } from './transaction.service';
 import { Transaction } from './entities/transaction.entity';
-import { CreateTransactionInput } from './dto/create-transaction.input';
+import { CreateTransactionBy } from './dto/create-transaction-by.input';
 import { UpdateTransactionInput } from './dto/update-transaction.input';
 import { TransactionLoader } from './transaction.loader';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@app/passport/guards';
 import { Filter, Pagination, WhoAmI } from 'assets/decorators';
-import { FilterTransactionBy } from './dto/filter-transaction.input';
+import { FilterTransactionBy } from './dto/filter-transaction-by.input';
 import { PaginateBy } from 'assets/dto';
 import { Category } from '../category/entities/category.entity';
 import { User } from '../user/entities/user.entity';
-import { PaginatedTransactions } from './dto/pagineted-transactions';
+import { PaginatedTransactions } from './dto/paginated-transactions';
 
 @Resolver(() => Transaction)
 export class TransactionResolver {
@@ -35,13 +35,13 @@ export class TransactionResolver {
   })
   @UseGuards(JwtAuthGuard)
   createTransaction(
-    @Args('createTransactionInput', {
+    @Args('createTransactionBy', {
       description: '交易',
     })
-    createTransactionInput: CreateTransactionInput,
+    createTransactionBy: CreateTransactionBy,
     @WhoAmI() user: User,
   ) {
-    return this.transactionService.create(createTransactionInput, user.id);
+    return this.transactionService.create(createTransactionBy, user.id);
   }
 
   @Query(() => PaginatedTransactions, {

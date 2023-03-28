@@ -6,8 +6,8 @@ import { In, Repository } from 'typeorm';
 // project
 import { Sharing, TargetType } from '../sharing/entities/sharing.entity';
 import { SharingService } from '../sharing/sharing.service';
-import { CreateBillingInput } from './dto/create-billing.input';
-import { UpdateBillingInput } from './dto/update-billing.input';
+import { CreateBillingBy } from './dto/create-billing-by.input';
+import { UpdateBillingBy } from './dto/update-billing-by.input';
 import { Billing } from './entities/billing.entity';
 
 @Injectable()
@@ -21,10 +21,10 @@ export class BillingService {
   /**
    * 创建账本
    */
-  create(createBillingInput: CreateBillingInput, createdById: number) {
+  create(createBillingBy: CreateBillingBy, createdById: number) {
     return this.billingRepository.save(
       this.billingRepository.create({
-        ...createBillingInput,
+        ...createBillingBy,
         createdById,
       }),
     );
@@ -86,8 +86,11 @@ export class BillingService {
   /**
    * 更新账本信息
    */
-  update(id: number, updateBillingInput: UpdateBillingInput) {
-    return this.billingRepository.update(id, updateBillingInput);
+  update(id: number, updateBillingBy: UpdateBillingBy) {
+    return this.billingRepository.update(
+      id,
+      this.billingRepository.create(updateBillingBy),
+    );
   }
 
   /**

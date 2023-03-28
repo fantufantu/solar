@@ -9,9 +9,9 @@ import {
 // project
 import { SharingService } from './sharing.service';
 import { Sharing } from './entities/sharing.entity';
-import { CreateSharingInput } from './dto/create-sharing.input';
+import { CreateSharingBy } from './dto/create-sharing-by.input';
 import { SharingLoader } from './sharing.loader';
-import { RemoveSharingInput } from './dto/remove-sharing.input';
+import { RemoveSharingBy } from './dto/remove-sharing-by.input';
 import { User } from '../user/entities/user.entity';
 
 @Resolver(() => Sharing)
@@ -24,19 +24,15 @@ export class SharingResolver {
   @Mutation(() => Boolean, {
     description: '创建分享',
   })
-  createSharing(
-    @Args('createSharingInput') createSharingInput: CreateSharingInput,
-  ) {
-    return this.sharingService.create(createSharingInput);
+  createSharing(@Args('createSharingBy') createSharingBy: CreateSharingBy) {
+    return this.sharingService.create(createSharingBy);
   }
 
   @Mutation(() => Boolean, {
     description: '删除分享',
   })
-  removeSharing(
-    @Args('removeSharingInput') removeSharingInput: RemoveSharingInput,
-  ) {
-    return this.sharingService.remove(removeSharingInput);
+  removeSharing(@Args('removeSharingBy') removeSharingBy: RemoveSharingBy) {
+    return this.sharingService.remove(removeSharingBy);
   }
 
   @ResolveField('sharedBy', () => User, {

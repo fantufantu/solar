@@ -1,6 +1,6 @@
 import { TargetType } from '../entities/sharing.entity';
 
-export class FilterSharingArgs {
+export class FilterSharingBy {
   /**
    * 目标类型
    */

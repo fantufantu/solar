@@ -1,7 +1,7 @@
 // nest
 import { InputType, PartialType } from '@nestjs/graphql';
 // project
-import { CreateCategoryInput } from './create-category.input';
+import { CreateCategoryInput } from './create-category-by.input';
 
 @InputType()
 export class UpdateCategoryInput extends PartialType(CreateCategoryInput) {}

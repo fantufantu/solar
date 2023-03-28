@@ -4,9 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 // third
 import { Repository } from 'typeorm';
 // project
-import { CreateSharingInput } from './dto/create-sharing.input';
-import { FilterSharingArgs } from './dto/filter-sharing.args';
-import { RemoveSharingInput } from './dto/remove-sharing.input';
+import { CreateSharingBy } from './dto/create-sharing-by.input';
+import { FilterSharingBy } from './dto/filter-sharing-by.input';
+import { RemoveSharingBy } from './dto/remove-sharing-by.input';
 import { Sharing } from './entities/sharing.entity';
 
 @Injectable()
@@ -21,20 +21,20 @@ export class SharingService {
    * @param createSharingInput
    * @returns
    */
-  async create(createSharingInput: CreateSharingInput) {
+  async create(createSharingBy: CreateSharingBy) {
     // 删除已经存在的分享
     await this.remove({
-      targetType: createSharingInput.targetType,
-      targetId: createSharingInput.targetId,
+      targetType: createSharingBy.targetType,
+      targetId: createSharingBy.targetId,
     });
 
     // 存储分享
     return await this.sharingRepository.save(
-      createSharingInput.sharedByIds.map((sharedById) =>
+      createSharingBy.sharedByIds.map((sharedById) =>
         this.sharingRepository.create({
           sharedById,
-          targetId: createSharingInput.targetId,
-          targetType: createSharingInput.targetType,
+          targetId: createSharingBy.targetId,
+          targetType: createSharingBy.targetType,
         }),
       ),
     );
@@ -42,27 +42,25 @@ export class SharingService {
 
   /**
    * 删除分享
-   * @param removeSharingInput
-   * @returns
    */
-  async remove(removeSharingInput: RemoveSharingInput) {
+  async remove(removeSharingBy: RemoveSharingBy) {
     const qb = this.sharingRepository
       .createQueryBuilder()
       .delete()
       .where('targetId = :targetId', {
-        targetId: removeSharingInput.targetId,
+        targetId: removeSharingBy.targetId,
       })
       .andWhere('targetType = :targetType', {
-        targetType: removeSharingInput.targetType,
+        targetType: removeSharingBy.targetType,
       });
 
-    if (removeSharingInput.sharedById) {
+    if (removeSharingBy.sharedById) {
       qb.andWhere('sharedById = :sharedById', {
-        sharedById: removeSharingInput.sharedById,
+        sharedById: removeSharingBy.sharedById,
       });
     }
 
-    return (await qb.execute()).affected > 0;
+    return !!(await qb.execute()).affected;
   }
 
   /**
@@ -70,14 +68,14 @@ export class SharingService {
    * @param args
    * @returns
    */
-  async getSharings(args: FilterSharingArgs) {
+  async getSharings(filterBy: FilterSharingBy) {
     return await this.sharingRepository
       .createQueryBuilder()
       .where('targetType = :targetType', {
-        targetType: args.targetType,
+        targetType: filterBy.targetType,
       })
       .andWhere('targetId IN (:...targetIds)', {
-        targetIds: args.targetIds,
+        targetIds: filterBy.targetIds,
       })
       .getMany();
   }

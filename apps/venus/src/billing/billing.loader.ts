@@ -24,13 +24,17 @@ export class BillingLoader {
 
       // 按账本 id 归类
       const groupedSharings = sharings.reduce((prev, sharing) => {
-        return prev.set(
-          sharing.targetId,
-          (prev.get(sharing.targetId) || []).concat(sharing),
-        );
+        if (!prev.has(sharing.targetId)) {
+          return prev.set(sharing.targetId, [sharing]);
+        }
+
+        prev.get(sharing.targetId)!.push(sharing);
+        return prev;
       }, new Map<number, Sharing[]>());
 
-      return billingIds.map((billingId) => groupedSharings.get(billingId));
+      return billingIds.map(
+        (billingId) => groupedSharings.get(billingId) || [],
+      );
     },
     {
       cache: false,
