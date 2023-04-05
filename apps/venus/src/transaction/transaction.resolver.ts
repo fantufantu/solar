@@ -1,4 +1,5 @@
 // nest
+import { UseGuards } from '@nestjs/common';
 import {
   Resolver,
   Query,
@@ -12,9 +13,8 @@ import {
 import { TransactionService } from './transaction.service';
 import { Transaction } from './entities/transaction.entity';
 import { CreateTransactionBy } from './dto/create-transaction-by.input';
-import { UpdateTransactionInput } from './dto/update-transaction.input';
+import { UpdateTransactionBy } from './dto/update-transaction-by.input';
 import { TransactionLoader } from './transaction.loader';
-import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@app/passport/guards';
 import { Filter, Pagination, WhoAmI } from 'assets/decorators';
 import { FilterTransactionBy } from './dto/filter-transaction-by.input';
@@ -79,10 +79,10 @@ export class TransactionResolver {
   })
   updateTransaction(
     @Args('id', { type: () => Int, description: '交易id' }) id: number,
-    @Args('updateTransactionInput', { description: '交易' })
-    updateTransactionInput: UpdateTransactionInput,
+    @Args('updateTransactionBy', { description: '交易' })
+    updateTransactionBy: UpdateTransactionBy,
   ) {
-    return this.transactionService.update(id, updateTransactionInput);
+    return this.transactionService.update(id, updateTransactionBy);
   }
 
   @Mutation(() => Boolean)

@@ -14,15 +14,17 @@ export class TransactionLoader {
   /**
    * 根据分类 id 获取分类信息
    */
-  readonly getCategoryById = new DataLoader<number, Category>(
+  readonly getCategoryById = new DataLoader<number, Category | null>(
     async (ids: number[]) => {
       const [categories] = await this.categoryService.getCategories({
-        filter: {
+        filterBy: {
           ids,
         },
       });
 
-      return ids.map((id) => categories.find((category) => category.id === id));
+      return ids.map(
+        (id) => categories.find((category) => category.id === id) || null,
+      );
     },
   );
 

@@ -13,12 +13,14 @@ export class UserLoader {
   /**
    * 根据账本 id 获取账本信息
    */
-  public readonly getBillingById = new DataLoader<number, Billing>(
+  public readonly getBillingById = new DataLoader<number, Billing | null>(
     async (ids: number[]) => {
       // 查询账本列表
       const billings = await this.billingService.getBillingsByIds(ids);
       // id => 账本
-      return ids.map((id) => billings.find((billing) => billing.id === id));
+      return ids.map(
+        (id) => billings.find((billing) => billing.id === id) || null,
+      );
     },
     {
       cache: false,

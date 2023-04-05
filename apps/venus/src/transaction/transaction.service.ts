@@ -6,7 +6,7 @@ import { In, Repository } from 'typeorm';
 // project
 import { CreateTransactionBy } from './dto/create-transaction-by.input';
 import { FilterTransactionBy } from './dto/filter-transaction-by.input';
-import { UpdateTransactionInput } from './dto/update-transaction.input';
+import { UpdateTransactionBy } from './dto/update-transaction-by.input';
 import { Direction, Transaction } from './entities/transaction.entity';
 import { paginateQuery } from 'utils/api';
 import { GroupedExpense, GroupExpenseArgs } from './dto/group-expense.args';
@@ -64,14 +64,10 @@ export class TransactionService {
 
   /**
    * 更新交易
-   * @param id
-   * @param updateTransactionInput
-   * @returns
    */
-  async update(id: number, updateTransactionInput: UpdateTransactionInput) {
-    return !!(
-      await this.transactionRepository.update(id, updateTransactionInput)
-    ).affected;
+  async update(id: number, updateTransactionBy: UpdateTransactionBy) {
+    return !!(await this.transactionRepository.update(id, updateTransactionBy))
+      .affected;
   }
 
   /**

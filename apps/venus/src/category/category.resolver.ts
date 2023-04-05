@@ -12,7 +12,7 @@ import {
 import { CategoryService } from './category.service';
 import { Category } from './entities/category.entity';
 import { CreateCategoryBy } from './dto/create-category-by.input';
-import { UpdateCategoryInput } from './dto/update-category.input';
+import { UpdateCategoryBy } from './dto/update-category-by.input';
 import { CategoryLoader } from './category.loader';
 import { FilterCategoryBy } from './dto/filter-category-by.input';
 import { PaginateBy } from 'assets/dto';
@@ -63,12 +63,12 @@ export class CategoryResolver {
       description: '分类id',
     })
     id: number,
-    @Args('updateCategoryInput', {
+    @Args('updateCategoryBy', {
       description: '分类',
     })
-    updateCategoryInput: UpdateCategoryInput,
+    updateCategoryBy: UpdateCategoryBy,
   ) {
-    return this.categoryService.update(id, updateCategoryInput);
+    return this.categoryService.update(id, updateCategoryBy);
   }
 
   @Mutation(() => Boolean, {

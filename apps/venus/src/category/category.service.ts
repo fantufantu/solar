@@ -6,7 +6,7 @@ import { In, Repository } from 'typeorm';
 // project
 import { CreateCategoryBy } from './dto/create-category-by.input';
 import { FilterCategoryBy } from './dto/filter-category-by.input';
-import { UpdateCategoryInput } from './dto/update-category.input';
+import { UpdateCategoryBy } from './dto/update-category-by.input';
 import { Category } from './entities/category.entity';
 import { QueryBy } from 'typings/api';
 import { paginateQuery } from 'utils/api';
@@ -57,11 +57,12 @@ export class CategoryService {
   /**
    * 更新分类
    */
-  async update(id: number, updateCategoryInput: UpdateCategoryInput) {
+  async update(id: number, updateCategoryBy: UpdateCategoryBy) {
     return !!(
-      await this.categoryRepository.update(id, {
-        ...updateCategoryInput,
-      })
+      await this.categoryRepository.update(
+        id,
+        this.categoryRepository.create(updateCategoryBy),
+      )
     ).affected;
   }
 
