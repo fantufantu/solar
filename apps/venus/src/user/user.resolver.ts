@@ -1,5 +1,4 @@
 // nest
-import { JwtAuthGuard } from '@app/passport/guards';
 import { UseGuards } from '@nestjs/common';
 import {
   Args,
@@ -9,12 +8,14 @@ import {
   Resolver,
   ResolveReference,
 } from '@nestjs/graphql';
+// project
 import { WhoAmI } from 'assets/decorators';
 import { Billing } from '../billing/entities/billing.entity';
-import { SetDefaultArgs } from './dto/set-default.args';
+import { SetDefaultBillingBy } from './dto/set-default-billing-by.input';
 import { User } from './entities/user.entity';
 import { UserLoader } from './user.loader';
 import { UserService } from './user.service';
+import { JwtAuthGuard } from '@app/passport/guards';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -27,8 +28,11 @@ export class UserResolver {
     description: '设置默认账本',
   })
   @UseGuards(JwtAuthGuard)
-  setDefault(@Args() setDefaultArgs: SetDefaultArgs, @WhoAmI() user: User) {
-    return this.userService.setDefault(setDefaultArgs, user.id);
+  setDefaultBilling(
+    @Args('setDefaultBillingBy') setDefaultBillingBy: SetDefaultBillingBy,
+    @WhoAmI() user: User,
+  ) {
+    return this.userService.setDefaultBilling(setDefaultBillingBy, user.id);
   }
 
   @ResolveReference()

@@ -1,8 +1,8 @@
 // nest
-import { ArgsType, Field, Int } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
-@ArgsType()
-export class SetDefaultArgs {
+@InputType()
+export class SetDefaultBillingBy {
   @Field(() => Int, {
     description: '账本ID',
   })
