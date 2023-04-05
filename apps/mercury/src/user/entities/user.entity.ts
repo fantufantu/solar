@@ -7,16 +7,13 @@ import {
   BeforeUpdate,
   Column,
   Entity,
-  JoinColumn,
   ManyToMany,
-  OneToOne,
 } from 'typeorm';
 import { randomUUID } from 'crypto';
 import { hashSync } from 'bcrypt';
 import { IsEmail, MaxLength, MinLength, isURL } from 'class-validator';
 // project
 import { Foundation } from 'assets/entities/foundation.entity';
-import { UserEmail } from './user-verification.entity';
 import { Role } from '../../role/entities/role.entity';
 
 @ObjectType()
@@ -31,12 +28,6 @@ export class User extends Foundation {
   })
   @MaxLength(20)
   username: string;
-
-  @OneToOne(() => UserEmail, 'emailAddress', {
-    cascade: true,
-  })
-  @JoinColumn()
-  email: UserEmail;
 
   @Field(() => String, {
     description: '邮箱地址',
