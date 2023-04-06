@@ -1,10 +1,10 @@
 // nest
-import { ArgsType, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 // third
 import { IsEmail } from 'class-validator';
 import { Type } from '../entities/user-verification.entity';
 
-@ArgsType()
+@InputType()
 export class SendCaptchaBy {
   @Field(() => String, {
     description: '验证地址',
