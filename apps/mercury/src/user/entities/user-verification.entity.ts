@@ -1,13 +1,18 @@
 // nest
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 // third
 import dayjs = require('dayjs');
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-export enum Type {
+export enum UserVerificationType {
   Email = 'email',
   Phone = 'phone',
 }
+
+registerEnumType(UserVerificationType, {
+  name: 'UserVerificationType',
+  description: '用户验证类型',
+});
 
 @ObjectType()
 @Entity()
@@ -23,9 +28,9 @@ export class UserVerification {
   })
   @PrimaryColumn({
     type: 'enum',
-    enum: Type,
+    enum: UserVerificationType,
   })
-  type: Type;
+  type: UserVerificationType;
 
   @Field(() => String, {
     description: '验证码',

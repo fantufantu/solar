@@ -14,7 +14,7 @@
     "start:mercury": "nest start mercury",
     "start:venus": "nest start venus",
     "start:halley": "nest start halley",
-    "build": "nest build pluto && nest build mercury && nest build venus && nest build halley"
+    "build": "rimraf ./dist && nest build pluto && nest build mercury && nest build venus && nest build halley"
   },
   "dependencies": {
     "@apollo/gateway": "^2.3.2",

@@ -2,7 +2,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 // third
 import { IsEmail } from 'class-validator';
-import { Type } from '../entities/user-verification.entity';
+import { UserVerificationType } from '../entities/user-verification.entity';
 
 @InputType()
 export class SendCaptchaBy {
@@ -12,8 +12,8 @@ export class SendCaptchaBy {
   @IsEmail()
   to: string;
 
-  @Field(() => Type, {
+  @Field(() => UserVerificationType, {
     description: '验证方式',
   })
-  type: Type;
+  type: UserVerificationType;
 }
