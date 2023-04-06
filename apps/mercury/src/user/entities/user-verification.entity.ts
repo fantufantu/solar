@@ -13,7 +13,7 @@ export enum Type {
 @Entity()
 export class UserVerification {
   @Field(() => String, {
-    description: '验证地址',
+    description: '验证方式',
   })
   @PrimaryColumn()
   verifiedBy: string;
@@ -22,6 +22,7 @@ export class UserVerification {
     description: '验证类型',
   })
   @PrimaryColumn({
+    type: 'enum',
     enum: Type,
   })
   type: Type;
