@@ -24,7 +24,7 @@ import type { QueryBy } from 'typings/api';
 import type { LoginBy } from './dto/login-by.input';
 import type { Repository } from 'typeorm';
 import type { AuthorizationNode } from './dto/authorization-node';
-import { Type } from '../user/entities/user-verification.entity';
+import { UserVerificationType } from '../user/entities/user-verification.entity';
 
 @Injectable()
 export class AuthService {
@@ -61,7 +61,7 @@ export class AuthService {
     await this.userService.verify({
       verifiedBy: registerBy.emailAddress,
       captcha: registerBy.captcha,
-      type: Type.Email,
+      type: UserVerificationType.Email,
     });
     // 用户注册
     const user = await this.signUp(registerBy);
