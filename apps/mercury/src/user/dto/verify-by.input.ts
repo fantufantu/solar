@@ -1,7 +1,7 @@
-import { Type } from '../entities/user-verification.entity';
+import { UserVerificationType } from '../entities/user-verification.entity';
 
 export class VerifyBy {
   verifiedBy: string;
-  type: Type;
+  type: UserVerificationType;
   captcha: string;
 }
