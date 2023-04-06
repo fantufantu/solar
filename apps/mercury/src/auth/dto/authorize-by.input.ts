@@ -5,7 +5,7 @@ import { AuthorizationActionCode } from '../entities/authorization-action.entity
 import { AuthorizationResourceCode } from '../entities/authorization-resource.entity';
 
 @InputType()
-class Authorization {
+class AuthorizeWhat {
   @Field(() => AuthorizationResourceCode, {
     description: '权限资源code',
   })
@@ -24,8 +24,8 @@ export class AuthorizeBy {
   })
   tenantCode: string;
 
-  @Field(() => [Authorization], {
+  @Field(() => [AuthorizeWhat], {
     description: '权限范围',
   })
-  authorizations: Authorization[];
+  authorizations: AuthorizeWhat[];
 }
