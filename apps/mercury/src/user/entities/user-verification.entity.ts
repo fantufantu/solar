@@ -63,7 +63,6 @@ export class UserVerification {
   /**
    * 生成验证码
    */
-  @BeforeInsert()
   reload() {
     this.captcha = `000000${Math.floor(Math.random() * 1000000)}`.slice(-6);
     this.validTo = dayjs().add(24, 'h').toDate();
