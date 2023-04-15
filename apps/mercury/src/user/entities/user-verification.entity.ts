@@ -2,7 +2,7 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 // third
 import dayjs = require('dayjs');
-import { BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 export enum UserVerificationType {
   Email = 'email',
