@@ -14,17 +14,14 @@ import { TenantService } from '../tenant/tenant.service';
 import { AuthorizationResource } from './entities/authorization-resource.entity';
 import { AuthorizationAction } from './entities/authorization-action.entity';
 import { AuthorizeBy } from './dto/authorize-by.input';
-import {
-  ConfigRegisterToken,
-  JwtPropertyToken,
-  RsaPropertyToken,
-} from 'assets/tokens';
+import { ConfigRegisterToken, RsaPropertyToken } from 'assets/tokens';
 import { UserService } from '../user/user.service';
+import { UserVerificationType } from '../user/entities/user-verification.entity';
+// typings
 import type { QueryBy } from 'typings/api';
 import type { LoginBy } from './dto/login-by.input';
 import type { Repository } from 'typeorm';
 import type { AuthorizationNode } from './dto/authorization-node';
-import { UserVerificationType } from '../user/entities/user-verification.entity';
 
 @Injectable()
 export class AuthService {
@@ -228,8 +225,8 @@ export class AuthService {
       this.decryptByRsaPrivateKey(
         loginBy.password,
         await this.plutoClient.getConfig<string>({
-          token: ConfigRegisterToken.Jwt,
-          property: JwtPropertyToken.Secret,
+          token: ConfigRegisterToken.Rsa,
+          property: RsaPropertyToken.PrivateKey,
         }),
       ),
       user.password,
