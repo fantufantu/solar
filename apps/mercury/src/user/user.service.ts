@@ -35,14 +35,16 @@ export class UserService {
         verifiedBy: sendCaptchaBy.to,
         type: sendCaptchaBy.type,
       })) ||
-      this.userVerificationRepository.create({
-        verifiedBy: sendCaptchaBy.to,
-        type: sendCaptchaBy.type,
-      });
+      this.userVerificationRepository
+        .create({
+          verifiedBy: sendCaptchaBy.to,
+          type: sendCaptchaBy.type,
+        })
+        .reload();
 
     // 验证码存在有效期，验证码失效时，需要重新生成验证码
     if (dayjs().isAfter(userVerification.validTo)) {
-      userVerification.loadCaptcha();
+      userVerification.reload();
     }
 
     return userVerification;
@@ -56,12 +58,15 @@ export class UserService {
     const userVerification = await this.getOrCreate(sendCaptchaBy);
 
     // 每1分钟仅可发送一次
-    if (dayjs().subtract(1, 'minute').isBefore(userVerification.sentAt)) {
+    if (
+      userVerification.sentAt &&
+      dayjs().subtract(1, 'minute').isBefore(userVerification.sentAt)
+    ) {
       throw new Error('验证码发送太频繁，请稍后再试');
     }
 
     // 执行发送邮件
-    const params = {
+    const sendEmailBy = {
       FromEmailAddress: 'no-replay@account.fantufantu.com',
       Destination: [sendCaptchaBy.to],
       Subject: '通过邮件确认身份',
@@ -73,7 +78,8 @@ export class UserService {
       },
     };
 
-    await this.sesClient.SendEmail(params);
+    await this.sesClient.SendEmail(sendEmailBy);
+    // 发送成功，设置已发送时间
     userVerification.sentAt = dayjs().toDate();
 
     // 发送失败会直接抛出异常

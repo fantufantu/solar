@@ -44,8 +44,6 @@ export class AuthService {
   async login(loginBy: LoginBy) {
     // 匹配用户信息
     const user = await this.getValidUser(loginBy);
-    // error: 用户信息不存在
-    if (!user) throw new UnauthorizedException();
     // 加密生成token
     return this.passportService.sign(user.id);
   }
