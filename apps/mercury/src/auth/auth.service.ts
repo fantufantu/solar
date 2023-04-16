@@ -209,7 +209,7 @@ export class AuthService {
    */
   async getValidUser(loginBy: LoginBy) {
     // 根据关键字获取用户
-    const user = await this.userService.getUser(loginBy.keyword, {
+    const user = await this.userService.getUser(loginBy.who, {
       select: {
         id: true,
         password: true,

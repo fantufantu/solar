@@ -97,12 +97,12 @@ export class UserService {
    * 获取单个用户
    */
   async getUser(
-    keyword: number | string,
+    who: number | string,
     options?: Pick<FindOneOptions<User>, 'select' | 'relations'>,
   ) {
-    // keyword 为空：抛出异常
-    if (!keyword) {
-      throw new Error('用户关键字不能为初始值！');
+    // who 为空：抛出异常
+    if (!who) {
+      throw new Error('用户凭证不能为空！');
     }
 
     // 查询指定用户
@@ -110,13 +110,13 @@ export class UserService {
       ...options,
       where: [
         {
-          id: keyword as number,
+          id: who as number,
         },
         {
-          username: keyword as string,
+          username: who as string,
         },
         {
-          emailAddress: keyword as string,
+          emailAddress: who as string,
         },
       ],
     });

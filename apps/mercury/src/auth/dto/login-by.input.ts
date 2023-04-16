@@ -4,9 +4,9 @@ import { Field, InputType } from '@nestjs/graphql';
 @InputType()
 export class LoginBy {
   @Field(() => String, {
-    description: '用户关键字',
+    description: '用户凭证',
   })
-  keyword: string;
+  who: string;
 
   @Field(() => String, {
     description: '密码',
