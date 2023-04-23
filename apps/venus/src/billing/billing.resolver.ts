@@ -1,5 +1,5 @@
 // nest
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, UseInterceptors } from '@nestjs/common';
 import {
   Resolver,
   Query,
@@ -19,6 +19,8 @@ import { WhoAmI } from 'assets/decorators';
 import { Sharing } from '../sharing/entities/sharing.entity';
 import { BillingLoader } from './billing.loader';
 import { User } from '../user/entities/user.entity';
+import { PaginatedInterceptor } from 'assets/middleware/paginated.interceptor';
+import { PaginatedBillings } from './dto/paginated-billings';
 
 @Resolver(() => Billing)
 export class BillingResolver {
@@ -39,10 +41,11 @@ export class BillingResolver {
     return this.billingService.create(createBillingBy, user.id);
   }
 
-  @Query(() => [Billing], {
+  @Query(() => PaginatedBillings, {
     name: 'billings',
     description: '查询账本列表',
   })
+  @UseInterceptors(PaginatedInterceptor)
   @UseGuards(JwtAuthGuard)
   getBillings(@WhoAmI() user: User) {
     return this.billingService.getBillingsByUserId(user.id);

@@ -7,7 +7,7 @@ import { ServicePort } from 'assets/ports';
 class AuthenticatedDataSource extends RemoteGraphQLDataSource {
   willSendRequest({ request, context }) {
     const jwt = context.req?.headers.authorization;
-    jwt && request.http.headers.set('authorization', jwt);
+    jwt && request.http.headers.set('Authorization', jwt);
   }
 }
 
