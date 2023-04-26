@@ -63,5 +63,6 @@ export enum JwtPropertyToken {
 export enum CommandToken {
   GetConfig = 'config.get',
   GetUser = 'user.get',
+  LoadUser = 'user.load',
   Permit = 'role.permit',
 }

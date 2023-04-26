@@ -11,4 +11,9 @@ export class UserController {
   getUserById(id: number) {
     return this.userService.getUser(id);
   }
+
+  @MessagePattern({ cmd: CommandToken.LoadUser })
+  getUsersByIds(ids: number[]) {
+    return this.userService.getUsersByIds(ids);
+  }
 }
