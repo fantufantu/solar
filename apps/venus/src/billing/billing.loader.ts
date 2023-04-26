@@ -5,15 +5,10 @@ import DataLoader = require('dataloader');
 // project
 import { Sharing, TargetType } from '../sharing/entities/sharing.entity';
 import { SharingService } from '../sharing/sharing.service';
-import { User } from '../user/entities/user.entity';
-import { MercuryClientService } from '@app/mercury-client';
 
 @Injectable()
 export class BillingLoader {
-  constructor(
-    private readonly sharingService: SharingService,
-    private readonly mercuryClient: MercuryClientService,
-  ) {}
+  constructor(private readonly sharingService: SharingService) {}
 
   /**
    * 根据账本 id 获取分享信息
@@ -42,18 +37,6 @@ export class BillingLoader {
     },
     {
       cache: false,
-    },
-  );
-
-  /**
-   * 根据创建者id获取账本创建人
-   * @param ids 用户id列表
-   * @returns
-   */
-  public getUserById = new DataLoader<number, User | null>(
-    async (ids: number[]) => {
-      const users = await this.mercuryClient.getUsersByIds(ids);
-      return ids.map((id) => users.find((user) => user.id === id) ?? null);
     },
   );
 }

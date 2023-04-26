@@ -45,18 +45,4 @@ export class MercuryClientService {
       ),
     );
   }
-
-  /**
-   * 根据用户id列表批量查询用户信息
-   */
-  async getUsersByIds(ids: number[]) {
-    return await lastValueFrom<User[]>(
-      this.client.send(
-        {
-          cmd: CommandToken.LoadUser,
-        },
-        ids,
-      ),
-    );
-  }
 }
