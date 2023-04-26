@@ -106,7 +106,7 @@ export class UserService {
     }
 
     // 查询指定用户
-    const user = await this.userRepository.findOne({
+    return await this.userRepository.findOne({
       ...options,
       where: [
         {
@@ -120,8 +120,6 @@ export class UserService {
         },
       ],
     });
-
-    return user;
   }
 
   /**
