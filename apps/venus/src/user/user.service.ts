@@ -39,11 +39,11 @@ export class UserService {
       : null;
 
     // 设置默认账本
-    return await this.userRepository.save(
+    return !!(await this.userRepository.save(
       this.userRepository.create({
         id: userId,
         defaultBillingId,
       }),
-    );
+    ));
   }
 }
