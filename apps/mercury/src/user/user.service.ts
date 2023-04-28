@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindOneOptions } from 'typeorm';
+import { Repository, FindOneOptions, In } from 'typeorm';
 import { SendCaptchaBy } from './dto/send-captcha-by.input';
 import { UserVerification } from './entities/user-verification.entity';
 import { User } from './entities/user.entity';
@@ -106,7 +106,7 @@ export class UserService {
     }
 
     // 查询指定用户
-    const user = await this.userRepository.findOne({
+    return await this.userRepository.findOne({
       ...options,
       where: [
         {
@@ -120,8 +120,6 @@ export class UserService {
         },
       ],
     });
-
-    return user;
   }
 
   /**
@@ -168,5 +166,14 @@ export class UserService {
     };
 
     this.sesClient = new SesClient(clientConfig);
+  }
+
+  /**
+   * 根据用户id批量查询用户信息
+   */
+  async getUsersByIds(ids: number[]) {
+    return await this.userRepository.findBy({
+      id: In(ids),
+    });
   }
 }

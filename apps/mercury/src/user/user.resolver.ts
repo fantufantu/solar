@@ -1,6 +1,12 @@
 // nest
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Query,
+  ResolveReference,
+  Resolver,
+} from '@nestjs/graphql';
 // project
 import { JwtAuthGuard } from '@app/passport/guards';
 import { WhoAmI } from 'assets/decorators';
@@ -26,5 +32,10 @@ export class UserResolver {
   })
   sendCaptcha(@Args('sendCaptchaBy') sendCaptchaBy: SendCaptchaBy) {
     return this.userService.sendCaptcha(sendCaptchaBy);
+  }
+
+  @ResolveReference()
+  async getUser(reference: { __typename: string; id: number }) {
+    return await this.userService.getUser(reference.id);
   }
 }

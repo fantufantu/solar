@@ -5,7 +5,6 @@ import DataLoader = require('dataloader');
 // project
 import { Sharing, TargetType } from '../sharing/entities/sharing.entity';
 import { SharingService } from '../sharing/sharing.service';
-import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class BillingLoader {
@@ -40,13 +39,4 @@ export class BillingLoader {
       cache: false,
     },
   );
-
-  /**
-   * 根据创建者id获取账本创建人
-   * @param ids 用户id列表
-   * @returns
-   */
-  public getUserById = new DataLoader<number, User>(async () => {
-    return [];
-  });
 }

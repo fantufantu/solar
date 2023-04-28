@@ -35,11 +35,6 @@ export class UserResolver {
     return this.userService.setDefaultBilling(setDefaultBillingBy, user.id);
   }
 
-  @ResolveReference()
-  getUser(reference: { __typename: string; id: number }) {
-    return this.userService.getUserById(reference.id);
-  }
-
   @ResolveField('defaultBilling', () => Billing, {
     description: '默认账本',
     nullable: true,
@@ -47,5 +42,10 @@ export class UserResolver {
   getDefaultBilling(@Parent() user: User) {
     if (!user.defaultBillingId) return null;
     return this.userLoader.getBillingById.load(user.defaultBillingId);
+  }
+
+  @ResolveReference()
+  getUser(reference: { __typename: string; id: number }) {
+    return this.userService.getUserById(reference.id);
   }
 }

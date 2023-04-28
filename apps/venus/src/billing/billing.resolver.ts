@@ -19,7 +19,7 @@ import { WhoAmI } from 'assets/decorators';
 import { Sharing } from '../sharing/entities/sharing.entity';
 import { BillingLoader } from './billing.loader';
 import { User } from '../user/entities/user.entity';
-import { PaginatedInterceptor } from 'assets/middleware/paginated.interceptor';
+import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 import { PaginatedBillings } from './dto/paginated-billings';
 
 @Resolver(() => Billing)
@@ -99,7 +99,7 @@ export class BillingResolver {
     description: '创建人',
     nullable: true,
   })
-  getCreatedBy(@Parent() billing: Billing) {
-    return this.billingLoader.getUserById.load(billing.createdById);
+  async getCreatedBy(@Parent() billing: Billing) {
+    return { __typename: User.name, id: billing.createdById };
   }
 }
