@@ -16,7 +16,6 @@ import { CategoryModule } from './category/category.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { MercuryClientModule } from '@app/mercury-client';
 
-
 @Module({
   imports: [
     // mercury 微服务客户端
