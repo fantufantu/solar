@@ -26,7 +26,7 @@ export class User {
   @Column({
     nullable: true,
   })
-  defaultBillingId?: number;
+  defaultBillingId?: number | null;
 
   @Field(() => Billing, {
     nullable: true,

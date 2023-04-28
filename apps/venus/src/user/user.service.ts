@@ -26,28 +26,24 @@ export class UserService {
   }
 
   /**
-   * 切换默认账本
-   * 切换账本是否默认
+   * 设置默认账本
    */
   async setDefaultBilling(
     setDefaultBillingBy: SetDefaultBillingBy,
     userId: number,
   ) {
-    // // 处理默认账本信息
-    // // 取消默认账本，账本 id = null
-    // const defaultBillingId = setDefaultArgs.isDefault
-    //   ? setDefaultArgs.id
-    //   : null;
-    // // 更新用户信息
-    // // 不存在 => 创建用户信息
-    // return (
-    //   (await this.update(userId, {
-    //     defaultBillingId,
-    //   })) ||
-    //   !!(await this.create({
-    //     id: userId,
-    //     defaultBillingId,
-    //   }))
-    // );
+    // 处理默认账本信息
+    // 取消默认账本，账本 id = null
+    const defaultBillingId = setDefaultBillingBy.isDefault
+      ? setDefaultBillingBy.id
+      : null;
+
+    // 设置默认账本
+    return await this.userRepository.save(
+      this.userRepository.create({
+        id: userId,
+        defaultBillingId,
+      }),
+    );
   }
 }
