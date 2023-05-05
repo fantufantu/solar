@@ -18,6 +18,8 @@ import { FilterCategoryBy } from './dto/filter-category-by.input';
 import { PaginateBy } from 'assets/dto';
 import { Filter, Pagination } from 'assets/decorators';
 import { PaginatedCategories } from './dto/paginated-categories';
+import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
+import { UseInterceptors } from '@nestjs/common';
 
 @Resolver(() => Category)
 export class CategoryResolver {
@@ -37,6 +39,7 @@ export class CategoryResolver {
     name: 'categories',
     description: '分页查询分类',
   })
+  @UseInterceptors(PaginatedInterceptor)
   getCategories(
     @Pagination() paginateBy: PaginateBy,
     @Filter() filterBy: FilterCategoryBy,
