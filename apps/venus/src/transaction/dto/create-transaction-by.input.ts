@@ -1,7 +1,12 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, PickType } from '@nestjs/graphql';
+import { Transaction } from '../entities/transaction.entity';
 
 @InputType()
-export class CreateTransactionBy {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
-}
+export class CreateTransactionBy extends PickType(Transaction, [
+  'billingId',
+  'categoryId',
+  'amount',
+  'direction',
+  'remark',
+  'happenedAt',
+]) {}

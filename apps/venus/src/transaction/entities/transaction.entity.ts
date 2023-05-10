@@ -12,6 +12,7 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 import { Foundation } from 'assets/entities/foundation.entity';
 import { Category } from '../../category/entities/category.entity';
 import { Billing } from '../../billing/entities/billing.entity';
+import { GraphQLEnumToken } from 'assets/tokens';
 
 /**
  * 交易方向
@@ -22,7 +23,7 @@ export enum Direction {
 }
 
 registerEnumType(Direction, {
-  name: 'TransactionDirection',
+  name: GraphQLEnumToken.TransactionDirection,
   description: '交易方向',
 });
 
@@ -76,4 +77,10 @@ export class Transaction extends Foundation {
     type: 'longtext',
   })
   remark: string;
+
+  @Field(() => Date, {
+    description: '发生时间',
+  })
+  @Column()
+  happenedAt: Date;
 }

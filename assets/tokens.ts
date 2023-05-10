@@ -65,3 +65,16 @@ export enum CommandToken {
   GetUser = 'user.get',
   Permit = 'role.permit',
 }
+
+/**
+ * GraphQL enum tokne
+ */
+export enum GraphQLEnumToken {
+  AuthorizationActionCode = 'AuthorizationActionCode',
+  AuthorizationResourceCode = 'AuthorizationResourceCode',
+
+  UserVerificationType = 'UserVerificationType',
+
+  TransactionDirection = 'TransactionDirection',
+  SharingTargetType = 'SharingTargetType',
+}

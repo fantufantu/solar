@@ -1,5 +1,6 @@
 // nest
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { GraphQLEnumToken } from 'assets/tokens';
 // third
 import { IsEnum } from 'class-validator';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
@@ -12,7 +13,7 @@ export enum AuthorizationActionCode {
 }
 
 registerEnumType(AuthorizationActionCode, {
-  name: 'AuthorizationActionCode',
+  name: GraphQLEnumToken.AuthorizationActionCode,
   description: '权限操作code',
 });
 
