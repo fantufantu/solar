@@ -17,7 +17,7 @@
     "build": "rimraf ./dist && nest build pluto && nest build mercury && nest build venus && nest build halley"
   },
   "dependencies": {
-    "@apollo/gateway": "^2.3.2",
+    "@apollo/gateway": "^2.4.3",
     "@apollo/server": "^4.6.0",
     "@apollo/subgraph": "^2.4.1",
     "@nestjs/apollo": "^11.0.4",
