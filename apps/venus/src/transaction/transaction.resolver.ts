@@ -1,5 +1,5 @@
 // nest
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, UseInterceptors } from '@nestjs/common';
 import {
   Resolver,
   Query,
@@ -22,6 +22,7 @@ import { PaginateBy } from 'assets/dto';
 import { Category } from '../category/entities/category.entity';
 import { User } from '../user/entities/user.entity';
 import { PaginatedTransactions } from './dto/paginated-transactions';
+import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 
 @Resolver(() => Transaction)
 export class TransactionResolver {
@@ -48,6 +49,7 @@ export class TransactionResolver {
     name: 'transactions',
     description: '分页查询交易',
   })
+  @UseInterceptors(PaginatedInterceptor)
   @UseGuards(JwtAuthGuard)
   getTransactions(
     @Filter({
