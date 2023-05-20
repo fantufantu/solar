@@ -35,7 +35,7 @@ export class TransactionResolver {
   })
   @UseGuards(JwtAuthGuard)
   createTransaction(
-    @Args('createTransactionBy', {
+    @Args('createBy', {
       description: '交易',
     })
     createTransactionBy: CreateTransactionBy,
@@ -79,10 +79,10 @@ export class TransactionResolver {
   })
   updateTransaction(
     @Args('id', { type: () => Int, description: '交易id' }) id: number,
-    @Args('updateTransactionBy', { description: '交易' })
-    updateTransactionBy: UpdateTransactionBy,
+    @Args('updateBy', { description: '交易' })
+    updateBy: UpdateTransactionBy,
   ) {
-    return this.transactionService.update(id, updateTransactionBy);
+    return this.transactionService.update(id, updateBy);
   }
 
   @Mutation(() => Boolean)

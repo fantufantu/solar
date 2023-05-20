@@ -36,7 +36,7 @@ export class MenuResolver {
     resource: AuthorizationResourceCode.Menu,
     action: AuthorizationActionCode.Create,
   })
-  createMenu(@Args('createMenuBy') createBy: CreateMenuBy): Promise<boolean> {
+  createMenu(@Args('createBy') createBy: CreateMenuBy) {
     return this.menuService.create(createBy);
   }
 
@@ -78,7 +78,7 @@ export class MenuResolver {
   })
   updateMenu(
     @Args('id', { type: () => Int }) id: number,
-    @Args('updateMenuBy') updateBy: UpdateMenuBy,
+    @Args('updateBy') updateBy: UpdateMenuBy,
   ) {
     return this.menuService.update(id, updateBy);
   }

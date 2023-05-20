@@ -23,7 +23,7 @@ export class DictionaryEnumResolver {
     action: AuthorizationActionCode.Create,
   })
   createDictionaryEnum(
-    @Args('createDictionaryEnumBy')
+    @Args('createBy')
     createBy: CreateDictionaryEnumBy,
   ) {
     return this.dictionaryEnumService.create(createBy);
@@ -64,7 +64,7 @@ export class DictionaryEnumResolver {
   })
   updateDictionaryEnum(
     @Args('id', { type: () => Int }) id: number,
-    @Args('updateDictionaryEnumBy')
+    @Args('updateBy')
     updateBy: UpdateDictionaryEnumBy,
   ) {
     return this.dictionaryEnumService.update(id, updateBy);

@@ -29,10 +29,10 @@ export class UserResolver {
   })
   @UseGuards(JwtAuthGuard)
   setDefaultBilling(
-    @Args('setDefaultBillingBy') setDefaultBillingBy: SetDefaultBillingBy,
+    @Args('setBy') setBy: SetDefaultBillingBy,
     @WhoAmI() user: User,
   ) {
-    return this.userService.setDefaultBilling(setDefaultBillingBy, user.id);
+    return this.userService.setDefaultBilling(setBy, user.id);
   }
 
   @ResolveField('defaultBilling', () => Billing, {

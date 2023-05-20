@@ -24,15 +24,15 @@ export class SharingResolver {
   @Mutation(() => Boolean, {
     description: '创建分享',
   })
-  createSharing(@Args('createSharingBy') createSharingBy: CreateSharingBy) {
+  createSharing(@Args('createBy') createSharingBy: CreateSharingBy) {
     return this.sharingService.create(createSharingBy);
   }
 
   @Mutation(() => Boolean, {
     description: '删除分享',
   })
-  removeSharing(@Args('removeSharingBy') removeSharingBy: RemoveSharingBy) {
-    return this.sharingService.remove(removeSharingBy);
+  removeSharing(@Args('removeBy') removeBy: RemoveSharingBy) {
+    return this.sharingService.remove(removeBy);
   }
 
   @ResolveField('sharedBy', () => User, {

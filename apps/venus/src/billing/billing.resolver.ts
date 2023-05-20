@@ -34,7 +34,7 @@ export class BillingResolver {
   })
   @UseGuards(JwtAuthGuard)
   createBilling(
-    @Args('createBillingBy')
+    @Args('createBy')
     createBillingBy: CreateBillingBy,
     @WhoAmI() user: User,
   ) {
@@ -70,10 +70,10 @@ export class BillingResolver {
   @UseGuards(JwtAuthGuard)
   updateBilling(
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
-    @Args('updateBillingBy')
-    updateBillingBy: UpdateBillingBy,
+    @Args('updateBy')
+    updateBy: UpdateBillingBy,
   ) {
-    return this.billingService.update(id, updateBillingBy);
+    return this.billingService.update(id, updateBy);
   }
 
   @Mutation(() => Boolean, {

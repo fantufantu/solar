@@ -28,7 +28,7 @@ export class TenantResolver {
     resource: AuthorizationResourceCode.Tenant,
     action: AuthorizationActionCode.Create,
   })
-  createTenant(@Args('createTenantBy') createBy: CreateTenantBy) {
+  createTenant(@Args('createBy') createBy: CreateTenantBy) {
     return this.tenantService.create(createBy);
   }
 
@@ -65,7 +65,7 @@ export class TenantResolver {
   })
   updateTenant(
     @Args('code', { type: () => String }) code: string,
-    @Args('updateTenantBy') updateBy: UpdateTenantBy,
+    @Args('updateBy') updateBy: UpdateTenantBy,
   ) {
     return this.tenantService.update(code, updateBy);
   }

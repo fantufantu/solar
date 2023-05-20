@@ -31,7 +31,7 @@ export class CategoryResolver {
   @Mutation(() => Category, {
     description: '创建分类',
   })
-  createCategory(@Args('createCategoryBy') createCategoryBy: CreateCategoryBy) {
+  createCategory(@Args('createBy') createCategoryBy: CreateCategoryBy) {
     return this.categoryService.create(createCategoryBy);
   }
 
@@ -66,12 +66,12 @@ export class CategoryResolver {
       description: '分类id',
     })
     id: number,
-    @Args('updateCategoryBy', {
+    @Args('updateBy', {
       description: '分类',
     })
-    updateCategoryBy: UpdateCategoryBy,
+    updateBy: UpdateCategoryBy,
   ) {
-    return this.categoryService.update(id, updateCategoryBy);
+    return this.categoryService.update(id, updateBy);
   }
 
   @Mutation(() => Boolean, {

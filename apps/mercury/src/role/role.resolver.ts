@@ -30,7 +30,7 @@ export class RoleResolver {
     resource: AuthorizationResourceCode.Role,
     action: AuthorizationActionCode.Create,
   })
-  createRole(@Args('createRoleBy') createBy: CreateRoleBy) {
+  createRole(@Args('createBy') createBy: CreateRoleBy) {
     return this.roleService.create(createBy);
   }
 
@@ -69,7 +69,7 @@ export class RoleResolver {
       type: () => Int,
     })
     id: number,
-    @Args('updateRoleBy') updateBy: UpdateRoleBy,
+    @Args('updateBy') updateBy: UpdateRoleBy,
   ) {
     return this.roleService.update(id, updateBy);
   }

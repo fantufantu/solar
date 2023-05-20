@@ -20,7 +20,7 @@ export class DictionaryResolver {
     resource: AuthorizationResourceCode.Dictionary,
     action: AuthorizationActionCode.Create,
   })
-  createDictionary(@Args('createDictionaryBy') createBy: CreateDictionaryBy) {
+  createDictionary(@Args('createBy') createBy: CreateDictionaryBy) {
     return this.dictionaryService.create(createBy);
   }
 
@@ -54,7 +54,7 @@ export class DictionaryResolver {
   })
   updateDictionary(
     @Args('id', { type: () => Int }) id: number,
-    @Args('updateDictionaryBy') updateBy: UpdateDictionaryBy,
+    @Args('updateBy') updateBy: UpdateDictionaryBy,
   ) {
     return this.dictionaryService.update(id, updateBy);
   }
