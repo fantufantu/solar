@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 // third
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 // project
 import { CreateTransactionBy } from './dto/create-transaction-by.input';
 import { FilterTransactionBy } from './dto/filter-transaction-by.input';
@@ -36,14 +36,10 @@ export class TransactionService {
    */
   getTransactions(queryBy: QueryBy<FilterTransactionBy>) {
     const { filterBy, ...queryByWithout } = queryBy;
-    const { directions = [], ...filterByWithout } = filterBy || {};
 
     return paginateQuery(this.transactionRepository, {
       ...queryByWithout,
-      filterBy: {
-        ...filterByWithout,
-        direction: In(directions),
-      },
+      filterBy,
       sortBy: {
         createdAt: 'DESC',
       },
