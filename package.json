@@ -19,7 +19,7 @@
   "dependencies": {
     "@apollo/gateway": "^2.4.7",
     "@apollo/server": "^4.7.1",
-    "@apollo/subgraph": "^2.4.1",
+    "@apollo/subgraph": "^2.4.7",
     "@nestjs/apollo": "^11.0.4",
     "@nestjs/common": "^9.4.0",
     "@nestjs/config": "^2.3.1",
