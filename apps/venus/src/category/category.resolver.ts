@@ -83,10 +83,10 @@ export class CategoryResolver {
     return this.categoryService.remove(id);
   }
 
-  @ResolveField('expense', () => Int, {
-    description: '支出',
+  @ResolveField('amount', () => Int, {
+    description: '总金额',
   })
   getExpense(@Parent() category: Category) {
-    return this.categoryLoader.getExpenseGroupByCategory.load(category.id);
+    return this.categoryLoader.getAmountGroupedByCategory.load(category.id);
   }
 }

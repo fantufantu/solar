@@ -7,10 +7,11 @@ import { In, Repository } from 'typeorm';
 import { CreateTransactionBy } from './dto/create-transaction-by.input';
 import { FilterTransactionBy } from './dto/filter-transaction-by.input';
 import { UpdateTransactionBy } from './dto/update-transaction-by.input';
-import { Direction, Transaction } from './entities/transaction.entity';
+import { Transaction } from './entities/transaction.entity';
 import { paginateQuery } from 'utils/api';
 import { GroupedExpense, GroupExpenseArgs } from './dto/group-expense.args';
 import { QueryBy } from 'typings/api';
+import { Direction } from 'assets/entities/direction.enum';
 
 @Injectable()
 export class TransactionService {
@@ -80,11 +81,11 @@ export class TransactionService {
   }
 
   /**
-   * 获取分类下的总支出列表
+   * 获取分类下的总金额
    * @param args
    * @returns
    */
-  async getExpensesGroupByCategory(args: GroupExpenseArgs) {
+  async getAmountGroupedByCategory(args: GroupExpenseArgs) {
     return (await this.transactionRepository
       .createQueryBuilder()
       .select('categoryId')

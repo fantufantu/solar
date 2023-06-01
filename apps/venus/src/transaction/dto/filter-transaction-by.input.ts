@@ -1,7 +1,7 @@
 // nest
 import { Field, InputType, Int } from '@nestjs/graphql';
 // project
-import { Direction } from '../entities/transaction.entity';
+import { Direction } from 'assets/entities/direction.enum';
 
 @InputType()
 export class FilterTransactionBy {

@@ -10,26 +10,23 @@ export class CategoryLoader {
   constructor(private readonly transactionService: TransactionService) {}
 
   /**
-   * 根据分类 id 获取总支出
+   * 根据分类 id 获取总金额
    */
-  public readonly getExpenseGroupByCategory = new DataLoader<number, number>(
+  public readonly getAmountGroupedByCategory = new DataLoader<number, number>(
     async (categoryIds: number[]) => {
       const from = new Date();
       const to = new Date();
 
-      const expenses = await this.transactionService.getExpensesGroupByCategory(
-        {
-          categoryIds,
-          from,
-          to,
-        },
-      );
+      const amounts = await this.transactionService.getAmountGroupedByCategory({
+        categoryIds,
+        from,
+        to,
+      });
 
       return categoryIds.map(
         (categoryId) =>
-          expenses.find(
-            (totalExpense) => totalExpense.categoryId === categoryId,
-          )?.amount || 0,
+          amounts.find((totalExpense) => totalExpense.categoryId === categoryId)
+            ?.amount ?? 0,
       );
     },
     { cache: false },
