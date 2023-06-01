@@ -11,7 +11,6 @@ import { Transaction } from './entities/transaction.entity';
 import { paginateQuery } from 'utils/api';
 import { GroupedExpense, GroupExpenseArgs } from './dto/group-expense.args';
 import { QueryBy } from 'typings/api';
-import { Direction } from 'assets/entities/direction.enum';
 
 @Injectable()
 export class TransactionService {
@@ -92,9 +91,6 @@ export class TransactionService {
       .addSelect('SUM(amount)', 'amount')
       .where('categoryId IN (:...categoryIds)', {
         categoryIds: args.categoryIds,
-      })
-      .andWhere('direction = :direction', {
-        direction: Direction.Out,
       })
       .andWhere('createdAt >= :from', {
         from: args.from,
