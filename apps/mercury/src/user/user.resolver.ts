@@ -20,6 +20,7 @@ export class UserResolver {
 
   @Query(() => User, {
     description: '我是谁',
+    nullable: true,
   })
   @UseGuards(new JwtAuthGuard(true))
   whoAmI(@WhoAmI() user: User) {
