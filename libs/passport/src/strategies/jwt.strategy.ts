@@ -17,16 +17,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       jwtFromRequest: (req: Request) => {
-        // 先从cookie里面获取token
-        const token =
-          req.cookies &&
-          (req.cookies['__Secure-next-auth.session-token'] ||
-            req.cookies['next-auth.session-token']);
-
-        if (token) return token;
-
-        // cookie中不存在，获取请求头
-        return ExtractJwt.fromAuthHeaderAsBearerToken()(req);
+        const token = ExtractJwt.fromAuthHeaderAsBearerToken()(req);
+        return token;
       },
       ignoreExpiration: false,
       secretOrKey: jwtSecret,
@@ -37,6 +29,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // token有效
     // 获取数据库中的user信息
     const user = await this.client.getUserById(payload.id);
+
     if (!user)
       throw new UnauthorizedException(
         '非常抱歉，服务端没有匹配到正确的用户信息！',

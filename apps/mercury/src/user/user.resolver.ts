@@ -37,6 +37,8 @@ export class UserResolver {
 
   @ResolveReference()
   async getUser(reference: { __typename: string; id: number }) {
+    console.log('reference====', reference);
+
     return await this.userService.getUser(reference.id);
   }
 }

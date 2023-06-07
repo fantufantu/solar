@@ -24,10 +24,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return ctx.getContext().req;
   }
 
-  handleRequest<T>(err: unknown, user: T): T {
+  handleRequest<T>(err: unknown, user: T | false): T | null {
     if (!this.#isLoose && (err || !user)) {
       throw err || new UnauthorizedException();
     }
-    return user;
+    return user || null;
   }
 }
