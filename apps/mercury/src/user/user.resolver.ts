@@ -21,7 +21,7 @@ export class UserResolver {
   @Query(() => User, {
     description: '我是谁',
   })
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(new JwtAuthGuard(true))
   whoAmI(@WhoAmI() user: User) {
     return user;
   }
