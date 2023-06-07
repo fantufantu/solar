@@ -21,8 +21,4 @@ export class Category extends Foundation {
     enum: Direction,
   })
   direction: Direction;
-
-  @Field(() => String, { description: '图标' })
-  @Column()
-  icon: string;
 }
