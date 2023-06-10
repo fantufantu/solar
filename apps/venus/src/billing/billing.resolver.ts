@@ -21,6 +21,7 @@ import { BillingLoader } from './billing.loader';
 import { User } from '../user/entities/user.entity';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 import { PaginatedBillings } from './dto/paginated-billings';
+import { SetBillingLimitBy } from './dto/set-billing-limit-by.input';
 
 @Resolver(() => Billing)
 export class BillingResolver {
@@ -85,6 +86,18 @@ export class BillingResolver {
     @WhoAmI() user: User,
   ) {
     return this.billingService.remove(id, user.id);
+  }
+
+  @Mutation(() => Boolean, {
+    description: '设置限额',
+  })
+  @UseGuards(JwtAuthGuard)
+  setLimit(
+    @Args('id', { type: () => Int, description: '账本id' }) id: number,
+    @Args('setBy')
+    setBy: SetBillingLimitBy,
+  ) {
+    return this.billingService.setLimit(id, setBy);
   }
 
   @ResolveField('sharings', () => [Sharing], {

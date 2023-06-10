@@ -9,6 +9,7 @@ import { SharingService } from '../sharing/sharing.service';
 import { CreateBillingBy } from './dto/create-billing-by.input';
 import { UpdateBillingBy } from './dto/update-billing-by.input';
 import { Billing } from './entities/billing.entity';
+import { SetBillingLimitBy } from './dto/set-billing-limit-by.input';
 
 @Injectable()
 export class BillingService {
@@ -19,7 +20,8 @@ export class BillingService {
   ) {}
 
   /**
-   * 创建账本
+   * @author murukal
+   * @description 创建账本
    */
   create(createBillingBy: CreateBillingBy, createdById: number) {
     return this.billingRepository.save(
@@ -31,7 +33,8 @@ export class BillingService {
   }
 
   /**
-   * 查询指定用户 id 相关的账本列表
+   * @author murukal
+   * @description 查询指定用户 id 相关的账本列表
    */
   async getBillingsByUserId(userId: number) {
     return await this.billingRepository
@@ -57,7 +60,8 @@ export class BillingService {
   }
 
   /**
-   * 查询单个账本
+   * @author murukal
+   * @description 查询单个账本
    */
   getBilling(id: number, userId: number) {
     return this.billingRepository
@@ -84,7 +88,8 @@ export class BillingService {
   }
 
   /**
-   * 更新账本信息
+   * @author murukal
+   * @description 更新账本信息
    */
   update(id: number, updateBillingBy: UpdateBillingBy) {
     return this.billingRepository.update(
@@ -94,9 +99,8 @@ export class BillingService {
   }
 
   /**
-   * 删除账本信息
-   * 操作人为账本所有人，删除账本的所有分享，删除账本
-   * 操作人非账本所有人，仅删除账本的相关分享
+   * @author murukal
+   * @description 删除账本信息
    */
   async remove(id: number, userId: number) {
     const billing = await this.billingRepository.findOneBy({
@@ -133,7 +137,8 @@ export class BillingService {
   }
 
   /**
-   * 根据账本 id 列表，查询账本列表
+   * @author murukal
+   * @description 根据账本 id 列表，查询账本列表
    */
   async getBillingsByIds(ids: number[]): Promise<Billing[]> {
     if (!(ids.length > 0)) return [];
@@ -141,5 +146,13 @@ export class BillingService {
     return await this.billingRepository.findBy({
       id: In(ids),
     });
+  }
+
+  /**
+   * @author murukal
+   * @description 设置账本限额
+   */
+  async setLimit(id: number, setBy: SetBillingLimitBy) {
+    return !!(await this.billingRepository.update(id, setBy)).affected;
   }
 }
