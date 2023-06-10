@@ -77,4 +77,5 @@ export enum GraphQLEnumToken {
 
   TransactionDirection = 'TransactionDirection',
   SharingTargetType = 'SharingTargetType',
+  BillingLimitDuration = 'BillingLimitDuration',
 }

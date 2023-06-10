@@ -4,7 +4,7 @@ import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, Entity } from 'typeorm';
 // project
 import { Foundation } from 'assets/entities/foundation.entity';
-import { Direction } from 'assets/entities/direction.enum';
+import { Direction } from 'assets/entities/direction.transaction.enum';
 
 @ObjectType()
 @Entity()
