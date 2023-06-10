@@ -92,7 +92,7 @@ export class BillingResolver {
     description: '设置限额',
   })
   @UseGuards(JwtAuthGuard)
-  setLimit(
+  setBillingLimit(
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
     @Args('setBy')
     setBy: SetBillingLimitBy,
