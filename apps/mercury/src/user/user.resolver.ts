@@ -35,10 +35,18 @@ export class UserResolver {
     return this.userService.sendCaptcha(sendCaptchaBy);
   }
 
+  @Query(() => [User], {
+    name: 'users',
+    description: '利用账户信息查询账户列表',
+  })
+  async getUsers(
+    @Args('who', { type: () => String, description: '账户信息' }) who: string,
+  ) {
+    return await this.userService.getUsersByWho(who);
+  }
+
   @ResolveReference()
   async getUser(reference: { __typename: string; id: number }) {
-    console.log('reference====', reference);
-
     return await this.userService.getUser(reference.id);
   }
 }

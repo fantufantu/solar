@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindOneOptions, In } from 'typeorm';
+import { Repository, FindOneOptions, In, Like } from 'typeorm';
 import { SendCaptchaBy } from './dto/send-captcha-by.input';
 import { UserVerification } from './entities/user-verification.entity';
 import { User } from './entities/user.entity';
@@ -26,7 +26,8 @@ export class UserService {
   }
 
   /**
-   * 获取或创建 UserVerification 对象
+   * @author murukal
+   * @description 获取或创建 UserVerification 对象
    */
   async getOrCreate(sendCaptchaBy: SendCaptchaBy): Promise<UserVerification> {
     // 尝试获取存在的用户邮件信息
@@ -51,7 +52,8 @@ export class UserService {
   }
 
   /**
-   * 发送验证码
+   * @author murukal
+   * @description 发送验证码
    */
   async sendCaptcha(sendCaptchaBy: SendCaptchaBy): Promise<Date> {
     // 加载 userVerification
@@ -94,7 +96,8 @@ export class UserService {
   }
 
   /**
-   * 获取单个用户
+   * @author murukal
+   * @description 查询单个用户
    */
   async getUser(
     who: number | string,
@@ -123,7 +126,8 @@ export class UserService {
   }
 
   /**
-   * 验证用户邮箱
+   * @author murukal
+   * @description 验证用户邮箱
    */
   async verify(verifyBy: VerifyBy) {
     const isVerified = !!(
@@ -141,14 +145,16 @@ export class UserService {
   }
 
   /**
-   * 创建用户
+   * @author murukal
+   * @description 创建用户
    */
   async create(user: Partial<User>) {
     return this.userRepository.save(this.userRepository.create(user));
   }
 
   /**
-   * 初始化 ses client (发送邮件)
+   * @author murukal
+   * @description 初始化 ses client (发送邮件)
    */
   private async initializeSesClient() {
     const clientConfig: ClientConfig = {
@@ -169,11 +175,28 @@ export class UserService {
   }
 
   /**
-   * 根据用户id批量查询用户信息
+   * @author murukal
+   * @description 根据用户id批量查询用户信息
    */
   async getUsersByIds(ids: number[]) {
     return await this.userRepository.findBy({
       id: In(ids),
     });
+  }
+
+  /**
+   * @author murukal
+   * @description 查询用户列表
+   */
+  async getUsersByWho(who: string) {
+    // 查询指定用户
+    return await this.userRepository.findBy([
+      {
+        username: Like(who),
+      },
+      {
+        emailAddress: Like(who),
+      },
+    ]);
   }
 }
