@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindOneOptions, In, Like } from 'typeorm';
+import { Repository, FindOneOptions, In, Like, Not } from 'typeorm';
 import { SendCaptchaBy } from './dto/send-captcha-by.input';
 import { UserVerification } from './entities/user-verification.entity';
 import { User } from './entities/user.entity';
@@ -188,14 +188,18 @@ export class UserService {
    * @author murukal
    * @description 查询用户列表
    */
-  async getUsersByWho(who: string) {
+  async getUsersByWho(who: string, exclude: number) {
+    const likeBy = `%${who}%`;
+
     // 查询指定用户
     return await this.userRepository.findBy([
       {
-        username: Like(who),
+        username: Like(likeBy),
+        id: Not(exclude),
       },
       {
-        emailAddress: Like(who),
+        emailAddress: Like(likeBy),
+        id: Not(exclude),
       },
     ]);
   }

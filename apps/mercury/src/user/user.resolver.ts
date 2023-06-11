@@ -39,10 +39,12 @@ export class UserResolver {
     name: 'users',
     description: '利用账户信息查询账户列表',
   })
+  @UseGuards(JwtAuthGuard)
   async getUsers(
     @Args('who', { type: () => String, description: '账户信息' }) who: string,
+    @WhoAmI() whoAmI: User,
   ) {
-    return await this.userService.getUsersByWho(who);
+    return await this.userService.getUsersByWho(who, whoAmI);
   }
 
   @ResolveReference()
