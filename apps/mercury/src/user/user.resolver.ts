@@ -44,7 +44,7 @@ export class UserResolver {
     @Args('who', { type: () => String, description: '账户信息' }) who: string,
     @WhoAmI() whoAmI: User,
   ) {
-    return await this.userService.getUsersByWho(who, whoAmI);
+    return await this.userService.getUsersByWho(who, whoAmI.id);
   }
 
   @ResolveReference()
