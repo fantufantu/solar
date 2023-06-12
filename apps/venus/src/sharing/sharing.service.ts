@@ -17,9 +17,8 @@ export class SharingService {
   ) {}
 
   /**
-   * 分享
-   * @param createSharingInput
-   * @returns
+   * @author murukal
+   * @description 分享
    */
   async create(createSharingBy: CreateSharingBy) {
     // 删除已经存在的分享
@@ -29,7 +28,7 @@ export class SharingService {
     });
 
     // 存储分享
-    return await this.sharingRepository.save(
+    return !!(await this.sharingRepository.save(
       createSharingBy.sharedByIds.map((sharedById) =>
         this.sharingRepository.create({
           sharedById,
@@ -37,11 +36,12 @@ export class SharingService {
           targetType: createSharingBy.targetType,
         }),
       ),
-    );
+    ));
   }
 
   /**
-   * 删除分享
+   * @author murukal
+   * @description 删除分享
    */
   async remove(removeSharingBy: RemoveSharingBy) {
     const qb = this.sharingRepository
@@ -64,9 +64,8 @@ export class SharingService {
   }
 
   /**
-   * 查询分享列表
-   * @param args
-   * @returns
+   * @author murukal
+   * @description 查询分享列表
    */
   async getSharings(filterBy: FilterSharingBy) {
     return await this.sharingRepository
