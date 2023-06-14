@@ -103,6 +103,6 @@ export class TransactionResolver {
     description: '交易创建人',
   })
   getCreatedBy(@Parent() transaction: Transaction) {
-    return this.transactionLoader.getUserById.load(transaction.createdById);
+    return { __typename: User.name, id: transaction.createdById };
   }
 }
