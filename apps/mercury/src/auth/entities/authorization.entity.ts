@@ -1,7 +1,7 @@
 // nest
 import { Field, ObjectType } from '@nestjs/graphql';
 // third
-import { Column, Entity, ManyToOne, Unique } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, ManyToOne, Unique } from 'typeorm';
 // peoject
 import {
   AuthorizationAction,
@@ -53,10 +53,8 @@ export class Authorization extends Foundation {
   })
   action: AuthorizationAction;
 
-  @Column({
-    default: false,
-  })
-  isDeleted: boolean;
+  @DeleteDateColumn()
+  deletedAt: Date | null;
 
   public static uniqueBy(
     tenantCode: string,

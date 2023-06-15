@@ -81,9 +81,6 @@ export class AuthService {
     // 权限表查询
     const authorizations = await this.authorizationRepository.find({
       relations: ['tenant', 'resource', 'action'],
-      where: {
-        isDeleted: false,
-      },
     });
 
     // 生成树
@@ -167,7 +164,7 @@ export class AuthService {
         [current.tenantCode, current.resourceCode, current.actionCode].join(),
         {
           ...current,
-          isDeleted: true,
+          deletedAt: new Date(),
         },
       );
     }, new Map<string, Authorization>());
@@ -194,7 +191,7 @@ export class AuthService {
           return;
         }
 
-        authorized.isDeleted = false;
+        authorized.deletedAt = null;
       });
     });
 

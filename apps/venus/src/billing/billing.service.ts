@@ -47,10 +47,7 @@ export class BillingService {
           targetType: TargetType.Billing,
         },
       )
-      .where('billing.isDeleted = :isDeleted', {
-        isDeleted: false,
-      })
-      .andWhere(
+      .where(
         '( billing.createdById = :userId OR sharing.sharedById = :userId )',
         {
           userId,
@@ -75,9 +72,6 @@ export class BillingService {
         },
       )
       .whereInIds(id)
-      .andWhere('isDeleted = :isDeleted', {
-        isDeleted: false,
-      })
       .andWhere(
         '( billing.createdById = :userId OR sharing.sharedById = :userId )',
         {
