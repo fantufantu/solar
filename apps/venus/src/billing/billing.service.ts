@@ -105,7 +105,6 @@ export class BillingService {
   async remove(id: number, userId: number) {
     const billing = await this.billingRepository.findOneBy({
       id,
-      isDeleted: false,
     });
 
     if (!billing) {
@@ -128,11 +127,7 @@ export class BillingService {
     // 分享删除成功执行删除账本
     return (
       isSharingRemoved &&
-      !!(
-        await this.billingRepository.update(id, {
-          isDeleted: true,
-        })
-      ).affected
+      !!(await this.billingRepository.softDelete(id)).affected
     );
   }
 
@@ -141,7 +136,7 @@ export class BillingService {
    * @description 根据账本 id 列表，查询账本列表
    */
   async getBillingsByIds(ids: number[]): Promise<Billing[]> {
-    if (!(ids.length > 0)) return [];
+    if (ids.length === 0) return [];
 
     return await this.billingRepository.findBy({
       id: In(ids),

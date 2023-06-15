@@ -15,8 +15,8 @@ export class CreateSharingBy {
   })
   targetType: TargetType;
 
-  @Field(() => [Int], {
-    description: '共享人Ids',
+  @Field(() => Int, {
+    description: '共享给指定用户',
   })
-  sharedByIds: number[];
+  sharedById: number;
 }

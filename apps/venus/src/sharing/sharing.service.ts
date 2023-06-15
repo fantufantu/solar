@@ -21,21 +21,8 @@ export class SharingService {
    * @description 分享
    */
   async create(createSharingBy: CreateSharingBy) {
-    // 删除已经存在的分享
-    await this.remove({
-      targetType: createSharingBy.targetType,
-      targetId: createSharingBy.targetId,
-    });
-
-    // 存储分享
     return !!(await this.sharingRepository.save(
-      createSharingBy.sharedByIds.map((sharedById) =>
-        this.sharingRepository.create({
-          sharedById,
-          targetId: createSharingBy.targetId,
-          targetType: createSharingBy.targetType,
-        }),
-      ),
+      this.sharingRepository.create(createSharingBy),
     ));
   }
 
