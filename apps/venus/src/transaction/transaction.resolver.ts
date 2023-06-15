@@ -23,6 +23,7 @@ import { Category } from '../category/entities/category.entity';
 import { User } from '../user/entities/user.entity';
 import { PaginatedTransactions } from './dto/paginated-transactions';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
+import { Billing } from '../billing/entities/billing.entity';
 
 @Resolver(() => Transaction)
 export class TransactionResolver {
@@ -96,7 +97,7 @@ export class TransactionResolver {
     description: '分类',
   })
   getCategory(@Parent() transaction: Transaction) {
-    return this.transactionLoader.getCategoryById.load(transaction.categoryId);
+    return this.transactionLoader.categoryLoader.load(transaction.categoryId);
   }
 
   @ResolveField('createdBy', () => User, {
@@ -104,5 +105,12 @@ export class TransactionResolver {
   })
   getCreatedBy(@Parent() transaction: Transaction) {
     return { __typename: User.name, id: transaction.createdById };
+  }
+
+  @ResolveField('billing', () => Billing, {
+    description: '账本',
+  })
+  getBilling(@Parent() transaction: Transaction) {
+    return this.transactionLoader.billingLoader.load(transaction.categoryId);
   }
 }
