@@ -111,6 +111,6 @@ export class TransactionResolver {
     description: '账本',
   })
   getBilling(@Parent() transaction: Transaction) {
-    return this.transactionLoader.billingLoader.load(transaction.categoryId);
+    return this.transactionLoader.billingLoader.load(transaction.billingId);
   }
 }
