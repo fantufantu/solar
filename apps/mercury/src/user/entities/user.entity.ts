@@ -24,6 +24,8 @@ export class User extends Foundation {
     description: '用户名',
   })
   @Column({
+    type: 'varchar',
+    length: 20,
     unique: true,
   })
   @MaxLength(20)
@@ -34,6 +36,8 @@ export class User extends Foundation {
     nullable: true,
   })
   @Column({
+    type: 'varchar',
+    length: 20,
     nullable: true,
   })
   @MaxLength(20)
