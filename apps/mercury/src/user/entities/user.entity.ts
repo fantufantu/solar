@@ -25,10 +25,10 @@ export class User extends Foundation {
   })
   @Column({
     type: 'varchar',
-    length: 20,
+    length: 36,
     unique: true,
   })
-  @MaxLength(20)
+  @MaxLength(36)
   username: string;
 
   @Field(() => String, {
