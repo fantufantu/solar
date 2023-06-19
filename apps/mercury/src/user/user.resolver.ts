@@ -13,6 +13,7 @@ import { WhoAmI } from 'assets/decorators';
 import { SendCaptchaBy } from './dto/send-captcha-by.input';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
+import { UpdateUserBy } from './dto/update-user-by.input';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -31,8 +32,8 @@ export class UserResolver {
     description: '发送验证码',
     nullable: true,
   })
-  sendCaptcha(@Args('sendCaptchaBy') sendCaptchaBy: SendCaptchaBy) {
-    return this.userService.sendCaptcha(sendCaptchaBy);
+  sendCaptcha(@Args('sendBy') sendBy: SendCaptchaBy) {
+    return this.userService.sendCaptcha(sendBy);
   }
 
   @Query(() => [User], {
@@ -45,6 +46,17 @@ export class UserResolver {
     @WhoAmI() whoAmI: User,
   ) {
     return await this.userService.getUsersByWho(who, whoAmI.id);
+  }
+
+  @Mutation(() => Boolean, {
+    description: '更新用户信息',
+  })
+  @UseGuards(JwtAuthGuard)
+  async updateUser(
+    @WhoAmI() whoAmI: User,
+    @Args('updateBy') updateBy: UpdateUserBy,
+  ) {
+    return await this.userService.updateUser(whoAmI.id, updateBy);
   }
 
   @ResolveReference()

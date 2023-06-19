@@ -1,7 +1,7 @@
 // nest
 import { Field, InputType, PickType } from '@nestjs/graphql';
-import { User } from '../../user/entities/user.entity';
 // project
+import { User } from '../../user/entities/user.entity';
 
 @InputType()
 export class RegisterBy extends PickType(

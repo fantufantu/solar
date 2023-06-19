@@ -30,6 +30,16 @@ export class User extends Foundation {
   username: string;
 
   @Field(() => String, {
+    description: '用户昵称',
+    nullable: true,
+  })
+  @Column({
+    nullable: true,
+  })
+  @MaxLength(20)
+  nickname: string | null;
+
+  @Field(() => String, {
     description: '邮箱地址',
   })
   @Column({

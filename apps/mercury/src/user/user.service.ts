@@ -10,6 +10,7 @@ import { ClientConfig } from 'tencentcloud-sdk-nodejs/tencentcloud/common/interf
 import { ConfigRegisterToken, TencentCloudPropertyToken } from 'assets/tokens';
 import { PlutoClientService } from '@app/pluto-client';
 import type { VerifyBy } from './dto/verify-by.input';
+import { UpdateUserBy } from './dto/update-user-by.input';
 
 @Injectable()
 export class UserService {
@@ -55,9 +56,9 @@ export class UserService {
    * @author murukal
    * @description 发送验证码
    */
-  async sendCaptcha(sendCaptchaBy: SendCaptchaBy): Promise<Date> {
+  async sendCaptcha(sendBy: SendCaptchaBy): Promise<Date> {
     // 加载 userVerification
-    const userVerification = await this.getOrCreate(sendCaptchaBy);
+    const userVerification = await this.getOrCreate(sendBy);
 
     // 每1分钟仅可发送一次
     if (
@@ -70,7 +71,7 @@ export class UserService {
     // 执行发送邮件
     const sendEmailBy = {
       FromEmailAddress: 'no-replay@account.fantufantu.com',
-      Destination: [sendCaptchaBy.to],
+      Destination: [sendBy.to],
       Subject: '通过邮件确认身份',
       Template: {
         TemplateID: 28985,
@@ -202,5 +203,15 @@ export class UserService {
         id: Not(exclude),
       },
     ]);
+  }
+
+  /**
+   * @author murukal
+   * @description 更新用户信息
+   */
+  async updateUser(id: number, updateBy: UpdateUserBy) {
+    return !!(
+      await this.userRepository.update(id, this.userRepository.create(updateBy))
+    ).affected;
   }
 }
