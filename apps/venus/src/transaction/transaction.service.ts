@@ -9,8 +9,9 @@ import { FilterTransactionBy } from './dto/filter-transaction-by.input';
 import { UpdateTransactionBy } from './dto/update-transaction-by.input';
 import { Transaction } from './entities/transaction.entity';
 import { paginateQuery } from 'utils/api';
-import { GroupedExpense, GroupExpenseArgs } from './dto/group-expense.args';
+import { GroupTransactionAmountByCategory } from './dto/group-transaction-amount-by-category.input';
 import { QueryBy } from 'typings/api';
+import { TransactionAmountGroupedByCategory } from './dto/transaction-amount-grouped-by-category';
 
 @Injectable()
 export class TransactionService {
@@ -20,7 +21,8 @@ export class TransactionService {
   ) {}
 
   /**
-   * 创建交易
+   * @author murukal
+   * @description 创建交易
    */
   create(createTransactionBy: CreateTransactionBy, createdById: number) {
     return this.transactionRepository.save(
@@ -32,7 +34,8 @@ export class TransactionService {
   }
 
   /**
-   * 查询交易列表
+   * @author murukal
+   * @description 查询交易列表
    */
   getTransactions(queryBy: QueryBy<FilterTransactionBy>) {
     const { filterBy, ...queryByWithout } = queryBy;
@@ -47,9 +50,8 @@ export class TransactionService {
   }
 
   /**
-   * 根据 id 查询交易
-   * @param id
-   * @returns
+   * @author murukal
+   * @description 根据 id 查询交易
    */
   getTransactionById(id: number) {
     return this.transactionRepository
@@ -59,7 +61,8 @@ export class TransactionService {
   }
 
   /**
-   * 更新交易
+   * @author murukal
+   * @description 更新交易
    */
   async update(id: number, updateTransactionBy: UpdateTransactionBy) {
     return !!(await this.transactionRepository.update(id, updateTransactionBy))
@@ -67,34 +70,41 @@ export class TransactionService {
   }
 
   /**
-   * 删除交易
-   * @param id
-   * @returns
+   * @author murukal
+   * @description 删除交易
    */
   async remove(id: number) {
     return !!(await this.transactionRepository.delete(id)).affected;
   }
 
   /**
-   * 获取分类下的总金额
-   * @param args
-   * @returns
+   * @author murukal
+   * @description 获取分类下的总金额
    */
-  async getAmountGroupedByCategory(args: GroupExpenseArgs) {
-    return (await this.transactionRepository
-      .createQueryBuilder()
-      .select('categoryId')
-      .addSelect('SUM(amount)', 'amount')
-      .where('categoryId IN (:...categoryIds)', {
-        categoryIds: args.categoryIds,
-      })
-      .andWhere('createdAt >= :from', {
-        from: args.from,
-      })
-      .andWhere('createdAt <= :to', {
-        to: args.to,
-      })
-      .groupBy('categoryId')
-      .execute()) as GroupedExpense[];
+  async getTransactionAmountsGroupedByCategory(
+    groupBy: GroupTransactionAmountByCategory,
+  ) {
+    const { billingId, categoryIds } = groupBy;
+
+    return (
+      (await this.transactionRepository
+        .createQueryBuilder()
+        .select('categoryId')
+        .addSelect('SUM(amount)', 'amount')
+        .where({
+          billingId,
+        })
+        // .andWhere('categoryId IN (:...categoryIds)', {
+        //   categoryIds: categoryIds,
+        // })
+        // .andWhere('createdAt >= :from', {
+        //   from,
+        // })
+        // .andWhere('createdAt <= :to', {
+        //   to,
+        // })
+        .groupBy('categoryId')
+        .execute()) as TransactionAmountGroupedByCategory[]
+    );
   }
 }

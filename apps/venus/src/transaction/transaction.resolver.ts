@@ -24,6 +24,8 @@ import { User } from '../user/entities/user.entity';
 import { PaginatedTransactions } from './dto/paginated-transactions';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 import { Billing } from '../billing/entities/billing.entity';
+import { TransactionAmountGroupedByCategory } from './dto/transaction-amount-grouped-by-category';
+import { GroupTransactionAmountByCategory } from './dto/group-transaction-amount-by-category.input';
 
 @Resolver(() => Transaction)
 export class TransactionResolver {
@@ -91,6 +93,19 @@ export class TransactionResolver {
   @Mutation(() => Boolean)
   removeTransaction(@Args('id', { type: () => Int }) id: number) {
     return this.transactionService.remove(id);
+  }
+
+  @Query(() => [TransactionAmountGroupedByCategory], {
+    name: 'transactionAmountsGroupedByCategory',
+    description: '计算分组总和',
+  })
+  async getTransactionAmountsGroupedByCategory(
+    @Args('groupBy', { description: '分组' })
+    groupBy: GroupTransactionAmountByCategory,
+  ) {
+    return await this.transactionService.getTransactionAmountsGroupedByCategory(
+      groupBy,
+    );
   }
 
   @ResolveField('category', () => Category, {

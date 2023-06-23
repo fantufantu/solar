@@ -1,32 +1,20 @@
 // nest
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Args,
-  Int,
-  ResolveField,
-  Parent,
-} from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { UseInterceptors } from '@nestjs/common';
 // project
 import { CategoryService } from './category.service';
 import { Category } from './entities/category.entity';
 import { CreateCategoryBy } from './dto/create-category-by.input';
 import { UpdateCategoryBy } from './dto/update-category-by.input';
-import { CategoryLoader } from './category.loader';
 import { FilterCategoryBy } from './dto/filter-category-by.input';
 import { PaginateBy } from 'assets/dto';
 import { Filter, Pagination } from 'assets/decorators';
 import { PaginatedCategories } from './dto/paginated-categories';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
-import { UseInterceptors } from '@nestjs/common';
 
 @Resolver(() => Category)
 export class CategoryResolver {
-  constructor(
-    private readonly categoryService: CategoryService,
-    private readonly categoryLoader: CategoryLoader,
-  ) {}
+  constructor(private readonly categoryService: CategoryService) {}
 
   @Mutation(() => Category, {
     description: '创建分类',
@@ -81,12 +69,5 @@ export class CategoryResolver {
     @Args('id', { type: () => Int, description: '分类id' }) id: number,
   ) {
     return this.categoryService.remove(id);
-  }
-
-  @ResolveField('amount', () => Int, {
-    description: '总金额',
-  })
-  getExpense(@Parent() category: Category) {
-    return this.categoryLoader.getAmountGroupedByCategory.load(category.id);
   }
 }
