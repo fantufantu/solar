@@ -67,6 +67,16 @@
     js-levenshtein "^1.1.6"
     uuid "^9.0.0"
 
+"@apollo/federation-internals@2.4.8":
+  version "2.4.8"
+  resolved "https://registry.yarnpkg.com/@apollo/federation-internals/-/federation-internals-2.4.8.tgz#2bd8281a5224168c893f1b485269d435951dee68"
+  integrity sha512-P+lmrP7WJTLMKvcPCBimc5ABgaCxMup5r6MXzZ59N32xsOjD+kvQHEhtiZb368/a833VhiDbIh8ytCMeyBvwFA==
+  dependencies:
+    "@types/uuid" "^9.0.0"
+    chalk "^4.1.0"
+    js-levenshtein "^1.1.6"
+    uuid "^9.0.0"
+
 "@apollo/gateway@^2.4.7":
   version "2.4.7"
   resolved "https://registry.yarnpkg.com/@apollo/gateway/-/gateway-2.4.7.tgz#30e0dc3806992bee7a2be13c5060a89d4c3c9335"
@@ -180,13 +190,13 @@
     uuid "^9.0.0"
     whatwg-mimetype "^3.0.0"
 
-"@apollo/subgraph@^2.4.7":
-  version "2.4.7"
-  resolved "https://registry.yarnpkg.com/@apollo/subgraph/-/subgraph-2.4.7.tgz#24f149f64f3a1080a85569d994dd540234aa5a38"
-  integrity sha512-2P6sROTIiu6hy8q8xCT1vznBctGG5PXclpmMcaEElBmkVfpBlrBsOCdge83onCJ4ODrolZZ6nmyJQFbxHCOiEA==
+"@apollo/subgraph@^2.4.8":
+  version "2.4.8"
+  resolved "https://registry.yarnpkg.com/@apollo/subgraph/-/subgraph-2.4.8.tgz#be76a9dccbae60aae2bfcfafc99b1e8c2df485cf"
+  integrity sha512-nz0cTxmj/u/VBNzEdkCsgZy+FuRBlOcRQQ+CX2D9PdgQpdHESUZSxwXvS59bxGpErsZh578RqMGFjedtoQmVBA==
   dependencies:
     "@apollo/cache-control-types" "^1.0.2"
-    "@apollo/federation-internals" "2.4.7"
+    "@apollo/federation-internals" "2.4.8"
 
 "@apollo/usage-reporting-protobuf@^4.0.0", "@apollo/usage-reporting-protobuf@^4.1.0":
   version "4.1.0"
