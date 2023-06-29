@@ -14,9 +14,15 @@ export class GroupTransactionAmountByCategory {
   })
   categoryIds: number[] | null;
 
-  @Field(() => [Date, Date], {
-    description: '发生日期列表',
+  @Field(() => Date, {
+    description: '交易发生的起始时间',
     nullable: true,
   })
-  happenedIn: [Date, Date] | null;
+  happenedFrom: Date | null;
+
+  @Field(() => Date, {
+    description: '交易发生的截止时间',
+    nullable: true,
+  })
+  happenedTo: Date | null;
 }

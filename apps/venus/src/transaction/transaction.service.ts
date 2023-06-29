@@ -84,27 +84,36 @@ export class TransactionService {
   async getTransactionAmountsGroupedByCategory(
     groupBy: GroupTransactionAmountByCategory,
   ) {
-    const { billingId, categoryIds } = groupBy;
+    const { billingId, categoryIds, happenedFrom, happenedTo } = groupBy;
 
-    return (
-      (await this.transactionRepository
-        .createQueryBuilder()
-        .select('categoryId')
-        .addSelect('SUM(amount)', 'amount')
-        .where({
-          billingId,
-        })
-        // .andWhere('categoryId IN (:...categoryIds)', {
-        //   categoryIds: categoryIds,
-        // })
-        // .andWhere('createdAt >= :from', {
-        //   from,
-        // })
-        // .andWhere('createdAt <= :to', {
-        //   to,
-        // })
-        .groupBy('categoryId')
-        .execute()) as TransactionAmountGroupedByCategory[]
-    );
+    const qb = this.transactionRepository
+      .createQueryBuilder()
+      .select('categoryId')
+      .addSelect('SUM(amount)', 'amount')
+      .where({
+        billingId,
+      });
+
+    // 圈定分类范围
+    categoryIds &&
+      qb.andWhere('categoryId IN (:...categoryIds)', {
+        categoryIds,
+      });
+
+    // 交易发生起始时间
+    happenedFrom &&
+      qb.andWhere('happenedAt >= :happenedFrom', {
+        happenedFrom,
+      });
+
+    // 交易发生截止时间
+    happenedTo &&
+      qb.andWhere('happenedAt <= :happenedTo', {
+        happenedTo,
+      });
+
+    return (await qb
+      .groupBy('categoryId')
+      .execute()) as TransactionAmountGroupedByCategory[];
   }
 }

@@ -97,7 +97,7 @@ export class TransactionResolver {
 
   @Query(() => [TransactionAmountGroupedByCategory], {
     name: 'transactionAmountsGroupedByCategory',
-    description: '计算分组总和',
+    description: '按交易类别计算金额总和',
   })
   async getTransactionAmountsGroupedByCategory(
     @Args('groupBy', { description: '分组' })
