@@ -15,9 +15,8 @@ export class UserService {
   ) {}
 
   /**
-   * 根据 id 查询用户信息
-   * @param id
-   * @returns
+   * @author murukal
+   * @description 根据 id 查询用户信息
    */
   async getUserById(id: number) {
     return await this.userRepository.findOneBy({
@@ -26,7 +25,8 @@ export class UserService {
   }
 
   /**
-   * 设置默认账本
+   * @author murukal
+   * @description 设置默认账本
    */
   async setDefaultBilling(
     setDefaultBillingBy: SetDefaultBillingBy,
