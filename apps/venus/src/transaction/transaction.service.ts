@@ -51,6 +51,8 @@ export class TransactionService {
       },
       sortBy: {
         happenedAt: 'DESC',
+        categoryId: 'ASC',
+        createdAt: 'DESC',
       },
     });
   }
