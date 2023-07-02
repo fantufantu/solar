@@ -44,7 +44,7 @@ export class MenuService {
   /**
    * 分页查询菜单
    */
-  async getMenus(queryBy?: QueryBy<FilterMenuBy>, userId?: number) {
+  async getMenus(queryBy?: QueryBy<FilterMenuBy | undefined>, userId?: number) {
     const { filterBy = {}, ...queryByWithout } = queryBy || {};
     const filterBys = [filterBy];
 

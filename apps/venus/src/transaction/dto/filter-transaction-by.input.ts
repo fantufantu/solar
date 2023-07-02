@@ -7,4 +7,10 @@ export class FilterTransactionBy {
     description: '账本id',
   })
   billingId: number;
+
+  @Field(() => [Int], {
+    description: '分类id列表',
+    nullable: true,
+  })
+  categoryIds: number[] | null;
 }
