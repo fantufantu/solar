@@ -39,7 +39,7 @@ export class TransactionService {
    */
   getTransactions(queryBy: QueryBy<FilterTransactionBy>) {
     const { filterBy, ...queryByWithout } = queryBy;
-    const { categoryIds, ...filterByWithout } = filterBy;
+    const { categoryIds, ...filterByWithout } = filterBy || {};
 
     return paginateQuery(this.transactionRepository, {
       ...queryByWithout,
