@@ -33,7 +33,7 @@
     "bcrypt": "^5.1.0",
     "class-validator": "^0.14.0",
     "dataloader": "^2.2.2",
-    "dayjs": "^1.11.8",
+    "dayjs": "^1.11.9",
     "graphql": "^16.7.1",
     "mysql2": "^3.3.3",
     "passport": "^0.6.0",
