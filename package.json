@@ -35,7 +35,7 @@
     "dataloader": "^2.2.2",
     "dayjs": "^1.11.8",
     "graphql": "^16.7.1",
-    "mysql2": "^3.3.3",
+    "mysql2": "^3.6.2",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
