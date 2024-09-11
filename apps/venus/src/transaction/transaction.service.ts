@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 // third
-import { Repository } from 'typeorm';
+import { In, Repository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
 // project
 import { CreateTransactionBy } from './dto/create-transaction-by.input';
 import { FilterTransactionBy } from './dto/filter-transaction-by.input';
@@ -39,11 +39,26 @@ export class TransactionService {
    */
   getTransactions(queryBy: QueryBy<FilterTransactionBy>) {
     const { filterBy, ...queryByWithout } = queryBy;
+    const { categoryIds, happenedFrom, happenedTo, ...filterByWithout } =
+      filterBy || {};
 
     return paginateQuery(this.transactionRepository, {
       ...queryByWithout,
-      filterBy,
+      filterBy: {
+        ...filterByWithout,
+        ...(categoryIds && {
+          categoryId: In(categoryIds),
+        }),
+        ...(happenedFrom && {
+          happenedAt: MoreThanOrEqual(happenedFrom),
+        }),
+        ...(happenedTo && {
+          happenedAt: LessThanOrEqual(happenedTo),
+        }),
+      },
       sortBy: {
+        happenedAt: 'DESC',
+        categoryId: 'ASC',
         createdAt: 'DESC',
       },
     });
