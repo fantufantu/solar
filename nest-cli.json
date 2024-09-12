@@ -89,6 +89,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/halley/tsconfig.app.json"
       }
+    },
+    "earth": {
+      "type": "application",
+      "root": "apps/earth",
+      "entryFile": "main",
+      "sourceRoot": "apps/earth/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/earth/tsconfig.app.json"
+      }
     }
   }
 }

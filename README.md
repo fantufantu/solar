@@ -9,6 +9,7 @@
 - venus = 记账 app 的业务服务
 - earth = 个人主页的业务服务
 - pluto = 用于配置环境变量
+- halley = graphql 集成服务
 
 ### 服务器重装系统步骤
 
