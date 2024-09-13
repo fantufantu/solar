@@ -2,11 +2,11 @@
 import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class TransactionAmountGroupedByCategory {
+export class TransactionAmountGroupedBySubject {
   @Field(() => Int, {
-    description: '分类 id',
+    description: '科目id',
   })
-  categoryId: number;
+  subjectId: number;
 
   @Field(() => Float, {
     description: '合计金额',

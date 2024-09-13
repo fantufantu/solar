@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @ObjectType()
-export class Foundation {
+export class Preset {
   @Field(() => Int, {
     description: 'id',
   })

@@ -3,12 +3,12 @@ import { ObjectType, Field } from '@nestjs/graphql';
 // third
 import { Column, Entity } from 'typeorm';
 // project
-import { Foundation } from 'assets/entities/foundation.entity';
+import { Preset } from 'assets/entities/preset.entity';
 import { Direction } from 'assets/entities/direction.transaction.enum';
 
 @ObjectType()
 @Entity()
-export class Category extends Foundation {
+export class Subject extends Preset {
   @Field(() => String, { description: '名称' })
   @Column()
   name: string;

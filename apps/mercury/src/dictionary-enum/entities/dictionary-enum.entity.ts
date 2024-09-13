@@ -3,12 +3,12 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 // third
 import { Column, Entity, ManyToOne } from 'typeorm';
 // project
-import { Foundation } from 'assets/entities/foundation.entity';
+import { Preset } from 'assets/entities/preset.entity';
 import { Dictionary } from '../../dictionary/entities/dictionary.entity';
 
 @Entity()
 @ObjectType()
-export class DictionaryEnum extends Foundation {
+export class DictionaryEnum extends Preset {
   @Field(() => String, {
     description: 'code',
   })

@@ -13,13 +13,13 @@ import { randomUUID } from 'crypto';
 import { hashSync } from 'bcrypt';
 import { IsEmail, MaxLength, MinLength, isURL } from 'class-validator';
 // project
-import { Foundation } from 'assets/entities/foundation.entity';
+import { Preset } from 'assets/entities/preset.entity';
 import { Role } from '../../role/entities/role.entity';
 
 @ObjectType()
 @Directive('@key(fields: "id")')
 @Entity()
-export class User extends Foundation {
+export class User extends Preset {
   @Field(() => String, {
     description: '用户名',
   })

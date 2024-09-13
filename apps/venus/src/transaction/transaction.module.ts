@@ -5,14 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TransactionService } from './transaction.service';
 import { TransactionResolver } from './transaction.resolver';
 import { Transaction } from './entities/transaction.entity';
-import { CategoryModule } from '../category/category.module';
+import { SubjectModule } from '../subject/subject.module';
 import { TransactionLoader } from './transaction.loader';
 import { BillingModule } from '../billing/billing.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Transaction]),
-    forwardRef(() => CategoryModule),
+    forwardRef(() => SubjectModule),
     BillingModule,
   ],
   providers: [TransactionLoader, TransactionService, TransactionResolver],

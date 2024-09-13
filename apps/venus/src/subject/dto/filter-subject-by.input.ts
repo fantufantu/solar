@@ -2,9 +2,9 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
-export class FilterCategoryBy {
+export class FilterSubjectBy {
   @Field(() => [Int], {
-    description: '分类 id 列表',
+    description: '科目id列表',
   })
   ids: number[];
 }

@@ -13,11 +13,11 @@ import {
 // project
 import { AuthorizationResource } from '../../auth/entities/authorization-resource.entity';
 import { Tenant } from '../../tenant/entities/tenant.entity';
-import { Foundation } from 'assets/entities/foundation.entity';
+import { Preset } from 'assets/entities/preset.entity';
 
 @ObjectType()
 @Entity()
-export class Menu extends Foundation {
+export class Menu extends Preset {
   @Field(() => String, { description: '名称' })
   @Column()
   @IsString()

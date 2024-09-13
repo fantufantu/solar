@@ -2,17 +2,17 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
-export class GroupTransactionAmountByCategory {
+export class GroupTransactionAmountBySubject {
   @Field(() => Int, {
     description: '账本 id',
   })
   billingId: number;
 
   @Field(() => [Int], {
-    description: '分类 id 列表',
+    description: '科目id列表',
     nullable: true,
   })
-  categoryIds: number[] | null;
+  subjectIds: number[] | null;
 
   @Field(() => Date, {
     description: '交易发生的起始时间',

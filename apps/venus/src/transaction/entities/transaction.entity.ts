@@ -3,13 +3,13 @@ import { ObjectType, Field, Float, Int } from '@nestjs/graphql';
 // third
 import { Column, Entity, ManyToOne } from 'typeorm';
 // project
-import { Foundation } from 'assets/entities/foundation.entity';
-import { Category } from '../../category/entities/category.entity';
+import { Preset } from 'assets/entities/preset.entity';
+import { Subject } from '../../subject/entities/subject.entity';
 import { Billing } from '../../billing/entities/billing.entity';
 
 @ObjectType()
 @Entity()
-export class Transaction extends Foundation {
+export class Transaction extends Preset {
   @Field(() => Int, {
     description: '账本id',
   })
@@ -20,13 +20,13 @@ export class Transaction extends Foundation {
   billing: Billing;
 
   @Field(() => Int, {
-    description: '分类id',
+    description: '科目id',
   })
   @Column()
-  categoryId: number;
+  subjectId: number;
 
-  @ManyToOne(() => Category)
-  category: Category;
+  @ManyToOne(() => Subject)
+  subject: Subject;
 
   @Field(() => Float, { description: '交易金额' })
   @Column({

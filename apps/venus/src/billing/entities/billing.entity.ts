@@ -3,12 +3,12 @@ import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 // third
 import { Column, DeleteDateColumn, Entity } from 'typeorm';
 // project
-import { Foundation } from 'assets/entities/foundation.entity';
+import { Preset } from 'assets/entities/preset.entity';
 import { LimitDuration } from 'assets/entities/limit-duration.billing.enum';
 
 @ObjectType()
 @Entity()
-export class Billing extends Foundation {
+export class Billing extends Preset {
   @Field(() => String, { description: '账本名称' })
   @Column()
   name: string;

@@ -12,7 +12,7 @@ import { ApplicationToken } from 'assets/tokens';
 import { BillingModule } from './billing/billing.module';
 import { SharingModule } from './sharing/sharing.module';
 import { UserModule } from './user/user.module';
-import { CategoryModule } from './category/category.module';
+import { SubjectModule } from './subject/subject.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { MercuryClientModule } from '@app/mercury-client';
 
@@ -37,8 +37,8 @@ import { MercuryClientModule } from '@app/mercury-client';
     BillingModule,
     // 分享
     SharingModule,
-    // 分类
-    CategoryModule,
+    // 科目
+    SubjectModule,
     // 交易
     TransactionModule,
   ],

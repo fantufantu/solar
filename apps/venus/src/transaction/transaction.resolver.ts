@@ -19,13 +19,13 @@ import { JwtAuthGuard } from '@app/passport/guards';
 import { Filter, Pagination, WhoAmI } from 'assets/decorators';
 import { FilterTransactionBy } from './dto/filter-transaction-by.input';
 import { PaginateBy } from 'assets/dto';
-import { Category } from '../category/entities/category.entity';
+import { Subject } from '../subject/entities/subject.entity';
 import { User } from '../user/entities/user.entity';
 import { PaginatedTransactions } from './dto/paginated-transactions';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 import { Billing } from '../billing/entities/billing.entity';
-import { TransactionAmountGroupedByCategory } from './dto/transaction-amount-grouped-by-category';
-import { GroupTransactionAmountByCategory } from './dto/group-transaction-amount-by-category.input';
+import { TransactionAmountGroupedBySubject } from './dto/transaction-amount-grouped-by-subject';
+import { GroupTransactionAmountBySubject } from './dto/group-transaction-amount-by-subject.input';
 
 @Resolver(() => Transaction)
 export class TransactionResolver {
@@ -95,24 +95,24 @@ export class TransactionResolver {
     return this.transactionService.remove(id);
   }
 
-  @Query(() => [TransactionAmountGroupedByCategory], {
-    name: 'transactionAmountsGroupedByCategory',
+  @Query(() => [TransactionAmountGroupedBySubject], {
+    name: 'transactionAmountsGroupedBySubject',
     description: '按交易类别计算金额总和',
   })
-  async getTransactionAmountsGroupedByCategory(
+  async getTransactionAmountsGroupedBySubject(
     @Args('groupBy', { description: '分组' })
-    groupBy: GroupTransactionAmountByCategory,
+    groupBy: GroupTransactionAmountBySubject,
   ) {
-    return await this.transactionService.getTransactionAmountsGroupedByCategory(
+    return await this.transactionService.getTransactionAmountsGroupedBySubject(
       groupBy,
     );
   }
 
-  @ResolveField('category', () => Category, {
-    description: '分类',
+  @ResolveField('subject', () => Subject, {
+    description: '科目',
   })
-  getCategory(@Parent() transaction: Transaction) {
-    return this.transactionLoader.categoryLoader.load(transaction.categoryId);
+  getSubject(@Parent() transaction: Transaction) {
+    return this.transactionLoader.subjectLoader.load(transaction.subjectId);
   }
 
   @ResolveField('createdBy', () => User, {

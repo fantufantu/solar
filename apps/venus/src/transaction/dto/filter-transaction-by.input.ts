@@ -9,10 +9,10 @@ export class FilterTransactionBy {
   billingId: number;
 
   @Field(() => [Int], {
-    description: '分类id列表',
+    description: '科目id列表',
     nullable: true,
   })
-  categoryIds: number[] | null;
+  subjectIds: number[] | null;
 
   @Field(() => Date, {
     description: '交易发生的起始时间',

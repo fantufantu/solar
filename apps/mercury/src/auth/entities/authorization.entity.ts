@@ -11,7 +11,7 @@ import {
   AuthorizationResource,
   AuthorizationResourceCode,
 } from './authorization-resource.entity';
-import { Foundation } from 'assets/entities/foundation.entity';
+import { Preset } from 'assets/entities/preset.entity';
 import { Tenant } from '../../tenant/entities/tenant.entity';
 
 @Entity()
@@ -19,7 +19,7 @@ import { Tenant } from '../../tenant/entities/tenant.entity';
 @ObjectType({
   description: '权限',
 })
-export class Authorization extends Foundation {
+export class Authorization extends Preset {
   @Column()
   tenantCode: string;
 

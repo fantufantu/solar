@@ -1,11 +1,11 @@
 // nest
 import { InputType, PickType } from '@nestjs/graphql';
 // project
-import { Category } from '../entities/category.entity';
+import { Subject } from '../entities/subject.entity';
 
 @InputType()
-export class CreateCategoryBy extends PickType(
-  Category,
+export class CreateSubjectBy extends PickType(
+  Subject,
   ['name', 'direction'],
   InputType,
 ) {}
