@@ -1,9 +1,9 @@
-import { Field, InputType, Int, PickType } from '@nestjs/graphql';
+import { Field, InputType, PickType } from '@nestjs/graphql';
 import { Article } from '../entities/article.entity';
 
 /**
  * @description
- * 创建文章实体
+ * 创建文章
  */
 @InputType()
 export class CreateArticleBy extends PickType(
@@ -11,8 +11,8 @@ export class CreateArticleBy extends PickType(
   ['title', 'content', 'cover'],
   InputType,
 ) {
-  @Field(() => [Int], {
-    description: '分类ID列表',
+  @Field(() => [String], {
+    description: '分类code列表',
   })
-  categoryIds: number[];
+  categoryCodes: number[];
 }

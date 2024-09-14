@@ -15,6 +15,14 @@ import { Article } from '../../article/entities/article.entity';
 @Entity()
 export class Category extends Preset {
   @Field(() => String, {
+    description: '分类code',
+  })
+  @Column()
+  @IsString()
+  @MaxLength(40)
+  code: string;
+
+  @Field(() => String, {
     description: '名称',
   })
   @Column()

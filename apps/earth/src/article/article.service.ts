@@ -17,7 +17,7 @@ export class ArticleService {
    * 创建文章
    */
   async create(createBy: CreateArticleBy, createdById: number) {
-    const { categoryIds, ..._article } = createBy;
+    const { categoryCodes, ..._article } = createBy;
 
     const article = await this.articleRepository.save(
       this.articleRepository.create({
@@ -32,7 +32,7 @@ export class ArticleService {
       .createQueryBuilder()
       .relation('categories')
       .of(article.id)
-      .add(categoryIds);
+      .add(categoryCodes);
 
     return article;
   }
