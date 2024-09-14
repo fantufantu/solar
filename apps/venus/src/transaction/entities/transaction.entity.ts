@@ -1,10 +1,7 @@
-// nest
 import { ObjectType, Field, Float, Int } from '@nestjs/graphql';
-// third
 import { Column, Entity, ManyToOne } from 'typeorm';
-// project
 import { Preset } from 'assets/entities/preset.entity';
-import { Subject } from '../../subject/entities/subject.entity';
+import { Category } from '../../category/entities/category.entity';
 import { Billing } from '../../billing/entities/billing.entity';
 
 @ObjectType()
@@ -20,13 +17,13 @@ export class Transaction extends Preset {
   billing: Billing;
 
   @Field(() => Int, {
-    description: '科目id',
+    description: '分类id',
   })
   @Column()
-  subjectId: number;
+  categoryId: number;
 
-  @ManyToOne(() => Subject)
-  subject: Subject;
+  @ManyToOne(() => Category)
+  category: Category;
 
   @Field(() => Float, { description: '交易金额' })
   @Column({

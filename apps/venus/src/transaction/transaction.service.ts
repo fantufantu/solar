@@ -9,9 +9,9 @@ import { FilterTransactionBy } from './dto/filter-transaction-by.input';
 import { UpdateTransactionBy } from './dto/update-transaction-by.input';
 import { Transaction } from './entities/transaction.entity';
 import { paginateQuery } from 'utils/api';
-import { GroupTransactionAmountBySubject } from './dto/group-transaction-amount-by-subject.input';
+import { GroupTransactionAmountByCategory } from './dto/group-transaction-amount-by-category.input';
 import { QueryBy } from 'typings/api';
-import { TransactionAmountGroupedBySubject } from './dto/transaction-amount-grouped-by-subject';
+import { TransactionAmountGroupedByCategory } from './dto/transaction-amount-grouped-by-category';
 
 @Injectable()
 export class TransactionService {
@@ -39,15 +39,15 @@ export class TransactionService {
    */
   getTransactions(queryBy: QueryBy<FilterTransactionBy>) {
     const { filterBy, ..._queryBy } = queryBy;
-    const { subjectIds, happenedFrom, happenedTo, ..._filterBy } =
+    const { categoryIds, happenedFrom, happenedTo, ..._filterBy } =
       filterBy || {};
 
     return paginateQuery(this.transactionRepository, {
       ..._queryBy,
       filterBy: {
         ..._filterBy,
-        ...(subjectIds && {
-          subjectId: In(subjectIds),
+        ...(categoryIds && {
+          categoryId: In(categoryIds),
         }),
         ...(happenedFrom && {
           happenedAt: MoreThanOrEqual(happenedFrom),
@@ -58,7 +58,7 @@ export class TransactionService {
       },
       sortBy: {
         happenedAt: 'DESC',
-        subjectId: 'ASC',
+        categoryId: 'ASC',
         createdAt: 'DESC',
       },
     });
@@ -94,25 +94,25 @@ export class TransactionService {
 
   /**
    * @author murukal
-   * @description 获取科目下的总金额
+   * @description 获取分类下的总金额
    */
-  async getTransactionAmountsGroupedBySubject(
-    groupBy: GroupTransactionAmountBySubject,
+  async getTransactionAmountsGroupedByCategory(
+    groupBy: GroupTransactionAmountByCategory,
   ) {
-    const { billingId, subjectIds, happenedFrom, happenedTo } = groupBy;
+    const { billingId, categoryIds, happenedFrom, happenedTo } = groupBy;
 
     const qb = this.transactionRepository
       .createQueryBuilder()
-      .select('subjectId')
+      .select('categoryId')
       .addSelect('SUM(amount)', 'amount')
       .where({
         billingId,
       });
 
-    // 圈定科目范围
-    subjectIds &&
-      qb.andWhere('subjectId IN (:...subjectIds)', {
-        subjectIds,
+    // 圈定分类范围
+    categoryIds &&
+      qb.andWhere('categoryId IN (:...categoryIds)', {
+        categoryIds,
       });
 
     // 交易发生起始时间
@@ -128,7 +128,7 @@ export class TransactionService {
       });
 
     return (await qb
-      .groupBy('subjectId')
-      .execute()) as TransactionAmountGroupedBySubject[];
+      .groupBy('categoryId')
+      .execute()) as TransactionAmountGroupedByCategory[];
   }
 }

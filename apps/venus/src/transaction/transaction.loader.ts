@@ -1,32 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import DataLoader = require('dataloader');
-import { SubjectService } from '../subject/subject.service';
-import { Subject } from '../subject/entities/subject.entity';
+import { CategoryService } from '../category/category.service';
+import { Category } from '../category/entities/category.entity';
 import { Billing } from '../billing/entities/billing.entity';
 import { BillingService } from '../billing/billing.service';
 
 @Injectable()
 export class TransactionLoader {
   constructor(
-    private readonly subjectService: SubjectService,
+    private readonly categoryService: CategoryService,
     private readonly billingService: BillingService,
   ) {}
 
   /**
    * @author murukal
    * @description
-   * 根据科目id获取科目信息
+   * 根据分类id获取分类信息
    */
-  readonly subjectLoader = new DataLoader<number, Subject | null>(
+  readonly categoryLoader = new DataLoader<number, Category | null>(
     async (ids: number[]) => {
-      const [subjects] = await this.subjectService.getCategories({
+      const [categories] = await this.categoryService.getCategories({
         filterBy: {
           ids,
         },
       });
 
       return ids.map(
-        (id) => subjects.find((subject) => subject.id === id) || null,
+        (id) => categories.find((category) => category.id === id) || null,
       );
     },
   );

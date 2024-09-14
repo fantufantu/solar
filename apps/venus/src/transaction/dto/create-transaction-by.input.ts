@@ -4,6 +4,6 @@ import { Transaction } from '../entities/transaction.entity';
 @InputType()
 export class CreateTransactionBy extends PickType(
   Transaction,
-  ['billingId', 'subjectId', 'amount', 'remark', 'happenedAt'],
+  ['billingId', 'categoryId', 'amount', 'remark', 'happenedAt'],
   InputType,
 ) {}

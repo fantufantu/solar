@@ -1,4 +1,3 @@
-// nest
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import {
   Resolver,
@@ -9,7 +8,6 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-// project
 import { TransactionService } from './transaction.service';
 import { Transaction } from './entities/transaction.entity';
 import { CreateTransactionBy } from './dto/create-transaction-by.input';
@@ -19,13 +17,13 @@ import { JwtAuthGuard } from '@app/passport/guards';
 import { Filter, Pagination, WhoAmI } from 'assets/decorators';
 import { FilterTransactionBy } from './dto/filter-transaction-by.input';
 import { PaginateBy } from 'assets/dto';
-import { Subject } from '../subject/entities/subject.entity';
+import { Category } from '../category/entities/category.entity';
 import { User } from '../user/entities/user.entity';
 import { PaginatedTransactions } from './dto/paginated-transactions';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 import { Billing } from '../billing/entities/billing.entity';
-import { TransactionAmountGroupedBySubject } from './dto/transaction-amount-grouped-by-subject';
-import { GroupTransactionAmountBySubject } from './dto/group-transaction-amount-by-subject.input';
+import { TransactionAmountGroupedByCategory } from './dto/transaction-amount-grouped-by-category';
+import { GroupTransactionAmountByCategory } from './dto/group-transaction-amount-by-category.input';
 
 @Resolver(() => Transaction)
 export class TransactionResolver {
@@ -95,24 +93,24 @@ export class TransactionResolver {
     return this.transactionService.remove(id);
   }
 
-  @Query(() => [TransactionAmountGroupedBySubject], {
-    name: 'transactionAmountsGroupedBySubject',
+  @Query(() => [TransactionAmountGroupedByCategory], {
+    name: 'transactionAmountsGroupedByCategory',
     description: '按交易类别计算金额总和',
   })
-  async getTransactionAmountsGroupedBySubject(
+  async getTransactionAmountsGroupedByCategory(
     @Args('groupBy', { description: '分组' })
-    groupBy: GroupTransactionAmountBySubject,
+    groupBy: GroupTransactionAmountByCategory,
   ) {
-    return await this.transactionService.getTransactionAmountsGroupedBySubject(
+    return await this.transactionService.getTransactionAmountsGroupedByCategory(
       groupBy,
     );
   }
 
-  @ResolveField('subject', () => Subject, {
-    description: '科目',
+  @ResolveField('category', () => Category, {
+    description: '分类',
   })
-  getSubject(@Parent() transaction: Transaction) {
-    return this.transactionLoader.subjectLoader.load(transaction.subjectId);
+  getCategory(@Parent() transaction: Transaction) {
+    return this.transactionLoader.categoryLoader.load(transaction.categoryId);
   }
 
   @ResolveField('createdBy', () => User, {
