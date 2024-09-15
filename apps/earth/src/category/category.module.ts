@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Category } from '../../../../libs/database/src/entities/earth/category.entity.js';
+import { Category } from '@/lib/database/entities/earth/category.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Category])],

@@ -27,8 +27,8 @@ export class Article extends Preset {
   @Column()
   createdById: number;
 
-  @OneToMany(() => ArticleToCategory, (_) => _.article)
-  public articleToCategory: ArticleToCategory[];
+  // @OneToMany(() => ArticleToCategory, (_) => _.article)
+  // articleToCategory: ArticleToCategory[];
 
   @BeforeInsert()
   @BeforeUpdate()

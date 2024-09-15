@@ -54,4 +54,11 @@ export class ArticleResolver {
       filterBy,
     });
   }
+
+  @Mutation(() => Boolean, {
+    description: '删除文章',
+  })
+  remove(@Args('id', { type: () => Int }) id: number) {
+    return this.articleService.remove(id);
+  }
 }

@@ -2,11 +2,11 @@
 import { Injectable } from '@nestjs/common';
 import { CreateArticleBy } from './dto/create-article-by.input';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Article } from '../../../../libs/database/src/entities/earth/article.entity';
+import { Article } from '@/lib/database/entities/earth/article.entity';
 import { Repository } from 'typeorm';
 import { UpdateArticleInput } from './dto/update-article-by.input';
-import { isEmpty } from '@aiszlab/relax';
-import { Category } from '../../../../libs/database/src/entities/earth/category.entity';
+// import { isEmpty } from '@aiszlab/relax';
+import { Category } from '@/lib/database/entities/earth/category.entity';
 import { FilterArticlesBy } from './dto/filter-articles-by.input';
 import { QueryBy } from 'typings/api';
 import { ArticleToCategory } from '@/lib/database/entities/earth/article_to_category.entity';
@@ -52,15 +52,15 @@ export class ArticleService {
   async update(id: number, updateBy: UpdateArticleInput) {
     const { categoryCodes, ...article } = updateBy;
 
-    // 更新文章
-    if (!isEmpty(article)) {
-      await this.articleRepository
-        .createQueryBuilder()
-        .update()
-        .set(article)
-        .whereInIds(id)
-        .execute();
-    }
+    // // 更新文章
+    // if (!isEmpty(article)) {
+    //   await this.articleRepository
+    //     .createQueryBuilder()
+    //     .update()
+    //     .set(article)
+    //     .whereInIds(id)
+    //     .execute();
+    // }
 
     // 更新关联的分类codes
     if (!!categoryCodes) {
@@ -105,5 +105,19 @@ export class ArticleService {
       .getManyAndCount();
 
     return articles;
+  }
+
+  /**
+   * @description
+   * 删除文章
+   */
+  async remove(id: number) {
+    return !!(
+      await this.articleRepository
+        .createQueryBuilder()
+        .delete()
+        .whereInIds(id)
+        .execute()
+    ).affected;
   }
 }

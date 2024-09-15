@@ -38,8 +38,8 @@ export class Category extends Preset {
   @Column()
   image: string;
 
-  @OneToMany(() => ArticleToCategory, (_) => _.category)
-  public articleToCategory: ArticleToCategory[];
+  // @OneToMany(() => ArticleToCategory, (_) => _.category)
+  // public articleToCategory: ArticleToCategory[];
 
   @BeforeInsert()
   @BeforeUpdate()

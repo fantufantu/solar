@@ -4,7 +4,7 @@ import { Repository, FindOneOptions, In, Like, Not } from 'typeorm';
 import { SendCaptchaBy } from './dto/send-captcha-by.input';
 import { UserVerification } from './entities/user-verification.entity';
 import { User } from './entities/user.entity';
-import dayjs = require('dayjs');
+import dayjs from 'dayjs';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
 import { ClientConfig } from 'tencentcloud-sdk-nodejs/tencentcloud/common/interface';
 import { ConfigRegisterToken, TencentCloudPropertyToken } from 'assets/tokens';

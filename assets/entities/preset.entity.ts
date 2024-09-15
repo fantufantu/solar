@@ -1,6 +1,4 @@
-// nest
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-// third
 import {
   CreateDateColumn,
   PrimaryGeneratedColumn,

@@ -1,5 +1,5 @@
-import { Paginated } from 'assets/dto/paginated.factory.js';
-import { Article } from '../../../../../libs/database/src/entities/earth/article.entity.js';
+import { Paginated } from 'assets/dto/paginated.factory';
+import { Article } from '@/lib/database/entities/earth/article.entity';
 import { ObjectType } from '@nestjs/graphql';
 
 @ObjectType()

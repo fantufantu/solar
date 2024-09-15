@@ -11,20 +11,17 @@ import { Category } from './category.entity';
 
 @Entity()
 export class ArticleToCategory extends Preset {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column({ name: 'article_id' })
   articleId: number;
 
   @Column({ name: 'category_code' })
   categoryCode: string;
 
-  @ManyToOne(() => Article, (article) => article.articleToCategory)
-  @JoinColumn({ name: 'article_id' })
-  article: Article;
+  // @ManyToOne(() => Article, (article) => article.articleToCategory)
+  // @JoinColumn({ name: 'article_id' })
+  // article: Article;
 
-  @ManyToOne(() => Category, (category) => category.articleToCategory)
-  @JoinColumn({ name: 'category_code', referencedColumnName: 'code' })
-  category: Category;
+  // @ManyToOne(() => Category, (category) => category.articleToCategory)
+  // @JoinColumn({ name: 'category_code', referencedColumnName: 'code' })
+  // category: Category;
 }
