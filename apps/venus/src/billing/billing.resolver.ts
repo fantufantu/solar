@@ -1,4 +1,3 @@
-// nest
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import {
   Resolver,
@@ -9,12 +8,11 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-// project
 import { BillingService } from './billing.service';
 import { Billing } from './entities/billing.entity';
 import { CreateBillingBy } from './dto/create-billing-by.input';
 import { UpdateBillingBy } from './dto/update-billing-by.input';
-import { JwtAuthGuard } from '@app/passport/guards';
+import { JwtAuthGuard } from '@/lib/passport/guards';
 import { WhoAmI } from 'assets/decorators';
 import { Sharing } from '../sharing/entities/sharing.entity';
 import { BillingLoader } from './billing.loader';

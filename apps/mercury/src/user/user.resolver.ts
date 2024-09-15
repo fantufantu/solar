@@ -8,7 +8,7 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 // project
-import { JwtAuthGuard } from '@app/passport/guards';
+import { JwtAuthGuard } from '@/lib/passport/guards';
 import { WhoAmI } from 'assets/decorators';
 import { SendCaptchaBy } from './dto/send-captcha-by.input';
 import { User } from './entities/user.entity';

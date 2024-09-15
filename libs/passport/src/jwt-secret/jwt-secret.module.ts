@@ -1,7 +1,5 @@
-// nest
 import { Module } from '@nestjs/common';
-// project
-import { PlutoClientModule, PlutoClientService } from '@app/pluto-client';
+import { PlutoClientModule, PlutoClientService } from '@/lib/pluto-client';
 import {
   ConfigRegisterToken,
   JwtPropertyToken,

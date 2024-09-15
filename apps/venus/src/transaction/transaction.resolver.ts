@@ -13,7 +13,7 @@ import { Transaction } from './entities/transaction.entity';
 import { CreateTransactionBy } from './dto/create-transaction-by.input';
 import { UpdateTransactionBy } from './dto/update-transaction-by.input';
 import { TransactionLoader } from './transaction.loader';
-import { JwtAuthGuard } from '@app/passport/guards';
+import { JwtAuthGuard } from '@/lib/passport/guards';
 import { Filter, Pagination, WhoAmI } from 'assets/decorators';
 import { FilterTransactionBy } from './dto/filter-transaction-by.input';
 import { PaginateBy } from 'assets/dto';

@@ -1,4 +1,3 @@
-// nest
 import {
   SetMetadata,
   createParamDecorator,
@@ -7,8 +6,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Args, ArgsOptions, GqlExecutionContext } from '@nestjs/graphql';
-// project
-import { JwtAuthGuard } from '@app/passport/guards';
+import { JwtAuthGuard } from '@/lib/passport/guards';
 import { AuthorizationActionCode } from 'apps/mercury/src/auth/entities/authorization-action.entity';
 import { AuthorizationResourceCode } from 'apps/mercury/src/auth/entities/authorization-resource.entity';
 import { MetadataToken } from 'assets/tokens';
@@ -36,7 +34,7 @@ export const Permission = (permitBy: PermitBy) => {
  * 用户信息
  */
 export const WhoAmI = createParamDecorator(
-  (data: unknown, context: ExecutionContext) => {
+  (_: unknown, context: ExecutionContext) => {
     const ctx = GqlExecutionContext.create(context);
     return ctx.getContext().req.user;
   },

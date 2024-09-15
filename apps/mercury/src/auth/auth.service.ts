@@ -1,12 +1,9 @@
-// nest
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-// third
 import { compareSync } from 'bcrypt';
 import { constants, privateDecrypt, randomUUID } from 'crypto';
-// project
-import { PlutoClientService } from '@app/pluto-client';
-import { PassportService } from '@app/passport';
+import { PlutoClientService } from '@/lib/pluto-client';
+import { PassportService } from '@/lib/passport';
 import { RegisterBy } from './dto/register-by.input';
 import { paginateQuery } from 'utils/api';
 import { Authorization } from './entities/authorization.entity';
@@ -17,7 +14,6 @@ import { AuthorizeBy } from './dto/authorize-by.input';
 import { ConfigRegisterToken, RsaPropertyToken } from 'assets/tokens';
 import { UserService } from '../user/user.service';
 import { UserVerificationType } from '../user/entities/user-verification.entity';
-// typings
 import type { QueryBy } from 'typings/api';
 import type { LoginBy } from './dto/login-by.input';
 import type { Repository } from 'typeorm';

@@ -14,7 +14,7 @@ import { AuthorizationResourceCode } from '../auth/entities/authorization-resour
 import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
 import { PaginatedMenus } from './dto/paginated-menus';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '@app/passport/guards';
+import { JwtAuthGuard } from '@/lib/passport/guards';
 import { WhoAmI, Pagination, Permission, Filter } from 'assets/decorators';
 import { User } from '../user/entities/user.entity';
 import { MenuService } from './menu.service';

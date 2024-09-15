@@ -4,15 +4,15 @@ import {
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
-import { DatabaseModule } from '@app/database';
-import { PassportModule } from '@app/passport';
+import { DatabaseModule } from '@/lib/database';
+import { PassportModule } from '@/lib/passport';
 import { ApplicationToken } from 'assets/tokens';
 import { BillingModule } from './billing/billing.module';
 import { SharingModule } from './sharing/sharing.module';
 import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
 import { TransactionModule } from './transaction/transaction.module';
-import { MercuryClientModule } from '@app/mercury-client';
+import { MercuryClientModule } from '@/lib/mercury-client';
 
 @Module({
   imports: [

@@ -15,7 +15,7 @@ import { SetDefaultBillingBy } from './dto/set-default-billing-by.input';
 import { User } from './entities/user.entity';
 import { UserLoader } from './user.loader';
 import { UserService } from './user.service';
-import { JwtAuthGuard } from '@app/passport/guards';
+import { JwtAuthGuard } from '@/lib/passport/guards';
 
 @Resolver(() => User)
 export class UserResolver {

@@ -1,16 +1,9 @@
 import { BadRequestException } from '@nestjs/common';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { isURL } from 'class-validator';
-import {
-  BeforeInsert,
-  BeforeUpdate,
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-} from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 import { Preset } from 'assets/entities/preset.entity';
-import { Category } from '../../category/entities/category.entity';
+import { ArticleToCategory } from './article_to_category.entity';
 
 @ObjectType()
 @Entity()
@@ -34,18 +27,8 @@ export class Article extends Preset {
   @Column()
   createdById: number;
 
-  @ManyToMany(() => Category, (category) => category.articles)
-  @JoinTable({
-    joinColumn: {
-      name: 'article',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'category',
-      referencedColumnName: 'code',
-    },
-  })
-  categories: Category[];
+  @OneToMany(() => ArticleToCategory, (_) => _.article)
+  public articleToCategory: ArticleToCategory[];
 
   @BeforeInsert()
   @BeforeUpdate()

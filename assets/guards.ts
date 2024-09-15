@@ -1,10 +1,8 @@
-// nest
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
-// project
 import { MetadataToken } from 'assets/tokens';
-import { MercuryClientService } from '@app/mercury-client';
+import { MercuryClientService } from '@/lib/mercury-client';
 import type { PermitBy } from './decorators';
 
 @Injectable()

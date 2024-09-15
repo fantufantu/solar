@@ -8,7 +8,7 @@ import dayjs = require('dayjs');
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
 import { ClientConfig } from 'tencentcloud-sdk-nodejs/tencentcloud/common/interface';
 import { ConfigRegisterToken, TencentCloudPropertyToken } from 'assets/tokens';
-import { PlutoClientService } from '@app/pluto-client';
+import { PlutoClientService } from '@/lib/pluto-client';
 import type { VerifyBy } from './dto/verify-by.input';
 import { UpdateUserBy } from './dto/update-user-by.input';
 

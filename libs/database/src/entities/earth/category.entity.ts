@@ -7,9 +7,11 @@ import {
   Column,
   Entity,
   ManyToMany,
+  OneToMany,
 } from 'typeorm';
 import { Preset } from 'assets/entities/preset.entity';
-import { Article } from '../../article/entities/article.entity';
+import { Article } from './article.entity';
+import { ArticleToCategory } from './article_to_category.entity';
 
 @ObjectType()
 @Entity()
@@ -36,8 +38,8 @@ export class Category extends Preset {
   @Column()
   image: string;
 
-  @ManyToMany(() => Article, (article) => article.categories)
-  articles: Article[];
+  @OneToMany(() => ArticleToCategory, (_) => _.category)
+  public articleToCategory: ArticleToCategory[];
 
   @BeforeInsert()
   @BeforeUpdate()

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "Preserve",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -17,15 +17,16 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
+    "moduleResolution": "Bundler",
     "paths": {
-      "@app/passport": ["libs/passport/src"],
-      "@app/passport/*": ["libs/passport/src/*"],
-      "@app/database": ["libs/database/src"],
-      "@app/database/*": ["libs/database/src/*"],
-      "@app/mercury-client": ["libs/mercury-client/src"],
-      "@app/mercury-client/*": ["libs/mercury-client/src/*"],
-      "@app/pluto-client": ["libs/pluto-client/src"],
-      "@app/pluto-client/*": ["libs/pluto-client/src/*"]
+      "@/lib/passport": ["libs/passport/src"],
+      "@/lib/passport/*": ["libs/passport/src/*"],
+      "@/lib/database": ["libs/database/src"],
+      "@/lib/database/*": ["libs/database/src/*"],
+      "@/lib/mercury-client": ["libs/mercury-client/src"],
+      "@/lib/mercury-client/*": ["libs/mercury-client/src/*"],
+      "@/lib/pluto-client": ["libs/pluto-client/src"],
+      "@/lib/pluto-client/*": ["libs/pluto-client/src/*"]
     }
   }
 }
