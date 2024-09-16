@@ -14,8 +14,8 @@
     "start:pluto": "nest start pluto",
     "start:mercury": "nest start mercury",
     "start:venus": "nest start venus",
-    "start:halley": "nest start halley",
-    "build": "rimraf ./dist && nest build pluto && nest build mercury && nest build venus && nest build halley"
+    "start:earth": "nest start earth",
+    "start:halley": "nest start halley"
   },
   "dependencies": {
     "@aiszlab/relax": "^1.3.12",
