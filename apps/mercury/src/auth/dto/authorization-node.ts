@@ -1,8 +1,6 @@
-// nest
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-// project
-import { AuthorizationActionCode } from '../entities/authorization-action.entity';
-import { AuthorizationResourceCode } from '../entities/authorization-resource.entity';
+import { AuthorizationActionCode } from '@/lib/database/entities/mercury/authorization-action.entity';
+import { AuthorizationResourceCode } from '@/lib/database/entities/mercury/authorization-resource.entity';
 
 @ObjectType()
 class ActionNode {

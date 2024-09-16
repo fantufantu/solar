@@ -1,12 +1,8 @@
-// nest
 import { ObjectType, Field } from '@nestjs/graphql';
-
-// third
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
-// project
 import { Preset } from 'assets/entities/preset.entity';
-import { Authorization } from '../../auth/entities/authorization.entity';
-import { User } from '../../user/entities/user.entity';
+import { Authorization } from './authorization.entity';
+import { User } from './user.entity';
 
 @Entity()
 @ObjectType()

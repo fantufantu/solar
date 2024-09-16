@@ -1,13 +1,11 @@
-// nest
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-// project
 import { DictionaryService } from './dictionary.service';
-import { Dictionary } from './entities/dictionary.entity';
+import { Dictionary } from '@/lib/database/entities/mercury/dictionary.entity';
 import { Pagination, Permission } from 'assets/decorators';
-import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
-import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
+import { AuthorizationResourceCode } from '@/lib/database/entities/mercury/authorization-resource.entity';
+import { AuthorizationActionCode } from '@/lib/database/entities/mercury/authorization-action.entity';
 import { PaginatedDictionaries } from './dto/paginated-dictionaries';
-import { PaginateBy } from 'assets/dto';
+import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { CreateDictionaryBy } from './dto/create-dictionary-by.input';
 import { UpdateDictionaryBy } from './dto/update-dictionary-by.input';
 

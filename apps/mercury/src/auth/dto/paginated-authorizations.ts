@@ -1,8 +1,6 @@
-// nest
 import { ObjectType } from '@nestjs/graphql';
-// project
-import { Paginated } from 'assets/dto';
-import { Authorization } from '../entities/authorization.entity';
+import { Paginated } from 'assets/dto/paginated.factory';
+import { Authorization } from '@/lib/database/entities/mercury/authorization.entity';
 
 @ObjectType()
 export class PaginatedAuthorizations extends Paginated(Authorization) {}

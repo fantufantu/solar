@@ -1,7 +1,5 @@
-// nest
 import { Field, InputType, Int, PickType } from '@nestjs/graphql';
-// project
-import { DictionaryEnum } from '../entities/dictionary-enum.entity';
+import { DictionaryEnum } from '@/lib/database/entities/mercury/dictionary-enum.entity';
 
 @InputType()
 export class CreateDictionaryEnumBy extends PickType(

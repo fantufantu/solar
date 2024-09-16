@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import type { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 import { CommandToken, ProviderToken } from 'assets/tokens';
-import { User } from 'apps/mercury/src/user/entities/user.entity';
+import { User } from '@/lib/database/entities/mercury/user.entity';
 import type { PermitBy } from 'assets/decorators';
 
 @Injectable()

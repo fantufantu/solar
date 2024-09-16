@@ -1,7 +1,5 @@
-// nest
 import { Field, InputType, PickType } from '@nestjs/graphql';
-// project
-import { User } from '../../user/entities/user.entity';
+import { User } from '@/lib/database/entities/mercury/user.entity';
 
 @InputType()
 export class RegisterBy extends PickType(

@@ -1,10 +1,7 @@
-// nest
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-// third
 import type { Repository } from 'typeorm';
-// project
-import { DictionaryEnum } from './entities/dictionary-enum.entity';
+import { DictionaryEnum } from '@/lib/database/entities/mercury/dictionary-enum.entity';
 import { paginateQuery } from 'utils/api';
 import type { QueryBy } from 'typings/api';
 import type { CreateDictionaryEnumBy } from './dto/create-dictionary-enum-by.input';

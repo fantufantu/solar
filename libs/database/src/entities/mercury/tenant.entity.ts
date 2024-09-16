@@ -1,18 +1,16 @@
-// nest
 import { Field, ObjectType } from '@nestjs/graphql';
-// third
-import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn, Unique } from 'typeorm';
 import { MaxLength } from 'class-validator';
-// project
-import { Menu } from '../../menu/entities/menu.entity';
+import { Preset } from 'assets/entities/preset.entity';
 
 @ObjectType({
   description: '租户',
 })
+@Unique(['code'])
 @Entity()
-export class Tenant {
+export class Tenant extends Preset {
   @Field(() => String, { description: '租户代码' })
-  @PrimaryColumn()
+  @Column()
   @MaxLength(10)
   code: string;
 
@@ -20,7 +18,4 @@ export class Tenant {
   @Column()
   @MaxLength(20)
   name: string;
-
-  @OneToMany(() => Menu, (menu) => menu.tenant)
-  menus: Menu[];
 }

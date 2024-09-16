@@ -6,18 +6,16 @@ import { PlutoClientService } from '@/lib/pluto-client';
 import { PassportService } from '@/lib/passport';
 import { RegisterBy } from './dto/register-by.input';
 import { paginateQuery } from 'utils/api';
-import { Authorization } from './entities/authorization.entity';
-import { TenantService } from '../tenant/tenant.service';
-import { AuthorizationResource } from './entities/authorization-resource.entity';
-import { AuthorizationAction } from './entities/authorization-action.entity';
+import { Authorization } from '@/lib/database/entities/mercury/authorization.entity';
+import { AuthorizationResource } from '@/lib/database/entities/mercury/authorization-resource.entity';
+import { AuthorizationAction } from '@/lib/database/entities/mercury/authorization-action.entity';
 import { AuthorizeBy } from './dto/authorize-by.input';
 import { ConfigRegisterToken, RsaPropertyToken } from 'assets/tokens';
 import { UserService } from '../user/user.service';
-import { UserVerificationType } from '../user/entities/user-verification.entity';
+import { UserVerificationType } from '@/lib/database/entities/mercury/user-verification.entity';
 import type { QueryBy } from 'typings/api';
 import type { LoginBy } from './dto/login-by.input';
 import type { Repository } from 'typeorm';
-import type { AuthorizationNode } from './dto/authorization-node';
 
 @Injectable()
 export class AuthService {
@@ -31,7 +29,6 @@ export class AuthService {
     private readonly plutoClient: PlutoClientService,
     private readonly passportService: PassportService,
     private readonly userService: UserService,
-    private readonly tenantService: TenantService,
   ) {}
 
   /**
@@ -65,70 +62,6 @@ export class AuthService {
    */
   getAuthorizations(queryBy?: QueryBy<Authorization>) {
     return paginateQuery(this.authorizationRepository, queryBy);
-  }
-
-  /**
-   * 查询权限树
-   */
-  async getAuthorizationTree() {
-    // 查询租户列表
-    const [tenants] = await this.tenantService.getTenants();
-
-    // 权限表查询
-    const authorizations = await this.authorizationRepository.find({
-      relations: ['tenant', 'resource', 'action'],
-    });
-
-    // 生成树
-    return authorizations.reduce<AuthorizationNode[]>(
-      (previous, authorization) => {
-        const actionNode = {
-          key: authorization.id,
-          title: authorization.action.name,
-          code: authorization.action.code,
-        };
-
-        // 查询租户
-        const tenantNode = previous.find(
-          (tenant) => tenant.code === authorization.tenant.code,
-        );
-
-        // 租户不存在，不生成权限
-        if (!tenantNode) return previous;
-
-        // 查询资源
-        const resourceNode = tenantNode.children.find(
-          (resource) => resource.code === authorization.resource.code,
-        );
-
-        if (!resourceNode) {
-          // 不存在：生成资源节点 and 添加操作节点
-          tenantNode.children.push({
-            // 生成唯一key
-            key: [
-              authorization.tenant.code,
-              authorization.resource.code,
-            ].join(),
-            title: authorization.resource.name,
-            code: authorization.resource.code,
-            children: [actionNode],
-          });
-        } else {
-          // 存在：添加操作节点
-          resourceNode.children.push(actionNode);
-        }
-
-        return previous;
-      },
-
-      // 初始化树
-      tenants.map((tenant) => ({
-        key: tenant.code,
-        title: tenant.name,
-        code: tenant.code,
-        children: [],
-      })),
-    );
   }
 
   /**

@@ -1,13 +1,11 @@
-// nest
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-// project
 import { Pagination, Permission } from 'assets/decorators';
-import { AuthorizationActionCode } from '../auth/entities/authorization-action.entity';
-import { AuthorizationResourceCode } from '../auth/entities/authorization-resource.entity';
+import { AuthorizationActionCode } from '@/lib/database/entities/mercury/authorization-action.entity';
+import { AuthorizationResourceCode } from '@/lib/database/entities/mercury/authorization-resource.entity';
 import { DictionaryEnumService } from './dictionary-enum.service';
 import { PaginatedDictionaryEnum } from './dto/paginated-dictionary-enums';
-import { DictionaryEnum } from './entities/dictionary-enum.entity';
-import { PaginateBy } from 'assets/dto';
+import { DictionaryEnum } from '../../../../libs/database/src/entities/mercury/dictionary-enum.entity';
+import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { CreateDictionaryEnumBy } from './dto/create-dictionary-enum-by.input';
 import { UpdateDictionaryEnumBy } from './dto/update-dictionary-enum-by.input';
 

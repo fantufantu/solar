@@ -1,10 +1,7 @@
-// nest
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-// third
 import type { Repository } from 'typeorm';
-// project
-import { Dictionary } from './entities/dictionary.entity';
+import { Dictionary } from '@/lib/database/entities/mercury/dictionary.entity';
 import { paginateQuery } from 'utils/api';
 import type { CreateDictionaryBy } from './dto/create-dictionary-by.input';
 import type { QueryBy } from 'typings/api';

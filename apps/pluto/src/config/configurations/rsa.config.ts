@@ -1,8 +1,5 @@
-// nest
 import { registerAs } from '@nestjs/config';
-// third
 import { generateKeyPairSync } from 'crypto';
-// project
 import { RsaPropertyToken, ConfigRegisterToken } from 'assets/tokens';
 
 export default registerAs<Record<RsaPropertyToken, string>>(

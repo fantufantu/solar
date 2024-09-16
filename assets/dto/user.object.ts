@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import {} from 'apps/mercury/src/user/entities/user.entity';
+import {} from '@/lib/database/entities/mercury/user.entity';
 
 @ObjectType()
 export class User {

@@ -1,6 +1,4 @@
-// nest
 import { Field, InputType, Int, PartialType } from '@nestjs/graphql';
-// project
 import { CreateRoleBy } from './create-role-by.input';
 
 @InputType()

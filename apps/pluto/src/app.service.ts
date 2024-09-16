@@ -1,6 +1,4 @@
-// nest
 import { Injectable } from '@nestjs/common';
-// project
 import { ConfigService } from './config/config.service';
 import type { GetConfigInput } from 'typings/micro-service';
 

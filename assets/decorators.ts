@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { Args, ArgsOptions, GqlExecutionContext } from '@nestjs/graphql';
 import { JwtAuthGuard } from '@/lib/passport/guards';
-import { AuthorizationActionCode } from 'apps/mercury/src/auth/entities/authorization-action.entity';
-import { AuthorizationResourceCode } from 'apps/mercury/src/auth/entities/authorization-resource.entity';
+import { AuthorizationActionCode } from '@/lib/database/entities/mercury/authorization-action.entity';
+import { AuthorizationResourceCode } from '@/lib/database/entities/mercury/authorization-resource.entity';
 import { MetadataToken } from 'assets/tokens';
 import { PermissionGuard } from 'assets/guards';
 

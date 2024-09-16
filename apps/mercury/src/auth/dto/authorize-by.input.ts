@@ -1,8 +1,6 @@
-// nest
 import { Field, InputType } from '@nestjs/graphql';
-// project
-import { AuthorizationActionCode } from '../entities/authorization-action.entity';
-import { AuthorizationResourceCode } from '../entities/authorization-resource.entity';
+import { AuthorizationActionCode } from '@/lib/database/entities/mercury/authorization-action.entity';
+import { AuthorizationResourceCode } from '@/lib/database/entities/mercury/authorization-resource.entity';
 
 @InputType()
 class AuthorizeWhat {
@@ -20,7 +18,7 @@ class AuthorizeWhat {
 @InputType()
 export class AuthorizeBy {
   @Field(() => String, {
-    description: '租户 code',
+    description: '租户code',
   })
   tenantCode: string;
 

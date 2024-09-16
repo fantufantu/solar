@@ -1,4 +1,3 @@
-// project
 import type {
   CommandToken,
   ConfigRegisterToken,

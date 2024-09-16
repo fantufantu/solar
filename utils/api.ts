@@ -1,6 +1,4 @@
-// third
 import { ObjectLiteral, Repository } from 'typeorm';
-// project
 import { QueryBy } from 'typings/api';
 
 /**

@@ -1,22 +1,14 @@
-// nest
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { GraphQLEnumToken } from 'assets/tokens';
-// third
 import { IsEnum } from 'class-validator';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 export enum AuthorizationResourceCode {
-  Menu = 'menu',
-  Tenant = 'tenant',
-  Role = 'role',
+  Article = 'article',
+  Authorization = 'authorization',
   Dictionary = 'dictionary',
   DictionaryEnum = 'dictionary-enum',
-  User = 'user',
-  Essay = 'essay',
-  Tag = 'tag',
-  Toggle = 'toggle',
-  Comment = 'comment',
-  Authorization = 'authorization',
+  Role = 'role',
 }
 
 registerEnumType(AuthorizationResourceCode, {

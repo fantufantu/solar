@@ -1,10 +1,7 @@
-// nest
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-// third
 import { Column, Entity, ManyToOne } from 'typeorm';
-// project
 import { Preset } from 'assets/entities/preset.entity';
-import { Dictionary } from '../../dictionary/entities/dictionary.entity';
+import { Dictionary } from './dictionary.entity';
 
 @Entity()
 @ObjectType()

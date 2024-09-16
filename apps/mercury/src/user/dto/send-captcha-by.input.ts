@@ -1,8 +1,6 @@
-// nest
 import { Field, InputType } from '@nestjs/graphql';
-// third
 import { IsEmail } from 'class-validator';
-import { UserVerificationType } from '../entities/user-verification.entity';
+import { UserVerificationType } from '@/lib/database/entities/mercury/user-verification.entity';
 
 @InputType()
 export class SendCaptchaBy {

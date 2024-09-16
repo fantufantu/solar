@@ -1,10 +1,8 @@
-// nest
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// project
 import { DictionaryService } from './dictionary.service';
 import { DictionaryResolver } from './dictionary.resolver';
-import { Dictionary } from './entities/dictionary.entity';
+import { Dictionary } from '@/lib/database/entities/mercury/dictionary.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Dictionary])],

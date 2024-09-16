@@ -11,7 +11,7 @@ import { randomUUID } from 'crypto';
 import { hashSync } from 'bcrypt';
 import { IsEmail, MaxLength, MinLength, isURL } from 'class-validator';
 import { Preset } from 'assets/entities/preset.entity';
-import { Role } from '../../role/entities/role.entity';
+import { Role } from './role.entity';
 
 @ObjectType()
 @Directive('@key(fields: "id")')
@@ -70,14 +70,14 @@ export class User extends Preset {
 
   @BeforeInsert()
   @BeforeUpdate()
-  private hashPassword() {
+  private _hashPassword() {
     if (!this.password) return;
     this.password = hashSync(this.password, 10);
   }
 
   @BeforeInsert()
   @BeforeUpdate()
-  private validatePassword() {
+  private _validatePassword() {
     if (!this.password) return;
     if (
       !/^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\W_!@#$%^&*`~()-+=]+$)(?![a-z0-9]+$)(?![a-z\W_!@#$%^&*`~()-+=]+$)(?![0-9\W_!@#$%^&*`~()-+=]+$)[a-zA-Z0-9\W_!@#$%^&*`~()-+=]/.test(
@@ -91,14 +91,14 @@ export class User extends Preset {
 
   @BeforeInsert()
   @BeforeUpdate()
-  private validateAvatar() {
+  private _validateAvatar() {
     if (!this.avatar) return;
     if (!isURL(this.avatar))
       throw new BadRequestException('avatar must be an URL address');
   }
 
   @BeforeInsert()
-  private generateUsername() {
+  private _generateUsername() {
     if (this.username) return;
     this.username = randomUUID();
   }

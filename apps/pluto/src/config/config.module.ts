@@ -1,7 +1,5 @@
-// nest
 import { Module } from '@nestjs/common';
 import { ConfigModule as NativeConfigModule } from '@nestjs/config';
-// project
 import { jwtConfig, rsaConfig, tenantCloudConfig } from './configurations';
 import { ConfigService } from './config.service';
 

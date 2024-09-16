@@ -1,4 +1,3 @@
-// nest
 import { UseGuards } from '@nestjs/common';
 import {
   Args,
@@ -7,11 +6,10 @@ import {
   ResolveReference,
   Resolver,
 } from '@nestjs/graphql';
-// project
 import { JwtAuthGuard } from '@/lib/passport/guards';
 import { WhoAmI } from 'assets/decorators';
 import { SendCaptchaBy } from './dto/send-captcha-by.input';
-import { User } from './entities/user.entity';
+import { User } from '@/lib/database/entities/mercury/user.entity';
 import { UserService } from './user.service';
 import { UpdateUserBy } from './dto/update-user-by.input';
 

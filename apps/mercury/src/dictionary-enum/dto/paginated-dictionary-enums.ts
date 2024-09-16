@@ -1,8 +1,6 @@
-// nest
 import { ObjectType } from '@nestjs/graphql';
-// project
-import { Paginated } from 'assets/dto';
-import { DictionaryEnum } from '../entities/dictionary-enum.entity';
+import { Paginated } from 'assets/dto/paginated.factory';
+import { DictionaryEnum } from '@/lib/database/entities/mercury/dictionary-enum.entity';
 
 @ObjectType()
 export class PaginatedDictionaryEnum extends Paginated(DictionaryEnum) {}

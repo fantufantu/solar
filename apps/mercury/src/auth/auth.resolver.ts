@@ -1,11 +1,8 @@
-// nest
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-// project
 import { AuthService } from './auth.service';
 import { PaginatedAuthorizations } from './dto/paginated-authorizations';
-import { AuthorizationNode } from './dto/authorization-node';
-import { AuthorizationResource } from './entities/authorization-resource.entity';
-import { AuthorizationAction } from './entities/authorization-action.entity';
+import { AuthorizationResource } from '@/lib/database/entities/mercury/authorization-resource.entity';
+import { AuthorizationAction } from '@/lib/database/entities/mercury/authorization-action.entity';
 import { LoginBy } from './dto/login-by.input';
 import { RegisterBy } from './dto/register-by.input';
 import { AuthorizeBy } from './dto/authorize-by.input';
@@ -30,14 +27,6 @@ export class AuthResolver {
   })
   getAuthorizations() {
     return this.authService.getAuthorizations();
-  }
-
-  @Query(() => [AuthorizationNode], {
-    description: '查询权限树',
-    name: 'authorizationTree',
-  })
-  getAuthorizationTree() {
-    return this.authService.getAuthorizationTree();
   }
 
   @Query(() => [AuthorizationResource], {

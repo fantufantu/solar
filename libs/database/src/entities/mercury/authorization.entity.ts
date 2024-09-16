@@ -1,8 +1,5 @@
-// nest
 import { Field, ObjectType } from '@nestjs/graphql';
-// third
 import { Column, DeleteDateColumn, Entity, ManyToOne, Unique } from 'typeorm';
-// peoject
 import {
   AuthorizationAction,
   AuthorizationActionCode,
@@ -12,7 +9,6 @@ import {
   AuthorizationResourceCode,
 } from './authorization-resource.entity';
 import { Preset } from 'assets/entities/preset.entity';
-import { Tenant } from '../../tenant/entities/tenant.entity';
 
 @Entity()
 @Unique(['tenant', 'resource', 'action'])
@@ -22,11 +18,6 @@ import { Tenant } from '../../tenant/entities/tenant.entity';
 export class Authorization extends Preset {
   @Column()
   tenantCode: string;
-
-  @ManyToOne(() => Tenant, {
-    nullable: false,
-  })
-  tenant: Tenant;
 
   @Field(() => AuthorizationResourceCode, {
     description: '资源code',

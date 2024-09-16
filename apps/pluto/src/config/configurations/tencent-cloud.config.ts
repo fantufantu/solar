@@ -1,6 +1,4 @@
-// nest
 import { registerAs } from '@nestjs/config';
-// project
 import { ConfigRegisterToken, TencentCloudPropertyToken } from 'assets/tokens';
 
 export default registerAs<Record<TencentCloudPropertyToken, string>>(

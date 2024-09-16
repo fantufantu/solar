@@ -1,7 +1,5 @@
-// nest
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-// project
 import { AppService } from './app.service';
 import { CommandToken } from 'assets/tokens';
 import type { GetConfigInput } from 'typings/micro-service';
