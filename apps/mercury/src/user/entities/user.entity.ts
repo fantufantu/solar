@@ -1,7 +1,5 @@
-// nest
 import { BadRequestException } from '@nestjs/common';
 import { Directive, Field, ObjectType } from '@nestjs/graphql';
-// third
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -12,7 +10,6 @@ import {
 import { randomUUID } from 'crypto';
 import { hashSync } from 'bcrypt';
 import { IsEmail, MaxLength, MinLength, isURL } from 'class-validator';
-// project
 import { Preset } from 'assets/entities/preset.entity';
 import { Role } from '../../role/entities/role.entity';
 

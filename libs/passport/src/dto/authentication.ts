@@ -1,4 +1,3 @@
-// nest
 import { Field, Int } from '@nestjs/graphql';
 
 export class Authentication {

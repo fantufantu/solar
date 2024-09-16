@@ -18,7 +18,7 @@
     "build": "rimraf ./dist && nest build pluto && nest build mercury && nest build venus && nest build halley"
   },
   "dependencies": {
-    "@aiszlab/relax": "^1.3.10",
+    "@aiszlab/relax": "^1.3.12",
     "@apollo/gateway": "^2.9.0",
     "@apollo/server": "^4.11.0",
     "@apollo/subgraph": "^2.9.0",

@@ -1,9 +1,6 @@
-// nest
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-// third
 import { lastValueFrom } from 'rxjs';
-// project
 import { CommandToken, ProviderToken } from 'assets/tokens';
 import type { GetConfigInput } from 'typings/micro-service';
 

@@ -1,13 +1,10 @@
-// nest
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-// third
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import type { Request } from 'express';
-// project
 import { MercuryClientService } from 'libs/mercury-client/src';
 import { ProviderToken } from 'assets/tokens';
-import type { Authentication } from '../dtos/authentication';
+import type { Authentication } from '../dto/authentication';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

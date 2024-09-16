@@ -9,14 +9,14 @@ import {
   Parent,
 } from '@nestjs/graphql';
 import { BillingService } from './billing.service';
-import { Billing } from './entities/billing.entity';
+import { Billing } from '@/lib/database/entities/venus/billing.entity';
 import { CreateBillingBy } from './dto/create-billing-by.input';
 import { UpdateBillingBy } from './dto/update-billing-by.input';
 import { JwtAuthGuard } from '@/lib/passport/guards';
 import { WhoAmI } from 'assets/decorators';
-import { Sharing } from '../sharing/entities/sharing.entity';
+import { Sharing } from '@/lib/database/entities/venus/sharing.entity';
 import { BillingLoader } from './billing.loader';
-import { User } from '../user/entities/user.entity';
+import { User } from '@/lib/database/entities/venus/user.entity';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 import { PaginatedBillings } from './dto/paginated-billings';
 import { SetBillingLimitBy } from './dto/set-billing-limit-by.input';

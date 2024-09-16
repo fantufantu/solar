@@ -1,9 +1,6 @@
-// nest
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import type { DynamicModule } from '@nestjs/common';
-// project
-import { DatabaseService } from './database.service';
 import { ApplicationToken } from 'assets/tokens';
 
 @Module({})
@@ -22,8 +19,8 @@ export class DatabaseModule {
           synchronize: true,
         }),
       ],
-      providers: [DatabaseService],
-      exports: [DatabaseService],
+      providers: [],
+      exports: [],
     };
   }
 }

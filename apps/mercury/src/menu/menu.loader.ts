@@ -1,11 +1,8 @@
-// nest
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-// third
-import DataLoader = require('dataloader');
+import DataLoader from 'dataloader';
 import { In } from 'typeorm';
 import type { Repository } from 'typeorm';
-// project
 import { Menu } from './entities/menu.entity';
 import { MenuService } from './menu.service';
 

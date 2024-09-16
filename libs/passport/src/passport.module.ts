@@ -1,8 +1,6 @@
-// nest
 import { Global, Module } from '@nestjs/common';
-import { PassportModule as NativePassportModule } from '@nestjs/passport';
+import { PassportModule as _PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-// project
 import { PassportService } from './passport.service';
 import { MercuryClientModule } from 'libs/mercury-client/src';
 import { JwtSecretModule } from './jwt-secret/jwt-secret.module';
@@ -12,8 +10,8 @@ import { JwtStrategy } from './strategies';
 @Global()
 @Module({
   imports: [
-    // 原生 passport
-    NativePassportModule,
+    // passport
+    _PassportModule,
     // mercury 微服务
     MercuryClientModule,
     // jwt 密钥

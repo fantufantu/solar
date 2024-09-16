@@ -1,13 +1,10 @@
-// nest
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-// third
 import { In, Repository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
-// project
 import { CreateTransactionBy } from './dto/create-transaction-by.input';
 import { FilterTransactionBy } from './dto/filter-transaction-by.input';
 import { UpdateTransactionBy } from './dto/update-transaction-by.input';
-import { Transaction } from './entities/transaction.entity';
+import { Transaction } from '@/lib/database/entities/venus/transaction.entity';
 import { paginateQuery } from 'utils/api';
 import { GroupTransactionAmountByCategory } from './dto/group-transaction-amount-by-category.input';
 import { QueryBy } from 'typings/api';

@@ -1,9 +1,6 @@
-// nest
 import { Inject, Injectable } from '@nestjs/common';
 import type { ClientProxy } from '@nestjs/microservices';
-// third
 import { lastValueFrom } from 'rxjs';
-// project
 import { CommandToken, ProviderToken } from 'assets/tokens';
 import { User } from 'apps/mercury/src/user/entities/user.entity';
 import type { PermitBy } from 'assets/decorators';

@@ -1,7 +1,5 @@
-// nest
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-// project
 import { AppModule } from './app.module';
 import { MicroservicePort, ServicePort } from 'assets/ports';
 

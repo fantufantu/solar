@@ -1,10 +1,8 @@
-// nest
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// project
 import { SharingService } from './sharing.service';
 import { SharingResolver } from './sharing.resolver';
-import { Sharing } from './entities/sharing.entity';
+import { Sharing } from '@/lib/database/entities/venus/sharing.entity';
 import { SharingLoader } from './sharing.loader';
 
 @Module({

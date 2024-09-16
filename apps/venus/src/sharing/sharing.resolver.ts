@@ -1,4 +1,3 @@
-// nest
 import {
   Resolver,
   Mutation,
@@ -6,13 +5,12 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-// project
 import { SharingService } from './sharing.service';
-import { Sharing } from './entities/sharing.entity';
+import { Sharing } from '@/lib/database/entities/venus/sharing.entity';
 import { CreateSharingBy } from './dto/create-sharing-by.input';
 import { SharingLoader } from './sharing.loader';
 import { RemoveSharingBy } from './dto/remove-sharing-by.input';
-import { User } from '../user/entities/user.entity';
+import { User } from '@/lib/database/entities/venus/user.entity';
 
 @Resolver(() => Sharing)
 export class SharingResolver {

@@ -1,10 +1,7 @@
-// nest
 import { Injectable } from '@nestjs/common';
-// third
-import DataLoader = require('dataloader');
-// project
+import DataLoader from 'dataloader';
 import { BillingService } from '../billing/billing.service';
-import { Billing } from '../billing/entities/billing.entity';
+import { Billing } from '@/lib/database/entities/venus/billing.entity';
 
 @Injectable()
 export class UserLoader {

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import DataLoader = require('dataloader');
+import DataLoader from 'dataloader';
 import { CategoryService } from '../category/category.service';
-import { Category } from '../category/entities/category.entity';
-import { Billing } from '../billing/entities/billing.entity';
+import { Category } from '@/lib/database/entities/venus/category.entity';
+import { Billing } from '@/lib/database/entities/venus/billing.entity';
 import { BillingService } from '../billing/billing.service';
 
 @Injectable()

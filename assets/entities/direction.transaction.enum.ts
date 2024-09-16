@@ -1,6 +1,4 @@
-// nest
 import { registerEnumType } from '@nestjs/graphql';
-// project
 import { GraphQLEnumToken } from 'assets/tokens';
 
 /**

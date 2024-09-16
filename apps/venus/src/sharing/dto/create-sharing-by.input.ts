@@ -1,7 +1,5 @@
-// nest
 import { Field, InputType, Int } from '@nestjs/graphql';
-// project
-import { TargetType } from '../entities/sharing.entity';
+import { TargetType } from '@/lib/database/entities/venus/sharing.entity';
 
 @InputType()
 export class CreateSharingBy {

@@ -1,8 +1,6 @@
-// nest
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { GraphQLEnumToken } from 'assets/tokens';
-// third
-import dayjs = require('dayjs');
+import dayjs from 'dayjs';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 export enum UserVerificationType {

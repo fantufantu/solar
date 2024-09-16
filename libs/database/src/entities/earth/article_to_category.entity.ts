@@ -1,11 +1,5 @@
 import { Preset } from 'assets/entities/preset.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Article } from './article.entity';
 import { Category } from './category.entity';
 
@@ -17,11 +11,11 @@ export class ArticleToCategory extends Preset {
   @Column({ name: 'category_code' })
   categoryCode: string;
 
-  // @ManyToOne(() => Article, (article) => article.articleToCategory)
-  // @JoinColumn({ name: 'article_id' })
-  // article: Article;
+  @ManyToOne(() => Article, (article) => article.articleToCategory)
+  @JoinColumn({ name: 'article_id', referencedColumnName: 'id' })
+  article: Article;
 
-  // @ManyToOne(() => Category, (category) => category.articleToCategory)
-  // @JoinColumn({ name: 'category_code', referencedColumnName: 'code' })
-  // category: Category;
+  @ManyToOne(() => Category, (category) => category.articleToCategory)
+  @JoinColumn({ name: 'category_code', referencedColumnName: 'code' })
+  category: Category;
 }

@@ -1,5 +1,5 @@
 import { InputType, PickType } from '@nestjs/graphql';
-import { Transaction } from '../entities/transaction.entity';
+import { Transaction } from '@/lib/database/entities/venus/transaction.entity';
 
 @InputType()
 export class CreateTransactionBy extends PickType(

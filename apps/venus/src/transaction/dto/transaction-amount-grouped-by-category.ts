@@ -1,4 +1,3 @@
-// nest
 import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()

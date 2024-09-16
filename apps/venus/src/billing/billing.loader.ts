@@ -1,9 +1,9 @@
-// nest
 import { Injectable } from '@nestjs/common';
-// third
-import DataLoader = require('dataloader');
-// project
-import { Sharing, TargetType } from '../sharing/entities/sharing.entity';
+import DataLoader from 'dataloader';
+import {
+  Sharing,
+  TargetType,
+} from '@/lib/database/entities/venus/sharing.entity';
 import { SharingService } from '../sharing/sharing.service';
 
 @Injectable()
@@ -11,6 +11,7 @@ export class BillingLoader {
   constructor(private readonly sharingService: SharingService) {}
 
   /**
+   * @description
    * 根据账本 id 获取分享信息
    */
   public readonly getSharingsByBillingId = new DataLoader<number, Sharing[]>(

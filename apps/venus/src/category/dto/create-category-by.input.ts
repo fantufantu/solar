@@ -1,7 +1,5 @@
-// nest
 import { InputType, PickType } from '@nestjs/graphql';
-// project
-import { Category } from '../entities/category.entity';
+import { Category } from '@/lib/database/entities/venus/category.entity';
 
 @InputType()
 export class CreateCategoryBy extends PickType(

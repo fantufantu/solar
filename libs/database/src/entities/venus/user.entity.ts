@@ -7,12 +7,13 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Billing } from '../../billing/entities/billing.entity';
+import { User as _User } from 'assets/dto/user.object';
+import { Billing } from '@/lib/database/entities/venus/billing.entity';
 
 @ObjectType()
 @Directive('@key(fields: "id")')
 @Entity()
-export class User {
+export class User extends _User {
   @Field(() => Int, {
     description: 'id',
   })
@@ -37,9 +38,15 @@ export class User {
   })
   defaultBilling?: Billing;
 
+  @Field(() => Date, {
+    description: '创建时间',
+  })
   @CreateDateColumn()
   createdAt: Date;
 
+  @Field(() => Date, {
+    description: '更新时间',
+  })
   @UpdateDateColumn()
   updatedAt: Date;
 }

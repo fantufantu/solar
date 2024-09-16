@@ -1,11 +1,8 @@
-// nest
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-// third
 import { Repository } from 'typeorm';
-// project
 import { SetDefaultBillingBy } from './dto/set-default-billing-by.input';
-import { User } from './entities/user.entity';
+import { User } from '@/lib/database/entities/venus/user.entity';
 
 @Injectable()
 export class UserService {

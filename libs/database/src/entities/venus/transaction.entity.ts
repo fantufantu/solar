@@ -1,8 +1,8 @@
 import { ObjectType, Field, Float, Int } from '@nestjs/graphql';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { Preset } from 'assets/entities/preset.entity';
-import { Category } from '../../category/entities/category.entity';
-import { Billing } from '../../billing/entities/billing.entity';
+import { Category } from './category.entity';
+import { Billing } from './billing.entity';
 
 @ObjectType()
 @Entity()

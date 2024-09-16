@@ -1,7 +1,5 @@
-// nest
 import { ObjectType, Field, Int, registerEnumType } from '@nestjs/graphql';
 import { GraphQLEnumToken } from 'assets/tokens';
-// third
 import { Entity, PrimaryColumn, Unique } from 'typeorm';
 
 export enum TargetType {

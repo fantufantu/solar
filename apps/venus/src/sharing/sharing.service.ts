@@ -1,13 +1,10 @@
-// nest
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-// third
 import { Repository } from 'typeorm';
-// project
 import { CreateSharingBy } from './dto/create-sharing-by.input';
 import { FilterSharingBy } from './dto/filter-sharing-by.input';
 import { RemoveSharingBy } from './dto/remove-sharing-by.input';
-import { Sharing } from './entities/sharing.entity';
+import { Sharing } from '@/lib/database/entities/venus/sharing.entity';
 
 @Injectable()
 export class SharingService {

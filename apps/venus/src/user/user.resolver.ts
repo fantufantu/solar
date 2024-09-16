@@ -1,4 +1,3 @@
-// nest
 import { UseGuards } from '@nestjs/common';
 import {
   Args,
@@ -8,11 +7,10 @@ import {
   Resolver,
   ResolveReference,
 } from '@nestjs/graphql';
-// project
 import { WhoAmI } from 'assets/decorators';
-import { Billing } from '../billing/entities/billing.entity';
+import { Billing } from '@/lib/database/entities/venus/billing.entity';
 import { SetDefaultBillingBy } from './dto/set-default-billing-by.input';
-import { User } from './entities/user.entity';
+import { User } from '@/lib/database/entities/venus/user.entity';
 import { UserLoader } from './user.loader';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '@/lib/passport/guards';

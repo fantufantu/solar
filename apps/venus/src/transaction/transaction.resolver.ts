@@ -9,19 +9,19 @@ import {
   Parent,
 } from '@nestjs/graphql';
 import { TransactionService } from './transaction.service';
-import { Transaction } from './entities/transaction.entity';
+import { Transaction } from '../../../../libs/database/src/entities/venus/transaction.entity';
 import { CreateTransactionBy } from './dto/create-transaction-by.input';
 import { UpdateTransactionBy } from './dto/update-transaction-by.input';
 import { TransactionLoader } from './transaction.loader';
 import { JwtAuthGuard } from '@/lib/passport/guards';
 import { Filter, Pagination, WhoAmI } from 'assets/decorators';
 import { FilterTransactionBy } from './dto/filter-transaction-by.input';
-import { PaginateBy } from 'assets/dto';
-import { Category } from '../category/entities/category.entity';
-import { User } from '../user/entities/user.entity';
+import { PaginateBy } from 'assets/dto/paginate-by.input';
+import { Category } from '../../../../libs/database/src/entities/venus/category.entity';
+import { User } from '@/lib/database/entities/venus/user.entity';
 import { PaginatedTransactions } from './dto/paginated-transactions';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
-import { Billing } from '../billing/entities/billing.entity';
+import { Billing } from '@/lib/database/entities/venus/billing.entity';
 import { TransactionAmountGroupedByCategory } from './dto/transaction-amount-grouped-by-category';
 import { GroupTransactionAmountByCategory } from './dto/group-transaction-amount-by-category.input';
 

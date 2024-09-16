@@ -6,20 +6,20 @@ import {
   BeforeUpdate,
   Column,
   Entity,
-  ManyToMany,
   OneToMany,
+  Unique,
 } from 'typeorm';
 import { Preset } from 'assets/entities/preset.entity';
-import { Article } from './article.entity';
 import { ArticleToCategory } from './article_to_category.entity';
 
 @ObjectType()
+@Unique(['code'])
 @Entity()
 export class Category extends Preset {
   @Field(() => String, {
     description: '分类code',
   })
-  @Column()
+  @Column({ type: 'varchar', length: 40 })
   @IsString()
   @MaxLength(40)
   code: string;
@@ -38,8 +38,8 @@ export class Category extends Preset {
   @Column()
   image: string;
 
-  // @OneToMany(() => ArticleToCategory, (_) => _.category)
-  // public articleToCategory: ArticleToCategory[];
+  @OneToMany(() => ArticleToCategory, (_) => _.category)
+  articleToCategory: ArticleToCategory[];
 
   @BeforeInsert()
   @BeforeUpdate()
