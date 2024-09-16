@@ -11,7 +11,7 @@ import {
 import { Preset } from 'assets/entities/preset.entity';
 
 @Entity()
-@Unique(['tenant', 'resource', 'action'])
+@Unique(['tenantCode', 'resourceCode', 'actionCode'])
 @ObjectType({
   description: '权限',
 })
@@ -47,11 +47,12 @@ export class Authorization extends Preset {
   @DeleteDateColumn()
   deletedAt: Date | null;
 
-  public static uniqueBy(
-    tenantCode: string,
-    resourceCode: string,
-    actionCode: string,
-  ) {
-    return `${tenantCode}-${resourceCode}-${actionCode}`;
+  get uniqueBy() {
+    return [this.tenantCode, this.resourceCode, this.actionCode].join('-');
+  }
+
+  remove() {
+    this.deletedAt = new Date();
+    return this;
   }
 }

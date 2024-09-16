@@ -88,39 +88,24 @@ export class AuthService {
           tenantCode: authorizeBy.tenantCode,
         },
       })
-    ).reduce((prev, current) => {
-      return prev.set(
-        [current.tenantCode, current.resourceCode, current.actionCode].join(),
-        {
-          ...current,
-          deletedAt: new Date(),
-        },
-      );
+    ).reduce((prev, authorization) => {
+      return prev.set(authorization.uniqueBy, authorization.remove());
     }, new Map<string, Authorization>());
 
     authorizeBy.authorizations.forEach((resource) => {
       resource.actionCodes.forEach((actionCode) => {
-        const uniqueBy = [
-          authorizeBy.tenantCode,
-          resource.resourceCode,
+        const _authorization = this.authorizationRepository.create({
+          tenantCode: authorizeBy.tenantCode,
+          resourceCode: resource.resourceCode,
           actionCode,
-        ].join();
-        const authorized = authorizeds.get(uniqueBy);
+        });
 
-        // 未授权，授权
-        if (!authorized) {
-          authorizeds.set(
-            uniqueBy,
-            this.authorizationRepository.create({
-              tenantCode: authorizeBy.tenantCode,
-              resourceCode: resource.resourceCode,
-              actionCode,
-            }),
-          );
+        if (authorizeds.has(_authorization.uniqueBy)) {
+          authorizeds.get(_authorization.uniqueBy)!.deletedAt = null;
           return;
         }
 
-        authorized.deletedAt = null;
+        authorizeds.set(_authorization.uniqueBy, _authorization);
       });
     });
 

@@ -5,17 +5,17 @@ import { Category } from './category.entity';
 
 @Entity()
 export class ArticleToCategory extends Preset {
-  @Column({ name: 'article_id' })
+  @Column()
   articleId: number;
 
-  @Column({ name: 'category_code' })
+  @Column()
   categoryCode: string;
 
   @ManyToOne(() => Article, (article) => article.articleToCategory)
-  @JoinColumn({ name: 'article_id', referencedColumnName: 'id' })
+  @JoinColumn({ referencedColumnName: 'id' })
   article: Article;
 
   @ManyToOne(() => Category, (category) => category.articleToCategory)
-  @JoinColumn({ name: 'category_code', referencedColumnName: 'code' })
+  @JoinColumn({ referencedColumnName: 'code' })
   category: Category;
 }

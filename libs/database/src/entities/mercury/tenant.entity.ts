@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, OneToMany, PrimaryColumn, Unique } from 'typeorm';
+import { Column, Entity, Unique } from 'typeorm';
 import { MaxLength } from 'class-validator';
 import { Preset } from 'assets/entities/preset.entity';
 
