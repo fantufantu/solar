@@ -5,10 +5,10 @@
 ### 使用了 nestjs 的 monorepo 结构
 
 - sun = gateway
+- pluto = 环境变量
 - mercury = 基础服务
-- venus = 记账 app 的业务服务
-- earth = 个人主页的业务服务
-- pluto = 用于配置环境变量
+- venus = 记账服务
+- earth = 博客服务
 - halley = graphql 集成服务
 
 ### 服务器重装系统步骤

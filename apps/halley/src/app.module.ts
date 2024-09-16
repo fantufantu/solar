@@ -3,6 +3,7 @@ import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ServicePort } from 'assets/ports';
+import { ApplicationToken } from 'assets/tokens';
 
 class AuthenticatedDataSource extends RemoteGraphQLDataSource {
   willSendRequest({ request, context }) {
@@ -19,12 +20,16 @@ class AuthenticatedDataSource extends RemoteGraphQLDataSource {
         supergraphSdl: new IntrospectAndCompose({
           subgraphs: [
             {
-              name: 'mercury',
+              name: ApplicationToken.Mercury,
               url: `http://localhost:${ServicePort.Mercury}/graphql`,
             },
             {
-              name: 'venus',
+              name: ApplicationToken.Venus,
               url: `http://localhost:${ServicePort.Venus}/graphql`,
+            },
+            {
+              name: ApplicationToken.Earth,
+              url: `http://localhost:${ServicePort.Earth}/graphql`,
             },
           ],
         }),
