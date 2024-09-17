@@ -1,9 +1,8 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '@/lib/passport/guards';
-import { Filter, Pagination, WhoAmI } from 'assets/decorators';
-import { User } from '../../../../libs/database/src/entities/mercury/user.entity';
-import { PaginateBy } from 'assets/dto/paginate-by.input';
+import { Resolver } from '@nestjs/graphql';
+import { CategoryService } from './category.service';
+import { Category } from '@/lib/database/entities/earth/category.entity';
 
-@Resolver()
-export class CategoryResolver {}
+@Resolver(() => Category)
+export class CategoryResolver {
+  constructor(private readonly categoryService: CategoryService) {}
+}

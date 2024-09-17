@@ -3,7 +3,7 @@ import { Column, Entity } from 'typeorm';
 import { Preset } from 'assets/entities/preset.entity';
 import { Direction } from 'assets/entities/direction.transaction.enum';
 
-@ObjectType()
+@ObjectType('TransactionCategory')
 @Entity()
 export class Category extends Preset {
   @Field(() => String, { description: '名称' })

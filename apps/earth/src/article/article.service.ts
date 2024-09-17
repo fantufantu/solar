@@ -15,6 +15,8 @@ export class ArticleService {
   constructor(
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>,
+    @InjectRepository(ArticleToCategory)
+    private readonly articleToCategoryRepository: Repository<ArticleToCategory>,
   ) {}
 
   /**
@@ -33,11 +35,14 @@ export class ArticleService {
     );
 
     // 添加文章和分类的关联关系
-    await this.articleRepository
-      .createQueryBuilder()
-      .relation('categories')
-      .of(article.id)
-      .add(categoryCodes);
+    await this.articleToCategoryRepository.save(
+      categoryCodes.map((categoryCode) =>
+        this.articleToCategoryRepository.create({
+          articleId: article.id,
+          categoryCode,
+        }),
+      ),
+    );
 
     return article;
   }

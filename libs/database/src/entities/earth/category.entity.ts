@@ -12,7 +12,7 @@ import {
 import { Preset } from 'assets/entities/preset.entity';
 import { ArticleToCategory } from './article_to_category.entity';
 
-@ObjectType()
+@ObjectType('ArticleCategory')
 @Unique(['code'])
 @Entity()
 export class Category extends Preset {

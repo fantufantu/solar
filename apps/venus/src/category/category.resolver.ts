@@ -15,6 +15,7 @@ export class CategoryResolver {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Mutation(() => Category, {
+    name: 'createTransactionCategory',
     description: '创建分类',
   })
   create(@Args('createBy') createBy: CreateCategoryBy) {
@@ -22,7 +23,7 @@ export class CategoryResolver {
   }
 
   @Query(() => PaginatedCategories, {
-    name: 'categories',
+    name: 'transactionCategories',
     description: '分页查询分类',
   })
   @UseInterceptors(PaginatedInterceptor)
@@ -36,7 +37,10 @@ export class CategoryResolver {
     });
   }
 
-  @Query(() => Category, { name: 'category', description: '查询单个分类' })
+  @Query(() => Category, {
+    name: 'transactionCategory',
+    description: '查询单个分类',
+  })
   getCategory(
     @Args('id', { type: () => Int, description: '分类id' }) id: number,
   ) {
@@ -44,6 +48,7 @@ export class CategoryResolver {
   }
 
   @Mutation(() => Boolean, {
+    name: 'updateTransactionCategory',
     description: '更新分类',
   })
   update(
@@ -61,6 +66,7 @@ export class CategoryResolver {
   }
 
   @Mutation(() => Boolean, {
+    name: 'removeTransactionCategory',
     description: '删除分类',
   })
   remove(@Args('id', { type: () => Int, description: '分类id' }) id: number) {

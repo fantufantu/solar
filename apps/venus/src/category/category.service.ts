@@ -46,7 +46,7 @@ export class CategoryService {
 
   /**
    * @description
-   * 查询科目
+   * 查询分类
    */
   getCategory(id: number) {
     return this.categoryRepository.findOneBy({
@@ -69,7 +69,7 @@ export class CategoryService {
 
   /**
    * @description
-   * 删除科目
+   * 删除分类
    */
   async remove(id: number) {
     return !!(await this.categoryRepository.delete(id)).affected;

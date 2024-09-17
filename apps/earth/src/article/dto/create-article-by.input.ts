@@ -14,5 +14,5 @@ export class CreateArticleBy extends PickType(
   @Field(() => [String], {
     description: '分类code列表',
   })
-  categoryCodes: number[];
+  categoryCodes: string[];
 }

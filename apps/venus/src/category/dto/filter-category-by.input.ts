@@ -1,9 +1,9 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 
-@InputType()
+@InputType('FilterTransactionCategoryBy')
 export class FilterCategoryBy {
   @Field(() => [Int], {
-    description: '科目id列表',
+    description: '分类id列表',
   })
   ids: number[];
 }

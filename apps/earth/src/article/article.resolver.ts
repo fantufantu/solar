@@ -29,9 +29,9 @@ export class ArticleResolver {
   ) {}
 
   @Mutation(() => Article, { name: 'createArticle', description: '创建文章' })
-  @UseGuards(new JwtAuthGuard(true))
+  // @UseGuards(new JwtAuthGuard(true))
   create(@Args('createBy') createBy: CreateArticleBy, @WhoAmI() user: User) {
-    return this.articleService.create(createBy, user.id);
+    return this.articleService.create(createBy, 1);
   }
 
   @Mutation(() => Boolean, {
