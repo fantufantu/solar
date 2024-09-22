@@ -16,7 +16,7 @@ async function bootstrap() {
 
   await app.startAllMicroservices();
   await app.listen(ServicePort.Mercury);
-  console.log(
+  console.info(
     `mercury is running on http://localhost:${ServicePort.Mercury}/graphql`,
   );
 }

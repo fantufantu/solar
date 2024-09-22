@@ -3,7 +3,7 @@ import { CreateArticleBy } from './dto/create-article-by.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from '@/lib/database/entities/earth/article.entity';
 import { Repository } from 'typeorm';
-import { UpdateArticleInput } from './dto/update-article-by.input';
+import { UpdateArticleBy } from './dto/update-article-by.input';
 import { Category } from '@/lib/database/entities/earth/category.entity';
 import { FilterArticlesBy } from './dto/filter-articles-by.input';
 import { QueryBy } from 'typings/api';
@@ -51,7 +51,7 @@ export class ArticleService {
    * @description
    * 更新文章
    */
-  async update(id: number, updateBy: UpdateArticleInput) {
+  async update(id: number, updateBy: UpdateArticleBy) {
     const { categoryCodes, ...article } = updateBy;
 
     // 更新文章
@@ -84,11 +84,10 @@ export class ArticleService {
    * @description
    * 分页查询文章列表
    */
-  async getArticles(queryBy: QueryBy<FilterArticlesBy> = {}) {
-    const {
-      paginateBy: { limit = 1, page = 1 } = {},
-      filterBy: { categorCodes = [] } = {},
-    } = queryBy;
+  async getArticles({
+    paginateBy: { limit, page } = { limit: 10, page: 1 },
+    filterBy: { categorCodes = [] } = {},
+  }: QueryBy<FilterArticlesBy> = {}) {
     const _sqb = this.articleRepository.createQueryBuilder();
 
     if (categorCodes.length > 0) {
@@ -125,5 +124,13 @@ export class ArticleService {
         .whereInIds(id)
         .execute()
     ).affected;
+  }
+
+  /**
+   * @description
+   * 根据文章id查询文章
+   */
+  async getArticleById(id: number) {
+    return await this.articleRepository.findOneBy({ id });
   }
 }

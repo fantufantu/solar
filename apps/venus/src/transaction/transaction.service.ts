@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
 import { CreateTransactionBy } from './dto/create-transaction-by.input';
-import { FilterTransactionBy } from './dto/filter-transaction-by.input';
+import { FilterTransactionsBy } from './dto/filter-transactions-by.input';
 import { UpdateTransactionBy } from './dto/update-transaction-by.input';
 import { Transaction } from '@/lib/database/entities/venus/transaction.entity';
 import { paginateQuery } from 'utils/api';
@@ -32,10 +32,10 @@ export class TransactionService {
 
   /**
    * @author murukal
-   * @description 查询交易列表
+   * @description
+   * 查询交易列表
    */
-  getTransactions(queryBy: QueryBy<FilterTransactionBy>) {
-    const { filterBy, ..._queryBy } = queryBy;
+  getTransactions({ filterBy, ..._queryBy }: QueryBy<FilterTransactionsBy>) {
     const { categoryIds, happenedFrom, happenedTo, ..._filterBy } =
       filterBy || {};
 

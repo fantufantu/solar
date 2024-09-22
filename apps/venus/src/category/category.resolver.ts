@@ -4,7 +4,7 @@ import { CategoryService } from './category.service';
 import { Category } from '@/lib/database/entities/venus/category.entity';
 import { CreateCategoryBy } from './dto/create-category-by.input';
 import { UpdateCategoryBy } from './dto/update-category-by.input';
-import { FilterCategoryBy } from './dto/filter-category-by.input';
+import { FilterCategoriesBy } from './dto/filter-categories-by.input';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { Filter, Pagination } from 'assets/decorators';
 import { PaginatedCategories } from './dto/paginated-categories';
@@ -29,7 +29,7 @@ export class CategoryResolver {
   @UseInterceptors(PaginatedInterceptor)
   getCategories(
     @Pagination() paginateBy: PaginateBy,
-    @Filter() filterBy: FilterCategoryBy,
+    @Filter() filterBy: FilterCategoriesBy,
   ) {
     return this.categoryService.getCategories({
       paginateBy,

@@ -1,12 +1,14 @@
 import { TargetType } from '@/lib/database/entities/venus/sharing.entity';
 
-export class FilterSharingBy {
+export class FilterSharingsBy {
   /**
+   * @description
    * 目标类型
    */
   targetType: TargetType;
 
   /**
+   * @description
    * 目标 id 列表
    */
   targetIds: number[];

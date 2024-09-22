@@ -15,7 +15,7 @@ async function bootstrap() {
   );
 
   await app.listen();
-  console.log(`pluto is running`);
+  console.info(`pluto is running`);
 }
 
 bootstrap();

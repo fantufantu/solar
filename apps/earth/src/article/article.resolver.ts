@@ -14,12 +14,13 @@ import { JwtAuthGuard } from '@/lib/passport/guards';
 import { CreateArticleBy } from './dto/create-article-by.input';
 import { Filter, Pagination, WhoAmI } from 'assets/decorators';
 import { User } from '@/lib/database/entities/earth/user.entity';
-import { UpdateArticleInput } from './dto/update-article-by.input';
+import { UpdateArticleBy } from './dto/update-article-by.input';
 import { PaginatedArticles } from './dto/paginated-articles.object';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { FilterArticlesBy } from './dto/filter-articles-by.input';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 import { ArticleLoader } from './article.loader';
+import { Category } from '@/lib/database/entities/earth/category.entity';
 
 @Resolver(() => Article)
 export class ArticleResolver {
@@ -43,7 +44,7 @@ export class ArticleResolver {
       type: () => Int,
     })
     id: number,
-    @Args('updateArticleInput') updateBy: UpdateArticleInput,
+    @Args('updateBy') updateBy: UpdateArticleBy,
   ) {
     return this.articleService.update(id, updateBy);
   }
@@ -75,14 +76,23 @@ export class ArticleResolver {
     return this.articleService.remove(id);
   }
 
-  @ResolveField(() => [String], {
-    name: 'categoryCodes',
-    description: '分类code列表',
+  @Query(() => Article, {
+    name: 'article',
+    description: '根据id查询文章',
   })
-  async getCategoryCodes(@Parent() article: Article) {
-    return await this.articleloader.getCategoryCodesByArticleId.load(
-      article.id,
-    );
+  @UseGuards(JwtAuthGuard)
+  async getArticleById(
+    @Args('id', { type: () => Int, description: 'id' }) id: number,
+  ) {
+    return await this.articleService.getArticleById(id);
+  }
+
+  @ResolveField(() => [Category], {
+    name: 'categories',
+    description: '文章关联的分类列表',
+  })
+  async getCategories(@Parent() article: Article) {
+    return await this.articleloader.getCategoriesByArticleId.load(article.id);
   }
 
   @ResolveField('createdBy', () => User, {

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateSharingBy } from './dto/create-sharing-by.input';
-import { FilterSharingBy } from './dto/filter-sharing-by.input';
+import { FilterSharingsBy } from './dto/filter-sharings-by.input';
 import { RemoveSharingBy } from './dto/remove-sharing-by.input';
 import { Sharing } from '@/lib/database/entities/venus/sharing.entity';
 
@@ -51,14 +51,14 @@ export class SharingService {
    * @author murukal
    * @description 查询分享列表
    */
-  async getSharings(filterBy: FilterSharingBy) {
+  async getSharings({ targetIds, targetType }: FilterSharingsBy) {
     return await this.sharingRepository
       .createQueryBuilder()
       .where('targetType = :targetType', {
-        targetType: filterBy.targetType,
+        targetType,
       })
       .andWhere('targetId IN (:...targetIds)', {
-        targetIds: filterBy.targetIds,
+        targetIds,
       })
       .getMany();
   }

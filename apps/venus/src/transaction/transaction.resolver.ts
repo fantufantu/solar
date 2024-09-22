@@ -15,7 +15,7 @@ import { UpdateTransactionBy } from './dto/update-transaction-by.input';
 import { TransactionLoader } from './transaction.loader';
 import { JwtAuthGuard } from '@/lib/passport/guards';
 import { Filter, Pagination, WhoAmI } from 'assets/decorators';
-import { FilterTransactionBy } from './dto/filter-transaction-by.input';
+import { FilterTransactionsBy } from './dto/filter-transactions-by.input';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { Category } from '../../../../libs/database/src/entities/venus/category.entity';
 import { User } from '@/lib/database/entities/venus/user.entity';
@@ -54,10 +54,10 @@ export class TransactionResolver {
   @UseGuards(JwtAuthGuard)
   getTransactions(
     @Filter({
-      type: () => FilterTransactionBy,
+      type: () => FilterTransactionsBy,
       nullable: false,
     })
-    filterBy: FilterTransactionBy,
+    filterBy: FilterTransactionsBy,
     @Pagination() paginateBy: PaginateBy,
   ) {
     return this.transactionService.getTransactions({
@@ -68,7 +68,7 @@ export class TransactionResolver {
 
   @Query(() => Transaction, {
     name: 'transaction',
-    description: '根据 id 查询交易',
+    description: '根据id查询交易',
   })
   @UseGuards(JwtAuthGuard)
   getTransactionById(

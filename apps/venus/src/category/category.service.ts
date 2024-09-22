@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { CreateCategoryBy } from './dto/create-category-by.input';
-import { FilterCategoryBy } from './dto/filter-category-by.input';
+import { FilterCategoriesBy } from './dto/filter-categories-by.input';
 import { UpdateCategoryBy } from './dto/update-category-by.input';
 import { Category } from '@/lib/database/entities/venus/category.entity';
 import { QueryBy } from 'typings/api';
@@ -29,15 +29,15 @@ export class CategoryService {
    * @description
    * 查询分类列表
    */
-  getCategories(queryBy?: QueryBy<FilterCategoryBy>) {
-    const { filterBy, ..._queryBy } = queryBy || {};
-    const { ids, ..._filterBy } = filterBy || {};
-
+  getCategories({
+    filterBy: { ids, ..._filterBy } = { ids: [] },
+    ..._queryBy
+  }: QueryBy<FilterCategoriesBy>) {
     return paginateQuery(this.categoryRepository, {
       ..._queryBy,
       filterBy: {
         ..._filterBy,
-        ...(ids && {
+        ...(ids.length > 0 && {
           id: In(ids),
         }),
       },

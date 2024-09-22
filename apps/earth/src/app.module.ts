@@ -7,6 +7,8 @@ import {
   ApolloFederationDriver,
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
+import { CategoryModule } from './category/category.module';
+import { PassportModule } from '@/lib/passport';
 
 @Module({
   imports: [
@@ -17,10 +19,14 @@ import {
         federation: 2,
       },
     }),
+    // 鉴权
+    PassportModule,
     // 数据库
     DatabaseModule.forRoot(ApplicationToken.Earth),
     // 文章
     ArticleModule,
+    // 分类
+    CategoryModule,
   ],
   controllers: [],
   providers: [],

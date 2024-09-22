@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   await app.listen(ServicePort.Halley);
 
-  console.log(
+  console.info(
     `halley is running on http://localhost:${ServicePort.Halley}/graphql`,
   );
 }
