@@ -66,15 +66,24 @@ export class ArticleService {
 
     // 更新关联的分类codes
     if (!!categoryCodes) {
-      const _relation = this.articleRepository
+      await this.articleToCategoryRepository
         .createQueryBuilder()
-        .relation('categories')
-        .of(id);
+        .delete()
+        .where({ articleId: id })
+        .execute();
 
-      await _relation.addAndRemove(
-        categoryCodes,
-        (await _relation.loadMany<Category>()).map((tag) => tag.id),
-      );
+      await this.articleToCategoryRepository
+        .createQueryBuilder()
+        .insert()
+        .values(
+          categoryCodes.map((categoryCode) =>
+            this.articleToCategoryRepository.create({
+              articleId: id,
+              categoryCode,
+            }),
+          ),
+        )
+        .execute();
     }
 
     return true;
