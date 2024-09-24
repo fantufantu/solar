@@ -31,22 +31,25 @@ export class ArticleResolver {
 
   @Mutation(() => Article, { name: 'createArticle', description: '创建文章' })
   @UseGuards(JwtAuthGuard)
-  create(@Args('createBy') createBy: CreateArticleBy, @WhoAmI() user: User) {
-    return this.articleService.create(createBy, 1);
+  async create(
+    @Args('createBy') createBy: CreateArticleBy,
+    @WhoAmI() user: User,
+  ) {
+    return await this.articleService.create(createBy, 1);
   }
 
   @Mutation(() => Boolean, {
     name: 'updateArticle',
     description: '更新文章',
   })
-  update(
+  async update(
     @Args('id', {
       type: () => Int,
     })
     id: number,
     @Args('updateBy') updateBy: UpdateArticleBy,
   ) {
-    return this.articleService.update(id, updateBy);
+    return await this.articleService.update(id, updateBy);
   }
 
   @Query(() => PaginatedArticles, {
@@ -54,7 +57,7 @@ export class ArticleResolver {
     description: '分页查询文章',
   })
   @UseInterceptors(PaginatedInterceptor)
-  getArticles(
+  async getArticles(
     @Pagination() paginateBy: PaginateBy,
     @Filter({
       type: () => FilterArticlesBy,
@@ -62,7 +65,7 @@ export class ArticleResolver {
     })
     filterBy: FilterArticlesBy,
   ) {
-    return this.articleService.getArticles({
+    return await this.articleService.getArticles({
       paginateBy,
       filterBy,
     });
