@@ -26,7 +26,7 @@ import { Category } from '@/lib/database/entities/earth/category.entity';
 export class ArticleResolver {
   constructor(
     private readonly articleService: ArticleService,
-    private readonly articleloader: ArticleLoader,
+    private readonly articleLoader: ArticleLoader,
   ) {}
 
   @Mutation(() => Article, { name: 'createArticle', description: '创建文章' })
@@ -95,7 +95,7 @@ export class ArticleResolver {
     description: '文章关联的分类列表',
   })
   async getCategories(@Parent() article: Article) {
-    return await this.articleloader.getCategoriesByArticleId.load(article.id);
+    return await this.articleLoader.getCategoriesByArticleId.load(article.id);
   }
 
   @ResolveField('createdBy', () => User, {
