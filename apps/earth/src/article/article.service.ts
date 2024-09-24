@@ -129,7 +129,7 @@ export class ArticleService {
     return !!(
       await this.articleRepository
         .createQueryBuilder()
-        .delete()
+        .softDelete()
         .whereInIds(id)
         .execute()
     ).affected;

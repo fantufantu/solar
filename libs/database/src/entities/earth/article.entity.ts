@@ -1,7 +1,14 @@
 import { BadRequestException } from '@nestjs/common';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { isURL } from 'class-validator';
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+} from 'typeorm';
 import { Preset } from 'assets/entities/preset.entity';
 import { ArticleToCategory } from './article_to_category.entity';
 
@@ -26,6 +33,9 @@ export class Article extends Preset {
 
   @Column()
   createdById: number;
+
+  @DeleteDateColumn()
+  deletedAt: Date | null;
 
   @OneToMany(() => ArticleToCategory, (_) => _.article)
   articleToCategory?: ArticleToCategory[];
