@@ -35,7 +35,7 @@ export class ArticleResolver {
     @Args('createBy') createBy: CreateArticleBy,
     @WhoAmI() user: User,
   ) {
-    return await this.articleService.create(createBy, 1);
+    return await this.articleService.create(createBy, user.id);
   }
 
   @Mutation(() => Boolean, {
