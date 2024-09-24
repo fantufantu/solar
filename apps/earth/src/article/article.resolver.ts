@@ -72,8 +72,8 @@ export class ArticleResolver {
     name: 'removeArticle',
     description: '删除文章',
   })
-  remove(@Args('id', { type: () => Int }) id: number) {
-    return this.articleService.remove(id);
+  async remove(@Args('id', { type: () => Int }) id: number) {
+    return await this.articleService.remove(id);
   }
 
   @Query(() => Article, {
