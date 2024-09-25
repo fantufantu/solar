@@ -126,13 +126,6 @@ export class ArticleService {
    * 删除文章
    */
   async remove(id: number) {
-    // 删除文章与分类的关联关系
-    await this.articleToCategoryRepository
-      .createQueryBuilder()
-      .delete()
-      .where({ articleId: id })
-      .execute();
-
     return !!(
       await this.articleRepository
         .createQueryBuilder()
