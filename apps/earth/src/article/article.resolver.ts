@@ -83,7 +83,6 @@ export class ArticleResolver {
     name: 'article',
     description: '根据id查询文章',
   })
-  @UseGuards(JwtAuthGuard)
   async getArticleById(
     @Args('id', { type: () => Int, description: 'id' }) id: number,
   ) {
