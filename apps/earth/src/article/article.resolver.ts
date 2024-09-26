@@ -91,7 +91,7 @@ export class ArticleResolver {
 
   @ResolveField(() => [Category], {
     name: 'categories',
-    description: '文章关联的分类列表',
+    description: '文章关联的文章分类列表',
   })
   async getCategories(@Parent() article: Article) {
     return await this.articleLoader.getCategoriesByArticleId.load(article.id);

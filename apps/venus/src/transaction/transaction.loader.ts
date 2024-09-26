@@ -15,7 +15,7 @@ export class TransactionLoader {
   /**
    * @author murukal
    * @description
-   * 根据分类id获取分类信息
+   * 根据交易分类id获取分类信息
    */
   readonly categoryLoader = new DataLoader<number, Category | null>(
     async (ids: number[]) => {

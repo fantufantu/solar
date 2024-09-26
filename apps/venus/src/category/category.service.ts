@@ -17,7 +17,7 @@ export class CategoryService {
 
   /**
    * @description
-   * 创建分类
+   * 创建交易分类
    */
   create(createBy: CreateCategoryBy) {
     return this.categoryRepository.save(
@@ -27,7 +27,7 @@ export class CategoryService {
 
   /**
    * @description
-   * 查询分类列表
+   * 查询交易分类列表
    */
   getCategories({
     filterBy: { ids, ..._filterBy } = { ids: [] },
@@ -46,7 +46,7 @@ export class CategoryService {
 
   /**
    * @description
-   * 查询分类
+   * 查询交易分类
    */
   getCategory(id: number) {
     return this.categoryRepository.findOneBy({
@@ -56,7 +56,7 @@ export class CategoryService {
 
   /**
    * @description
-   * 更新分类
+   * 更新交易分类
    */
   async update(id: number, updateBy: UpdateCategoryBy) {
     return !!(
@@ -69,7 +69,7 @@ export class CategoryService {
 
   /**
    * @description
-   * 删除分类
+   * 删除交易分类
    */
   async remove(id: number) {
     return !!(await this.categoryRepository.delete(id)).affected;

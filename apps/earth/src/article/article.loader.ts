@@ -18,7 +18,7 @@ export class ArticleLoader {
 
   /**
    * @description
-   * 读取文章关联的分类列表
+   * 读取文章关联的文章分类列表
    */
   public readonly getCategoriesByArticleId = new DataLoader<number, Category[]>(
     async (articleIds) => {

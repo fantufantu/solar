@@ -16,7 +16,7 @@ export class CategoryResolver {
 
   @Mutation(() => Category, {
     name: 'createTransactionCategory',
-    description: '创建分类',
+    description: '创建交易分类',
   })
   create(@Args('createBy') createBy: CreateCategoryBy) {
     return this.categoryService.create(createBy);
@@ -24,7 +24,7 @@ export class CategoryResolver {
 
   @Query(() => PaginatedCategories, {
     name: 'transactionCategories',
-    description: '分页查询分类',
+    description: '分页查询交易分类',
   })
   @UseInterceptors(PaginatedInterceptor)
   getCategories(
@@ -39,26 +39,26 @@ export class CategoryResolver {
 
   @Query(() => Category, {
     name: 'transactionCategory',
-    description: '查询单个分类',
+    description: '查询单个交易分类',
   })
   getCategory(
-    @Args('id', { type: () => Int, description: '分类id' }) id: number,
+    @Args('id', { type: () => Int, description: '交易分类id' }) id: number,
   ) {
     return this.categoryService.getCategory(id);
   }
 
   @Mutation(() => Boolean, {
     name: 'updateTransactionCategory',
-    description: '更新分类',
+    description: '更新交易分类',
   })
   update(
     @Args('id', {
       type: () => Int,
-      description: '分类id',
+      description: '交易分类id',
     })
     id: number,
     @Args('updateBy', {
-      description: '分类',
+      description: '交易分类',
     })
     updateBy: UpdateCategoryBy,
   ) {
@@ -67,7 +67,7 @@ export class CategoryResolver {
 
   @Mutation(() => Boolean, {
     name: 'removeTransactionCategory',
-    description: '删除分类',
+    description: '删除交易分类',
   })
   remove(@Args('id', { type: () => Int, description: '分类id' }) id: number) {
     return this.categoryService.remove(id);

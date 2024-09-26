@@ -1,5 +1,5 @@
 import { Field, InputType, PickType } from '@nestjs/graphql';
-import { Article } from '../../../../../libs/database/src/entities/earth/article.entity';
+import { Article } from '@/lib/database/entities/earth/article.entity';
 
 /**
  * @description
@@ -12,7 +12,7 @@ export class CreateArticleBy extends PickType(
   InputType,
 ) {
   @Field(() => [String], {
-    description: '分类code列表',
+    description: '文章分类code列表',
   })
   categoryCodes: string[];
 }

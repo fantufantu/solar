@@ -25,7 +25,7 @@ import { PassportModule } from '@/lib/passport';
     DatabaseModule.forRoot(ApplicationToken.Earth),
     // 文章
     ArticleModule,
-    // 分类
+    // 文章分类
     CategoryModule,
   ],
   controllers: [],

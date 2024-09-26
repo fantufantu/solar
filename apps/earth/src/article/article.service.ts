@@ -34,7 +34,7 @@ export class ArticleService {
       }),
     );
 
-    // 添加文章和分类的关联关系
+    // 添加文章和文章分类的关联关系
     await this.articleToCategoryRepository.save(
       categoryCodes.map((categoryCode) =>
         this.articleToCategoryRepository.create({
@@ -64,7 +64,7 @@ export class ArticleService {
         .execute();
     }
 
-    // 更新关联的分类codes
+    // 更新关联的文章分类codes
     if (!!categoryCodes) {
       await this.articleToCategoryRepository
         .createQueryBuilder()
