@@ -2,13 +2,14 @@ import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CategoryService } from './category.service';
 import { Category } from '@/lib/database/entities/earth/category.entity';
 import { PaginatedCategories } from './dto/paginated-categories.object';
-import { UseInterceptors } from '@nestjs/common';
+import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 import { Filter, Pagination } from 'assets/decorators';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { FilterCategoriesBy } from './dto/filter-categories-by.input';
 import { CreateCategoryBy } from './dto/create-category-by.input';
 import { UpdateCategoryBy } from './dto/update-category-by.input';
+import { JwtAuthGuard } from '@/lib/passport/guards';
 
 @Resolver(() => Category)
 export class CategoryResolver {
@@ -36,6 +37,7 @@ export class CategoryResolver {
     name: 'createArticleCategory',
     description: '创建文章分类',
   })
+  @UseGuards(JwtAuthGuard)
   async create(@Args('createBy') createBy: CreateCategoryBy) {
     return await this.categoryService.create(createBy);
   }
@@ -44,6 +46,7 @@ export class CategoryResolver {
     name: 'updateArticleCategory',
     description: '更新文章分类',
   })
+  @UseGuards(JwtAuthGuard)
   async update(
     @Args('id', {
       type: () => Int,
@@ -58,6 +61,7 @@ export class CategoryResolver {
     name: 'removeArticleCategory',
     description: '删除文章分类',
   })
+  @UseGuards(JwtAuthGuard)
   async remove(
     @Args('id', {
       type: () => Int,

@@ -44,7 +44,8 @@ export class Category extends Preset {
   @BeforeInsert()
   @BeforeUpdate()
   private _validateImage() {
-    if (this.image) return;
-    if (!isURL(this.image)) throw new BadRequestException('');
+    if (!isURL(this.image)) {
+      throw new BadRequestException('文章分类的图片不是合法的url！');
+    }
   }
 }
