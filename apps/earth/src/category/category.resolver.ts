@@ -70,4 +70,17 @@ export class CategoryResolver {
   ) {
     return await this.categoryService.remove(id);
   }
+
+  @Query(() => Category, {
+    name: 'articleCategory',
+    description: '查询文章分类',
+  })
+  async getCategory(
+    @Args('id', {
+      type: () => Int,
+    })
+    id: number,
+  ) {
+    return await this.categoryService.getCategory(id);
+  }
 }

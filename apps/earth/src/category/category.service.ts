@@ -99,4 +99,12 @@ export class CategoryService {
         .execute()
     ).affected;
   }
+
+  /**
+   * @description
+   * 获取文章分类
+   */
+  async getCategory(id: number) {
+    return await this.categoryRepository.findOneBy({ id });
+  }
 }
