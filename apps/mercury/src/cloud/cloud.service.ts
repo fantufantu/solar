@@ -53,6 +53,9 @@ export class CloudService {
     return {
       secretId: _cretenial.tmpSecretId,
       secretKey: _cretenial.tmpSecretKey,
+      securityToken: _cretenial.sessionToken,
+      bucket,
+      region,
     };
   }
 }
