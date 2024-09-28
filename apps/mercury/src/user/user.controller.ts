@@ -8,7 +8,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @MessagePattern({ cmd: CommandToken.GetUser })
-  getUserById(id: number) {
-    return this.userService.getUser(id);
+  async getUserById(id: number) {
+    return await this.userService.getUser(id);
   }
 }
