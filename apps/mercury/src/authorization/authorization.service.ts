@@ -130,10 +130,10 @@ export class AuthorizationService {
     if (!user) throw new UnauthorizedException('用户名或者密码错误！');
 
     // 校验密码
-    const isPasswordValidate = compareSync(
+    const isPasswordValid = compareSync(
       this.decryptByRsaPrivateKey(
         loginBy.password,
-        await this.plutoClient.getConfig<string>({
+        await this.plutoClient.getConfiguration<string>({
           token: ConfigurationRegisterToken.Rsa,
           property: RsaPropertyToken.PrivateKey,
         }),
@@ -141,8 +141,9 @@ export class AuthorizationService {
       user.password,
     );
 
-    if (!isPasswordValidate)
+    if (!isPasswordValid) {
       throw new UnauthorizedException('用户名或者密码错误！');
+    }
 
     return user;
   }
@@ -156,7 +157,7 @@ export class AuthorizationService {
     const decryptedPassword = password
       ? this.decryptByRsaPrivateKey(
           password,
-          await this.plutoClient.getConfig<string>({
+          await this.plutoClient.getConfiguration<string>({
             token: ConfigurationRegisterToken.Rsa,
             property: RsaPropertyToken.PrivateKey,
           }),

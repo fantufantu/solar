@@ -15,7 +15,7 @@ export class PlutoClientService {
    * @description
    * 调用pluto微服务获取配置项
    */
-  async getConfig<T>(getBy: GetConfigurationBy) {
+  async getConfiguration<T>(getBy: GetConfigurationBy) {
     return await lastValueFrom(
       this.client.send<T, GetConfigurationBy>(
         {

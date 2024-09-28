@@ -4,7 +4,6 @@ import { Repository, FindOneOptions, In, Like, Not } from 'typeorm';
 import { SendCaptchaBy } from './dto/send-captcha-by.input';
 import dayjs from 'dayjs';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
-import { ClientConfig } from 'tencentcloud-sdk-nodejs/tencentcloud/common/interface';
 import {
   ConfigurationRegisterToken,
   TencentCloudPropertyToken,
@@ -162,21 +161,24 @@ export class UserService {
    * 初始化 ses client (发送邮件)
    */
   private async initializeSesClient() {
-    const clientConfig: ClientConfig = {
+    const [secretId, secretKey] = await Promise.all([
+      this.plutoClient.getConfiguration<string>({
+        token: ConfigurationRegisterToken.TencentCloud,
+        property: TencentCloudPropertyToken.SecretId,
+      }),
+      this.plutoClient.getConfiguration<string>({
+        token: ConfigurationRegisterToken.TencentCloud,
+        property: TencentCloudPropertyToken.SecretKey,
+      }),
+    ]);
+
+    this.sesClient = new SesClient({
       credential: {
-        secretId: await this.plutoClient.getConfig<string>({
-          token: ConfigurationRegisterToken.TencentCloud,
-          property: TencentCloudPropertyToken.SecretId,
-        }),
-        secretKey: await this.plutoClient.getConfig<string>({
-          token: ConfigurationRegisterToken.TencentCloud,
-          property: TencentCloudPropertyToken.SecretKey,
-        }),
+        secretId,
+        secretKey,
       },
       region: 'ap-hongkong',
-    };
-
-    this.sesClient = new SesClient(clientConfig);
+    });
   }
 
   /**
