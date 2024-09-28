@@ -7,7 +7,7 @@ import { UpdateCategoryBy } from './dto/update-category-by.input';
 import { FilterCategoriesBy } from './dto/filter-categories-by.input';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { Filter, Pagination } from 'assets/decorators';
-import { PaginatedCategories } from './dto/paginated-categories';
+import { PaginatedCategories } from './dto/paginated-categories.object';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 
 @Resolver(() => Category)

@@ -18,7 +18,7 @@ import { Sharing } from '@/lib/database/entities/venus/sharing.entity';
 import { BillingLoader } from './billing.loader';
 import { User } from '@/lib/database/entities/venus/user.entity';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
-import { PaginatedBillings } from './dto/paginated-billings';
+import { PaginatedBillings } from './dto/paginated-billings.object';
 import { SetBillingLimitBy } from './dto/set-billing-limit-by.input';
 
 @Resolver(() => Billing)

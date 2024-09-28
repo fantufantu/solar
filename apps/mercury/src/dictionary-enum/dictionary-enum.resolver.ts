@@ -3,7 +3,7 @@ import { Pagination, Permission } from 'assets/decorators';
 import { AuthorizationActionCode } from '@/lib/database/entities/mercury/authorization-action.entity';
 import { AuthorizationResourceCode } from '@/lib/database/entities/mercury/authorization-resource.entity';
 import { DictionaryEnumService } from './dictionary-enum.service';
-import { PaginatedDictionaryEnum } from './dto/paginated-dictionary-enums';
+import { PaginatedDictionaryEnum } from './dto/paginated-dictionary-enums.object';
 import { DictionaryEnum } from '../../../../libs/database/src/entities/mercury/dictionary-enum.entity';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { CreateDictionaryEnumBy } from './dto/create-dictionary-enum-by.input';

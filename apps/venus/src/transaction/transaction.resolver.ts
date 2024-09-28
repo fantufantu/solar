@@ -19,7 +19,7 @@ import { FilterTransactionsBy } from './dto/filter-transactions-by.input';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { Category } from '../../../../libs/database/src/entities/venus/category.entity';
 import { User } from '@/lib/database/entities/venus/user.entity';
-import { PaginatedTransactions } from './dto/paginated-transactions';
+import { PaginatedTransactions } from './dto/paginated-transactions.object';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 import { Billing } from '@/lib/database/entities/venus/billing.entity';
 import { TransactionAmountGroupedByCategory } from './dto/transaction-amount-grouped-by-category';
