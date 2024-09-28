@@ -31,7 +31,7 @@ export class CloudService {
       }),
       this.plutoClient.getConfiguration<string>({
         token: ConfigurationRegisterToken.TencentCloud,
-        property: TencentCloudPropertyToken.Region,
+        property: TencentCloudPropertyToken.BucketRegion,
       }),
     ]);
 

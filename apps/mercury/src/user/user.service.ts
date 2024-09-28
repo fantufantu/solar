@@ -161,7 +161,7 @@ export class UserService {
    * 初始化 ses client (发送邮件)
    */
   private async initializeSesClient() {
-    const [secretId, secretKey] = await Promise.all([
+    const [secretId, secretKey, region] = await Promise.all([
       this.plutoClient.getConfiguration<string>({
         token: ConfigurationRegisterToken.TencentCloud,
         property: TencentCloudPropertyToken.SecretId,
@@ -170,6 +170,10 @@ export class UserService {
         token: ConfigurationRegisterToken.TencentCloud,
         property: TencentCloudPropertyToken.SecretKey,
       }),
+      this.plutoClient.getConfiguration<string>({
+        token: ConfigurationRegisterToken.TencentCloud,
+        property: TencentCloudPropertyToken.SesRegion,
+      }),
     ]);
 
     this.sesClient = new SesClient({
@@ -177,7 +181,7 @@ export class UserService {
         secretId,
         secretKey,
       },
-      region: 'ap-hongkong',
+      region,
     });
   }
 

@@ -8,10 +8,15 @@ export default registerAs<Record<TencentCloudPropertyToken, string>>(
   ConfigurationRegisterToken.TencentCloud,
   () => {
     return {
-      bucket: process.env.BUCKET ?? '',
-      region: process.env.REGION ?? '',
-      secretId: process.env.TENCENT_CLOUD_SECRET_ID ?? '',
-      secretKey: process.env.TENCENT_CLOUD_SECRET_KEY ?? '',
+      [TencentCloudPropertyToken.SecretId]:
+        process.env.TENCENT_CLOUD_SECRET_ID ?? '',
+      [TencentCloudPropertyToken.SecretKey]:
+        process.env.TENCENT_CLOUD_SECRET_KEY ?? '',
+
+      [TencentCloudPropertyToken.Bucket]: process.env.BUCKET ?? '',
+      [TencentCloudPropertyToken.BucketRegion]: process.env.BUCKET_REGION ?? '',
+
+      [TencentCloudPropertyToken.SesRegion]: process.env.SES_REGION ?? '',
     };
   },
 );

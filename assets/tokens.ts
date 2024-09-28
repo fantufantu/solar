@@ -37,10 +37,13 @@ export enum ConfigurationRegisterToken {
  * tencent cloud 属性
  */
 export enum TencentCloudPropertyToken {
-  Bucket = 'bucket',
-  Region = 'region',
   SecretId = 'secretId',
   SecretKey = 'secretKey',
+
+  Bucket = 'bucket',
+  BucketRegion = 'bucket-region',
+
+  SesRegion = 'ses-region',
 }
 
 /**
