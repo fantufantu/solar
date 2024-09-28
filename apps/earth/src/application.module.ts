@@ -31,4 +31,4 @@ import { PassportModule } from '@/lib/passport';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class ApplicationModule {}
