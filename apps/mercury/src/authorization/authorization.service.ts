@@ -10,7 +10,7 @@ import { Authorization } from '@/lib/database/entities/mercury/authorization.ent
 import { AuthorizationResource } from '@/lib/database/entities/mercury/authorization-resource.entity';
 import { AuthorizationAction } from '@/lib/database/entities/mercury/authorization-action.entity';
 import { AuthorizeBy } from './dto/authorize-by.input';
-import { ConfigRegisterToken, RsaPropertyToken } from 'assets/tokens';
+import { ConfigurationRegisterToken, RsaPropertyToken } from 'assets/tokens';
 import { UserService } from '../user/user.service';
 import { UserVerificationType } from '@/lib/database/entities/mercury/user-verification.entity';
 import type { QueryBy } from 'typings/api';
@@ -18,7 +18,7 @@ import type { LoginBy } from './dto/login-by.input';
 import type { Repository } from 'typeorm';
 
 @Injectable()
-export class AuthService {
+export class AuthorizationService {
   constructor(
     @InjectRepository(Authorization)
     private readonly authorizationRepository: Repository<Authorization>,
@@ -134,7 +134,7 @@ export class AuthService {
       this.decryptByRsaPrivateKey(
         loginBy.password,
         await this.plutoClient.getConfig<string>({
-          token: ConfigRegisterToken.Rsa,
+          token: ConfigurationRegisterToken.Rsa,
           property: RsaPropertyToken.PrivateKey,
         }),
       ),
@@ -157,7 +157,7 @@ export class AuthService {
       ? this.decryptByRsaPrivateKey(
           password,
           await this.plutoClient.getConfig<string>({
-            token: ConfigRegisterToken.Rsa,
+            token: ConfigurationRegisterToken.Rsa,
             property: RsaPropertyToken.PrivateKey,
           }),
         )

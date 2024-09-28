@@ -3,7 +3,7 @@ import { ApplicationToken } from 'assets/tokens';
 import { DatabaseModule } from '@/lib/database';
 import { PassportModule } from '@/lib/passport';
 import { PlutoClientModule } from '@/lib/pluto-client';
-import { AuthModule } from './auth/auth.module';
+import { AuthorizationModule } from './authorization/authorization.module';
 import { RoleModule } from './role/role.module';
 import { DictionaryModule } from './dictionary/dictionary.module';
 import { DictionaryEnumModule } from './dictionary-enum/dictionary-enum.module';
@@ -29,8 +29,8 @@ import { UserModule } from './user/user.module';
     DatabaseModule.forRoot(ApplicationToken.Mercury),
     // 认证
     PassportModule,
-    // 用户权限
-    AuthModule,
+    // 权限
+    AuthorizationModule,
     // 角色
     RoleModule,
     // 字典

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthService } from './auth.service';
-import { AuthResolver } from './auth.resolver';
+import { AuthorizationService } from './authorization.service';
+import { AuthorizationResolver } from './authorization.resolver';
 import { Authorization } from '@/lib/database/entities/mercury/authorization.entity';
 import { AuthorizationResource } from '@/lib/database/entities/mercury/authorization-resource.entity';
 import { AuthorizationAction } from '@/lib/database/entities/mercury/authorization-action.entity';
@@ -16,6 +16,6 @@ import { UserModule } from '../user/user.module';
       AuthorizationAction,
     ]),
   ],
-  providers: [AuthResolver, AuthService],
+  providers: [AuthorizationResolver, AuthorizationService],
 })
-export class AuthModule {}
+export class AuthorizationModule {}
