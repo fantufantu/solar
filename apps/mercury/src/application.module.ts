@@ -13,6 +13,7 @@ import {
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
 import { UserModule } from './user/user.module';
+import { CloudModule } from './cloud/cloud.module';
 
 @Module({
   imports: [
@@ -39,6 +40,8 @@ import { UserModule } from './user/user.module';
     DictionaryEnumModule,
     // 用户模块
     UserModule,
+    // 云服务模块
+    CloudModule,
   ],
   controllers: [],
   providers: [],
