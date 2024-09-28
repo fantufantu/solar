@@ -16,7 +16,7 @@ export interface Pattern {
 /**
  * 获取环境配置的入参
  */
-export type GetConfigInput =
+export type GetConfigurationBy =
   | {
       token: ConfigRegisterToken.TencentCloud;
       property: TencentCloudPropertyToken;

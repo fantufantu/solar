@@ -4,7 +4,6 @@
 
 ### 使用了 nestjs 的 monorepo 结构
 
-- sun = gateway
 - pluto = 环境变量
 - mercury = 基础服务
 - venus = 记账服务

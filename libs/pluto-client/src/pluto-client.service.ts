@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 import { CommandToken, ProviderToken } from 'assets/tokens';
-import type { GetConfigInput } from 'typings/micro-service';
+import type { GetConfigurationBy } from 'typings/micro-service';
 
 @Injectable()
 export class PlutoClientService {
@@ -12,15 +12,16 @@ export class PlutoClientService {
   ) {}
 
   /**
-   * 获取配置项
+   * @description
+   * 调用pluto微服务获取配置项
    */
-  async getConfig<T>(input: GetConfigInput) {
+  async getConfig<T>(getBy: GetConfigurationBy) {
     return await lastValueFrom(
-      this.client.send<T, GetConfigInput>(
+      this.client.send<T, GetConfigurationBy>(
         {
-          cmd: CommandToken.GetConfig,
+          cmd: CommandToken.GetConfiguration,
         },
-        input,
+        getBy,
       ),
     );
   }

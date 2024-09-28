@@ -2,15 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions, In, Like, Not } from 'typeorm';
 import { SendCaptchaBy } from './dto/send-captcha-by.input';
-import { UserVerification } from '../../../../libs/database/src/entities/mercury/user-verification.entity';
-import { User } from '../../../../libs/database/src/entities/mercury/user.entity';
 import dayjs from 'dayjs';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
 import { ClientConfig } from 'tencentcloud-sdk-nodejs/tencentcloud/common/interface';
-import { ConfigRegisterToken, TencentCloudPropertyToken } from 'assets/tokens';
+import {
+  ConfigurationRegisterToken,
+  TencentCloudPropertyToken,
+} from 'assets/tokens';
 import { PlutoClientService } from '@/lib/pluto-client';
 import type { VerifyBy } from './dto/verify-by.input';
 import { UpdateUserBy } from './dto/update-user-by.input';
+import { UserVerification } from '@/lib/database/entities/mercury/user-verification.entity';
+import { User } from '@/lib/database/entities/mercury/user.entity';
 
 @Injectable()
 export class UserService {
@@ -155,17 +158,18 @@ export class UserService {
 
   /**
    * @author murukal
-   * @description 初始化 ses client (发送邮件)
+   * @description
+   * 初始化 ses client (发送邮件)
    */
   private async initializeSesClient() {
     const clientConfig: ClientConfig = {
       credential: {
         secretId: await this.plutoClient.getConfig<string>({
-          token: ConfigRegisterToken.TencentCloud,
+          token: ConfigurationRegisterToken.TencentCloud,
           property: TencentCloudPropertyToken.SecretId,
         }),
         secretKey: await this.plutoClient.getConfig<string>({
-          token: ConfigRegisterToken.TencentCloud,
+          token: ConfigurationRegisterToken.TencentCloud,
           property: TencentCloudPropertyToken.SecretKey,
         }),
       },

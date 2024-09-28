@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { AppModule } from './app.module';
+import { type MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { ApplicationModule } from './application.module';
 import { MicroservicePort } from 'assets/ports';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
+  const application = await NestFactory.createMicroservice<MicroserviceOptions>(
+    ApplicationModule,
     {
       transport: Transport.TCP,
       options: {
@@ -14,8 +14,8 @@ async function bootstrap() {
     },
   );
 
-  await app.listen();
-  console.info(`pluto is running`);
+  await application.listen();
+  console.info('pluto is running');
 }
 
 bootstrap();

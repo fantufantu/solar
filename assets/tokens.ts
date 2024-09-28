@@ -24,10 +24,11 @@ export enum MetadataToken {
 }
 
 /**
+ * @description
  * config 注册值
  */
-export enum ConfigRegisterToken {
-  TencentCloud = 'tencentCloud',
+export enum ConfigurationRegisterToken {
+  TencentCloud = 'tencent-cloud',
   Jwt = 'jwt',
   Rsa = 'rsa',
 }
@@ -58,10 +59,11 @@ export enum JwtPropertyToken {
 }
 
 /**
+ * @description
  * 服务 cmd
  */
 export enum CommandToken {
-  GetConfig = 'config.get',
+  GetConfiguration = 'configuration.get',
   GetUser = 'user.get',
   Permit = 'role.permit',
 }
@@ -70,9 +72,11 @@ export enum CommandToken {
  * GraphQL enum tokne
  */
 export enum GraphQLEnumToken {
+  // authorization
   AuthorizationActionCode = 'AuthorizationActionCode',
   AuthorizationResourceCode = 'AuthorizationResourceCode',
 
+  // user
   UserVerificationType = 'UserVerificationType',
 
   TransactionDirection = 'TransactionDirection',
