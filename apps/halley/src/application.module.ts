@@ -40,4 +40,4 @@ class AuthenticatedDataSource extends RemoteGraphQLDataSource {
     }),
   ],
 })
-export class AppModule {}
+export class ApplicationModule {}

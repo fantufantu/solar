@@ -41,4 +41,4 @@ import { MercuryClientModule } from '@/lib/mercury-client';
     TransactionModule,
   ],
 })
-export class AppModule {}
+export class ApplicationModule {}
