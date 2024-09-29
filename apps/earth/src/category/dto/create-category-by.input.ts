@@ -8,6 +8,6 @@ import { Category } from '@/lib/database/entities/earth/category.entity';
 @InputType('CreateArticleCategoryBy')
 export class CreateCategoryBy extends PickType(
   Category,
-  ['code', 'name'],
+  ['code', 'name', 'image'],
   InputType,
 ) {}

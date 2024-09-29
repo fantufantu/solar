@@ -49,10 +49,7 @@ export class CategoryService {
    */
   async create(createBy: CreateCategoryBy) {
     return await this.categoryRepository.save(
-      this.categoryRepository.create({
-        ...createBy,
-        image: 'https://baidu.com',
-      }),
+      this.categoryRepository.create(createBy),
     );
   }
 
