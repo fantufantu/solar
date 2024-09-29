@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Preset } from 'assets/entities/preset.entity';
 import { ArticleToCategory } from './article_to_category.entity';
+import { isUndefined } from '@aiszlab/relax';
 
 @ObjectType('ArticleCategory')
 @Unique(['code'])
@@ -44,6 +45,10 @@ export class Category extends Preset {
   @BeforeInsert()
   @BeforeUpdate()
   private _validateImage() {
+    // 更新时，存在不更新 `image` 的情况
+    // 值不存在时，不处理校验
+    if (isUndefined(this.image)) return;
+
     if (!isURL(this.image)) {
       throw new BadRequestException('文章分类的图片不是合法的url！');
     }
