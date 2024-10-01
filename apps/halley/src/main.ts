@@ -7,7 +7,7 @@ async function bootstrap() {
   await application.listen(ServicePort.Halley);
 
   application.enableCors({
-    origin: [/aisz.dev/, /fantufantu.com/],
+    origin: [/aisz.dev/, /fantufantu.com/, /localhost/],
   });
 
   console.info(
