@@ -19,11 +19,6 @@ class AuthenticatedDataSource extends RemoteGraphQLDataSource {
 
       useFactory: () => {
         return {
-          server: {
-            path: '/graphql',
-            cors: true,
-          },
-
           gateway: {
             supergraphSdl: new IntrospectAndCompose({
               subgraphs: [
