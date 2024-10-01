@@ -14,28 +14,38 @@ class AuthenticatedDataSource extends RemoteGraphQLDataSource {
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloGatewayDriverConfig>({
+    GraphQLModule.forRootAsync<ApolloGatewayDriverConfig>({
       driver: ApolloGatewayDriver,
-      gateway: {
-        supergraphSdl: new IntrospectAndCompose({
-          subgraphs: [
-            {
-              name: ApplicationToken.Mercury,
-              url: `http://localhost:${ServicePort.Mercury}/graphql`,
+
+      useFactory: () => {
+        return {
+          server: {
+            path: '/graphql',
+            cors: true,
+          },
+
+          gateway: {
+            supergraphSdl: new IntrospectAndCompose({
+              subgraphs: [
+                {
+                  name: ApplicationToken.Mercury,
+                  url: `http://localhost:${ServicePort.Mercury}/graphql`,
+                },
+                {
+                  name: ApplicationToken.Venus,
+                  url: `http://localhost:${ServicePort.Venus}/graphql`,
+                },
+                {
+                  name: ApplicationToken.Earth,
+                  url: `http://localhost:${ServicePort.Earth}/graphql`,
+                },
+              ],
+            }),
+            buildService: (definition) => {
+              return new AuthenticatedDataSource(definition);
             },
-            {
-              name: ApplicationToken.Venus,
-              url: `http://localhost:${ServicePort.Venus}/graphql`,
-            },
-            {
-              name: ApplicationToken.Earth,
-              url: `http://localhost:${ServicePort.Earth}/graphql`,
-            },
-          ],
-        }),
-        buildService: (definition) => {
-          return new AuthenticatedDataSource(definition);
-        },
+          },
+        };
       },
     }),
   ],
