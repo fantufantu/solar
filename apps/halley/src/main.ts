@@ -5,7 +5,12 @@ import { ApplicationModule } from './application.module';
 async function bootstrap() {
   const application = await NestFactory.create(ApplicationModule, {
     cors: {
-      origin: [/aisz\.dev$/, /fantufantu\.com$/, /localhost:9527$/],
+      origin: [
+        /aisz\.dev$/,
+        /fantufantu\.com$/,
+        /localhost:9527$/,
+        /localhost:8200$/,
+      ],
     },
   });
 
