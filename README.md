@@ -38,7 +38,9 @@
 * `apt update`
 * `apt install git`
 
-- 安装 node
+- 借助`nvm`安装`nodejs`
+
+https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating
 
 ```
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
