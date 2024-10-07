@@ -59,11 +59,11 @@ export class ArticleResolver {
   })
   @UseInterceptors(PaginatedInterceptor)
   async getArticles(
-    @Pagination() paginateBy: Partialable<PaginateBy>,
+    @Pagination() paginateBy: PaginateBy,
     @Filter({
       type: () => FilterArticlesBy,
     })
-    filterBy: Partialable<FilterArticlesBy>,
+    filterBy: FilterArticlesBy,
   ) {
     return await this.articleService.getArticles({
       paginateBy,
