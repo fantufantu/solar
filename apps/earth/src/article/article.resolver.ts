@@ -21,6 +21,7 @@ import { FilterArticlesBy } from './dto/filter-articles-by.input';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 import { ArticleLoader } from './article.loader';
 import { Category } from '@/lib/database/entities/earth/category.entity';
+import type { Partialable } from '@aiszlab/relax/types';
 
 @Resolver(() => Article)
 export class ArticleResolver {
@@ -58,12 +59,11 @@ export class ArticleResolver {
   })
   @UseInterceptors(PaginatedInterceptor)
   async getArticles(
-    @Pagination() paginateBy: PaginateBy,
+    @Pagination() paginateBy: Partialable<PaginateBy>,
     @Filter({
       type: () => FilterArticlesBy,
-      nullable: false,
     })
-    filterBy: FilterArticlesBy,
+    filterBy: Partialable<FilterArticlesBy>,
   ) {
     return await this.articleService.getArticles({
       paginateBy,

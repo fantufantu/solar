@@ -103,9 +103,9 @@ export class ArticleService {
         .andWhere((queryBuilder) => {
           const query = queryBuilder
             .subQuery()
-            .select('articleToCategory.article_id')
+            .select('articleToCategory.articleId')
             .from(ArticleToCategory, 'articleToCategory')
-            .where('articleToCategory.category_code IN (:...categoryCodes)')
+            .where('articleToCategory.categoryCode IN (:...categoryCodes)')
             .getQuery();
           return 'article.id IN' + query;
         })
