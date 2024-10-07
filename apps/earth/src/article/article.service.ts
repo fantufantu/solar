@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from '@/lib/database/entities/earth/article.entity';
 import { Repository } from 'typeorm';
 import { UpdateArticleBy } from './dto/update-article-by.input';
-import { Category } from '@/lib/database/entities/earth/category.entity';
 import { FilterArticlesBy } from './dto/filter-articles-by.input';
 import { QueryBy } from 'typings/api';
 import { ArticleToCategory } from '@/lib/database/entities/earth/article_to_category.entity';
@@ -95,11 +94,11 @@ export class ArticleService {
    */
   async getArticles({
     paginateBy: { limit, page } = { limit: 10, page: 1 },
-    filterBy: { categorCodes = [] } = {},
+    filterBy: { categoryCodes = [] } = {},
   }: QueryBy<FilterArticlesBy> = {}) {
     const _sqb = this.articleRepository.createQueryBuilder();
 
-    if (categorCodes.length > 0) {
+    if (categoryCodes.length > 0) {
       _sqb
         .andWhere((queryBuilder) => {
           const query = queryBuilder
@@ -110,7 +109,7 @@ export class ArticleService {
             .getQuery();
           return 'article.id IN' + query;
         })
-        .setParameter('categoryCodes', categorCodes);
+        .setParameter('categoryCodes', categoryCodes);
     }
 
     const articles = await _sqb
