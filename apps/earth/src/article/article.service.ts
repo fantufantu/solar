@@ -96,7 +96,7 @@ export class ArticleService {
     paginateBy: { limit, page } = { limit: 10, page: 1 },
     filterBy: { categoryCodes = [] } = {},
   }: QueryBy<FilterArticlesBy> = {}) {
-    const _sqb = this.articleRepository.createQueryBuilder();
+    const _sqb = this.articleRepository.createQueryBuilder('article');
 
     if (categoryCodes.length > 0) {
       _sqb
