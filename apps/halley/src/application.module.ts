@@ -1,14 +1,51 @@
-import { IntrospectAndCompose, RemoteGraphQLDataSource } from '@apollo/gateway';
+import {
+  type GraphQLDataSourceProcessOptions,
+  IntrospectAndCompose,
+  RemoteGraphQLDataSource,
+} from '@apollo/gateway';
+import { GraphQLDataSourceRequestKind } from '@apollo/gateway/dist/datasources/types';
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
+import { Context, GraphQLModule } from '@nestjs/graphql';
 import { ServicePort } from 'assets/ports';
 import { ApplicationToken } from 'assets/tokens';
+import type { IncomingMessage } from 'http';
+import type { GatewayGraphQLRequestContext } from '@apollo/server-gateway-interface';
 
-class AuthenticatedDataSource extends RemoteGraphQLDataSource {
-  willSendRequest({ request, context }) {
-    const jwt = context.req?.headers.authorization;
-    jwt && request.http.headers.set('Authorization', jwt);
+interface Context {
+  req?: IncomingMessage;
+}
+
+class RouterDataSource extends RemoteGraphQLDataSource {
+  willSendRequest({
+    request,
+    context,
+    kind,
+  }: GraphQLDataSourceProcessOptions<Context>) {
+    if (kind !== GraphQLDataSourceRequestKind.INCOMING_OPERATION) return;
+
+    const _authorization = context.req?.headers.authorization;
+    if (_authorization) {
+      request.http?.headers.set('Authorization', _authorization);
+    }
+  }
+
+  didReceiveResponse({
+    response,
+    context,
+    request,
+  }: Required<
+    Pick<
+      GatewayGraphQLRequestContext<Context>,
+      'request' | 'response' | 'context'
+    >
+  >) {
+    response.http?.headers.set(
+      'Referrer-Policy',
+      'strict-origin-when-cross-origin',
+    );
+
+    return response;
   }
 }
 
@@ -37,7 +74,7 @@ class AuthenticatedDataSource extends RemoteGraphQLDataSource {
               ],
             }),
             buildService: (definition) => {
-              return new AuthenticatedDataSource(definition);
+              return new RouterDataSource(definition);
             },
           },
         };
