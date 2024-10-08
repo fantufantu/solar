@@ -10,7 +10,7 @@ import { Context, GraphQLModule } from '@nestjs/graphql';
 import { ServicePort } from 'assets/ports';
 import { ApplicationToken } from 'assets/tokens';
 import type { IncomingMessage } from 'http';
-import type { GatewayGraphQLRequestContext } from '@apollo/server-gateway-interface';
+import type { GatewayGraphQLResponse } from '@apollo/server-gateway-interface';
 
 interface Context {
   req?: IncomingMessage;
@@ -30,16 +30,7 @@ class RouterDataSource extends RemoteGraphQLDataSource {
     }
   }
 
-  didReceiveResponse({
-    response,
-    context,
-    request,
-  }: Required<
-    Pick<
-      GatewayGraphQLRequestContext<Context>,
-      'request' | 'response' | 'context'
-    >
-  >) {
+  didReceiveResponse({ response }: { response: GatewayGraphQLResponse }) {
     response.http?.headers.set(
       'Referrer-Policy',
       'strict-origin-when-cross-origin',
