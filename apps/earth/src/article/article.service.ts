@@ -92,7 +92,7 @@ export class ArticleService {
    * @description
    * 分页查询文章列表
    */
-  async getArticles({
+  async articles({
     paginateBy: { limit, page } = { limit: 10, page: 1 },
     filterBy: { categoryCodes = [] } = {},
   }: QueryBy<FilterArticlesBy> = {}) {
@@ -114,7 +114,7 @@ export class ArticleService {
 
     const articles = await _sqb
       .skip((page - 1) * limit)
-      .limit(limit)
+      .take(limit)
       .getManyAndCount();
 
     return articles;
