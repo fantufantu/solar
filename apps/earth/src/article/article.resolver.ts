@@ -65,7 +65,7 @@ export class ArticleResolver {
     })
     filterBy: FilterArticlesBy,
   ) {
-    return await this.articleService.getArticles({
+    return await this.articleService.articles({
       paginateBy,
       filterBy,
     });
