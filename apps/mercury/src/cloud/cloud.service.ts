@@ -41,7 +41,11 @@ export class CloudService {
         secretKey,
         policy: getPolicy([
           {
-            action: ['name/cos:PutObject', 'name/cos:PostObject'],
+            action: [
+              'name/cos:PutObject',
+              'name/cos:PostObject',
+              'name/cos:GetBucket',
+            ],
             bucket,
             region,
             prefix: '*',
