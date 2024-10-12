@@ -1,18 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions, In, Like, Not } from 'typeorm';
 import { SendCaptchaBy } from './dto/send-captcha-by.input';
 import dayjs from 'dayjs';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
 import {
+  CacheToken,
   ConfigurationRegisterToken,
   TencentCloudPropertyToken,
 } from 'assets/tokens';
 import { PlutoClientService } from '@/lib/pluto-client';
 import type { VerifyBy } from './dto/verify-by.input';
 import { UpdateUserBy } from './dto/update-user-by.input';
-import { UserVerification } from '@/lib/database/entities/mercury/user-verification.entity';
 import { User } from '@/lib/database/entities/mercury/user.entity';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import type { Cache } from 'cache-manager';
+import { toCacheKey } from 'utils/cache';
 
 @Injectable()
 export class UserService {
@@ -20,9 +23,9 @@ export class UserService {
 
   constructor(
     @InjectRepository(User)
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
     private readonly userRepository: Repository<User>,
-    @InjectRepository(UserVerification)
-    private readonly userVerificationRepository: Repository<UserVerification>,
     private readonly plutoClient: PlutoClientService,
   ) {
     this.initializeSesClient();
@@ -30,45 +33,20 @@ export class UserService {
 
   /**
    * @author murukal
-   * @description 获取或创建 UserVerification 对象
-   */
-  async getOrCreate(sendCaptchaBy: SendCaptchaBy): Promise<UserVerification> {
-    // 尝试获取存在的用户邮件信息
-    const userVerification =
-      (await this.userVerificationRepository.findOneBy({
-        verifiedBy: sendCaptchaBy.to,
-        type: sendCaptchaBy.type,
-      })) ||
-      this.userVerificationRepository
-        .create({
-          verifiedBy: sendCaptchaBy.to,
-          type: sendCaptchaBy.type,
-        })
-        .reload();
-
-    // 验证码存在有效期，验证码失效时，需要重新生成验证码
-    if (dayjs().isAfter(userVerification.validTo)) {
-      userVerification.reload();
-    }
-
-    return userVerification;
-  }
-
-  /**
-   * @author murukal
    * @description 发送验证码
    */
   async sendCaptcha(sendBy: SendCaptchaBy): Promise<Date> {
-    // 加载 userVerification
-    const userVerification = await this.getOrCreate(sendBy);
-
-    // 每1分钟仅可发送一次
-    if (
-      userVerification.sentAt &&
-      dayjs().subtract(1, 'minute').isBefore(userVerification.sentAt)
-    ) {
+    // 节流
+    const sent = await this.cacheManager
+      .get<string>(toCacheKey(CacheToken.Captcha, sendBy.to))
+      .catch(() => null);
+    if (sent) {
       throw new Error('验证码发送太频繁，请稍后再试');
     }
+
+    const captcha = Math.floor(Math.random() * 1000000)
+      .toString()
+      .padStart(6, '0');
 
     // 执行发送邮件
     const sendEmailBy = {
@@ -78,24 +56,28 @@ export class UserService {
       Template: {
         TemplateID: 28985,
         TemplateData: JSON.stringify({
-          captcha: userVerification.captcha,
+          captcha,
         }),
       },
     };
 
-    await this.sesClient.SendEmail(sendEmailBy);
-    // 发送成功，设置已发送时间
-    userVerification.sentAt = dayjs().toDate();
+    const { MessageId, RequestId } =
+      await this.sesClient.SendEmail(sendEmailBy);
 
-    // 发送失败会直接抛出异常
-    // 执行到这 = 发送成功
-    // 更新上次发送时间
-    await this.userVerificationRepository.upsert(userVerification, [
-      'verifiedBy',
-      'type',
-    ]);
+    if (!MessageId || !RequestId) {
+      throw new Error(
+        `邮件发送失败: MessageId(${MessageId}) RequestId(${RequestId})`,
+      );
+    }
 
-    return userVerification.sentAt;
+    // 利用缓存记录验证码，有效期5分钟
+    this.cacheManager.set(
+      toCacheKey(CacheToken.Captcha, sendBy.to),
+      captcha,
+      5 * 60 * 1000,
+    );
+
+    return dayjs().toDate();
   }
 
   /**
@@ -133,18 +115,15 @@ export class UserService {
    * @description 验证用户邮箱
    */
   async verify(verifyBy: VerifyBy) {
-    const isVerified = !!(
-      await this.userVerificationRepository
-        .createQueryBuilder()
-        .update()
-        .set({
-          isVerified: true,
-        })
-        .where(verifyBy)
-        .execute()
-    ).affected;
+    const _captcha = await this.cacheManager
+      .get<string>(toCacheKey(CacheToken.Captcha, verifyBy.verifiedBy))
+      .catch(() => null);
 
-    if (!isVerified) throw new Error('邮箱验证失败，请检查验证码');
+    if (!_captcha || _captcha !== verifyBy.captcha) {
+      throw new Error('邮箱验证失败，请检查验证码');
+    }
+
+    return true;
   }
 
   /**

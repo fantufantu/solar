@@ -6,6 +6,7 @@ export class PassportService {
   constructor(private readonly jwtService: JwtService) {}
 
   /**
+   * @description
    * jwt加签
    */
   sign(id: number) {

@@ -13,7 +13,7 @@ export enum ApplicationToken {
 export enum ProviderToken {
   PlutoClientProxy = 'PlutoClientProxy',
   MercuryClientProxy = 'MercuryClientProxy',
-  JwtSecretService = 'JwtSecretService',
+  JwtSecret = 'JwtSecret',
 }
 
 /**
@@ -79,10 +79,20 @@ export enum GraphQLEnumToken {
   AuthorizationActionCode = 'AuthorizationActionCode',
   AuthorizationResourceCode = 'AuthorizationResourceCode',
 
-  // user
-  UserVerificationType = 'UserVerificationType',
-
+  // venus
   TransactionDirection = 'TransactionDirection',
   SharingTargetType = 'SharingTargetType',
   BillingLimitDuration = 'BillingLimitDuration',
+}
+
+/**
+ * @description
+ * cache token
+ * 主要用于前缀，在 solar 中，cache key 主要依赖 prefix/value
+ */
+export enum CacheToken {
+  // 认证令牌
+  Authenticated = 'authenticated',
+  // 验证码
+  Captcha = 'captcha',
 }

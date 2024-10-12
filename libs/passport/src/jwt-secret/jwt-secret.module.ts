@@ -10,7 +10,7 @@ import {
   imports: [PlutoClientModule],
   providers: [
     {
-      provide: ProviderToken.JwtSecretService,
+      provide: ProviderToken.JwtSecret,
       inject: [PlutoClientService],
       useFactory: async (client: PlutoClientService) => {
         return await client.getConfiguration({
@@ -20,6 +20,6 @@ import {
       },
     },
   ],
-  exports: [ProviderToken.JwtSecretService],
+  exports: [ProviderToken.JwtSecret],
 })
 export class JwtSecretModule {}

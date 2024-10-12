@@ -19,10 +19,10 @@ import { JwtStrategy } from './strategies';
     // jwt 模块
     JwtModule.registerAsync({
       imports: [JwtSecretModule],
-      inject: [ProviderToken.JwtSecretService],
-      useFactory: (jwtSecretService: string) => {
+      inject: [ProviderToken.JwtSecret],
+      useFactory: (secret: string) => {
         return {
-          secret: jwtSecretService,
+          secret,
         };
       },
     }),

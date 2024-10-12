@@ -6,17 +6,21 @@ import { AuthorizationAction } from '@/lib/database/entities/mercury/authorizati
 import { LoginBy } from './dto/login-by.input';
 import { RegisterBy } from './dto/register-by.input';
 import { AuthorizeBy } from './dto/authorize-by.input';
+import { UseInterceptors } from '@nestjs/common';
+import { AuthenticatedInterceptor } from 'assets/interceptor/authenticated.interceptor';
 
 @Resolver()
 export class AuthorizationResolver {
   constructor(private readonly authorizationService: AuthorizationService) {}
 
   @Mutation(() => String, { description: '登录' })
+  @UseInterceptors(AuthenticatedInterceptor)
   login(@Args('loginBy') loginBy: LoginBy) {
     return this.authorizationService.login(loginBy);
   }
 
   @Mutation(() => String, { description: '注册' })
+  @UseInterceptors(AuthenticatedInterceptor)
   register(@Args('registerBy') registerBy: RegisterBy) {
     return this.authorizationService.register(registerBy);
   }

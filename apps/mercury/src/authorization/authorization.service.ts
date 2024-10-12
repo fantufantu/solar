@@ -12,7 +12,6 @@ import { AuthorizationAction } from '@/lib/database/entities/mercury/authorizati
 import { AuthorizeBy } from './dto/authorize-by.input';
 import { ConfigurationRegisterToken, RsaPropertyToken } from 'assets/tokens';
 import { UserService } from '../user/user.service';
-import { UserVerificationType } from '@/lib/database/entities/mercury/user-verification.entity';
 import type { QueryBy } from 'typings/api';
 import type { LoginBy } from './dto/login-by.input';
 import type { Repository } from 'typeorm';
@@ -49,7 +48,6 @@ export class AuthorizationService {
     await this.userService.verify({
       verifiedBy: registerBy.emailAddress,
       captcha: registerBy.captcha,
-      type: UserVerificationType.Email,
     });
     // 用户注册
     const user = await this.signUp(registerBy);
