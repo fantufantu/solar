@@ -14,9 +14,12 @@ import {
 } from '@nestjs/apollo';
 import { UserModule } from './user/user.module';
 import { CloudModule } from './cloud/cloud.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
+    // 缓存模块
+    CacheModule.register(),
     // pluto 微服务客户端
     PlutoClientModule,
     // api
