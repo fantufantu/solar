@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
 import { In, Repository } from 'typeorm';
-import { Article } from '@/lib/database/entities/earth/article.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Partialable } from '@aiszlab/relax/types';
 import { ArticleToCategory } from '@/lib/database/entities/earth/article_to_category.entity';
 import { Category } from '@/lib/database/entities/earth/category.entity';
 

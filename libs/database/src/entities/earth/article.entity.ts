@@ -31,8 +31,15 @@ export class Article extends Preset {
   @Column({ nullable: true })
   cover?: string;
 
-  @Column()
+  @Column({ comment: '作者id' })
   createdById: number;
+
+  @Column({
+    comment: '最后更新人id',
+    // 默认为作者id
+    default: () => 'createdById',
+  })
+  updatedById: number;
 
   @DeleteDateColumn()
   deletedAt: Date | null;

@@ -28,7 +28,7 @@ export class ArticleService {
     const article = await this.articleRepository.save(
       this.articleRepository.create({
         ..._article,
-        // 作者
+        // 作者id
         createdById,
       }),
     );
@@ -49,8 +49,11 @@ export class ArticleService {
   /**
    * @description
    * 更新文章
+   * @param id 文章id
+   * @param updateBy 更新文章信息
+   * @param updatedById 更新者id
    */
-  async update(id: number, updateBy: UpdateArticleBy) {
+  async update(id: number, updateBy: UpdateArticleBy, updatedById: number) {
     const { categoryCodes, ...article } = updateBy;
 
     // 更新文章
@@ -58,7 +61,12 @@ export class ArticleService {
       await this.articleRepository
         .createQueryBuilder()
         .update()
-        .set(article)
+        .set(
+          this.articleRepository.create({
+            ...article,
+            updatedById,
+          }),
+        )
         .whereInIds(id)
         .execute();
     }
@@ -123,15 +131,21 @@ export class ArticleService {
   /**
    * @description
    * 删除文章
+   * @param id 文章id
+   * @param deletedById 删除者id
    */
-  async remove(id: number) {
-    return !!(
-      await this.articleRepository
-        .createQueryBuilder()
-        .softDelete()
-        .whereInIds(id)
-        .execute()
-    ).affected;
+  async remove(id: number, deletedById: number) {
+    await this.articleRepository
+      .createQueryBuilder()
+      .update()
+      .set({
+        updatedById: deletedById,
+        deletedAt: 'NOW()',
+      })
+      .whereInIds(id)
+      .execute();
+
+    return true;
   }
 
   /**

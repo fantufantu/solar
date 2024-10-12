@@ -8,7 +8,6 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { ArticleService } from './article.service';
-import { Article } from '../../../../libs/database/src/entities/earth/article.entity';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '@/lib/passport/guards';
 import { CreateArticleBy } from './dto/create-article-by.input';
@@ -21,7 +20,7 @@ import { FilterArticlesBy } from './dto/filter-articles-by.input';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 import { ArticleLoader } from './article.loader';
 import { Category } from '@/lib/database/entities/earth/category.entity';
-import type { Partialable } from '@aiszlab/relax/types';
+import { Article } from '@/lib/database/entities/earth/article.entity';
 
 @Resolver(() => Article)
 export class ArticleResolver {
@@ -43,14 +42,16 @@ export class ArticleResolver {
     name: 'updateArticle',
     description: '更新文章',
   })
+  @UseGuards(JwtAuthGuard)
   async update(
     @Args('id', {
       type: () => Int,
     })
     id: number,
     @Args('updateBy') updateBy: UpdateArticleBy,
+    @WhoAmI() user: User,
   ) {
-    return await this.articleService.update(id, updateBy);
+    return await this.articleService.update(id, updateBy, user.id);
   }
 
   @Query(() => PaginatedArticles, {
@@ -75,8 +76,12 @@ export class ArticleResolver {
     name: 'removeArticle',
     description: '删除文章',
   })
-  async remove(@Args('id', { type: () => Int }) id: number) {
-    return await this.articleService.remove(id);
+  @UseGuards(JwtAuthGuard)
+  async remove(
+    @Args('id', { type: () => Int }) id: number,
+    @WhoAmI() user: User,
+  ) {
+    return await this.articleService.remove(id, user.id);
   }
 
   @Query(() => Article, {
