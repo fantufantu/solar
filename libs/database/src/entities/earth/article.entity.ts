@@ -36,8 +36,6 @@ export class Article extends Preset {
 
   @Column({
     comment: '最后更新人id',
-    // 默认为作者id
-    default: () => 'createdById',
   })
   updatedById: number;
 
@@ -53,5 +51,10 @@ export class Article extends Preset {
     if (!this.cover) return;
     if (!isURL(this.cover))
       throw new BadRequestException('cover must be an url');
+  }
+
+  @BeforeInsert()
+  private updatedBy() {
+    this.updatedById = this.createdById;
   }
 }
