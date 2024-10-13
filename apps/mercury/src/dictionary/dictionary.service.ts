@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
 import { Dictionary } from '@/lib/database/entities/mercury/dictionary.entity';
-import { paginateQuery } from 'utils/api';
+import { paginateQuery } from 'utils/query-builder';
 import type { CreateDictionaryBy } from './dto/create-dictionary-by.input';
-import type { QueryBy } from 'typings/api';
+import type { QueryBy } from 'typings/application-programming-interface';
 import type { UpdateDictionaryBy } from './dto/update-dictionary-by.input';
 
 @Injectable()

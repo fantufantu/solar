@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
 import { Role } from '@/lib/database/entities/mercury/role.entity';
-import { paginateQuery } from 'utils/api';
+import { paginateQuery } from 'utils/query-builder';
 import { AuthorizationActionCode } from '@/lib/database/entities/mercury/authorization-action.entity';
 import type { AuthorizationResourceCode } from '@/lib/database/entities/mercury/authorization-resource.entity';
 import type { Authorization } from '@/lib/database/entities/mercury/authorization.entity';
@@ -10,7 +10,7 @@ import type { User } from '@/lib/database/entities/mercury/user.entity';
 import type { CreateRoleBy } from './dto/create-role-by.input';
 import type { UpdateRoleBy } from './dto/update-role-by.input';
 import type { PermitBy } from 'assets/decorators';
-import type { QueryBy } from 'typings/api';
+import type { QueryBy } from 'typings/application-programming-interface';
 
 @Injectable()
 export class RoleService {

@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FilterCategoriesBy } from './dto/filter-categories-by.input';
-import { QueryBy } from 'typings/api';
+import { QueryBy } from 'typings/application-programming-interface';
 import { CreateCategoryBy } from './dto/create-category-by.input';
 import { UpdateCategoryBy } from './dto/update-category-by.input';
 import { ArticleToCategory } from '@/lib/database/entities/earth/article_to_category.entity';

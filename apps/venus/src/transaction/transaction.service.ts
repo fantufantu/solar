@@ -5,9 +5,9 @@ import { CreateTransactionBy } from './dto/create-transaction-by.input';
 import { FilterTransactionsBy } from './dto/filter-transactions-by.input';
 import { UpdateTransactionBy } from './dto/update-transaction-by.input';
 import { Transaction } from '@/lib/database/entities/venus/transaction.entity';
-import { paginateQuery } from 'utils/api';
+import { paginateQuery } from 'utils/query-builder';
 import { GroupTransactionAmountByCategory } from './dto/group-transaction-amount-by-category.input';
-import { QueryBy } from 'typings/api';
+import { QueryBy } from 'typings/application-programming-interface';
 import { TransactionAmountGroupedByCategory } from './dto/transaction-amount-grouped-by-category';
 
 @Injectable()
