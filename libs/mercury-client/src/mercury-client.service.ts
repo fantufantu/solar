@@ -13,6 +13,7 @@ export class MercuryClientService {
   ) {}
 
   /**
+   * @description
    * 根据用户id获取用户信息
    */
   async getUserById(id: number) {
@@ -27,6 +28,7 @@ export class MercuryClientService {
   }
 
   /**
+   * @description
    * 鉴权
    */
   isPermitted(userId: number, permitBy: PermitBy) {
@@ -39,6 +41,21 @@ export class MercuryClientService {
           userId,
           ...permitBy,
         },
+      ),
+    );
+  }
+
+  /**
+   * @description
+   * 判断当前认证凭证是否有效
+   */
+  async isAuthenticatedValid(authenticated: string) {
+    return await lastValueFrom<boolean>(
+      this.client.send(
+        {
+          cmd: CommandToken.IsAuthenticatedValid,
+        },
+        authenticated,
       ),
     );
   }

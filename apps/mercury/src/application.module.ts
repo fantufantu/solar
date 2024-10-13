@@ -14,12 +14,12 @@ import {
 } from '@nestjs/apollo';
 import { UserModule } from './user/user.module';
 import { CloudModule } from './cloud/cloud.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
-    // 缓存模块
-    CacheModule.register(),
+    CacheModule.register({ isGlobal: true }),
     // pluto 微服务客户端
     PlutoClientModule,
     // api
@@ -33,6 +33,8 @@ import { CacheModule } from '@nestjs/cache-manager';
     DatabaseModule.forRoot(ApplicationToken.Mercury),
     // 认证
     PassportModule,
+    // 凭证
+    AuthenticationModule,
     // 权限
     AuthorizationModule,
     // 角色

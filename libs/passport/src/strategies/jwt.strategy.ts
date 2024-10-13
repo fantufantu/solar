@@ -7,30 +7,23 @@ import {
 } from 'passport-jwt';
 import type { Request } from 'express';
 import { MercuryClientService } from 'libs/mercury-client/src';
-import { CacheToken, ProviderToken } from 'assets/tokens';
+import { ProviderToken } from 'assets/tokens';
 import type { Authentication } from '../dto/authentication';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import type { Cache } from 'cache-manager';
-import { toCacheKey } from 'utils/cache';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject(ProviderToken.JwtSecret) jwtSecret: string,
     private readonly client: MercuryClientService,
-    @Inject(CACHE_MANAGER) cacheManager: Cache,
   ) {
     super({
       jwtFromRequest: (request: Request) =>
         ExtractJwt.fromAuthHeaderAsBearerToken()(request),
       secretOrKeyProvider: (_request, authenticated: string, done) => {
-        cacheManager
-          .get<boolean>(toCacheKey(CacheToken.Authenticated, authenticated))
-          .catch(() => false)
-          .then((isValid = false) => {
-            if (isValid) return done(null, jwtSecret);
-            return done(new UnauthorizedException('当前信息已经失效！'));
-          });
+        client.isAuthenticatedValid(authenticated).then((isValid) => {
+          if (isValid) return done(null, jwtSecret);
+          return done(new UnauthorizedException('当前信息已经失效！'));
+        });
       },
       ignoreExpiration: false,
       passReqToCallback: false,

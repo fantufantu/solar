@@ -22,9 +22,9 @@ export class UserService {
   private sesClient: SesClient;
 
   constructor(
-    @InjectRepository(User)
     @Inject(CACHE_MANAGER)
     private readonly cacheManager: Cache,
+    @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly plutoClient: PlutoClientService,
   ) {
