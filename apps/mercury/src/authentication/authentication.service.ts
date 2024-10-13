@@ -10,9 +10,9 @@ import {
   RsaPropertyToken,
 } from 'assets/tokens';
 import { UserService } from '../user/user.service';
-import type { LoginBy } from './dto/login-by.input';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import type { Cache } from 'cache-manager';
+import type { LoginBy } from './dto/login-by.input';
 import { toCacheKey } from 'utils/cache';
 
 @Injectable()
@@ -32,7 +32,7 @@ export class AuthenticationService {
     // 匹配用户信息
     const user = await this.getValidUser(loginBy);
     // 加密生成token
-    return this.passportService.sign(user.id);
+    return [this.passportService.sign(user.id), user.id];
   }
 
   /**
@@ -48,7 +48,7 @@ export class AuthenticationService {
     // 用户注册
     const user = await this.signUp(registerBy);
     // 加密生成token
-    return this.passportService.sign(user.id);
+    return [this.passportService.sign(user.id), user.id];
   }
 
   /**
@@ -125,12 +125,24 @@ export class AuthenticationService {
 
   /**
    * @description
-   * 判断当前认证凭证是否有效
-   * 查询缓存中是否存在
+   * 当前用户是否登录中
+   * 使用缓存校验，如果用户强制登出后，会从缓存中移除
    */
-  async isAuthenticatedValid(authenticated: string) {
+  async isLoggedIn(userId: number) {
     return !!(await this.cacheManager
-      .get<boolean>(toCacheKey(CacheToken.Authenticated, authenticated))
+      .get<boolean>(toCacheKey(CacheToken.Authenticated, userId))
       .catch(() => false));
+  }
+
+  /**
+   * @description
+   * 注销
+   * 移除缓存，下次 `jwt.strategy` 鉴权，判断用户逐出，直接返回 401
+   */
+  async logout(userId: number) {
+    return await this.cacheManager
+      .del(toCacheKey(CacheToken.Authenticated, userId))
+      .then(() => true)
+      .catch(() => false);
   }
 }

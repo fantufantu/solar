@@ -22,8 +22,8 @@ export class UserResolver {
     nullable: true,
   })
   @UseGuards(new JwtAuthGuard(true))
-  whoAmI(@WhoAmI() user: User | null) {
-    return user;
+  whoAmI(@WhoAmI() who: User | null) {
+    return who;
   }
 
   @Mutation(() => Date, {

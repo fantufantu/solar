@@ -41,9 +41,9 @@ export class TransactionResolver {
       description: '交易',
     })
     createTransactionBy: CreateTransactionBy,
-    @WhoAmI() user: User,
+    @WhoAmI() whoAmI: User,
   ) {
-    return this.transactionService.create(createTransactionBy, user.id);
+    return this.transactionService.create(createTransactionBy, whoAmI.id);
   }
 
   @Query(() => PaginatedTransactions, {

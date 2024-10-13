@@ -33,9 +33,9 @@ export class ArticleResolver {
   @UseGuards(JwtAuthGuard)
   async create(
     @Args('createBy') createBy: CreateArticleBy,
-    @WhoAmI() user: User,
+    @WhoAmI() whoAmI: User,
   ) {
-    return await this.articleService.create(createBy, user.id);
+    return await this.articleService.create(createBy, whoAmI.id);
   }
 
   @Mutation(() => Boolean, {
@@ -49,9 +49,9 @@ export class ArticleResolver {
     })
     id: number,
     @Args('updateBy') updateBy: UpdateArticleBy,
-    @WhoAmI() user: User,
+    @WhoAmI() whoAmI: User,
   ) {
-    return await this.articleService.update(id, updateBy, user.id);
+    return await this.articleService.update(id, updateBy, whoAmI.id);
   }
 
   @Query(() => PaginatedArticles, {
@@ -79,9 +79,9 @@ export class ArticleResolver {
   @UseGuards(JwtAuthGuard)
   async remove(
     @Args('id', { type: () => Int }) id: number,
-    @WhoAmI() user: User,
+    @WhoAmI() whoAmI: User,
   ) {
-    return await this.articleService.remove(id, user.id);
+    return await this.articleService.remove(id, whoAmI.id);
   }
 
   @Query(() => Article, {

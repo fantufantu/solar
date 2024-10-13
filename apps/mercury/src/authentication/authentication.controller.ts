@@ -7,8 +7,8 @@ import { CommandToken } from 'assets/tokens';
 export class AuthenticationController {
   constructor(private readonly authenticationService: AuthenticationService) {}
 
-  @MessagePattern({ cmd: CommandToken.IsAuthenticatedValid })
-  async isAuthenticatedValid(authenticated: string) {
-    return await this.authenticationService.isAuthenticatedValid(authenticated);
+  @MessagePattern({ cmd: CommandToken.isLoggedIn })
+  async isLoggedIn(userId: number) {
+    return await this.authenticationService.isLoggedIn(userId);
   }
 }

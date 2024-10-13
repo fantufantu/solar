@@ -2,8 +2,11 @@ import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthenticationService } from './authentication.service';
 import { LoginBy } from './dto/login-by.input';
 import { RegisterBy } from './dto/register-by.input';
-import { UseInterceptors } from '@nestjs/common';
+import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthenticatedInterceptor } from 'assets/interceptor/authenticated.interceptor';
+import { JwtAuthGuard } from '@/lib/passport/guards';
+import { WhoAmI } from 'assets/decorators';
+import { User } from '@/lib/database/entities/mercury/user.entity';
 
 @Resolver()
 export class AuthenticationResolver {
@@ -19,5 +22,11 @@ export class AuthenticationResolver {
   @UseInterceptors(AuthenticatedInterceptor)
   register(@Args('registerBy') registerBy: RegisterBy) {
     return this.authenticationService.register(registerBy);
+  }
+
+  @Mutation(() => Boolean, { description: '注销' })
+  @UseGuards(JwtAuthGuard)
+  logout(@WhoAmI() who: User) {
+    return this.authenticationService.logout(who.id);
   }
 }

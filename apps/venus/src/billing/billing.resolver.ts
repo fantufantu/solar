@@ -35,9 +35,9 @@ export class BillingResolver {
   createBilling(
     @Args('createBy')
     createBillingBy: CreateBillingBy,
-    @WhoAmI() user: User,
+    @WhoAmI() whoAmI: User,
   ) {
-    return this.billingService.create(createBillingBy, user.id);
+    return this.billingService.create(createBillingBy, whoAmI.id);
   }
 
   @Query(() => PaginatedBillings, {
@@ -46,8 +46,8 @@ export class BillingResolver {
   })
   @UseInterceptors(PaginatedInterceptor)
   @UseGuards(JwtAuthGuard)
-  getBillings(@WhoAmI() user: User) {
-    return this.billingService.getBillingsByUserId(user.id);
+  getBillings(@WhoAmI() who: User) {
+    return this.billingService.getBillingsByUserId(who.id);
   }
 
   @Query(() => Billing, {
@@ -58,9 +58,9 @@ export class BillingResolver {
   @UseGuards(JwtAuthGuard)
   getBilling(
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
-    @WhoAmI() user: User,
+    @WhoAmI() whoAmI: User,
   ) {
-    return this.billingService.getBilling(id, user.id);
+    return this.billingService.getBilling(id, whoAmI.id);
   }
 
   @Mutation(() => Boolean, {
@@ -81,9 +81,9 @@ export class BillingResolver {
   @UseGuards(JwtAuthGuard)
   removeBilling(
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
-    @WhoAmI() user: User,
+    @WhoAmI() whoAmI: User,
   ) {
-    return this.billingService.remove(id, user.id);
+    return this.billingService.remove(id, whoAmI.id);
   }
 
   @Mutation(() => Boolean, {

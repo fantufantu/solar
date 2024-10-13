@@ -47,15 +47,15 @@ export class MercuryClientService {
 
   /**
    * @description
-   * 判断当前认证凭证是否有效
+   * 当前用户是否在登录有效期
    */
-  async isAuthenticatedValid(authenticated: string) {
+  async isLoggedIn(userId: number) {
     return await lastValueFrom<boolean>(
       this.client.send(
         {
-          cmd: CommandToken.IsAuthenticatedValid,
+          cmd: CommandToken.isLoggedIn,
         },
-        authenticated,
+        userId,
       ),
     );
   }

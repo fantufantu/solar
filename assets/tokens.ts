@@ -69,7 +69,7 @@ export enum CommandToken {
   GetConfiguration = 'configuration.get',
   GetUser = 'user.get',
   Permit = 'role.permit',
-  IsAuthenticatedValid = 'authentication.valid',
+  isLoggedIn = 'authentication.logged-in',
 }
 
 /**
