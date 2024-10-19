@@ -13,9 +13,14 @@ export class CacheService {
   /**
    * @description
    * 记录邮件验证码缓存
+   * 有效期5分钟
    */
   setCaptchaValidation(to: string, value: CaptchaValidation) {
-    return this.cacheManager.set(toCacheKey(CacheToken.Captcha, to), value);
+    return this.cacheManager.set(
+      toCacheKey(CacheToken.Captcha, to),
+      value,
+      5 * 60 * 1000,
+    );
   }
 
   /**
