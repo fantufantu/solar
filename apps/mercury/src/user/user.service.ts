@@ -16,17 +16,17 @@ import { User } from '@/libs/database/entities/mercury/user.entity';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import type { Cache } from 'cache-manager';
 import { toCacheKey } from 'utils/cache';
+import { CacheService } from '@/libs/cache';
 
 @Injectable()
 export class UserService {
   private sesClient: SesClient;
 
   constructor(
-    @Inject(CACHE_MANAGER)
-    private readonly cacheManager: Cache,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly plutoClient: PlutoClientService,
+    private readonly cacheService: CacheService,
   ) {
     this.initializeSesClient();
   }
@@ -36,15 +36,14 @@ export class UserService {
    * @description 发送验证码
    */
   async sendCaptcha(sendBy: SendCaptchaBy): Promise<Date> {
-    const systemTimeAt = dayjs();
     // 节流：上次发送时间距离当前系统时间在1分钟内，则抛出异常
-    const sent = await this.cacheManager
-      .get<string>(toCacheKey(CacheToken.Captcha, sendBy.to))
-      .catch(() => null);
+    const systemTimeAt = dayjs();
+    const { 1: sentAt } =
+      (await this.cacheService
+        .getCaptchaValidation(sendBy.to)
+        .catch(() => null)) ?? [];
 
-    this.cacheManager.store.ttl;
-
-    if (sent) {
+    if (!!sentAt && dayjs(sentAt).diff(systemTimeAt, 'minutes') < 1) {
       throw new Error('验证码发送太频繁，请稍后再试');
     }
 
@@ -75,13 +74,12 @@ export class UserService {
     }
 
     // 利用缓存记录验证码，有效期5分钟
-    this.cacheManager.set(
-      toCacheKey(CacheToken.Captcha, sendBy.to),
-      [captcha, dayjs()],
-      5 * 60 * 1000,
-    );
+    this.cacheService.setCaptchaValidation(sendBy.to, [
+      captcha,
+      systemTimeAt.toDate(),
+    ]);
 
-    return dayjs().toDate();
+    return systemTimeAt.toDate();
   }
 
   /**
@@ -119,11 +117,10 @@ export class UserService {
    * @description 验证用户邮箱
    */
   async verify(verifyBy: VerifyBy) {
-    const _captcha = await this.cacheManager
-      .get<string>(toCacheKey(CacheToken.Captcha, verifyBy.verifiedBy))
-      .catch(() => null);
+    const { 0: sent } =
+      (await this.cacheService.getCaptchaValidation(verifyBy.verifiedBy)) ?? [];
 
-    if (!_captcha || _captcha !== verifyBy.captcha) {
+    if (!sent || sent !== verifyBy.captcha) {
       throw new Error('邮箱验证失败，请检查验证码');
     }
 

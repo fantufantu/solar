@@ -1,19 +1,13 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { compareSync } from 'bcrypt';
 import { constants, privateDecrypt, randomUUID } from 'crypto';
 import { PlutoClientService } from '@/libs/pluto-client';
 import { PassportService } from '@/libs/passport';
 import { RegisterBy } from './dto/register-by.input';
-import {
-  CacheToken,
-  ConfigurationRegisterToken,
-  RsaPropertyToken,
-} from 'assets/tokens';
+import { ConfigurationRegisterToken, RsaPropertyToken } from 'assets/tokens';
 import { UserService } from '../user/user.service';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import type { Cache } from 'cache-manager';
 import type { LoginBy } from './dto/login-by.input';
-import { toCacheKey } from 'utils/cache';
+import { CacheService } from '@/libs/cache';
 
 @Injectable()
 export class AuthenticationService {
@@ -21,7 +15,7 @@ export class AuthenticationService {
     private readonly plutoClient: PlutoClientService,
     private readonly passportService: PassportService,
     private readonly userService: UserService,
-    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+    private readonly cacheService: CacheService,
   ) {}
 
   /**
@@ -129,8 +123,8 @@ export class AuthenticationService {
    * 使用缓存校验，如果用户强制登出后，会从缓存中移除
    */
   async isLoggedIn(userId: number) {
-    return !!(await this.cacheManager
-      .get<boolean>(toCacheKey(CacheToken.Authenticated, userId))
+    return !!(await this.cacheService
+      .getAuthenticated(userId)
       .catch(() => false));
   }
 
@@ -140,8 +134,8 @@ export class AuthenticationService {
    * 移除缓存，下次 `jwt.strategy` 鉴权，判断用户逐出，直接返回 401
    */
   async logout(userId: number) {
-    return await this.cacheManager
-      .del(toCacheKey(CacheToken.Authenticated, userId))
+    return await this.cacheService
+      .removeAuthenticated(userId)
       .then(() => true)
       .catch(() => false);
   }

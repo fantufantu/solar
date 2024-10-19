@@ -15,11 +15,11 @@ import {
 import { UserModule } from './user/user.module';
 import { CloudModule } from './cloud/cloud.module';
 import { AuthenticationModule } from './authentication/authentication.module';
-import { CacheModule } from '@nestjs/cache-manager';
+import { CacheModule } from '@/libs/cache';
 
 @Module({
   imports: [
-    CacheModule.register({ isGlobal: true }),
+    CacheModule,
     // pluto 微服务客户端
     PlutoClientModule,
     // api

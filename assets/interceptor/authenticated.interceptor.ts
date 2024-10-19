@@ -1,3 +1,4 @@
+import { CacheService } from '@/libs/cache';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import {
   Injectable,
@@ -17,7 +18,7 @@ import { toCacheKey } from 'utils/cache';
  */
 @Injectable()
 export class AuthenticatedInterceptor implements NestInterceptor {
-  constructor(@Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
+  constructor(private readonly cacheService: CacheService) {}
 
   intercept(
     _context: ExecutionContext,
@@ -25,13 +26,8 @@ export class AuthenticatedInterceptor implements NestInterceptor {
   ) {
     return next.handle().pipe(
       map(([authenticated, userId]) => {
-        // 有效期7天
-        this.cacheManager.set(
-          toCacheKey(CacheToken.Authenticated, userId),
-          true,
-          7 * 24 * 60 * 60 * 1000,
-        );
-
+        // 设置缓存
+        this.cacheService.setAuthenticated(userId);
         return authenticated;
       }),
     );
