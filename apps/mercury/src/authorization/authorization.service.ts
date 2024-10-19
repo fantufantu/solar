@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginateQuery } from 'utils/query-builder';
-import { Authorization } from '@/lib/database/entities/mercury/authorization.entity';
-import { AuthorizationResource } from '@/lib/database/entities/mercury/authorization-resource.entity';
-import { AuthorizationAction } from '@/lib/database/entities/mercury/authorization-action.entity';
+import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
+import { AuthorizationResource } from '@/libs/database/entities/mercury/authorization-resource.entity';
+import { AuthorizationAction } from '@/libs/database/entities/mercury/authorization-action.entity';
 import { AuthorizeBy } from './dto/authorize-by.input';
 import type { QueryBy } from 'typings/application-programming-interface';
 import type { Repository } from 'typeorm';

@@ -7,7 +7,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Billing } from '@/lib/database/entities/venus/billing.entity';
+import { Billing } from '@/libs/database/entities/venus/billing.entity';
 
 @ObjectType()
 @Directive('@key(fields: "id")')

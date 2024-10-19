@@ -9,10 +9,10 @@ import {
   ConfigurationRegisterToken,
   TencentCloudPropertyToken,
 } from 'assets/tokens';
-import { PlutoClientService } from '@/lib/pluto-client';
+import { PlutoClientService } from '@/libs/pluto-client';
 import type { VerifyBy } from './dto/verify-by.input';
 import { UpdateUserBy } from './dto/update-user-by.input';
-import { User } from '@/lib/database/entities/mercury/user.entity';
+import { User } from '@/libs/database/entities/mercury/user.entity';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import type { Cache } from 'cache-manager';
 import { toCacheKey } from 'utils/cache';
@@ -36,10 +36,14 @@ export class UserService {
    * @description 发送验证码
    */
   async sendCaptcha(sendBy: SendCaptchaBy): Promise<Date> {
-    // 节流
+    const systemTimeAt = dayjs();
+    // 节流：上次发送时间距离当前系统时间在1分钟内，则抛出异常
     const sent = await this.cacheManager
       .get<string>(toCacheKey(CacheToken.Captcha, sendBy.to))
       .catch(() => null);
+
+    this.cacheManager.store.ttl;
+
     if (sent) {
       throw new Error('验证码发送太频繁，请稍后再试');
     }
@@ -73,7 +77,7 @@ export class UserService {
     // 利用缓存记录验证码，有效期5分钟
     this.cacheManager.set(
       toCacheKey(CacheToken.Captcha, sendBy.to),
-      captcha,
+      [captcha, dayjs()],
       5 * 60 * 1000,
     );
 

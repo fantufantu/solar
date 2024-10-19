@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { MetadataToken } from 'assets/tokens';
-import { MercuryClientService } from '@/lib/mercury-client';
+import { MercuryClientService } from '@/libs/mercury-client';
 import type { PermitBy } from './decorators';
 
 @Injectable()

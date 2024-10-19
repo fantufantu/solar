@@ -3,10 +3,10 @@ import { ArticleResolver } from './article.resolver';
 import { ArticleService } from './article.service';
 import { ArticleLoader } from './article.loader';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Article } from '@/lib/database/entities/earth/article.entity';
-import { ArticleToCategory } from '@/lib/database/entities/earth/article_to_category.entity';
-import { Category } from '@/lib/database/entities/earth/category.entity';
-import { User } from '@/lib/database/entities/earth/user.entity';
+import { Article } from '@/libs/database/entities/earth/article.entity';
+import { ArticleToCategory } from '@/libs/database/entities/earth/article_to_category.entity';
+import { Category } from '@/libs/database/entities/earth/category.entity';
+import { User } from '@/libs/database/entities/earth/user.entity';
 
 @Module({
   imports: [

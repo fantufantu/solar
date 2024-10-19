@@ -1,4 +1,4 @@
-import { PlutoClientService } from '@/lib/pluto-client';
+import { PlutoClientService } from '@/libs/pluto-client';
 import { Injectable } from '@nestjs/common';
 import {
   ConfigurationRegisterToken,

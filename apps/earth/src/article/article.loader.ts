@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ArticleToCategory } from '@/lib/database/entities/earth/article_to_category.entity';
-import { Category } from '@/lib/database/entities/earth/category.entity';
+import { ArticleToCategory } from '@/libs/database/entities/earth/article_to_category.entity';
+import { Category } from '@/libs/database/entities/earth/category.entity';
 
 @Injectable()
 export class ArticleLoader {

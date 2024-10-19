@@ -6,10 +6,10 @@ import {
   ResolveReference,
   Resolver,
 } from '@nestjs/graphql';
-import { JwtAuthGuard } from '@/lib/passport/guards';
+import { JwtAuthGuard } from '@/libs/passport/guards';
 import { WhoAmI } from 'assets/decorators';
 import { SendCaptchaBy } from './dto/send-captcha-by.input';
-import { User } from '@/lib/database/entities/mercury/user.entity';
+import { User } from '@/libs/database/entities/mercury/user.entity';
 import { UserService } from './user.service';
 import { UpdateUserBy } from './dto/update-user-by.input';
 

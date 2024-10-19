@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateArticleBy } from './dto/create-article-by.input';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Article } from '@/lib/database/entities/earth/article.entity';
+import { Article } from '@/libs/database/entities/earth/article.entity';
 import { Repository } from 'typeorm';
 import { UpdateArticleBy } from './dto/update-article-by.input';
 import { FilterArticlesBy } from './dto/filter-articles-by.input';
 import { QueryBy } from 'typings/application-programming-interface';
-import { ArticleToCategory } from '@/lib/database/entities/earth/article_to_category.entity';
+import { ArticleToCategory } from '@/libs/database/entities/earth/article_to_category.entity';
 import { isEmpty } from '@aiszlab/relax';
 
 @Injectable()

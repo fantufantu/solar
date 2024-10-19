@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ApplicationToken } from 'assets/tokens';
-import { DatabaseModule } from '@/lib/database';
-import { PassportModule } from '@/lib/passport';
-import { PlutoClientModule } from '@/lib/pluto-client';
+import { DatabaseModule } from '@/libs/database';
+import { PassportModule } from '@/libs/passport';
+import { PlutoClientModule } from '@/libs/pluto-client';
 import { AuthorizationModule } from './authorization/authorization.module';
 import { RoleModule } from './role/role.module';
 import { DictionaryModule } from './dictionary/dictionary.module';

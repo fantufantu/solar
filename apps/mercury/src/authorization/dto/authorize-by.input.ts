@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { AuthorizationActionCode } from '@/lib/database/entities/mercury/authorization-action.entity';
-import { AuthorizationResourceCode } from '@/lib/database/entities/mercury/authorization-resource.entity';
+import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization-action.entity';
+import { AuthorizationResourceCode } from '@/libs/database/entities/mercury/authorization-resource.entity';
 
 @InputType()
 class AuthorizeWhat {

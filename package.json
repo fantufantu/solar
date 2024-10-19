@@ -101,10 +101,11 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@/lib/passport(|/.*)$": "<rootDir>/libs/passport/src/$1",
-      "^@/lib/database(|/.*)$": "<rootDir>/libs/database/src/$1",
-      "^@/lib/mercury-client(|/.*)$": "<rootDir>/libs/mercury-client/src/$1",
-      "^@/lib/pluto-client(|/.*)$": "<rootDir>/libs/pluto-client/src/$1"
+      "^@/libs/passport(|/.*)$": "<rootDir>/libs/passport/src/$1",
+      "^@/libs/database(|/.*)$": "<rootDir>/libs/database/src/$1",
+      "^@/libs/mercury-client(|/.*)$": "<rootDir>/libs/mercury-client/src/$1",
+      "^@/libs/pluto-client(|/.*)$": "<rootDir>/libs/pluto-client/src/$1",
+      "^@/libs/cache(|/.*)$": "<rootDir>/libs/cache/src/$1"
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { TargetType } from '@/lib/database/entities/venus/sharing.entity';
+import { TargetType } from '@/libs/database/entities/venus/sharing.entity';
 
 @InputType()
 export class RemoveSharingBy {

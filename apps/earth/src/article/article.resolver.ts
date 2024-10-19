@@ -9,18 +9,18 @@ import {
 } from '@nestjs/graphql';
 import { ArticleService } from './article.service';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
-import { JwtAuthGuard } from '@/lib/passport/guards';
+import { JwtAuthGuard } from '@/libs/passport/guards';
 import { CreateArticleBy } from './dto/create-article-by.input';
 import { Filter, Pagination, WhoAmI } from 'assets/decorators';
-import { User } from '@/lib/database/entities/earth/user.entity';
+import { User } from '@/libs/database/entities/earth/user.entity';
 import { UpdateArticleBy } from './dto/update-article-by.input';
 import { PaginatedArticles } from './dto/paginated-articles.object';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { FilterArticlesBy } from './dto/filter-articles-by.input';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 import { ArticleLoader } from './article.loader';
-import { Category } from '@/lib/database/entities/earth/category.entity';
-import { Article } from '@/lib/database/entities/earth/article.entity';
+import { Category } from '@/libs/database/entities/earth/category.entity';
+import { Article } from '@/libs/database/entities/earth/article.entity';
 
 @Resolver(() => Article)
 export class ArticleResolver {

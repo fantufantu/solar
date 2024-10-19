@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateSharingBy } from './dto/create-sharing-by.input';
 import { FilterSharingsBy } from './dto/filter-sharings-by.input';
 import { RemoveSharingBy } from './dto/remove-sharing-by.input';
-import { Sharing } from '@/lib/database/entities/venus/sharing.entity';
+import { Sharing } from '@/libs/database/entities/venus/sharing.entity';
 
 @Injectable()
 export class SharingService {

@@ -9,10 +9,10 @@ import {
 } from '@nestjs/graphql';
 import { Pagination, Permission } from 'assets/decorators';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
-import { AuthorizationActionCode } from '@/lib/database/entities/mercury/authorization-action.entity';
-import { AuthorizationResourceCode } from '@/lib/database/entities/mercury/authorization-resource.entity';
+import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization-action.entity';
+import { AuthorizationResourceCode } from '@/libs/database/entities/mercury/authorization-resource.entity';
 import { PaginatedRole } from './dto/paginated-roles.object';
-import { Role } from '@/lib/database/entities/mercury/role.entity';
+import { Role } from '@/libs/database/entities/mercury/role.entity';
 import { RoleService } from './role.service';
 import { CreateRoleBy } from './dto/create-role-by.input';
 import { UpdateRoleBy } from './dto/update-role-by.input';

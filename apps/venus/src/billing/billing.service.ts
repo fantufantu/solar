@@ -4,11 +4,11 @@ import { In, Repository } from 'typeorm';
 import {
   Sharing,
   TargetType,
-} from '@/lib/database/entities/venus/sharing.entity';
+} from '@/libs/database/entities/venus/sharing.entity';
 import { SharingService } from '../sharing/sharing.service';
 import { CreateBillingBy } from './dto/create-billing-by.input';
 import { UpdateBillingBy } from './dto/update-billing-by.input';
-import { Billing } from '@/lib/database/entities/venus/billing.entity';
+import { Billing } from '@/libs/database/entities/venus/billing.entity';
 import { SetBillingLimitBy } from './dto/set-billing-limit-by.input';
 
 @Injectable()

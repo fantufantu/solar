@@ -19,14 +19,16 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
     "paths": {
-      "@/lib/passport": ["libs/passport/src"],
-      "@/lib/passport/*": ["libs/passport/src/*"],
-      "@/lib/database": ["libs/database/src"],
-      "@/lib/database/*": ["libs/database/src/*"],
-      "@/lib/mercury-client": ["libs/mercury-client/src"],
-      "@/lib/mercury-client/*": ["libs/mercury-client/src/*"],
-      "@/lib/pluto-client": ["libs/pluto-client/src"],
-      "@/lib/pluto-client/*": ["libs/pluto-client/src/*"]
+      "@/libs/passport": ["libs/passport/src"],
+      "@/libs/passport/*": ["libs/passport/src/*"],
+      "@/libs/database": ["libs/database/src"],
+      "@/libs/database/*": ["libs/database/src/*"],
+      "@/libs/mercury-client": ["libs/mercury-client/src"],
+      "@/libs/mercury-client/*": ["libs/mercury-client/src/*"],
+      "@/libs/pluto-client": ["libs/pluto-client/src"],
+      "@/libs/pluto-client/*": ["libs/pluto-client/src/*"],
+      "@/libs/cache": ["libs/cache/src"],
+      "@/libs/cache/*": ["libs/cache/src/*"]
     }
   }
 }

@@ -3,7 +3,7 @@ import DataLoader from 'dataloader';
 import {
   Sharing,
   TargetType,
-} from '@/lib/database/entities/venus/sharing.entity';
+} from '@/libs/database/entities/venus/sharing.entity';
 import { SharingService } from '../sharing/sharing.service';
 
 @Injectable()

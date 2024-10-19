@@ -1,8 +1,8 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { compareSync } from 'bcrypt';
 import { constants, privateDecrypt, randomUUID } from 'crypto';
-import { PlutoClientService } from '@/lib/pluto-client';
-import { PassportService } from '@/lib/passport';
+import { PlutoClientService } from '@/libs/pluto-client';
+import { PassportService } from '@/libs/passport';
 import { RegisterBy } from './dto/register-by.input';
 import {
   CacheToken,

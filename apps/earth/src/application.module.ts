@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from '@/lib/database';
+import { DatabaseModule } from '@/libs/database';
 import { ApplicationToken } from 'assets/tokens';
 import { ArticleModule } from './article/article.module';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -8,7 +8,7 @@ import {
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
 import { CategoryModule } from './category/category.module';
-import { PassportModule } from '@/lib/passport';
+import { PassportModule } from '@/libs/passport';
 
 @Module({
   imports: [

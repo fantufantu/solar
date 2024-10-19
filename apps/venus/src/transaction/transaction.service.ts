@@ -4,7 +4,7 @@ import { In, Repository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
 import { CreateTransactionBy } from './dto/create-transaction-by.input';
 import { FilterTransactionsBy } from './dto/filter-transactions-by.input';
 import { UpdateTransactionBy } from './dto/update-transaction-by.input';
-import { Transaction } from '@/lib/database/entities/venus/transaction.entity';
+import { Transaction } from '@/libs/database/entities/venus/transaction.entity';
 import { paginateQuery } from 'utils/query-builder';
 import { GroupTransactionAmountByCategory } from './dto/group-transaction-amount-by-category.input';
 import { QueryBy } from 'typings/application-programming-interface';

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '@/lib/database/entities/mercury/user.entity';
+import { User } from '@/libs/database/entities/mercury/user.entity';
 import type { Nullable } from '@aiszlab/relax/types';
 
 @Injectable()

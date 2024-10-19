@@ -8,12 +8,12 @@ import {
   ResolveReference,
 } from '@nestjs/graphql';
 import { WhoAmI } from 'assets/decorators';
-import { Billing } from '@/lib/database/entities/venus/billing.entity';
+import { Billing } from '@/libs/database/entities/venus/billing.entity';
 import { SetDefaultBillingBy } from './dto/set-default-billing-by.input';
-import { User } from '@/lib/database/entities/venus/user.entity';
+import { User } from '@/libs/database/entities/venus/user.entity';
 import { UserLoader } from './user.loader';
 import { UserService } from './user.service';
-import { JwtAuthGuard } from '@/lib/passport/guards';
+import { JwtAuthGuard } from '@/libs/passport/guards';
 
 @Resolver(() => User)
 export class UserResolver {

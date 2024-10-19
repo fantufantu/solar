@@ -4,7 +4,7 @@ import { In, Repository } from 'typeorm';
 import { CreateCategoryBy } from './dto/create-category-by.input';
 import { FilterCategoriesBy } from './dto/filter-categories-by.input';
 import { UpdateCategoryBy } from './dto/update-category-by.input';
-import { Category } from '@/lib/database/entities/venus/category.entity';
+import { Category } from '@/libs/database/entities/venus/category.entity';
 import { QueryBy } from 'typings/application-programming-interface';
 import { paginateQuery } from 'utils/query-builder';
 

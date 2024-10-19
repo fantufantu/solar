@@ -1,4 +1,4 @@
-import { TargetType } from '@/lib/database/entities/venus/sharing.entity';
+import { TargetType } from '@/libs/database/entities/venus/sharing.entity';
 
 export class FilterSharingsBy {
   /**

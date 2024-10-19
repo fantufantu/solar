@@ -1,5 +1,5 @@
 import { Field, InputType, PickType } from '@nestjs/graphql';
-import { Article } from '@/lib/database/entities/earth/article.entity';
+import { Article } from '@/libs/database/entities/earth/article.entity';
 
 /**
  * @description

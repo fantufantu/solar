@@ -1,8 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthorizationService } from './authorization.service';
 import { PaginatedAuthorizations } from './dto/paginated-authorizations.object';
-import { AuthorizationResource } from '@/lib/database/entities/mercury/authorization-resource.entity';
-import { AuthorizationAction } from '@/lib/database/entities/mercury/authorization-action.entity';
+import { AuthorizationResource } from '@/libs/database/entities/mercury/authorization-resource.entity';
+import { AuthorizationAction } from '@/libs/database/entities/mercury/authorization-action.entity';
 import { AuthorizeBy } from './dto/authorize-by.input';
 
 @Resolver()

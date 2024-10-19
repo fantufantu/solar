@@ -1,6 +1,6 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CategoryService } from './category.service';
-import { Category } from '@/lib/database/entities/earth/category.entity';
+import { Category } from '@/libs/database/entities/earth/category.entity';
 import { PaginatedCategories } from './dto/paginated-categories.object';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
@@ -9,7 +9,7 @@ import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { FilterCategoriesBy } from './dto/filter-categories-by.input';
 import { CreateCategoryBy } from './dto/create-category-by.input';
 import { UpdateCategoryBy } from './dto/update-category-by.input';
-import { JwtAuthGuard } from '@/lib/passport/guards';
+import { JwtAuthGuard } from '@/libs/passport/guards';
 
 @Resolver(() => Category)
 export class CategoryResolver {

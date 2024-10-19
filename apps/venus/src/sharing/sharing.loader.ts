@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
-import { User } from '@/lib/database/entities/venus/user.entity';
+import { User } from '@/libs/database/entities/venus/user.entity';
 
 @Injectable()
 export class SharingLoader {

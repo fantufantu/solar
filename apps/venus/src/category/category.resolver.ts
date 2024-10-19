@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UseInterceptors } from '@nestjs/common';
 import { CategoryService } from './category.service';
-import { Category } from '@/lib/database/entities/venus/category.entity';
+import { Category } from '@/libs/database/entities/venus/category.entity';
 import { CreateCategoryBy } from './dto/create-category-by.input';
 import { UpdateCategoryBy } from './dto/update-category-by.input';
 import { FilterCategoriesBy } from './dto/filter-categories-by.input';
