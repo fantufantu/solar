@@ -1,16 +1,11 @@
 import { CacheService } from '@/libs/cache';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import {
   Injectable,
   NestInterceptor,
   ExecutionContext,
   CallHandler,
-  Inject,
 } from '@nestjs/common';
-import { CacheToken } from 'assets/tokens';
-import type { Cache } from 'cache-manager';
 import { map } from 'rxjs/operators';
-import { toCacheKey } from 'utils/cache';
 
 /**
  * @description

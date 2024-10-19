@@ -21,6 +21,8 @@ import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
 import { ArticleLoader } from './article.loader';
 import { Category } from '@/libs/database/entities/earth/category.entity';
 import { Article } from '@/libs/database/entities/earth/article.entity';
+import { ArticleContribution } from './dto/article-contribution.object';
+import { ArticleContributionsBy } from './dto/article-contributions-by.input';
 
 @Resolver(() => Article)
 export class ArticleResolver {
@@ -92,6 +94,18 @@ export class ArticleResolver {
     @Args('id', { type: () => Int, description: 'id' }) id: number,
   ) {
     return await this.articleService.getArticleById(id);
+  }
+
+  @Query(() => [ArticleContribution], {
+    description: '获取指定时间段内文章贡献数',
+  })
+  @UseGuards(JwtAuthGuard)
+  async articleContributions(
+    @Args('queryBy')
+    queryBy: ArticleContributionsBy,
+    @WhoAmI() whoAmI: User,
+  ) {
+    return this.articleService.articleContributions(queryBy, whoAmI.id);
   }
 
   @ResolveField(() => [Category], {

@@ -1,11 +1,10 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions, In, Like, Not } from 'typeorm';
 import { SendCaptchaBy } from './dto/send-captcha-by.input';
 import dayjs from 'dayjs';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
 import {
-  CacheToken,
   ConfigurationRegisterToken,
   TencentCloudPropertyToken,
 } from 'assets/tokens';
@@ -13,9 +12,6 @@ import { PlutoClientService } from '@/libs/pluto-client';
 import type { VerifyBy } from './dto/verify-by.input';
 import { UpdateUserBy } from './dto/update-user-by.input';
 import { User } from '@/libs/database/entities/mercury/user.entity';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import type { Cache } from 'cache-manager';
-import { toCacheKey } from 'utils/cache';
 import { CacheService } from '@/libs/cache';
 
 @Injectable()

@@ -8,6 +8,9 @@ import { FilterArticlesBy } from './dto/filter-articles-by.input';
 import { QueryBy } from 'typings/application-programming-interface';
 import { ArticleToCategory } from '@/libs/database/entities/earth/article_to_category.entity';
 import { isEmpty } from '@aiszlab/relax';
+import { ArticleContributionsBy } from './dto/article-contributions-by.input';
+import dayjs from 'dayjs';
+import { ArticleContribution } from './dto/article-contribution.object';
 
 @Injectable()
 export class ArticleService {
@@ -154,5 +157,29 @@ export class ArticleService {
    */
   async getArticleById(id: number) {
     return await this.articleRepository.findOneBy({ id });
+  }
+
+  /**
+   * @description
+   * 指定时间段内文章贡献数
+   */
+  async articleContributions(
+    { from, to }: ArticleContributionsBy,
+    who: number,
+  ) {
+    // 性能考虑：不允许超过1年时间查询
+    if (dayjs(from).isBefore(dayjs(to).subtract(1, 'years'))) {
+      throw new Error('时间跨度过大，请不要超过一年');
+    }
+
+    return (await this.articleRepository
+      .createQueryBuilder('article')
+      .select('COUNT(article.id)', 'count')
+      .addSelect('DATE(article.createdAt)', 'contributedAt')
+      .groupBy('contributedAt')
+      .where('article.createdAt BETWEEN :from AND :to')
+      .andWhere('article.createdById = :who')
+      .setParameters({ from, to, who })
+      .getRawMany()) as Array<ArticleContribution>;
   }
 }
