@@ -5,6 +5,7 @@ import { SendCaptchaBy } from './dto/send-captcha-by.input';
 import dayjs from 'dayjs';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
 import {
+  CacheToken,
   ConfigurationRegisterToken,
   TencentCloudPropertyToken,
 } from 'assets/tokens';
@@ -29,14 +30,14 @@ export class UserService {
 
   /**
    * @author murukal
-   * @description 发送验证码
+   * @description 发送注册验证码
    */
-  async sendCaptcha(sendBy: SendCaptchaBy): Promise<Date> {
+  async sendCaptcha(to: string, token: CacheToken): Promise<Date> {
     // 节流：上次发送时间距离当前系统时间在1分钟内，则抛出异常
     const systemTimeAt = dayjs();
     const { 1: sentAt } =
       (await this.cacheService
-        .getCaptchaValidation(sendBy.to)
+        .getCaptchaValidation(to, token)
         .catch(() => null)) ?? [];
 
     if (!!sentAt && dayjs(sentAt).diff(systemTimeAt, 'minutes') < 1) {
@@ -48,9 +49,9 @@ export class UserService {
       .padStart(6, '0');
 
     // 执行发送邮件
-    const sendEmailBy = {
+    const { MessageId, RequestId } = await this.sesClient.SendEmail({
       FromEmailAddress: 'no-replay@account.fantufantu.com',
-      Destination: [sendBy.to],
+      Destination: [to],
       Subject: '通过邮件确认身份',
       Template: {
         TemplateID: 28985,
@@ -58,10 +59,7 @@ export class UserService {
           captcha,
         }),
       },
-    };
-
-    const { MessageId, RequestId } =
-      await this.sesClient.SendEmail(sendEmailBy);
+    });
 
     if (!MessageId || !RequestId) {
       throw new Error(
@@ -70,7 +68,7 @@ export class UserService {
     }
 
     // 利用缓存记录验证码，有效期5分钟
-    this.cacheService.setCaptchaValidation(sendBy.to, [
+    this.cacheService.setCaptchaValidation(to, token, [
       captcha,
       systemTimeAt.toDate(),
     ]);
@@ -114,7 +112,10 @@ export class UserService {
    */
   async verify(verifyBy: VerifyBy) {
     const { 0: sent } =
-      (await this.cacheService.getCaptchaValidation(verifyBy.verifiedBy)) ?? [];
+      (await this.cacheService.getCaptchaValidation(
+        verifyBy.verifiedBy,
+        CacheToken.RegisterCaptcha,
+      )) ?? [];
 
     if (!sent || sent !== verifyBy.captcha) {
       throw new Error('邮箱验证失败，请检查验证码');
@@ -200,4 +201,9 @@ export class UserService {
       await this.userRepository.update(id, this.userRepository.create(updateBy))
     ).affected;
   }
+
+  /**
+   * @description
+   * 发送修改密码验证码
+   */
 }

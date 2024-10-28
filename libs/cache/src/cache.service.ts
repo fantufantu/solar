@@ -15,22 +15,20 @@ export class CacheService {
    * 记录邮件验证码缓存
    * 有效期5分钟
    */
-  setCaptchaValidation(to: string, value: CaptchaValidation) {
-    return this.cacheManager.set(
-      toCacheKey(CacheToken.Captcha, to),
-      value,
-      5 * 60 * 1000,
-    );
+  setCaptchaValidation(
+    to: string,
+    token: CacheToken,
+    value: CaptchaValidation,
+  ) {
+    return this.cacheManager.set(toCacheKey(token, to), value, 5 * 60 * 1000);
   }
 
   /**
    * @description
    * 获取邮件验证码缓存
    */
-  getCaptchaValidation(to: string) {
-    return this.cacheManager.get<CaptchaValidation>(
-      toCacheKey(CacheToken.Captcha, to),
-    );
+  getCaptchaValidation(to: string, token: CacheToken) {
+    return this.cacheManager.get<CaptchaValidation>(toCacheKey(token, to));
   }
 
   /**

@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, UseInterceptors } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -12,6 +12,7 @@ import { SendCaptchaBy } from './dto/send-captcha-by.input';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { UserService } from './user.service';
 import { UpdateUserBy } from './dto/update-user-by.input';
+import { CacheToken } from 'assets/tokens';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -24,14 +25,6 @@ export class UserResolver {
   @UseGuards(new JwtAuthGuard(true))
   whoAmI(@WhoAmI() who: User | null) {
     return who;
-  }
-
-  @Mutation(() => Date, {
-    description: '发送验证码',
-    nullable: true,
-  })
-  sendCaptcha(@Args('sendBy') sendBy: SendCaptchaBy) {
-    return this.userService.sendCaptcha(sendBy);
   }
 
   @Query(() => [User], {
@@ -55,6 +48,21 @@ export class UserResolver {
     @Args('updateBy') updateBy: UpdateUserBy,
   ) {
     return await this.userService.updateUser(whoAmI.id, updateBy);
+  }
+
+  @Mutation(() => Date, {
+    description: '发送注册验证码',
+  })
+  sendRegisterCaptcha(@Args({ name: 'to', type: () => String }) to: string) {
+    return this.userService.sendCaptcha(to, CacheToken.RegisterCaptcha);
+  }
+
+  @Mutation(() => Date, {
+    description: '发送修改密码验证码',
+    nullable: true,
+  })
+  sendPasswordCaptcha(@Args({ name: 'to', type: () => String }) to: string) {
+    return this.userService.sendCaptcha(to, CacheToken.PasswordCaptcha);
   }
 
   @ResolveReference()

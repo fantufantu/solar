@@ -94,6 +94,10 @@ export enum GraphQLEnumToken {
 export enum CacheToken {
   // 认证令牌
   Authenticated = 'authenticated',
-  // 验证码
-  Captcha = 'captcha',
+  // 注册验证码
+  RegisterCaptcha = 'register-captcha',
+  // 修改密码验证码
+  PasswordCaptcha = 'password-captcha',
+  // None
+  None = '',
 }
