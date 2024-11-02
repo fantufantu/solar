@@ -19,8 +19,8 @@ export default registerAs<Record<RsaPropertyToken, string>>(
     });
 
     return {
-      publicKey,
-      privateKey,
+      [RsaPropertyToken.PublicKey]: publicKey,
+      [RsaPropertyToken.PrivateKey]: privateKey,
     };
   },
 );

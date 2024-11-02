@@ -12,4 +12,11 @@ export class CloudResolver {
   async credential() {
     return await this.cloudService.getCredential();
   }
+
+  @Query(() => String, {
+    description: '获取腾讯云COS临时秘钥',
+  })
+  async credential2() {
+    return await this.cloudService.getCredential();
+  }
 }

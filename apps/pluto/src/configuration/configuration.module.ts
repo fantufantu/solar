@@ -1,6 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { jwtConfig, rsaConfig, tencentCloudConfig } from './configurations';
+import {
+  jwtConfig,
+  rsaConfig,
+  tencentCloudConfig,
+  openaiConfig,
+} from './configurations';
 import { ConfigurationService } from './configuration.service';
 import { ConfigurationController } from './configuration.controller';
 
@@ -8,7 +13,7 @@ import { ConfigurationController } from './configuration.controller';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [jwtConfig, rsaConfig, tencentCloudConfig],
+      load: [jwtConfig, rsaConfig, tencentCloudConfig, openaiConfig],
       envFilePath: ['apps/pluto/.env.local', 'apps/pluto/.env'],
     }),
   ],

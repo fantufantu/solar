@@ -1,6 +1,6 @@
 import type {
   CommandToken,
-  ConfigRegisterToken,
+  ConfigurationRegisterToken,
   TencentCloudPropertyToken,
   JwtPropertyToken,
   RsaPropertyToken,
@@ -18,14 +18,18 @@ export interface Pattern {
  */
 export type GetConfigurationBy =
   | {
-      token: ConfigRegisterToken.TencentCloud;
+      token: ConfigurationRegisterToken.TencentCloud;
       property: TencentCloudPropertyToken;
     }
   | {
-      token: ConfigRegisterToken.Jwt;
+      token: ConfigurationRegisterToken.Jwt;
       property: JwtPropertyToken;
     }
   | {
-      token: ConfigRegisterToken.Rsa;
+      token: ConfigurationRegisterToken.Rsa;
       property: RsaPropertyToken;
+    }
+  | {
+      token: ConfigurationRegisterToken.Openai;
+      property: string;
     };

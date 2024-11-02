@@ -6,10 +6,19 @@ import {
 } from 'assets/tokens';
 import { getCredential, getPolicy } from 'qcloud-cos-sts';
 import { Credential } from './dto/credential.object';
+import { ChatOpenAI } from '@langchain/openai';
 
 @Injectable()
 export class CloudService {
-  constructor(private readonly plutoClient: PlutoClientService) {}
+  chater: ChatOpenAI;
+
+  constructor(private readonly plutoClient: PlutoClientService) {
+    this.chater = new ChatOpenAI({
+      model: 'gpt-3.5-turbo',
+      temperature: 0.7,
+      maxTokens: 1024,
+    });
+  }
 
   /**
    * @description
@@ -62,4 +71,10 @@ export class CloudService {
       region,
     };
   }
+
+  /**
+   * @description
+   * open ai 对话
+   */
+  chat() {}
 }

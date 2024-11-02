@@ -31,6 +31,7 @@ export enum ConfigurationRegisterToken {
   TencentCloud = 'tencent-cloud',
   Jwt = 'jwt',
   Rsa = 'rsa',
+  Openai = 'openai',
 }
 
 /**
@@ -47,18 +48,29 @@ export enum TencentCloudPropertyToken {
 }
 
 /**
+ * @description
  * rsa 属性
  */
 export enum RsaPropertyToken {
-  PublicKey = 'publicKey',
-  PrivateKey = 'privateKey',
+  PublicKey = 'public-key',
+  PrivateKey = 'private-key',
 }
 
 /**
+ * @description
  * jwt 属性
  */
 export enum JwtPropertyToken {
   Secret = 'secret',
+}
+
+/**
+ * @description
+ * openai 配置项
+ */
+export enum OpenaiPropertyToken {
+  ApiKey = 'api-key',
+  BaseUrl = 'base-url',
 }
 
 /**
