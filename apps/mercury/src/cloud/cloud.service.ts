@@ -2,22 +2,19 @@ import { PlutoClientService } from '@/libs/pluto-client';
 import { Injectable } from '@nestjs/common';
 import {
   ConfigurationRegisterToken,
+  OpenaiPropertyToken,
   TencentCloudPropertyToken,
 } from 'assets/tokens';
 import { getCredential, getPolicy } from 'qcloud-cos-sts';
 import { Credential } from './dto/credential.object';
-import { ChatOpenAI } from '@langchain/openai';
+import { ChatOpenAI, ClientOptions } from '@langchain/openai';
 
 @Injectable()
 export class CloudService {
-  chater: ChatOpenAI;
+  robot: ChatOpenAI | null;
 
   constructor(private readonly plutoClient: PlutoClientService) {
-    this.chater = new ChatOpenAI({
-      model: 'gpt-3.5-turbo',
-      temperature: 0.7,
-      maxTokens: 1024,
-    });
+    this.initializeRobot();
   }
 
   /**
@@ -73,8 +70,29 @@ export class CloudService {
   }
 
   /**
+   * @description 初始化 openai 机器人
+   */
+  async initializeRobot() {
+    const [apiKey, baseURL] = await Promise.all([
+      this.plutoClient.getConfiguration<string>({
+        token: ConfigurationRegisterToken.Openai,
+        property: OpenaiPropertyToken.ApiKey,
+      }),
+      this.plutoClient.getConfiguration<string>({
+        token: ConfigurationRegisterToken.Openai,
+        property: OpenaiPropertyToken.BaseUrl,
+      }),
+    ]);
+
+    this.robot = new ChatOpenAI({
+      apiKey,
+      configuration: { baseURL },
+    });
+  }
+
+  /**
    * @description
    * open ai 对话
    */
-  chat() {}
+  chat(message: string) {}
 }
