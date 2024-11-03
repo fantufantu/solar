@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions, In, Like, Not } from 'typeorm';
-import { SendCaptchaBy } from './dto/send-captcha-by.input';
 import dayjs from 'dayjs';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
 import {
@@ -40,7 +39,7 @@ export class UserService {
         .getCaptchaValidation(to, token)
         .catch(() => null)) ?? [];
 
-    if (!!sentAt && dayjs(sentAt).diff(systemTimeAt, 'minutes') < 1) {
+    if (!!sentAt && systemTimeAt.diff(dayjs(sentAt), 'minutes') < 1) {
       throw new Error('验证码发送太频繁，请稍后再试');
     }
 

@@ -4,7 +4,14 @@ import { ApplicationModule } from './application.module';
 import { MicroservicePort, ServicePort } from 'assets/ports';
 
 async function bootstrap() {
-  const application = await NestFactory.create(ApplicationModule);
+  const application = await NestFactory.create(ApplicationModule, {
+    cors: {
+      origin: (_, callback) => {
+        console.log(12321);
+        callback(null, true);
+      },
+    },
+  });
 
   // 创建微服务
   application.connectMicroservice<MicroserviceOptions>({

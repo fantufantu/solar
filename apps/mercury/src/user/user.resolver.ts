@@ -1,4 +1,4 @@
-import { UseGuards, UseInterceptors } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -8,7 +8,6 @@ import {
 } from '@nestjs/graphql';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { WhoAmI } from 'assets/decorators';
-import { SendCaptchaBy } from './dto/send-captcha-by.input';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { UserService } from './user.service';
 import { UpdateUserBy } from './dto/update-user-by.input';

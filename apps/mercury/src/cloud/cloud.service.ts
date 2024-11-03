@@ -1,5 +1,5 @@
 import { PlutoClientService } from '@/libs/pluto-client';
-import { Injectable } from '@nestjs/common';
+import { Injectable, MessageEvent } from '@nestjs/common';
 import {
   ConfigurationRegisterToken,
   OpenaiPropertyToken,
@@ -7,7 +7,8 @@ import {
 } from 'assets/tokens';
 import { getCredential, getPolicy } from 'qcloud-cos-sts';
 import { Credential } from './dto/credential.object';
-import { ChatOpenAI, ClientOptions } from '@langchain/openai';
+import { ChatOpenAI } from '@langchain/openai';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class CloudService {
@@ -87,6 +88,7 @@ export class CloudService {
     this.robot = new ChatOpenAI({
       apiKey,
       configuration: { baseURL },
+      model: 'ep-20241102142451-mz684',
     });
   }
 
@@ -94,5 +96,25 @@ export class CloudService {
    * @description
    * open ai 对话
    */
-  chat(message: string) {}
+  chat(message: string) {
+    return new Observable<MessageEvent>((subscriber) => {
+      this.robot
+        ?.stream('Hello world!')
+        .then(async (_) => {
+          for await (const chunk of _) {
+            subscriber.next({
+              data: chunk.content,
+              id: chunk.id,
+            });
+          }
+          subscriber.complete();
+        })
+        .catch((error) => {
+          subscriber.error(error);
+        })
+        .finally(() => {
+          subscriber.unsubscribe();
+        });
+    });
+  }
 }

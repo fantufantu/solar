@@ -1,12 +1,13 @@
-import { Controller, MessageEvent, Sse } from '@nestjs/common';
-import { interval, map, Observable } from 'rxjs';
+import { Controller, Post, Sse } from '@nestjs/common';
+import { CloudService } from './cloud.service';
 
 @Controller()
-export class UserController {
-  constructor() {}
+export class CloudController {
+  constructor(private readonly cloudService: CloudService) {}
 
-  @Sse('/api/chat')
-  chat(): Observable<MessageEvent> {
-    return interval(1000).pipe(map((_) => ({ data: { hello: 'world' } })));
+  @Post('/api/chat')
+  @Sse()
+  chat() {
+    return this.cloudService.chat('');
   }
 }
