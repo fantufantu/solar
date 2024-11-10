@@ -7,7 +7,6 @@ async function bootstrap() {
   const application = await NestFactory.create(ApplicationModule, {
     cors: {
       origin: (_, callback) => {
-        console.log(12321);
         callback(null, true);
       },
     },
