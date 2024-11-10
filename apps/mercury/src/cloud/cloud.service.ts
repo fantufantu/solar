@@ -23,24 +23,31 @@ export class CloudService {
    * 获取腾讯云COS临时秘钥
    */
   async getCredential(): Promise<Credential> {
-    const [secretId, secretKey, bucket, region] = await Promise.all([
-      this.plutoClient.getConfiguration<string>({
-        token: ConfigurationRegisterToken.TencentCloud,
-        property: TencentCloudPropertyToken.SecretId,
-      }),
-      this.plutoClient.getConfiguration<string>({
-        token: ConfigurationRegisterToken.TencentCloud,
-        property: TencentCloudPropertyToken.SecretKey,
-      }),
-      this.plutoClient.getConfiguration<string>({
-        token: ConfigurationRegisterToken.TencentCloud,
-        property: TencentCloudPropertyToken.Bucket,
-      }),
-      this.plutoClient.getConfiguration<string>({
-        token: ConfigurationRegisterToken.TencentCloud,
-        property: TencentCloudPropertyToken.BucketRegion,
-      }),
-    ]);
+    const [secretId, secretKey, bucket, region] =
+      await this.plutoClient.getConfigurations<
+        [string, string, string, string]
+      >([
+        {
+          token: ConfigurationRegisterToken.TencentCloud,
+          property: TencentCloudPropertyToken.SecretId,
+        },
+        {
+          token: ConfigurationRegisterToken.TencentCloud,
+          property: TencentCloudPropertyToken.SecretKey,
+        },
+        {
+          token: ConfigurationRegisterToken.TencentCloud,
+          property: TencentCloudPropertyToken.Bucket,
+        },
+        {
+          token: ConfigurationRegisterToken.TencentCloud,
+          property: TencentCloudPropertyToken.BucketRegion,
+        },
+      ]);
+
+    if (!secretId || !secretKey || !bucket || !region) {
+      throw new Error('腾讯云COS配置项缺失！');
+    }
 
     const _cretenial = (
       await getCredential({
@@ -71,24 +78,36 @@ export class CloudService {
   }
 
   /**
-   * @description 初始化 openai 机器人
+   * @description
+   * 初始化 openai 机器人
    */
   async initializeRobot() {
-    const [apiKey, baseURL] = await Promise.all([
-      this.plutoClient.getConfiguration<string>({
+    const [apiKey, baseURL, model] = await this.plutoClient.getConfigurations<
+      [string, string, string]
+    >([
+      {
         token: ConfigurationRegisterToken.Openai,
         property: OpenaiPropertyToken.ApiKey,
-      }),
-      this.plutoClient.getConfiguration<string>({
+      },
+      {
         token: ConfigurationRegisterToken.Openai,
         property: OpenaiPropertyToken.BaseUrl,
-      }),
+      },
+      {
+        token: ConfigurationRegisterToken.Openai,
+        property: OpenaiPropertyToken.Model,
+      },
     ]);
+
+    // 配置缺失时，对话机器人不进行初始化
+    if (!apiKey || !baseURL || !model) {
+      return;
+    }
 
     this.robot = new ChatOpenAI({
       apiKey,
       configuration: { baseURL },
-      model: 'ep-20241102142451-mz684',
+      model,
     });
   }
 
@@ -98,8 +117,13 @@ export class CloudService {
    */
   chat(message: string) {
     return new Observable<MessageEvent>((subscriber) => {
+      if (!this.robot) {
+        subscriber.error(new Error('对话机器人初始化失败！请检查配置项！'));
+        return;
+      }
+
       this.robot
-        ?.stream('Hello world!')
+        .stream(message)
         .then(async (_) => {
           for await (const chunk of _) {
             subscriber.next({

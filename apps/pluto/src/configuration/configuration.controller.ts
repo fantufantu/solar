@@ -12,4 +12,9 @@ export class ConfigurationController {
   getConfiguration<T>(getBy: GetConfigurationBy) {
     return this.configurationService.get<T>(getBy);
   }
+
+  @MessagePattern({ cmd: CommandToken.GetConfigurations })
+  getConfigurations<T extends unknown[]>(tokens: GetConfigurationBy[]) {
+    return this.configurationService.list<T>(tokens);
+  }
 }

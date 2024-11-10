@@ -11,7 +11,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   // 是否宽松模式
   // 宽松模式下。认证不通过用户为null
   // 严格模式下。认证不通过返回401
-  #isLoose = false;
+  #isLoose: boolean;
 
   constructor(isLoose?: boolean) {
     super();

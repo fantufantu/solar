@@ -71,6 +71,7 @@ export enum JwtPropertyToken {
 export enum OpenaiPropertyToken {
   ApiKey = 'api-key',
   BaseUrl = 'base-url',
+  Model = 'model',
 }
 
 /**
@@ -79,6 +80,7 @@ export enum OpenaiPropertyToken {
  */
 export enum CommandToken {
   GetConfiguration = 'configuration.get',
+  GetConfigurations = 'configurations.get',
   GetUser = 'user.get',
   Permit = 'role.permit',
   isLoggedIn = 'authentication.logged-in',

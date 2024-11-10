@@ -7,5 +7,6 @@ export default registerAs<Record<OpenaiPropertyToken, Partialable<string>>>(
   () => ({
     [OpenaiPropertyToken.ApiKey]: process.env.OPENAI_API_KEY,
     [OpenaiPropertyToken.BaseUrl]: process.env.OPENAI_BASE_URL,
+    [OpenaiPropertyToken.Model]: process.env.OPENAI_MODEL,
   }),
 );
