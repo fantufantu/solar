@@ -14,7 +14,7 @@ export class ResumeResolver {
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Resume, { description: '新建简历' })
-  createDictionary(
+  createResume(
     @Args('createResumeInput') createResumeInput: CreateResumeInput,
     @WhoAmI() who: User,
   ) {
@@ -23,11 +23,17 @@ export class ResumeResolver {
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Boolean, { description: '更新简历' })
-  updateDictionary(
+  updateResume(
     @Args('id', { type: () => Int }) id: number,
     @Args('updateResumeInput') updateResumeInput: UpdateResumeInput,
     @WhoAmI() who: User,
   ) {
     return this.resumeService.update(id, updateResumeInput, who);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => Boolean, { description: '删除简历' })
+  removeResume(@Args('id', { type: () => Int }) id: number) {
+    return this.resumeService.remove(id);
   }
 }

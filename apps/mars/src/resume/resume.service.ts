@@ -34,4 +34,13 @@ export class ResumeService {
       updatedBy: who.id,
     });
   }
+
+  /**
+   * 删除简历
+   */
+  async remove(id: number) {
+    return await this.resumeRepository.update(id, {
+      deletedAt: 'NOW()',
+    });
+  }
 }

@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity } from 'typeorm';
+import { Column, DeleteDateColumn, Entity } from 'typeorm';
 import { Preset } from 'assets/entities/preset.entity';
 
 @ObjectType()
@@ -28,4 +28,7 @@ export class Resume extends Preset {
   })
   @Column({ type: 'int2' })
   updatedBy: number;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }
