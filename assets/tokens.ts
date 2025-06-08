@@ -45,6 +45,8 @@ export enum TencentCloudPropertyToken {
   BucketRegion = 'bucket-region',
 
   SesRegion = 'ses-region',
+
+  DatabasePassword = 'database-password',
 }
 
 /**
@@ -72,6 +74,13 @@ export enum OpenaiPropertyToken {
   ApiKey = 'api-key',
   BaseUrl = 'base-url',
   Model = 'model',
+}
+
+/**
+ * 数据库配置
+ */
+export enum DatabasePropertyToken {
+  password = 'password',
 }
 
 /**

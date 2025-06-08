@@ -14,7 +14,7 @@ import { ConfigurationController } from './configuration.controller';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [jwtConfig, rsaConfig, tencentCloudConfig, openaiConfig],
-      envFilePath: ['apps/pluto/.env.local', 'apps/pluto/.env'],
+      envFilePath: ['.env.local'],
     }),
   ],
   controllers: [ConfigurationController],

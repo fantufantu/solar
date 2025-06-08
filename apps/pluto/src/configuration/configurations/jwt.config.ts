@@ -4,7 +4,9 @@ import { JwtPropertyToken, ConfigurationRegisterToken } from 'assets/tokens';
 
 export default registerAs<Record<JwtPropertyToken, string>>(
   ConfigurationRegisterToken.Jwt,
-  () => ({
-    secret: process.env.JWT_SECRET || randomUUID(),
-  }),
+  () => {
+    return {
+      secret: process.env.JWT_SECRET || randomUUID(),
+    };
+  },
 );
