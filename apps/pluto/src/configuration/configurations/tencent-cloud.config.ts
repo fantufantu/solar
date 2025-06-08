@@ -18,6 +18,9 @@ export default registerAs<Record<TencentCloudPropertyToken, string>>(
 
       [TencentCloudPropertyToken.SesRegion]: process.env.SES_REGION ?? '',
 
+      [TencentCloudPropertyToken.DatabaseHost]: process.env.DATABASE_HOST ?? '',
+      [TencentCloudPropertyToken.DatabasePort]:
+        process.env.DATABASE_PORT ?? '3306',
       [TencentCloudPropertyToken.DatabasePassword]:
         process.env.DATABASE_PASSWORD ?? '',
     };

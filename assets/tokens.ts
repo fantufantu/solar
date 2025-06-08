@@ -46,6 +46,8 @@ export enum TencentCloudPropertyToken {
 
   SesRegion = 'ses-region',
 
+  DatabaseHost = 'database-host',
+  DatabasePort = 'database-port',
   DatabasePassword = 'database-password',
 }
 
