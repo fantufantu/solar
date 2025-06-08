@@ -1,4 +1,4 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Column, Entity } from 'typeorm';
 import { Preset } from 'assets/entities/preset.entity';
 
@@ -16,4 +16,16 @@ export class Resume extends Preset {
   })
   @Column('longtext')
   content: string;
+
+  @Field(() => Int, {
+    description: '创建人',
+  })
+  @Column({ type: 'int2' })
+  createdBy: number;
+
+  @Field(() => Int, {
+    description: '更新人',
+  })
+  @Column({ type: 'int2' })
+  updatedBy: number;
 }
