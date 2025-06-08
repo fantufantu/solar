@@ -2,6 +2,7 @@ export enum ServicePort {
   Mercury = 3100,
   Venus = 3200,
   Earth = 3300,
+  Mars = 3400,
   Halley = 3900,
 }
 

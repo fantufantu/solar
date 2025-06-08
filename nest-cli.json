@@ -107,6 +107,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/cache/tsconfig.lib.json"
       }
+    },
+    "mars": {
+      "type": "application",
+      "root": "apps/mars",
+      "entryFile": "main",
+      "sourceRoot": "apps/mars/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/mars/tsconfig.app.json"
+      }
     }
   }
 }

@@ -28,6 +28,12 @@ module.exports = {
       script: 'pnpm',
       args: 'start:earth',
     },
+    // 简历服务
+    {
+      name: 'mars',
+      script: 'pnpm',
+      args: 'start:mars',
+    },
     // 集成服务
     {
       name: 'halley',
