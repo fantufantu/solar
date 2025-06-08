@@ -5,7 +5,7 @@ import { Authorization } from '@/libs/database/entities/mercury/authorization.en
 import { AuthorizationResource } from '@/libs/database/entities/mercury/authorization-resource.entity';
 import { AuthorizationAction } from '@/libs/database/entities/mercury/authorization-action.entity';
 import { AuthorizeBy } from './dto/authorize-by.input';
-import type { QueryBy } from 'typings/application-programming-interface';
+import type { QueryBy } from 'typings/controller';
 import type { Repository } from 'typeorm';
 
 @Injectable()

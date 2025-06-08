@@ -5,7 +5,7 @@ import { Article } from '@/libs/database/entities/earth/article.entity';
 import { Repository } from 'typeorm';
 import { UpdateArticleBy } from './dto/update-article-by.input';
 import { FilterArticlesBy } from './dto/filter-articles-by.input';
-import { QueryBy } from 'typings/application-programming-interface';
+import { QueryBy } from 'typings/controller';
 import { ArticleToCategory } from '@/libs/database/entities/earth/article_to_category.entity';
 import { isEmpty } from '@aiszlab/relax';
 import { ArticleContributionsBy } from './dto/article-contributions-by.input';

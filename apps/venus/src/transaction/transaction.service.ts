@@ -7,7 +7,7 @@ import { UpdateTransactionBy } from './dto/update-transaction-by.input';
 import { Transaction } from '@/libs/database/entities/venus/transaction.entity';
 import { paginateQuery } from 'utils/query-builder';
 import { GroupTransactionAmountByCategory } from './dto/group-transaction-amount-by-category.input';
-import { QueryBy } from 'typings/application-programming-interface';
+import { QueryBy } from 'typings/controller';
 import { TransactionAmountGroupedByCategory } from './dto/transaction-amount-grouped-by-category';
 
 @Injectable()

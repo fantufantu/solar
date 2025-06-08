@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { ApplicationModule } from './application.module';
+import { AppModule } from './app.module';
 import { MicroservicePort, ServicePort } from 'assets/ports';
 
 async function bootstrap() {
-  const application = await NestFactory.create(ApplicationModule, {
+  const app = await NestFactory.create(AppModule, {
     cors: {
       origin: (_, callback) => {
         callback(null, true);
@@ -13,15 +13,15 @@ async function bootstrap() {
   });
 
   // 创建微服务
-  application.connectMicroservice<MicroserviceOptions>({
+  app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,
     options: {
       port: MicroservicePort.Mercury,
     },
   });
 
-  await application.startAllMicroservices();
-  await application.listen(ServicePort.Mercury);
+  await app.startAllMicroservices();
+  await app.listen(ServicePort.Mercury);
   console.info(
     `mercury is running on http://localhost:${ServicePort.Mercury}/graphql`,
   );

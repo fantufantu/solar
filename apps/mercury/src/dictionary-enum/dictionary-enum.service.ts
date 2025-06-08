@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
 import { DictionaryEnum } from '@/libs/database/entities/mercury/dictionary-enum.entity';
 import { paginateQuery } from 'utils/query-builder';
-import type { QueryBy } from 'typings/application-programming-interface';
+import type { QueryBy } from 'typings/controller';
 import type { CreateDictionaryEnumBy } from './dto/create-dictionary-enum-by.input';
 import type { UpdateDictionaryEnumBy } from './dto/update-dictionary-enum-by.input';
 

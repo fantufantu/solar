@@ -7,4 +7,4 @@ import { ConfigurationModule } from './configuration/configuration.module';
     ConfigurationModule,
   ],
 })
-export class ApplicationModule {}
+export class AppModule {}

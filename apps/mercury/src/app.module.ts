@@ -51,4 +51,4 @@ import { CacheModule } from '@/libs/cache';
   controllers: [],
   providers: [],
 })
-export class ApplicationModule {}
+export class AppModule {}

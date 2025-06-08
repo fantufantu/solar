@@ -10,7 +10,7 @@ import type { User } from '@/libs/database/entities/mercury/user.entity';
 import type { CreateRoleBy } from './dto/create-role-by.input';
 import type { UpdateRoleBy } from './dto/update-role-by.input';
 import type { PermitBy } from 'assets/decorators';
-import type { QueryBy } from 'typings/application-programming-interface';
+import type { QueryBy } from 'typings/controller';
 
 @Injectable()
 export class RoleService {

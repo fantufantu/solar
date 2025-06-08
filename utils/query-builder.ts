@@ -1,5 +1,5 @@
 import { ObjectLiteral, Repository } from 'typeorm';
-import { QueryBy } from 'typings/application-programming-interface';
+import { QueryBy } from 'typings/controller';
 
 /**
  * 对数据库进行分页查询

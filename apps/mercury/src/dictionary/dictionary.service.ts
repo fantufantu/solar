@@ -4,7 +4,7 @@ import type { Repository } from 'typeorm';
 import { Dictionary } from '@/libs/database/entities/mercury/dictionary.entity';
 import { paginateQuery } from 'utils/query-builder';
 import type { CreateDictionaryBy } from './dto/create-dictionary-by.input';
-import type { QueryBy } from 'typings/application-programming-interface';
+import type { QueryBy } from 'typings/controller';
 import type { UpdateDictionaryBy } from './dto/update-dictionary-by.input';
 
 @Injectable()
