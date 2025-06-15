@@ -8,6 +8,7 @@
 - mercury = 基础服务
 - venus = 记账服务
 - earth = 博客服务
+- mars = 简历服务
 - halley = graphql 集成服务
 
 ### 服务器重装系统步骤
