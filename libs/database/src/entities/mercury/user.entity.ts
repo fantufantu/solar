@@ -5,6 +5,7 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
 } from 'typeorm';
 import { randomUUID } from 'crypto';
@@ -45,6 +46,7 @@ export class User extends Preset {
   })
   @Column({
     unique: true,
+    name: 'email_address',
   })
   @IsEmail()
   emailAddress: string;

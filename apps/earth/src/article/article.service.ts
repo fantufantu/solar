@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { UpdateArticleBy } from './dto/update-article-by.input';
 import { FilterArticlesBy } from './dto/filter-articles-by.input';
 import { QueryBy } from 'typings/controller';
-import { ArticleToCategory } from '@/libs/database/entities/earth/article_to_category.entity';
+import { ArticleWithCategory } from '@/libs/database/entities/earth/article_with_category.entity';
 import { isEmpty } from '@aiszlab/relax';
 import { ArticleContributionsBy } from './dto/article-contributions-by.input';
 import dayjs from 'dayjs';
@@ -17,8 +17,8 @@ export class ArticleService {
   constructor(
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>,
-    @InjectRepository(ArticleToCategory)
-    private readonly articleToCategoryRepository: Repository<ArticleToCategory>,
+    @InjectRepository(ArticleWithCategory)
+    private readonly articleWithCategoryRepository: Repository<ArticleWithCategory>,
   ) {}
 
   /**
@@ -37,9 +37,9 @@ export class ArticleService {
     );
 
     // 添加文章和文章分类的关联关系
-    await this.articleToCategoryRepository.save(
+    await this.articleWithCategoryRepository.save(
       categoryCodes.map((categoryCode) =>
-        this.articleToCategoryRepository.create({
+        this.articleWithCategoryRepository.create({
           articleId: article.id,
           categoryCode,
         }),
@@ -76,18 +76,18 @@ export class ArticleService {
 
     // 更新关联的文章分类codes
     if (!!categoryCodes) {
-      await this.articleToCategoryRepository
+      await this.articleWithCategoryRepository
         .createQueryBuilder()
         .delete()
         .where({ articleId: id })
         .execute();
 
-      await this.articleToCategoryRepository
+      await this.articleWithCategoryRepository
         .createQueryBuilder()
         .insert()
         .values(
           categoryCodes.map((categoryCode) =>
-            this.articleToCategoryRepository.create({
+            this.articleWithCategoryRepository.create({
               articleId: id,
               categoryCode,
             }),
@@ -114,9 +114,9 @@ export class ArticleService {
         .andWhere((queryBuilder) => {
           const query = queryBuilder
             .subQuery()
-            .select('articleToCategory.articleId')
-            .from(ArticleToCategory, 'articleToCategory')
-            .where('articleToCategory.categoryCode IN (:...categoryCodes)')
+            .select('articleWithCategory.articleId')
+            .from(ArticleWithCategory, 'articleWithCategory')
+            .where('articleWithCategory.categoryCode IN (:...categoryCodes)')
             .getQuery();
           return 'article.id IN' + query;
         })

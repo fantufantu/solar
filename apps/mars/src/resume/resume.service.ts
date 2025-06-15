@@ -20,7 +20,7 @@ export class ResumeService {
     return await this.resumeRepository.save(
       this.resumeRepository.create({
         ...createResumeInput,
-        createdBy: who.id,
+        createdById: who.id,
       }),
     );
   }
@@ -31,7 +31,7 @@ export class ResumeService {
   async update(id: number, updateResumeInput: UpdateResumeInput, who: User) {
     return await this.resumeRepository.update(id, {
       ...updateResumeInput,
-      updatedBy: who.id,
+      updatedById: who.id,
     });
   }
 

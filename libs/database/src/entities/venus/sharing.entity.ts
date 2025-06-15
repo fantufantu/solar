@@ -22,18 +22,23 @@ export class Sharing {
   @PrimaryColumn({
     type: 'enum',
     enum: TargetType,
+    name: 'target_type',
   })
   targetType: TargetType;
 
   @Field(() => Int, {
     description: '共享对象id',
   })
-  @PrimaryColumn()
+  @PrimaryColumn({
+    name: 'target_id',
+  })
   targetId: number;
 
   @Field(() => Int, {
     description: '共享人员id',
   })
-  @PrimaryColumn()
+  @PrimaryColumn({
+    name: 'shared_by_id',
+  })
   sharedById: number;
 }

@@ -6,15 +6,15 @@ import { FilterCategoriesBy } from './dto/filter-categories-by.input';
 import { QueryBy } from 'typings/controller';
 import { CreateCategoryBy } from './dto/create-category-by.input';
 import { UpdateCategoryBy } from './dto/update-category-by.input';
-import { ArticleToCategory } from '@/libs/database/entities/earth/article_to_category.entity';
+import { ArticleWithCategory } from '@/libs/database/entities/earth/article_with_category.entity';
 
 @Injectable()
 export class CategoryService {
   constructor(
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
-    @InjectRepository(ArticleToCategory)
-    private readonly articleToCategoryRepository: Repository<ArticleToCategory>,
+    @InjectRepository(ArticleWithCategory)
+    private readonly articleWithCategoryRepository: Repository<ArticleWithCategory>,
   ) {}
 
   /**
@@ -79,7 +79,7 @@ export class CategoryService {
     }
 
     // 删除文章与文章分类的关联关系
-    await this.articleToCategoryRepository
+    await this.articleWithCategoryRepository
       .createQueryBuilder()
       .delete()
       .where({

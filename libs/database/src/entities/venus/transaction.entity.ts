@@ -1,5 +1,5 @@
 import { ObjectType, Field, Float, Int } from '@nestjs/graphql';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Preset } from 'assets/entities/preset.entity';
 import { Category } from './category.entity';
 import { Billing } from './billing.entity';
@@ -10,19 +10,31 @@ export class Transaction extends Preset {
   @Field(() => Int, {
     description: '账本id',
   })
-  @Column()
+  @Column({
+    name: 'billing_id',
+  })
   billingId: number;
 
   @ManyToOne(() => Billing)
+  @JoinColumn({
+    name: 'billing_id',
+    referencedColumnName: 'id',
+  })
   billing: Billing;
 
   @Field(() => Int, {
     description: '分类id',
   })
-  @Column()
+  @Column({
+    name: 'category_id',
+  })
   categoryId: number;
 
   @ManyToOne(() => Category)
+  @JoinColumn({
+    name: 'category_id',
+    referencedColumnName: 'id',
+  })
   category: Category;
 
   @Field(() => Float, { description: '交易金额' })
@@ -33,7 +45,9 @@ export class Transaction extends Preset {
   })
   amount: number;
 
-  @Column()
+  @Column({
+    name: 'created_by_id',
+  })
   createdById: number;
 
   @Field(() => String, {
@@ -49,6 +63,8 @@ export class Transaction extends Preset {
   @Field(() => Date, {
     description: '发生时间',
   })
-  @Column()
+  @Column({
+    name: 'happened_at',
+  })
   happenedAt: Date;
 }

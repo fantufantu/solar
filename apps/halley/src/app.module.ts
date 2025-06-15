@@ -52,6 +52,10 @@ class RouterDataSource extends RemoteGraphQLDataSource {
                   name: ApplicationToken.Earth,
                   url: `http://localhost:${ServicePort.Earth}/graphql`,
                 },
+                {
+                  name: ApplicationToken.Mars,
+                  url: `http://localhost:${ServicePort.Mars}/graphql`,
+                },
               ],
             }),
             buildService: (definition) => {
@@ -63,4 +67,4 @@ class RouterDataSource extends RemoteGraphQLDataSource {
     }),
   ],
 })
-export class ApplicationModule {}
+export class AppModule {}

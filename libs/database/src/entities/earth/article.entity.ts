@@ -10,7 +10,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Preset } from 'assets/entities/preset.entity';
-import { ArticleToCategory } from './article_to_category.entity';
+import { ArticleWithCategory } from './article_with_category.entity';
 
 @ObjectType()
 @Entity()
@@ -31,19 +31,22 @@ export class Article extends Preset {
   @Column({ nullable: true })
   cover?: string;
 
-  @Column({ comment: '作者id' })
+  @Column({ comment: '作者id', name: 'created_by_id' })
   createdById: number;
 
   @Column({
     comment: '最后更新人id',
+    name: 'updated_by_id',
   })
   updatedById: number;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({
+    name: 'deleted_at',
+  })
   deletedAt: Date | null;
 
-  @OneToMany(() => ArticleToCategory, (_) => _.article)
-  articleToCategory?: ArticleToCategory[];
+  @OneToMany(() => ArticleWithCategory, (_) => _.article)
+  articleWithCategory?: ArticleWithCategory[];
 
   @BeforeInsert()
   @BeforeUpdate()

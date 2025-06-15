@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { ServicePort } from 'assets/ports';
-import { ApplicationModule } from './application.module';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const application = await NestFactory.create(ApplicationModule, {
+  const application = await NestFactory.create(AppModule, {
     cors: {
       origin: [
         /aisz\.dev$/,

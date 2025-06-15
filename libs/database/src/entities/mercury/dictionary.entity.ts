@@ -3,7 +3,9 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { Preset } from 'assets/entities/preset.entity';
 import { DictionaryEnum } from './dictionary-enum.entity';
 
-@Entity()
+@Entity({
+  name: 'dictionary',
+})
 @ObjectType()
 export class Dictionary extends Preset {
   @Field(() => String, {
@@ -23,7 +25,9 @@ export class Dictionary extends Preset {
   @Field(() => Int, {
     description: '描述',
   })
-  @Column()
+  @Column({
+    name: 'sort_by',
+  })
   sortBy: number;
 
   @OneToMany(() => DictionaryEnum, (dictionaryEnum) => dictionaryEnum.parent)

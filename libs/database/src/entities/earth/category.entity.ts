@@ -10,7 +10,7 @@ import {
   Unique,
 } from 'typeorm';
 import { Preset } from 'assets/entities/preset.entity';
-import { ArticleToCategory } from './article_to_category.entity';
+import { ArticleWithCategory } from './article_with_category.entity';
 import { isUndefined } from '@aiszlab/relax';
 
 @ObjectType('ArticleCategory')
@@ -39,8 +39,8 @@ export class Category extends Preset {
   @Column()
   image: string;
 
-  @OneToMany(() => ArticleToCategory, (_) => _.category)
-  articleToCategory: ArticleToCategory[];
+  @OneToMany(() => ArticleWithCategory, (_) => _.category)
+  articleWithCategory: ArticleWithCategory[];
 
   @BeforeInsert()
   @BeforeUpdate()

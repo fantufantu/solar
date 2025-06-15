@@ -18,17 +18,19 @@ export class Resume extends Preset {
   content: string;
 
   @Field(() => Int, {
-    description: '创建人',
+    description: '创建人id',
   })
-  @Column({ type: 'int2' })
-  createdBy: number;
+  @Column({ type: 'int', name: 'created_by_id' })
+  createdById: number;
 
   @Field(() => Int, {
-    description: '更新人',
+    description: '更新人id',
   })
-  @Column({ type: 'int2' })
-  updatedBy: number;
+  @Column({ type: 'int', name: 'updated_by_id' })
+  updatedById: number;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({
+    name: 'deleted_at',
+  })
   deletedAt: Date;
 }

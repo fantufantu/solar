@@ -11,7 +11,9 @@ export class Billing extends Preset {
   name: string;
 
   @Field(() => Int, { description: '账本创建人id' })
-  @Column()
+  @Column({
+    name: 'created_by_id',
+  })
   createdById: number;
 
   @Field(() => LimitDuration, {
@@ -22,6 +24,7 @@ export class Billing extends Preset {
     type: 'enum',
     enum: LimitDuration,
     nullable: true,
+    name: 'limit_duration',
   })
   limitDuration: LimitDuration | null;
 
@@ -31,9 +34,12 @@ export class Billing extends Preset {
     precision: 11,
     scale: 2,
     nullable: true,
+    name: 'limit_amount',
   })
   limitAmount: number | null;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({
+    name: 'deleted_at',
+  })
   deletedAt: Date | null;
 }

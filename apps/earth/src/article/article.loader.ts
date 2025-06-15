@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ArticleToCategory } from '@/libs/database/entities/earth/article_to_category.entity';
+import { ArticleWithCategory } from '@/libs/database/entities/earth/article_with_category.entity';
 import { Category } from '@/libs/database/entities/earth/category.entity';
 
 @Injectable()
 export class ArticleLoader {
   constructor(
-    @InjectRepository(ArticleToCategory)
-    private readonly articleToCategoryRepository: Repository<ArticleToCategory>,
+    @InjectRepository(ArticleWithCategory)
+    private readonly articleWithCategoryRepository: Repository<ArticleWithCategory>,
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
   ) {}
@@ -21,7 +21,7 @@ export class ArticleLoader {
   public readonly getCategoriesByArticleId = new DataLoader<number, Category[]>(
     async (articleIds) => {
       const categoryCodes = (
-        await this.articleToCategoryRepository
+        await this.articleWithCategoryRepository
           .createQueryBuilder()
           .select('DISTINCT categoryCode')
           .where({
@@ -45,7 +45,7 @@ export class ArticleLoader {
       );
 
       const relations = (
-        await this.articleToCategoryRepository
+        await this.articleWithCategoryRepository
           .createQueryBuilder()
           .where({
             articleId: In(articleIds),

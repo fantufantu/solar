@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryColumn,
   UpdateDateColumn,
@@ -25,6 +26,8 @@ export class User {
   })
   @Column({
     nullable: true,
+    name: 'default_billing_id',
+    type: 'int',
   })
   defaultBillingId?: number | null;
 
@@ -35,11 +38,19 @@ export class User {
   @ManyToOne(() => Billing, {
     nullable: true,
   })
+  @JoinColumn({
+    name: 'default_billing_id',
+    referencedColumnName: 'id',
+  })
   defaultBilling?: Billing;
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    name: 'created_at',
+  })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
   updatedAt: Date;
 }

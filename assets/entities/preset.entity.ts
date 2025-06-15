@@ -16,12 +16,16 @@ export class Preset {
   @Field(() => Date, {
     description: '创建时间',
   })
-  @CreateDateColumn()
+  @CreateDateColumn({
+    name: 'created_at',
+  })
   createdAt: Date;
 
   @Field(() => Date, {
     description: '更新时间',
   })
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
   updatedAt: Date;
 }

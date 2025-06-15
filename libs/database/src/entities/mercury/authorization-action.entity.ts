@@ -16,7 +16,9 @@ registerEnumType(AuthorizationActionCode, {
 });
 
 @ObjectType()
-@Entity()
+@Entity({
+  name: 'authorization_action',
+})
 export class AuthorizationAction {
   @Field(() => AuthorizationActionCode, {
     description: '权限操作code',
@@ -24,6 +26,7 @@ export class AuthorizationAction {
   @PrimaryColumn({
     type: 'enum',
     enum: AuthorizationActionCode,
+    name: 'code',
   })
   @IsEnum(AuthorizationActionCode)
   code: AuthorizationActionCode;
@@ -31,6 +34,6 @@ export class AuthorizationAction {
   @Field(() => String, {
     description: '权限操作名称',
   })
-  @Column()
+  @Column({ name: 'name' })
   name: string;
 }
