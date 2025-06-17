@@ -60,7 +60,9 @@ export class UserResolver {
     description: '发送修改密码验证码',
     nullable: true,
   })
-  sendPasswordCaptcha(@Args({ name: 'to', type: () => String }) to: string) {
+  sendChangePasswordCaptcha(
+    @Args({ name: 'to', type: () => String }) to: string,
+  ) {
     return this.userService.sendCaptcha(to, CacheToken.PasswordCaptcha);
   }
 
