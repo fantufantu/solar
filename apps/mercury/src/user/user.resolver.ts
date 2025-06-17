@@ -63,7 +63,7 @@ export class UserResolver {
   sendChangePasswordCaptcha(
     @Args({ name: 'to', type: () => String }) to: string,
   ) {
-    return this.userService.sendCaptcha(to, CacheToken.PasswordCaptcha);
+    return this.userService.sendCaptcha(to, CacheToken.ChangePasswordCaptcha);
   }
 
   @ResolveReference()

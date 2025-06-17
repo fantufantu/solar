@@ -123,7 +123,7 @@ export enum CacheToken {
   // 注册验证码
   RegisterCaptcha = 'register-captcha',
   // 修改密码验证码
-  PasswordCaptcha = 'password-captcha',
+  ChangePasswordCaptcha = 'change-password-captcha',
   // None
   None = '',
 }

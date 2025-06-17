@@ -7,6 +7,7 @@ import { AuthenticatedInterceptor } from 'assets/interceptor/authenticated.inter
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { WhoAmI } from 'assets/decorators';
 import { User } from '@/libs/database/entities/mercury/user.entity';
+import { ChangePasswordInput } from './dto/change-password.input';
 
 @Resolver()
 export class AuthenticationResolver {
@@ -22,6 +23,13 @@ export class AuthenticationResolver {
   @UseInterceptors(AuthenticatedInterceptor)
   register(@Args('registerBy') registerBy: RegisterBy) {
     return this.authenticationService.register(registerBy);
+  }
+
+  @Mutation(() => Boolean, { description: '修改密码' })
+  changePassword(
+    @Args('changePasswordInput') changePasswordInput: ChangePasswordInput,
+  ) {
+    return this.authenticationService.changePassword(changePasswordInput);
   }
 
   @Mutation(() => Boolean, { description: '注销' })
