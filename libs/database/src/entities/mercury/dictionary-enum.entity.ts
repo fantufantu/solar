@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Preset } from 'assets/entities/preset.entity';
+import { Preset } from '../any-use/preset.entity';
 import { Dictionary } from './dictionary.entity';
 
 @Entity({

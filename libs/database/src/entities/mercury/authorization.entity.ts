@@ -15,7 +15,7 @@ import {
   AuthorizationResource,
   AuthorizationResourceCode,
 } from './authorization-resource.entity';
-import { Preset } from 'assets/entities/preset.entity';
+import { Preset } from '../any-use/preset.entity';
 
 @Entity({
   name: 'authorization',

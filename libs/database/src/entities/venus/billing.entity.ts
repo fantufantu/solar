@@ -1,6 +1,6 @@
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { Column, DeleteDateColumn, Entity } from 'typeorm';
-import { Preset } from 'assets/entities/preset.entity';
+import { Preset } from '../any-use/preset.entity';
 import { LimitDuration } from 'assets/entities/limit-duration.billing.enum';
 
 @ObjectType()

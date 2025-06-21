@@ -135,20 +135,17 @@ export class ArticleService {
    * @description
    * 删除文章
    * @param id 文章id
-   * @param deletedById 删除者id
+   * @param deleteById 删除者id
    */
-  async remove(id: number, deletedById: number) {
-    await this.articleRepository
-      .createQueryBuilder()
-      .update()
-      .set({
-        updatedById: deletedById,
-        deletedAt: 'NOW()',
-      })
-      .whereInIds(id)
-      .execute();
-
-    return true;
+  async remove(id: number, deleteById: number) {
+    return (
+      ((
+        await this.articleRepository.update(
+          id,
+          this.articleRepository.create().useDelete(deleteById),
+        )
+      ).affected ?? 0) > 0
+    );
   }
 
   /**

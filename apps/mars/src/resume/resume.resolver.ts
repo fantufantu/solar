@@ -13,7 +13,7 @@ export class ResumeResolver {
   constructor(private readonly resumeService: ResumeService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Mutation(() => Resume, { description: '新建简历' })
+  @Mutation(() => Resume, { description: '创建简历' })
   createResume(
     @Args('createResumeInput') createResumeInput: CreateResumeInput,
     @WhoAmI() who: User,
@@ -33,7 +33,10 @@ export class ResumeResolver {
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Boolean, { description: '删除简历' })
-  removeResume(@Args('id', { type: () => Int }) id: number) {
-    return this.resumeService.remove(id);
+  removeResume(
+    @Args('id', { type: () => Int }) id: number,
+    @WhoAmI() who: User,
+  ) {
+    return this.resumeService.remove(id, who);
   }
 }

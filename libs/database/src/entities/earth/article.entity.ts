@@ -1,20 +1,13 @@
 import { BadRequestException } from '@nestjs/common';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { isURL } from 'class-validator';
-import {
-  BeforeInsert,
-  BeforeUpdate,
-  Column,
-  DeleteDateColumn,
-  Entity,
-  OneToMany,
-} from 'typeorm';
-import { Preset } from 'assets/entities/preset.entity';
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 import { ArticleWithCategory } from './article_with_category.entity';
+import { Crud } from '../any-use/crud.entity';
 
 @ObjectType()
 @Entity()
-export class Article extends Preset {
+export class Article extends Crud {
   @Field(() => String, {
     description: '标题',
   })
@@ -31,20 +24,6 @@ export class Article extends Preset {
   @Column({ nullable: true })
   cover?: string;
 
-  @Column({ comment: '作者id', name: 'created_by_id' })
-  createdById: number;
-
-  @Column({
-    comment: '最后更新人id',
-    name: 'updated_by_id',
-  })
-  updatedById: number;
-
-  @DeleteDateColumn({
-    name: 'deleted_at',
-  })
-  deletedAt: Date | null;
-
   @OneToMany(() => ArticleWithCategory, (_) => _.article)
   articleWithCategory?: ArticleWithCategory[];
 
@@ -54,10 +33,5 @@ export class Article extends Preset {
     if (!this.cover) return;
     if (!isURL(this.cover))
       throw new BadRequestException('cover must be an url');
-  }
-
-  @BeforeInsert()
-  private updatedBy() {
-    this.updatedById = this.createdById;
   }
 }

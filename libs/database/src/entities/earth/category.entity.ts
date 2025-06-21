@@ -9,7 +9,7 @@ import {
   OneToMany,
   Unique,
 } from 'typeorm';
-import { Preset } from 'assets/entities/preset.entity';
+import { Preset } from '../any-use/preset.entity';
 import { ArticleWithCategory } from './article_with_category.entity';
 import { isUndefined } from '@aiszlab/relax';
 

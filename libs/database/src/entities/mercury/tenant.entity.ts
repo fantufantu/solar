@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Column, Entity, Unique } from 'typeorm';
 import { MaxLength } from 'class-validator';
-import { Preset } from 'assets/entities/preset.entity';
+import { Preset } from '../any-use/preset.entity';
 
 @ObjectType({
   description: '租户',

@@ -1,4 +1,4 @@
-import { Preset } from 'assets/entities/preset.entity';
+import { Preset } from '../any-use/preset.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Article } from './article.entity';
 import { Category } from './category.entity';

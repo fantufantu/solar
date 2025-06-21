@@ -37,10 +37,16 @@ export class ResumeService {
 
   /**
    * 删除简历
+   * @description 逻辑删除，更新人为当前用户
    */
-  async remove(id: number) {
-    return await this.resumeRepository.update(id, {
-      deletedAt: 'NOW()',
-    });
+  async remove(id: number, who: User) {
+    return (
+      ((
+        await this.resumeRepository.update(
+          id,
+          this.resumeRepository.create().useDelete(who.id),
+        )
+      ).affected ?? 0) > 0
+    );
   }
 }

@@ -1,10 +1,10 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, DeleteDateColumn, Entity } from 'typeorm';
-import { Preset } from 'assets/entities/preset.entity';
+import { ObjectType, Field } from '@nestjs/graphql';
+import { Column, Entity } from 'typeorm';
+import { Crud } from '../any-use/crud.entity';
 
 @ObjectType()
 @Entity()
-export class Resume extends Preset {
+export class Resume extends Crud {
   @Field(() => String, {
     description: '简历名称',
   })
@@ -16,21 +16,4 @@ export class Resume extends Preset {
   })
   @Column('longtext')
   content: string;
-
-  @Field(() => Int, {
-    description: '创建人id',
-  })
-  @Column({ type: 'int', name: 'created_by_id' })
-  createdById: number;
-
-  @Field(() => Int, {
-    description: '更新人id',
-  })
-  @Column({ type: 'int', name: 'updated_by_id' })
-  updatedById: number;
-
-  @DeleteDateColumn({
-    name: 'deleted_at',
-  })
-  deletedAt: Date;
 }

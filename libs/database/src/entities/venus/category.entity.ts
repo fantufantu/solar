@@ -1,6 +1,6 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, Entity } from 'typeorm';
-import { Preset } from 'assets/entities/preset.entity';
+import { Preset } from '../any-use/preset.entity';
 import { Direction } from 'assets/entities/direction.transaction.enum';
 
 @ObjectType('TransactionCategory')

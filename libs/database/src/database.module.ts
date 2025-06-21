@@ -47,7 +47,8 @@ export class DatabaseModule {
               password,
               username: 'fantu',
               autoLoadEntities: true,
-              synchronize: true,
+              // 应用启动不需要同步数据库结构
+              synchronize: false,
             };
           },
         }),
