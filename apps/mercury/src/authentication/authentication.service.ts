@@ -41,7 +41,7 @@ export class AuthenticationService {
   async register(registerInput: RegisterInput) {
     // 邮箱验证
     await this.userService.verify({
-      verifiedBy: registerInput.emailAddress,
+      who: registerInput.emailAddress,
       captcha: registerInput.captcha,
     });
     // 用户注册
@@ -141,7 +141,7 @@ export class AuthenticationService {
     // 邮箱验证
     const isValid = await this.userService.verify(
       {
-        verifiedBy: who,
+        who,
         captcha,
       },
       CacheToken.ChangePasswordCaptcha,

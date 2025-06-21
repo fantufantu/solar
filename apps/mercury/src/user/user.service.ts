@@ -33,13 +33,11 @@ export class UserService {
    */
   async sendCaptcha(to: string, token: CacheToken): Promise<Date> {
     // 节流：上次发送时间距离当前系统时间在1分钟内，则抛出异常
-    const systemTimeAt = dayjs();
+    const systemAt = dayjs();
     const { 1: sentAt } =
-      (await this.cacheService
-        .getCaptchaValidation(to, token)
-        .catch(() => null)) ?? [];
+      (await this.cacheService.getCaptchaValidation(to, token)) ?? [];
 
-    if (!!sentAt && systemTimeAt.diff(dayjs(sentAt), 'minutes') < 1) {
+    if (!!sentAt && systemAt.diff(dayjs(sentAt), 'minutes') < 1) {
       throw new Error('验证码发送太频繁，请稍后再试');
     }
 
@@ -69,10 +67,10 @@ export class UserService {
     // 利用缓存记录验证码，有效期5分钟
     this.cacheService.setCaptchaValidation(to, token, [
       captcha,
-      systemTimeAt.toDate(),
+      systemAt.toDate(),
     ]);
 
-    return systemTimeAt.toDate();
+    return systemAt.toDate();
   }
 
   /**
@@ -114,10 +112,7 @@ export class UserService {
     token: CacheToken = CacheToken.RegisterCaptcha,
   ) {
     const { 0: sent } =
-      (await this.cacheService.getCaptchaValidation(
-        verifyBy.verifiedBy,
-        token,
-      )) ?? [];
+      (await this.cacheService.getCaptchaValidation(verifyBy.who, token)) ?? [];
 
     if (!sent || sent !== verifyBy.captcha) {
       throw new Error('邮箱验证失败，请检查验证码');

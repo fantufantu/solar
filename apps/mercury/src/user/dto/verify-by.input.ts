@@ -1,4 +1,4 @@
 export class VerifyBy {
-  verifiedBy: string;
+  who: string;
   captcha: string;
 }

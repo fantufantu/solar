@@ -27,8 +27,8 @@ export class CacheService {
    * @description
    * 获取邮件验证码缓存
    */
-  getCaptchaValidation(to: string, token: CacheToken) {
-    return this.cacheManager.get<CaptchaValidation>(toCacheKey(token, to));
+  getCaptchaValidation(who: string, token: CacheToken) {
+    return this.cacheManager.get<CaptchaValidation>(toCacheKey(token, who));
   }
 
   /**
