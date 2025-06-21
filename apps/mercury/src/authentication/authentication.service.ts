@@ -3,14 +3,14 @@ import { compareSync } from 'bcrypt';
 import { constants, privateDecrypt, randomUUID } from 'crypto';
 import { PlutoClientService } from '@/libs/pluto-client';
 import { PassportService } from '@/libs/passport';
-import { RegisterBy } from './dto/register-by.input';
+import { RegisterInput } from './dto/register.input';
 import {
   CacheToken,
   ConfigurationRegisterToken,
   RsaPropertyToken,
 } from 'assets/tokens';
 import { UserService } from '../user/user.service';
-import type { LoginBy } from './dto/login-by.input';
+import { LoginInput } from './dto/login.input';
 import { CacheService } from '@/libs/cache';
 import { ChangePasswordInput } from './dto/change-password.input';
 
@@ -27,9 +27,9 @@ export class AuthenticationService {
    * @description
    * 登录
    */
-  async login(loginBy: LoginBy) {
+  async login(loginInput: LoginInput) {
     // 匹配用户信息
-    const user = await this.getValidUser(loginBy);
+    const user = await this.getValidUser(loginInput);
     // 加密生成token
     return [this.passportService.sign(user.id), user.id];
   }
@@ -38,14 +38,14 @@ export class AuthenticationService {
    * @description
    * 注册
    */
-  async register(registerBy: RegisterBy) {
+  async register(registerInput: RegisterInput) {
     // 邮箱验证
     await this.userService.verify({
-      verifiedBy: registerBy.emailAddress,
-      captcha: registerBy.captcha,
+      verifiedBy: registerInput.emailAddress,
+      captcha: registerInput.captcha,
     });
     // 用户注册
-    const user = await this.signUp(registerBy);
+    const user = await this.signUp(registerInput);
     // 加密生成token
     return [this.passportService.sign(user.id), user.id];
   }
@@ -54,9 +54,9 @@ export class AuthenticationService {
    * @description
    * 验证用户名/密码
    */
-  async getValidUser(loginBy: LoginBy) {
+  async getValidUser(loginInput: LoginInput) {
     // 根据关键字获取用户
-    const user = await this.userService.getUser(loginBy.who, {
+    const user = await this.userService.getUser(loginInput.who, {
       select: {
         id: true,
         password: true,
@@ -68,7 +68,7 @@ export class AuthenticationService {
     // 校验密码
     const isPasswordValid = compareSync(
       this.decryptByRsaPrivateKey(
-        loginBy.password,
+        loginInput.password,
         await this.plutoClient.getConfiguration<string>({
           token: ConfigurationRegisterToken.Rsa,
           property: RsaPropertyToken.PrivateKey,
@@ -88,8 +88,8 @@ export class AuthenticationService {
    * @description
    * 创建用户
    */
-  async signUp(registerBy: RegisterBy) {
-    const { password, ...registerByWithout } = registerBy;
+  async signUp(registerInput: RegisterInput) {
+    const { password, ..._registerInput } = registerInput;
     // 注册密码解密
     const decryptedPassword = password
       ? this.decryptByRsaPrivateKey(
@@ -102,7 +102,7 @@ export class AuthenticationService {
       : randomUUID();
 
     return await this.userService.create({
-      ...registerByWithout,
+      ..._registerInput,
       password: decryptedPassword,
     });
   }

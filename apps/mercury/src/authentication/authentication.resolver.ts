@@ -1,7 +1,7 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthenticationService } from './authentication.service';
-import { LoginBy } from './dto/login-by.input';
-import { RegisterBy } from './dto/register-by.input';
+import { LoginInput } from './dto/login.input';
+import { RegisterInput } from './dto/register.input';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthenticatedInterceptor } from 'assets/interceptor/authenticated.interceptor';
 import { JwtAuthGuard } from '@/libs/passport/guards';
@@ -15,14 +15,14 @@ export class AuthenticationResolver {
 
   @Mutation(() => String, { description: '登录' })
   @UseInterceptors(AuthenticatedInterceptor)
-  login(@Args('loginBy') loginBy: LoginBy) {
-    return this.authenticationService.login(loginBy);
+  login(@Args('loginInput') loginInput: LoginInput) {
+    return this.authenticationService.login(loginInput);
   }
 
   @Mutation(() => String, { description: '注册' })
   @UseInterceptors(AuthenticatedInterceptor)
-  register(@Args('registerBy') registerBy: RegisterBy) {
-    return this.authenticationService.register(registerBy);
+  register(@Args('registerInput') registerInput: RegisterInput) {
+    return this.authenticationService.register(registerInput);
   }
 
   @Mutation(() => Boolean, { description: '修改密码' })

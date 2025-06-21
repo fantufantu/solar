@@ -2,7 +2,7 @@ import { Field, InputType, PickType } from '@nestjs/graphql';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 
 @InputType()
-export class RegisterBy extends PickType(
+export class RegisterInput extends PickType(
   User,
   ['avatar', 'emailAddress'],
   InputType,
