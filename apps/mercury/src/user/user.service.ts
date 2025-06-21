@@ -207,8 +207,11 @@ export class UserService {
     const _user = await this.getUser(who);
     if (!_user) throw new UnauthorizedException('用户不存在');
 
-    await this.userRepository.update(_user.id, {
-      password,
-    });
+    return !!(await this.userRepository.save(
+      this.userRepository.create({
+        id: _user.id,
+        password,
+      }),
+    ));
   }
 }
