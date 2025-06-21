@@ -7,7 +7,7 @@ async function bootstrap() {
   await app.listen(ServicePort.Mars);
 
   console.info(
-    `venus is running on http://localhost:${ServicePort.Venus}/graphql`,
+    `mars is running on http://localhost:${ServicePort.Mars}/graphql`,
   );
 }
 bootstrap();

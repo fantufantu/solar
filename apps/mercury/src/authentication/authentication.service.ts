@@ -4,10 +4,15 @@ import { constants, privateDecrypt, randomUUID } from 'crypto';
 import { PlutoClientService } from '@/libs/pluto-client';
 import { PassportService } from '@/libs/passport';
 import { RegisterBy } from './dto/register-by.input';
-import { ConfigurationRegisterToken, RsaPropertyToken } from 'assets/tokens';
+import {
+  CacheToken,
+  ConfigurationRegisterToken,
+  RsaPropertyToken,
+} from 'assets/tokens';
 import { UserService } from '../user/user.service';
 import type { LoginBy } from './dto/login-by.input';
 import { CacheService } from '@/libs/cache';
+import { ChangePasswordInput } from './dto/change-password.input';
 
 @Injectable()
 export class AuthenticationService {
@@ -126,6 +131,33 @@ export class AuthenticationService {
     return !!(await this.cacheService
       .getAuthenticated(userId)
       .catch(() => false));
+  }
+
+  /**
+   * @description
+   * 修改密码
+   */
+  async changePassword({ captcha, password, who }: ChangePasswordInput) {
+    // 邮箱验证
+    const isValid = await this.userService.verify(
+      {
+        verifiedBy: who,
+        captcha,
+      },
+      CacheToken.ChangePasswordCaptcha,
+    );
+    if (!isValid) throw new UnauthorizedException('验证码错误');
+
+    // 修改为解密后的密码
+    const decryptedPassword = this.decryptByRsaPrivateKey(
+      password,
+      await this.plutoClient.getConfiguration<string>({
+        token: ConfigurationRegisterToken.Rsa,
+        property: RsaPropertyToken.PrivateKey,
+      }),
+    );
+
+    return this.userService.changePassword(who, decryptedPassword);
   }
 
   /**

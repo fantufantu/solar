@@ -23,12 +23,12 @@ export class ArticleLoader {
       const categoryCodes = (
         await this.articleWithCategoryRepository
           .createQueryBuilder()
-          .select('DISTINCT categoryCode')
+          .select('DISTINCT category_code')
           .where({
             articleId: In(articleIds),
           })
-          .getRawMany<{ categoryCode: string }>()
-      ).map(({ categoryCode }) => categoryCode);
+          .getRawMany<{ category_code: string }>()
+      ).map(({ category_code }) => category_code);
 
       const categories = (
         categoryCodes.length > 0

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions, In, Like, Not } from 'typeorm';
 import dayjs from 'dayjs';
@@ -109,11 +109,14 @@ export class UserService {
    * @author murukal
    * @description 验证用户邮箱
    */
-  async verify(verifyBy: VerifyBy) {
+  async verify(
+    verifyBy: VerifyBy,
+    token: CacheToken = CacheToken.RegisterCaptcha,
+  ) {
     const { 0: sent } =
       (await this.cacheService.getCaptchaValidation(
         verifyBy.verifiedBy,
-        CacheToken.RegisterCaptcha,
+        token,
       )) ?? [];
 
     if (!sent || sent !== verifyBy.captcha) {
@@ -202,7 +205,15 @@ export class UserService {
   }
 
   /**
-   * @description
-   * 发送修改密码验证码
+   * @author murukal
+   * @description 修改密码
    */
+  async changePassword(who: string, password: string) {
+    const _user = await this.getUser(who);
+    if (!_user) throw new UnauthorizedException('用户不存在');
+
+    await this.userRepository.update(_user.id, {
+      password,
+    });
+  }
 }
