@@ -1,4 +1,4 @@
-import { Args, Int, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ResumeService } from './resume.service';
 import { Resume } from '@/libs/database/entities/mars/resume.entity';
 import { CreateResumeInput } from './dto/create-resume.input';
@@ -38,5 +38,11 @@ export class ResumeResolver {
     @WhoAmI() who: User,
   ) {
     return this.resumeService.remove(id, who);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => Resume, { description: '查询简历', name: 'resume' })
+  resume(@Args('id', { type: () => Int }) id: number, @WhoAmI() who: User) {
+    return this.resumeService.resume(id, who);
   }
 }

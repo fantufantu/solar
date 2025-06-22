@@ -49,4 +49,24 @@ export class ResumeService {
       ).affected ?? 0) > 0
     );
   }
+
+  /**
+   * 简历详情
+   * @description 用户只能查看自己的简历
+   */
+  async resume(id: number, who: User) {
+    const _resume = await this.resumeRepository.findOneBy({
+      id,
+    });
+
+    if (!_resume) {
+      throw new Error('简历不存在！');
+    }
+
+    if (_resume.createdById !== who.id) {
+      throw new Error('您没有权限查看该简历！');
+    }
+
+    return _resume;
+  }
 }
