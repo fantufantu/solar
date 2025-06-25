@@ -29,10 +29,14 @@ export class ResumeService {
    * 更新简历
    */
   async update(id: number, updateResumeInput: UpdateResumeInput, who: User) {
-    return await this.resumeRepository.update(id, {
-      ...updateResumeInput,
-      updatedById: who.id,
-    });
+    return (
+      ((
+        await this.resumeRepository.update(id, {
+          ...updateResumeInput,
+          updatedById: who.id,
+        })
+      ).affected ?? 0) > 0
+    );
   }
 
   /**
