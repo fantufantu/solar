@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateResumeInput } from './dto/create-resume.input';
 import { UpdateResumeInput } from './dto/update-resume.input';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -64,7 +64,7 @@ export class ResumeService {
     }
 
     if (_resume.createdById !== who.id) {
-      throw new Error('您没有权限查看该简历！');
+      throw new ForbiddenException('您没有权限查看该简历！');
     }
 
     return _resume;
