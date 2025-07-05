@@ -1,10 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import {
-  BeforeInsert,
-  BeforeSoftRemove,
-  Column,
-  DeleteDateColumn,
-} from 'typeorm';
+import { BeforeInsert, Column, DeleteDateColumn } from 'typeorm';
 import { Preset } from './preset.entity';
 
 @ObjectType()
