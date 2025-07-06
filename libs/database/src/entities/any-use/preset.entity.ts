@@ -10,7 +10,10 @@ export class Preset {
   @Field(() => Int, {
     description: 'id',
   })
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({
+    comment: 'id',
+    name: 'id',
+  })
   id: number;
 
   @Field(() => Date, {
@@ -18,6 +21,7 @@ export class Preset {
   })
   @CreateDateColumn({
     name: 'created_at',
+    comment: '创建时间',
   })
   createdAt: Date;
 
@@ -26,6 +30,7 @@ export class Preset {
   })
   @UpdateDateColumn({
     name: 'updated_at',
+    comment: '更新时间',
   })
   updatedAt: Date;
 }

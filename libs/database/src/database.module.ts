@@ -12,7 +12,10 @@ import { PlutoClientModule, PlutoClientService } from '@/libs/pluto-client';
   providers: [PlutoClientModule],
 })
 export class DatabaseModule {
-  static forRoot(database: ApplicationToken): DynamicModule {
+  static forRoot(
+    database: ApplicationToken,
+    { synchronize = false }: { synchronize?: boolean } = {},
+  ): DynamicModule {
     return {
       module: DatabaseModule,
       imports: [
@@ -48,7 +51,7 @@ export class DatabaseModule {
               username: 'fantu',
               autoLoadEntities: true,
               // 应用启动不需要同步数据库结构
-              synchronize: false,
+              synchronize,
             };
           },
         }),

@@ -28,7 +28,7 @@ export class ResumeService {
   /**
    * 更新简历
    */
-  async update(id: string, updateResumeInput: UpdateResumeInput, who: User) {
+  async update(id: number, updateResumeInput: UpdateResumeInput, who: User) {
     return (
       ((
         await this.resumeRepository.update(id, {
@@ -58,7 +58,7 @@ export class ResumeService {
    * 简历详情
    * @description 用户只能查看自己的简历
    */
-  async resume(id: string, who: User) {
+  async resume(id: number, who: User) {
     const _resume = await this.resumeRepository.findOneBy({
       id,
     });
