@@ -21,7 +21,7 @@ import { PassportModule } from '@/libs/passport';
     // 鉴权
     PassportModule,
     // 数据库
-    DatabaseModule.forRoot(ApplicationToken.Mars, { synchronize: true }),
+    DatabaseModule.forRoot(ApplicationToken.Mars),
     // 简历模块
     ResumeModule,
   ],
