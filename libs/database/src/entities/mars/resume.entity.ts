@@ -8,7 +8,10 @@ export class Resume extends CrudUuid {
   @Field(() => String, {
     description: '简历名称',
   })
-  @Column()
+  @Column({
+    type: 'varchar',
+    length: 40,
+  })
   name: string;
 
   @Field(() => String, {
