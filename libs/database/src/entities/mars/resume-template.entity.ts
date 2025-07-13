@@ -4,7 +4,7 @@ import { Crud } from '../any-use/crud.entity';
 
 @ObjectType()
 @Entity({ comment: '简历模板', name: 'resume_template' })
-export class Resume extends Crud {
+export class ResumeTemplate extends Crud {
   @Field(() => String, {
     description: '模板名称',
   })

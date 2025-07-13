@@ -46,7 +46,7 @@ export class BillingResolver {
   })
   @UseInterceptors(PaginatedInterceptor)
   @UseGuards(JwtAuthGuard)
-  getBillings(@WhoAmI() who: User) {
+  billings(@WhoAmI() who: User) {
     return this.billingService.getBillingsByUserId(who.id);
   }
 
@@ -56,7 +56,7 @@ export class BillingResolver {
     nullable: true,
   })
   @UseGuards(JwtAuthGuard)
-  getBilling(
+  billing(
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
     @WhoAmI() whoAmI: User,
   ) {

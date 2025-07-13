@@ -8,6 +8,7 @@ import {
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
 import { PassportModule } from '@/libs/passport';
+import { ResumeTemplateModule } from './resume-template/resume-template.module';
 
 @Module({
   imports: [
@@ -24,6 +25,8 @@ import { PassportModule } from '@/libs/passport';
     DatabaseModule.forRoot(ApplicationToken.Mars),
     // 简历模块
     ResumeModule,
+    // 简历模板模块
+    ResumeTemplateModule,
   ],
   controllers: [],
   providers: [],
