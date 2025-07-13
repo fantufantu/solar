@@ -4,7 +4,7 @@ import { ArticleService } from './article.service';
 import { ArticleLoader } from './article.loader';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Article } from '@/libs/database/entities/earth/article.entity';
-import { ArticleWithCategory } from '@/libs/database/entities/earth/article_with_category.entity';
+import { ArticleWithCategory } from '@/libs/database/entities/earth/article-with-category.entity';
 import { Category } from '@/libs/database/entities/earth/category.entity';
 import { User } from '@/libs/database/entities/earth/user.entity';
 

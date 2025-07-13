@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { UpdateArticleBy } from './dto/update-article-by.input';
 import { FilterArticlesBy } from './dto/filter-articles-by.input';
 import { QueryBy } from 'typings/controller';
-import { ArticleWithCategory } from '@/libs/database/entities/earth/article_with_category.entity';
+import { ArticleWithCategory } from '@/libs/database/entities/earth/article-with-category.entity';
 import { isEmpty } from '@aiszlab/relax';
 import { ArticleContributionsBy } from './dto/article-contributions-by.input';
 import dayjs from 'dayjs';

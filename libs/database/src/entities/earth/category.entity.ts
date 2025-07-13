@@ -10,7 +10,7 @@ import {
   Unique,
 } from 'typeorm';
 import { Preset } from '../any-use/preset.entity';
-import { ArticleWithCategory } from './article_with_category.entity';
+import { ArticleWithCategory } from './article-with-category.entity';
 import { isUndefined } from '@aiszlab/relax';
 
 @ObjectType('ArticleCategory')

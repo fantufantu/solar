@@ -3,7 +3,7 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Article } from './article.entity';
 import { Category } from './category.entity';
 
-@Entity()
+@Entity({ name: 'article_with_category' })
 export class ArticleWithCategory extends Preset {
   @Column({
     name: 'article_id',

@@ -2,7 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { isURL } from 'class-validator';
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
-import { ArticleWithCategory } from './article_with_category.entity';
+import { ArticleWithCategory } from './article-with-category.entity';
 import { Crud } from '../any-use/crud.entity';
 
 @ObjectType()

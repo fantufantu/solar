@@ -6,7 +6,7 @@ import { FilterCategoriesBy } from './dto/filter-categories-by.input';
 import { QueryBy } from 'typings/controller';
 import { CreateCategoryBy } from './dto/create-category-by.input';
 import { UpdateCategoryBy } from './dto/update-category-by.input';
-import { ArticleWithCategory } from '@/libs/database/entities/earth/article_with_category.entity';
+import { ArticleWithCategory } from '@/libs/database/entities/earth/article-with-category.entity';
 
 @Injectable()
 export class CategoryService {
