@@ -54,4 +54,11 @@ export class ResumeTemplateResolver {
   resumeTemplates(@Pagination() paginateBy: PaginateBy) {
     return this.resumeTemplateService.resumeTemplates();
   }
+
+  @Query(() => ResumeTemplate, { description: '简历模板详情' })
+  resumeTemplate(
+    @Args('id', { type: () => Int, description: '简历模板id' }) id: number,
+  ) {
+    return this.resumeTemplateService.resumeTemplate(id);
+  }
 }

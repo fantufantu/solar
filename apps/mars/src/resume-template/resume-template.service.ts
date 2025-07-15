@@ -59,5 +59,16 @@ export class ResumeTemplateService {
   /**
    * @description 分页查询简历模板列表
    */
-  async resumeTemplates() {}
+  async resumeTemplates() {
+    return await this.resumeTemplateRepository
+      .createQueryBuilder()
+      .getManyAndCount();
+  }
+
+  /**
+   * @description 查询简历模板详情
+   */
+  async resumeTemplate(id: number) {
+    return await this.resumeTemplateRepository.findOneBy({ id });
+  }
 }
