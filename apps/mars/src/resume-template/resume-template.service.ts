@@ -4,6 +4,7 @@ import { UpdateResumeTemplateInput } from './dto/update-resume-template.input';
 import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PaginateBy } from 'assets/dto/paginate-by.input';
 
 @Injectable()
 export class ResumeTemplateService {
@@ -59,9 +60,15 @@ export class ResumeTemplateService {
   /**
    * @description 分页查询简历模板列表
    */
-  async resumeTemplates() {
+  async resumeTemplates({
+    paginateBy: { limit, page },
+  }: {
+    paginateBy: PaginateBy;
+  }) {
     return await this.resumeTemplateRepository
       .createQueryBuilder()
+      .skip((page - 1) * limit)
+      .take(limit)
       .getManyAndCount();
   }
 

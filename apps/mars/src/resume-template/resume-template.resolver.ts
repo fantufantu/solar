@@ -52,7 +52,7 @@ export class ResumeTemplateResolver {
   @Query(() => PaginatedResumeTemplates, { description: '简历模板列表' })
   @UseInterceptors(PaginatedInterceptor)
   resumeTemplates(@Pagination() paginateBy: PaginateBy) {
-    return this.resumeTemplateService.resumeTemplates();
+    return this.resumeTemplateService.resumeTemplates({ paginateBy });
   }
 
   @Query(() => ResumeTemplate, { description: '简历模板详情' })
