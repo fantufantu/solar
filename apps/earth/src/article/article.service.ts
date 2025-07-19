@@ -138,13 +138,11 @@ export class ArticleService {
    * @param deleteById 删除者id
    */
   async remove(id: number, deleteById: number) {
+    const _article = this.articleRepository.create();
+    _article.deletedById = deleteById;
+
     return (
-      ((
-        await this.articleRepository.update(
-          id,
-          this.articleRepository.create().useDelete(deleteById),
-        )
-      ).affected ?? 0) > 0
+      ((await this.articleRepository.update(id, _article)).affected ?? 0) > 0
     );
   }
 

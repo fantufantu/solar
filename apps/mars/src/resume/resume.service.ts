@@ -44,13 +44,11 @@ export class ResumeService {
    * @description 逻辑删除，更新人为当前用户
    */
   async remove(id: number, who: User) {
+    const _resume = this.resumeRepository.create();
+    _resume.deletedById = who.id;
+
     return (
-      ((
-        await this.resumeRepository.update(
-          id,
-          this.resumeRepository.create().useDelete(who.id),
-        )
-      ).affected ?? 0) > 0
+      ((await this.resumeRepository.update(id, _resume)).affected ?? 0) > 0
     );
   }
 
