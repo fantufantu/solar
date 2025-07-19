@@ -36,10 +36,8 @@ export class Crud extends Preset {
   /**
    * 删除当前实例
    */
-  useDelete(deleteById: number) {
-    return {
-      deletedAt: 'NOW()',
-      updatedById: deleteById,
-    };
+  set deletedById(deleteById: number) {
+    this.deletedAt = new Date();
+    this.updatedById = deleteById;
   }
 }
