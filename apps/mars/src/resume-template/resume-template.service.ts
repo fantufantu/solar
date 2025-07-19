@@ -48,9 +48,9 @@ export class ResumeTemplateService {
   /**
    * @description 删除简历模板
    */
-  async remove(id: number, who: number) {
+  async remove(id: number, deletedById: number) {
     const _resumeTemplate = this.resumeTemplateRepository.create();
-    _resumeTemplate.deletedById = who;
+    _resumeTemplate.deletedById = deletedById;
 
     return (
       ((await this.resumeTemplateRepository.update(id, _resumeTemplate))
