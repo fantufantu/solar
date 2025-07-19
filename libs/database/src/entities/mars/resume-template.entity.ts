@@ -6,6 +6,16 @@ import { Crud } from '../any-use/crud.entity';
 @Entity({ comment: '简历模板', name: 'resume_template' })
 export class ResumeTemplate extends Crud {
   @Field(() => String, {
+    description: '模板 code',
+  })
+  @Column({
+    type: 'varchar',
+    length: 40,
+    comment: '模板 code',
+  })
+  code: string;
+
+  @Field(() => String, {
     description: '模板名称',
   })
   @Column({

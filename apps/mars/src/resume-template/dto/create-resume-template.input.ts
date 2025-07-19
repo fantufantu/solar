@@ -4,6 +4,6 @@ import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.en
 @InputType()
 export class CreateResumeTemplateInput extends PickType(
   ResumeTemplate,
-  ['name', 'cover'],
+  ['code', 'name', 'cover'],
   InputType,
 ) {}
