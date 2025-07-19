@@ -51,10 +51,14 @@ export class ResumeTemplateService {
   async remove(id: number, who: number) {
     const _resumeTemplate = this.resumeTemplateRepository.create({ id });
 
-    return !!(await this.resumeTemplateRepository.save({
-      ..._resumeTemplate,
-      ..._resumeTemplate.useDelete(who),
-    }));
+    return (
+      ((
+        await this.resumeTemplateRepository.update(
+          _resumeTemplate.id,
+          _resumeTemplate.useDelete(who),
+        )
+      ).affected ?? 0) > 0
+    );
   }
 
   /**

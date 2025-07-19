@@ -29,8 +29,7 @@ export class ResumeTemplate extends Crud {
     description: '模板封面地址',
   })
   @Column({
-    type: 'varchar',
-    length: 32,
+    type: 'text',
     comment: '模板封面地址',
   })
   cover: string;
