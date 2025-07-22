@@ -8,7 +8,7 @@ import { FilterCategoriesBy } from './dto/filter-categories-by.input';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { Filter, Pagination } from 'assets/decorators';
 import { PaginatedCategories } from './dto/paginated-categories.object';
-import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
+import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 
 @Resolver(() => Category)
 export class CategoryResolver {

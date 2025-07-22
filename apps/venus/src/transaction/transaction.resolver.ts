@@ -20,7 +20,7 @@ import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { Category } from '@/libs/database/entities/venus/category.entity';
 import { User } from '@/libs/database/entities/venus/user.entity';
 import { PaginatedTransactions } from './dto/paginated-transactions.object';
-import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
+import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
 import { TransactionAmountGroupedByCategory } from './dto/transaction-amount-grouped-by-category';
 import { GroupTransactionAmountByCategory } from './dto/group-transaction-amount-by-category.input';

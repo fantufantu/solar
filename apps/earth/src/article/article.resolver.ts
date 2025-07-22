@@ -17,7 +17,7 @@ import { UpdateArticleBy } from './dto/update-article-by.input';
 import { PaginatedArticles } from './dto/paginated-articles.object';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { FilterArticlesBy } from './dto/filter-articles-by.input';
-import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
+import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 import { ArticleLoader } from './article.loader';
 import { Category } from '@/libs/database/entities/earth/category.entity';
 import { Article } from '@/libs/database/entities/earth/article.entity';

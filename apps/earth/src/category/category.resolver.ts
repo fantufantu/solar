@@ -3,7 +3,7 @@ import { CategoryService } from './category.service';
 import { Category } from '@/libs/database/entities/earth/category.entity';
 import { PaginatedCategories } from './dto/paginated-categories.object';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
-import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
+import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 import { Filter, Pagination } from 'assets/decorators';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { FilterCategoriesBy } from './dto/filter-categories-by.input';

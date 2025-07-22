@@ -17,7 +17,7 @@ import { WhoAmI } from 'assets/decorators';
 import { Sharing } from '@/libs/database/entities/venus/sharing.entity';
 import { BillingLoader } from './billing.loader';
 import { User } from '@/libs/database/entities/venus/user.entity';
-import { PaginatedInterceptor } from 'assets/interceptor/paginated.interceptor';
+import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 import { PaginatedBillings } from './dto/paginated-billings.object';
 import { SetBillingLimitBy } from './dto/set-billing-limit-by.input';
 

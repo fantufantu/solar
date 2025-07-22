@@ -7,10 +7,10 @@ import { AuthorizationActionCode } from '@/libs/database/entities/mercury/author
 import type { AuthorizationResourceCode } from '@/libs/database/entities/mercury/authorization-resource.entity';
 import type { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 import type { User } from '@/libs/database/entities/mercury/user.entity';
-import type { CreateRoleBy } from './dto/create-role-by.input';
-import type { UpdateRoleBy } from './dto/update-role-by.input';
-import type { PermitBy } from 'assets/decorators';
+import type { CreateRoleInput } from './dto/create-role.input';
+import type { UpdateRoleInput } from './dto/update-role.input';
 import type { QueryBy } from 'typings/controller';
+import { Authorizing } from 'utils/decorators/permission.decorator';
 
 @Injectable()
 export class RoleService {
@@ -22,8 +22,10 @@ export class RoleService {
   /**
    * 创建角色
    */
-  create(createBy: CreateRoleBy) {
-    return this.roleRepository.save(this.roleRepository.create(createBy));
+  create(createRoleInput: CreateRoleInput) {
+    return this.roleRepository.save(
+      this.roleRepository.create(createRoleInput),
+    );
   }
 
   /**
@@ -43,8 +45,8 @@ export class RoleService {
   /**
    * 更新角色
    */
-  async update(id: number, updateBy: UpdateRoleBy) {
-    const { userIds, authorizationIds, ...updateByWithout } = updateBy;
+  async update(id: number, updateRoleInput: UpdateRoleInput) {
+    const { userIds, authorizationIds, ..._updateRoleInput } = updateRoleInput;
 
     // 更新关联的用户
     userIds?.length &&
@@ -76,7 +78,7 @@ export class RoleService {
       await this.roleRepository
         .createQueryBuilder()
         .update()
-        .set(this.roleRepository.create(updateByWithout))
+        .set(this.roleRepository.create(_updateRoleInput))
         .whereInIds(id)
         .execute()
     ).affected;
@@ -124,21 +126,23 @@ export class RoleService {
   /**
    * 鉴权
    */
-  async isPermitted(userId: number, permitBy: PermitBy) {
-    return !!(await this.roleRepository
-      .createQueryBuilder('role')
-      .innerJoin('role.users', 'user')
-      .innerJoin('role.authorizations', 'authorization')
-      .where('user.id = :userId', {
-        userId,
-      })
-      .andWhere('authorization.resource = :resource', {
-        resource: permitBy.resource,
-      })
-      .andWhere('authorization.action = :action', {
-        action: permitBy.action,
-      })
-      .getCount());
+  async isAuthorized(userId: number, Authorizing: Authorizing) {
+    return (
+      (await this.roleRepository
+        .createQueryBuilder('role')
+        .innerJoin('role.users', 'user')
+        .innerJoin('role.authorizations', 'authorization')
+        .where('user.id = :userId', {
+          userId,
+        })
+        .andWhere('authorization.resource = :resource', {
+          resource: Authorizing.resource,
+        })
+        .andWhere('authorization.action = :action', {
+          action: Authorizing.action,
+        })
+        .getCount()) > 0
+    );
   }
 
   /**
