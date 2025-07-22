@@ -5,9 +5,9 @@ import { RegisterInput } from './dto/register.input';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthenticatedInterceptor } from 'assets/interceptors/authenticated.interceptor';
 import { JwtAuthGuard } from '@/libs/passport/guards';
-import { WhoAmI } from 'assets/decorators';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { ChangePasswordInput } from './dto/change-password.input';
+import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 
 @Resolver()
 export class AuthenticationResolver {

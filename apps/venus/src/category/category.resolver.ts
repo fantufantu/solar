@@ -6,9 +6,10 @@ import { CreateCategoryBy } from './dto/create-category-by.input';
 import { UpdateCategoryBy } from './dto/update-category-by.input';
 import { FilterCategoriesBy } from './dto/filter-categories-by.input';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
-import { Filter, Pagination } from 'assets/decorators';
 import { PaginatedCategories } from './dto/paginated-categories.object';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
+import { Pagination } from 'utils/decorators/filter.decorator';
+import { Filter } from 'utils/decorators/pagination.decorator';
 
 @Resolver(() => Category)
 export class CategoryResolver {

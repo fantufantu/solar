@@ -1,5 +1,4 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Pagination, Permission } from 'assets/decorators';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization-action.entity';
 import { AuthorizationResourceCode } from '@/libs/database/entities/mercury/authorization-resource.entity';
 import { DictionaryEnumService } from './dictionary-enum.service';
@@ -8,6 +7,8 @@ import { DictionaryEnum } from '@/libs/database/entities/mercury/dictionary-enum
 import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { CreateDictionaryEnumBy } from './dto/create-dictionary-enum-by.input';
 import { UpdateDictionaryEnumBy } from './dto/update-dictionary-enum-by.input';
+import { Permission } from 'utils/decorators/permission.decorator';
+import { Pagination } from 'utils/decorators/filter.decorator';
 
 @Resolver()
 export class DictionaryEnumResolver {

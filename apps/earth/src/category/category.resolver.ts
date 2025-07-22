@@ -4,12 +4,13 @@ import { Category } from '@/libs/database/entities/earth/category.entity';
 import { PaginatedCategories } from './dto/paginated-categories.object';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
-import { Filter, Pagination } from 'assets/decorators';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { FilterCategoriesBy } from './dto/filter-categories-by.input';
 import { CreateCategoryBy } from './dto/create-category-by.input';
 import { UpdateCategoryBy } from './dto/update-category-by.input';
 import { JwtAuthGuard } from '@/libs/passport/guards';
+import { Pagination } from 'utils/decorators/filter.decorator';
+import { Filter } from 'utils/decorators/pagination.decorator';
 
 @Resolver(() => Category)
 export class CategoryResolver {

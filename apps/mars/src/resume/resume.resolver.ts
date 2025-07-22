@@ -5,8 +5,8 @@ import { CreateResumeInput } from './dto/create-resume.input';
 import { UpdateResumeInput } from './dto/update-resume.input';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
-import { WhoAmI } from 'assets/decorators';
 import { User } from '@/libs/database/entities/mercury/user.entity';
+import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 
 @Resolver(() => Resume)
 export class ResumeResolver {

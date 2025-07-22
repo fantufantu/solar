@@ -14,7 +14,6 @@ import { CreateTransactionBy } from './dto/create-transaction-by.input';
 import { UpdateTransactionBy } from './dto/update-transaction-by.input';
 import { TransactionLoader } from './transaction.loader';
 import { JwtAuthGuard } from '@/libs/passport/guards';
-import { Filter, Pagination, WhoAmI } from 'assets/decorators';
 import { FilterTransactionsBy } from './dto/filter-transactions-by.input';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
 import { Category } from '@/libs/database/entities/venus/category.entity';
@@ -24,6 +23,9 @@ import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor'
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
 import { TransactionAmountGroupedByCategory } from './dto/transaction-amount-grouped-by-category';
 import { GroupTransactionAmountByCategory } from './dto/group-transaction-amount-by-category.input';
+import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
+import { Filter } from 'utils/decorators/pagination.decorator';
+import { Pagination } from 'utils/decorators/filter.decorator';
 
 @Resolver(() => Transaction)
 export class TransactionResolver {

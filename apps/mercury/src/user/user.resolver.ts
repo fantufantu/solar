@@ -7,11 +7,11 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { JwtAuthGuard } from '@/libs/passport/guards';
-import { WhoAmI } from 'assets/decorators';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { UserService } from './user.service';
 import { UpdateUserBy } from './dto/update-user-by.input';
 import { CacheToken } from 'assets/tokens';
+import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 
 @Resolver(() => User)
 export class UserResolver {

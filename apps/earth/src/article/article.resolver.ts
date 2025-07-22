@@ -11,7 +11,6 @@ import { ArticleService } from './article.service';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { CreateArticleBy } from './dto/create-article-by.input';
-import { Filter, Pagination, WhoAmI } from 'assets/decorators';
 import { User } from '@/libs/database/entities/earth/user.entity';
 import { UpdateArticleBy } from './dto/update-article-by.input';
 import { PaginatedArticles } from './dto/paginated-articles.object';
@@ -23,6 +22,9 @@ import { Category } from '@/libs/database/entities/earth/category.entity';
 import { Article } from '@/libs/database/entities/earth/article.entity';
 import { ArticleContribution } from './dto/article-contribution.object';
 import { ArticleContributionsBy } from './dto/article-contributions-by.input';
+import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
+import { Pagination } from 'utils/decorators/filter.decorator';
+import { Filter } from 'utils/decorators/pagination.decorator';
 
 @Resolver(() => Article)
 export class ArticleResolver {

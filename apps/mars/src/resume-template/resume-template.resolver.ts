@@ -6,10 +6,11 @@ import { UpdateResumeTemplateInput } from './dto/update-resume-template.input';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { User } from '@/libs/database/entities/mercury/user.entity';
-import { Pagination, WhoAmI } from 'assets/decorators';
 import { PaginatedResumeTemplates } from './dto/paginated-resume-templates.object';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
+import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
+import { Pagination } from 'utils/decorators/filter.decorator';
 
 @Resolver(() => ResumeTemplate)
 export class ResumeTemplateResolver {

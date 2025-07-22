@@ -7,13 +7,13 @@ import {
   Resolver,
   ResolveReference,
 } from '@nestjs/graphql';
-import { WhoAmI } from 'assets/decorators';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
 import { SetDefaultBillingBy } from './dto/set-default-billing-by.input';
 import { User } from '@/libs/database/entities/venus/user.entity';
 import { UserLoader } from './user.loader';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '@/libs/passport/guards';
+import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 
 @Resolver(() => User)
 export class UserResolver {
