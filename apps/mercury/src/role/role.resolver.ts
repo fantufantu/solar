@@ -39,7 +39,7 @@ export class RoleResolver {
   })
   @Permission({
     resource: AuthorizationResourceCode.Role,
-    action: AuthorizationActionCode.Retrieve,
+    action: AuthorizationActionCode.Read,
   })
   getRoles(@Pagination() paginateBy: PaginateBy) {
     return this.roleService.getRoles({
@@ -50,7 +50,7 @@ export class RoleResolver {
   @Query(() => Role, { name: 'role', description: '查询单个角色' })
   @Permission({
     resource: AuthorizationResourceCode.Role,
-    action: AuthorizationActionCode.Retrieve,
+    action: AuthorizationActionCode.Read,
   })
   getRole(@Args('id', { type: () => Int }) id: number) {
     return this.roleService.getRole(id);

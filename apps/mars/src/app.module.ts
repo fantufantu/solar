@@ -9,10 +9,13 @@ import {
 } from '@nestjs/apollo';
 import { PassportModule } from '@/libs/passport';
 import { ResumeTemplateModule } from './resume-template/resume-template.module';
+import { MercuryClientModule } from '@/libs/mercury-client';
 
 @Module({
   imports: [
-    // api
+    // 微服务
+    MercuryClientModule,
+    // API
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       autoSchemaFile: {

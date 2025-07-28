@@ -3,14 +3,19 @@ import { CreateResumeInput } from './dto/create-resume.input';
 import { UpdateResumeInput } from './dto/update-resume.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Resume } from '@/libs/database/entities/mars/resume.entity';
-import { Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 import { User } from '@/libs/database/entities/mercury/user.entity';
+import { MercuryClientService } from '@/libs/mercury-client';
+import { AuthorizationResourceCode } from '@/libs/database/entities/mercury/authorization-resource.entity';
+import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization-action.entity';
+import { PaginateBy } from 'assets/dto/paginate-by.input';
 
 @Injectable()
 export class ResumeService {
   constructor(
     @InjectRepository(Resume)
     private readonly resumeRepository: Repository<Resume>,
+    private readonly mercuryClientService: MercuryClientService,
   ) {}
 
   /**
@@ -70,5 +75,37 @@ export class ResumeService {
     }
 
     return _resume;
+  }
+
+  /**
+   * 查询简历列表
+   * @description
+   * 1. 如果当前用户是管理员，则返回所有简历；
+   * 2. 如果当前用户是普通用户，则返回当前用户的简历；
+   */
+  async resumes(who: number, { limit, page }: PaginateBy) {
+    const isAdmin = await this.mercuryClientService.isAuthorized(who, {
+      resource: AuthorizationResourceCode.Authorization,
+      action: AuthorizationActionCode.All,
+    });
+
+    const _qb = this.resumeRepository
+      .createQueryBuilder('resume')
+      .skip((page - 1) * limit)
+      .take(limit)
+      .where('1 = 1');
+
+    if (!isAdmin) {
+      _qb.andWhere(
+        new Brackets((qb) => {
+          qb.where('resume.createdById = :who', { who }).orWhere(
+            'resume.updatedById = :who',
+            { who },
+          );
+        }),
+      );
+    }
+
+    return await _qb.getManyAndCount();
   }
 }

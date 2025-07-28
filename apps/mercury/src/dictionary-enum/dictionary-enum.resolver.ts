@@ -34,7 +34,7 @@ export class DictionaryEnumResolver {
   })
   @Permission({
     resource: AuthorizationResourceCode.DictionaryEnum,
-    action: AuthorizationActionCode.Retrieve,
+    action: AuthorizationActionCode.Read,
   })
   getDictionaryEnums(@Pagination() paginateBy: PaginateBy) {
     return this.dictionaryEnumService.getDictionaryEnums({
@@ -48,7 +48,7 @@ export class DictionaryEnumResolver {
   })
   @Permission({
     resource: AuthorizationResourceCode.DictionaryEnum,
-    action: AuthorizationActionCode.Retrieve,
+    action: AuthorizationActionCode.Read,
   })
   getDictionaryEnum(@Args('id', { type: () => Int }) id: number) {
     return this.dictionaryEnumService.getDictionaryEnum(id);

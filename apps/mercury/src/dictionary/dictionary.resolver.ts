@@ -29,9 +29,9 @@ export class DictionaryResolver {
   })
   @Permission({
     resource: AuthorizationResourceCode.Dictionary,
-    action: AuthorizationActionCode.Retrieve,
+    action: AuthorizationActionCode.Read,
   })
-  getDictionaries(@Pagination() paginateBy: PaginateBy) {
+  dictionaries(@Pagination() paginateBy: PaginateBy) {
     return this.dictionaryService.getDictionaries({
       paginateBy,
     });
@@ -40,7 +40,7 @@ export class DictionaryResolver {
   @Query(() => Dictionary, { name: 'dictionary', description: '查询单个字典' })
   @Permission({
     resource: AuthorizationResourceCode.Dictionary,
-    action: AuthorizationActionCode.Retrieve,
+    action: AuthorizationActionCode.Read,
   })
   getDictionay(@Args('id', { type: () => Int }) id: number) {
     return this.dictionaryService.getDictionay(id);

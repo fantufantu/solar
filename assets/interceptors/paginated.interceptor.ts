@@ -13,7 +13,7 @@ export class PaginatedInterceptor implements NestInterceptor {
     next: CallHandler<[unknown[], number]>,
   ) {
     return next.handle().pipe(
-      map(([items, total]) => {
+      map(({ 0: items, 1: total }) => {
         return {
           items,
           total,

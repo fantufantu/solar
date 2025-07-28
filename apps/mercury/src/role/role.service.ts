@@ -159,7 +159,7 @@ export class RoleService {
           userId: id,
         })
         .andWhere('authorization.actionCode = :actionCode', {
-          actionCode: AuthorizationActionCode.Retrieve,
+          actionCode: AuthorizationActionCode.Read,
         })
         .andWhere(
           tenantCode ? 'authorization.tenantCode = :tenantCode' : '1 = 1',

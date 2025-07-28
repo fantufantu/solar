@@ -5,9 +5,10 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 export enum AuthorizationActionCode {
   Create = 'create',
-  Retrieve = 'retrieve',
+  Read = 'read',
   Update = 'update',
   Delete = 'delete',
+  All = '*',
 }
 
 registerEnumType(AuthorizationActionCode, {

@@ -21,15 +21,15 @@ registerEnumType(AuthorizationResourceCode, {
   name: 'authorization_resource',
 })
 export class AuthorizationResource {
-  @Field(() => AuthorizationResourceCode, {
+  @Field(() => AuthorizationResource, {
     description: '权限资源code',
   })
   @PrimaryColumn({
     type: 'enum',
-    enum: AuthorizationResourceCode,
+    enum: AuthorizationResource,
   })
-  @IsEnum(AuthorizationResourceCode)
-  code: AuthorizationResourceCode;
+  @IsEnum(AuthorizationResource)
+  code: AuthorizationResource;
 
   @Field(() => String, {
     description: '权限资源名称',
