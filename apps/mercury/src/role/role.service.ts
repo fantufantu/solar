@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import type { Repository } from 'typeorm';
+import { In, type Repository } from 'typeorm';
 import { Role } from '@/libs/database/entities/mercury/role.entity';
 import { paginateQuery } from 'utils/query-builder';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization-action.entity';
@@ -125,52 +125,51 @@ export class RoleService {
 
   /**
    * 鉴权
+   * @description
+   * 如果是资源管理员权限，也认为有权限
    */
-  async isAuthorized(userId: number, Authorizing: Authorizing) {
-    return (
-      (await this.roleRepository
-        .createQueryBuilder('role')
-        .innerJoin('role.users', 'user')
-        .innerJoin('role.authorizations', 'authorization')
-        .where('user.id = :userId', {
-          userId,
-        })
-        .andWhere('authorization.resource = :resource', {
-          resource: Authorizing.resource,
-        })
-        .andWhere('authorization.action = :action', {
-          action: Authorizing.action,
-        })
-        .getCount()) > 0
-    );
+  async isAuthorized(userId: number, authorizing: Authorizing) {
+    const qb = this.roleRepository
+      .createQueryBuilder('role')
+      .innerJoin('role.users', 'user')
+      .innerJoin('role.authorizations', 'authorization')
+      .where('user.id = :userId', {
+        userId,
+      })
+      .andWhere('authorization.resource = :resource', {
+        resource: authorizing.resource,
+      })
+      .andWhere('authorization.action = :action', {
+        action: In([authorizing.action, AuthorizationActionCode.All]),
+      });
+
+    return (await qb.getCount()) > 0;
   }
 
   /**
    * 获取当前用户对应的权限资源
+   * @description
+   * 获取当前用户对应的角色 -> 根据角色获取角色关联的权限资源
    */
   async getResourceCodesByUserId(id: number, tenantCode?: string) {
-    // 获取当前用户对应的角色 -> 根据角色获取角色关联的权限资源
-    const resourceCodes = (
-      (await this.roleRepository
-        .createQueryBuilder('role')
-        .innerJoinAndSelect('role.users', 'user')
-        .innerJoinAndSelect('role.authorizations', 'authorization')
-        .where('user.id = :userId', {
-          userId: id,
-        })
-        .andWhere('authorization.actionCode = :actionCode', {
-          actionCode: AuthorizationActionCode.Read,
-        })
-        .andWhere(
-          tenantCode ? 'authorization.tenantCode = :tenantCode' : '1 = 1',
-          {
-            tenantCode,
-          },
-        )
-        .select('DISTINCT authorization.resourceCode')
-        .execute()) as { resourceCode: AuthorizationResourceCode }[]
-    ).map((item) => item.resourceCode);
+    const qb = this.roleRepository
+      .createQueryBuilder('role')
+      .innerJoinAndSelect('role.users', 'user')
+      .innerJoinAndSelect('role.authorizations', 'authorization')
+      .select('DISTINCT authorization.resourceCode')
+      .where('1 = 1')
+      .andWhere('user.id = :userId', {
+        userId: id,
+      });
 
-    return resourceCodes;
+    if (tenantCode) {
+      qb.andWhere('authorization.tenantCode = :tenantCode', {
+        tenantCode,
+      });
+    }
+
+    return (
+      (await qb.execute()) as { resourceCode: AuthorizationResourceCode }[]
+    ).map(({ resourceCode }) => resourceCode);
   }
 }
