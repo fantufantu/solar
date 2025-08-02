@@ -8,9 +8,11 @@ import { TimeStamped } from '../any-use/time-stamped.entity';
 @Entity()
 export class User extends TimeStamped {
   @Field(() => Int, {
-    description: 'id',
+    description: '用户`id`',
   })
-  @PrimaryColumn()
+  @PrimaryColumn({
+    comment: '用户`id`',
+  })
   id: number;
 
   @Field(() => Int, {
