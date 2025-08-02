@@ -44,10 +44,9 @@ export class AuthorizationService {
   }
 
   /**
-   * @description
-   * 分配权限
+   * @description 分配权限
    */
-  async authorize(authorizeBy: AuthorizeBy) {
+  async authorize(authorizeBy: AuthorizeBy, who: number) {
     const authorizeds = (
       await this.authorizationRepository.find({
         where: {
@@ -55,7 +54,9 @@ export class AuthorizationService {
         },
       })
     ).reduce((prev, authorization) => {
-      return prev.set(authorization.uniqueBy, authorization.remove());
+      authorization.deletedById = who;
+      prev.set(authorization.uniqueBy, authorization);
+      return prev;
     }, new Map<string, Authorization>());
 
     authorizeBy.authorizations.forEach((resource) => {

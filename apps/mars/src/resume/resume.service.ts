@@ -61,7 +61,7 @@ export class ResumeService {
    * 简历详情
    * @description 用户只能查看自己的简历
    */
-  async resume(id: number, who: User) {
+  async resume(id: string, who: User) {
     const _resume = await this.resumeRepository.findOneBy({
       id,
     });

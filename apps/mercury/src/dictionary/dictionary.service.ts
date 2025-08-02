@@ -31,10 +31,10 @@ export class DictionaryService {
   }
 
   /**
-   * 查询单个字典
+   * @description 查询单个字典
    */
-  getDictionay(id: number) {
-    return this.dictionaryRepository.findOneBy({ id });
+  dictionay(code: string) {
+    return this.dictionaryRepository.findOneBy({ code });
   }
 
   /**

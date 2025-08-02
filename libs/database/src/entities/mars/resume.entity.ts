@@ -1,11 +1,26 @@
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ResumeTemplate } from './resume-template.entity';
-import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
+import { Tracked } from '../any-use/tracked.entity';
 
 @ObjectType()
 @Entity({ comment: '简历' })
-export class Resume extends IdentifiedTracked {
+export class Resume extends Tracked {
+  @Field(() => String, {
+    description: '简历`id`',
+  })
+  @PrimaryGeneratedColumn('uuid', {
+    comment: '简历`id`',
+    name: 'id',
+  })
+  id: string;
+
   @Field(() => String, {
     description: '简历名称',
   })

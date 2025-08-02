@@ -42,8 +42,8 @@ export class DictionaryResolver {
     resource: AuthorizationResourceCode.Dictionary,
     action: AuthorizationActionCode.Read,
   })
-  getDictionay(@Args('id', { type: () => Int }) id: number) {
-    return this.dictionaryService.getDictionay(id);
+  dictionay(@Args('code', { type: () => String }) code: string) {
+    return this.dictionaryService.dictionay(code);
   }
 
   @Mutation(() => Boolean, { description: '更新字典' })

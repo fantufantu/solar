@@ -4,6 +4,6 @@ import { InputType, PickType } from '@nestjs/graphql';
 @InputType()
 export class CreateResumeInput extends PickType(
   Resume,
-  ['name', 'content'],
+  ['name', 'content', 'defaultTemplateCode'],
   InputType,
 ) {}

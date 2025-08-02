@@ -46,7 +46,7 @@ export class ResumeResolver {
 
   @UseGuards(JwtAuthGuard)
   @Query(() => Resume, { description: '查询简历', name: 'resume' })
-  resume(@Args('id', { type: () => Int }) id: number, @WhoAmI() who: User) {
+  resume(@Args('id', { type: () => String }) id: string, @WhoAmI() who: User) {
     return this.resumeService.resume(id, who);
   }
 

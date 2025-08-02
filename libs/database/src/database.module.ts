@@ -51,7 +51,7 @@ export class DatabaseModule {
               username: 'fantu',
               autoLoadEntities: true,
               // 应用启动不需要同步数据库结构
-              synchronize,
+              synchronize: true,
             };
           },
         }),
