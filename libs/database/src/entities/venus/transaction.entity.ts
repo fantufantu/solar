@@ -1,17 +1,18 @@
 import { ObjectType, Field, Float, Int } from '@nestjs/graphql';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Preset } from '../any-use/preset.entity';
+import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
 import { Category } from './category.entity';
 import { Billing } from './billing.entity';
 
 @ObjectType()
 @Entity()
-export class Transaction extends Preset {
+export class Transaction extends IdentifiedTimeStamped {
   @Field(() => Int, {
-    description: '账本id',
+    description: '账本`id`',
   })
   @Column({
     name: 'billing_id',
+    comment: '账本`id`',
   })
   billingId: number;
 

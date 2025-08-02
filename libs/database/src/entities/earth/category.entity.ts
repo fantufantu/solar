@@ -7,20 +7,21 @@ import {
   Column,
   Entity,
   OneToMany,
+  PrimaryColumn,
   Unique,
 } from 'typeorm';
-import { Preset } from '../any-use/preset.entity';
 import { ArticleWithCategory } from './article-with-category.entity';
 import { isUndefined } from '@aiszlab/relax';
+import { TimeStamped } from '../any-use/time-stamped.entity';
 
 @ObjectType('ArticleCategory')
 @Unique(['code'])
 @Entity()
-export class Category extends Preset {
+export class Category extends TimeStamped {
   @Field(() => String, {
     description: '分类code',
   })
-  @Column({ type: 'varchar', length: 40 })
+  @PrimaryColumn({ type: 'varchar', length: 40 })
   @IsString()
   @MaxLength(40)
   code: string;

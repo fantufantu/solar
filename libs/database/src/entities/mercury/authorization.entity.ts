@@ -15,28 +15,30 @@ import {
   AuthorizationResource,
   AuthorizationResourceCode,
 } from './authorization-resource.entity';
-import { Preset } from '../any-use/preset.entity';
+import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
 
 @Entity({
   name: 'authorization',
 })
-@Unique(['tenantCode', 'resourceCode', 'actionCode'])
+@Unique(['tenant_code', 'resourceCode', 'actionCode'])
 @ObjectType({
   description: '权限',
 })
-export class Authorization extends Preset {
+export class Authorization extends IdentifiedTracked {
   @Column({
     name: 'tenant_code',
+    comment: '租户`code`',
   })
   tenantCode: string;
 
   @Field(() => AuthorizationResourceCode, {
-    description: '资源code',
+    description: '资源`code`',
   })
   @Column({
     type: 'enum',
     enum: AuthorizationResourceCode,
     name: 'resource_code',
+    comment: '资源`code`',
   })
   resourceCode: AuthorizationResourceCode;
 
@@ -46,10 +48,14 @@ export class Authorization extends Preset {
   @JoinColumn({ referencedColumnName: 'code', name: 'resource_code' })
   resource: AuthorizationResource;
 
+  @Field(() => AuthorizationActionCode, {
+    description: '操作`code`',
+  })
   @Column({
     type: 'enum',
     enum: AuthorizationActionCode,
     name: 'action_code',
+    comment: '操作`code`',
   })
   actionCode: AuthorizationActionCode;
 
@@ -59,17 +65,7 @@ export class Authorization extends Preset {
   @JoinColumn({ referencedColumnName: 'code', name: 'action_code' })
   action: AuthorizationAction;
 
-  @DeleteDateColumn({
-    name: 'deleted_at',
-  })
-  deletedAt: Date | null;
-
   get uniqueBy() {
     return [this.tenantCode, this.resourceCode, this.actionCode].join('-');
-  }
-
-  remove() {
-    this.deletedAt = new Date();
-    return this;
   }
 }

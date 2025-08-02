@@ -29,13 +29,13 @@ export class ResumeTemplateResolver {
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Boolean, { description: '更新简历模板' })
   updateResumeTemplate(
-    @Args('id', { type: () => Int }) id: number,
+    @Args('code', { type: () => String }) code: string,
     @Args('updateResumeTemplateInput')
     updateResumeTemplateInput: UpdateResumeTemplateInput,
     @WhoAmI() who: User,
   ) {
     return this.resumeTemplateService.update(
-      id,
+      code,
       updateResumeTemplateInput,
       who.id,
     );
@@ -58,8 +58,9 @@ export class ResumeTemplateResolver {
 
   @Query(() => ResumeTemplate, { description: '简历模板详情' })
   resumeTemplate(
-    @Args('id', { type: () => Int, description: '简历模板id' }) id: number,
+    @Args('code', { type: () => String, description: '简历模板`code`' })
+    code: string,
   ) {
-    return this.resumeTemplateService.resumeTemplate(id);
+    return this.resumeTemplateService.resumeTemplate(code);
   }
 }

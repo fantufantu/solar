@@ -3,11 +3,11 @@ import { ObjectType, Field } from '@nestjs/graphql';
 import { isURL } from 'class-validator';
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 import { ArticleWithCategory } from './article-with-category.entity';
-import { Crud } from '../any-use/crud.entity';
+import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
 
 @ObjectType()
 @Entity()
-export class Article extends Crud {
+export class Article extends IdentifiedTracked {
   @Field(() => String, {
     description: '标题',
   })

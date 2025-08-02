@@ -1,20 +1,16 @@
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { Column, DeleteDateColumn, Entity } from 'typeorm';
-import { Preset } from '../any-use/preset.entity';
 import { LimitDuration } from 'assets/entities/limit-duration.billing.enum';
+import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
 
 @ObjectType()
 @Entity()
-export class Billing extends Preset {
+export class Billing extends IdentifiedTracked {
   @Field(() => String, { description: '账本名称' })
-  @Column()
-  name: string;
-
-  @Field(() => Int, { description: '账本创建人id' })
   @Column({
-    name: 'created_by_id',
+    comment: '账本名称',
   })
-  createdById: number;
+  name: string;
 
   @Field(() => LimitDuration, {
     description: '限制时间段',
@@ -25,6 +21,7 @@ export class Billing extends Preset {
     enum: LimitDuration,
     nullable: true,
     name: 'limit_duration',
+    comment: '限制时间段',
   })
   limitDuration: LimitDuration | null;
 
@@ -35,11 +32,7 @@ export class Billing extends Preset {
     scale: 2,
     nullable: true,
     name: 'limit_amount',
+    comment: '限制金额',
   })
   limitAmount: number | null;
-
-  @DeleteDateColumn({
-    name: 'deleted_at',
-  })
-  deletedAt: Date | null;
 }

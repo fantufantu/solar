@@ -11,13 +11,14 @@ import {
 import { randomUUID } from 'crypto';
 import { hashSync } from 'bcrypt';
 import { IsEmail, MaxLength, MinLength, isURL } from 'class-validator';
-import { Preset } from '../any-use/preset.entity';
+import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
+
 import { Role } from './role.entity';
 
 @ObjectType()
 @Directive('@key(fields: "id")')
 @Entity()
-export class User extends Preset {
+export class User extends IdentifiedTimeStamped {
   @Field(() => String, {
     description: '用户名',
   })

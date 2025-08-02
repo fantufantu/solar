@@ -1,24 +1,14 @@
 import { Directive, Field, Int, ObjectType } from '@nestjs/graphql';
-import {
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { TimeStamped } from '../any-use/time-stamped.entity';
 
 @ObjectType()
 @Directive('@key(fields: "id")')
 @Entity()
-export class User {
+export class User extends TimeStamped {
   @Field(() => Int, {
     description: 'id',
   })
   @PrimaryGeneratedColumn()
   id: number;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
 }

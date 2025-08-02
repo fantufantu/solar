@@ -1,19 +1,12 @@
 import { Directive, Field, Int, ObjectType } from '@nestjs/graphql';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
+import { TimeStamped } from '../any-use/time-stamped.entity';
 
 @ObjectType()
 @Directive('@key(fields: "id")')
 @Entity()
-export class User {
+export class User extends TimeStamped {
   @Field(() => Int, {
     description: 'id',
   })
@@ -43,14 +36,4 @@ export class User {
     referencedColumnName: 'id',
   })
   defaultBilling?: Billing;
-
-  @CreateDateColumn({
-    name: 'created_at',
-  })
-  createdAt: Date;
-
-  @UpdateDateColumn({
-    name: 'updated_at',
-  })
-  updatedAt: Date;
 }

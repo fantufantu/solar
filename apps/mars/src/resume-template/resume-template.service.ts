@@ -32,13 +32,13 @@ export class ResumeTemplateService {
    * @description 更新简历模板
    */
   async update(
-    id: number,
+    code: string,
     updateResumeTemplateInput: UpdateResumeTemplateInput,
     who: number,
   ) {
     return !!(await this.resumeTemplateRepository.save(
       this.resumeTemplateRepository.create({
-        id,
+        code,
         ...updateResumeTemplateInput,
         updatedById: who,
       }),
@@ -76,7 +76,7 @@ export class ResumeTemplateService {
   /**
    * @description 查询简历模板详情
    */
-  async resumeTemplate(id: number) {
-    return await this.resumeTemplateRepository.findOneBy({ id });
+  async resumeTemplate(code: string) {
+    return await this.resumeTemplateRepository.findOneBy({ code });
   }
 }

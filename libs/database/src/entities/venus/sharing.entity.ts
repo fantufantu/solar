@@ -13,7 +13,7 @@ registerEnumType(TargetType, {
 });
 
 @ObjectType()
-@Unique(['targetType', 'targetId', 'sharedById'])
+@Unique(['target_type', 'target_id', 'shared_by_id'])
 @Entity()
 export class Sharing {
   @Field(() => TargetType, {

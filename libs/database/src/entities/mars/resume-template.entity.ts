@@ -1,17 +1,17 @@
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Column, Entity } from 'typeorm';
-import { Crud } from '../any-use/crud.entity';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Tracked } from '../any-use/tracked.entity';
 
 @ObjectType()
 @Entity({ comment: '简历模板', name: 'resume_template' })
-export class ResumeTemplate extends Crud {
+export class ResumeTemplate extends Tracked {
   @Field(() => String, {
-    description: '模板 code',
+    description: '模板`code`',
   })
-  @Column({
+  @PrimaryColumn({
     type: 'varchar',
     length: 40,
-    comment: '模板 code',
+    comment: '模板`code`',
   })
   code: string;
 

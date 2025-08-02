@@ -1,21 +1,8 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import {
-  CreateDateColumn,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @ObjectType()
-export class Preset {
-  @Field(() => Int, {
-    description: 'id',
-  })
-  @PrimaryGeneratedColumn({
-    comment: 'id',
-    name: 'id',
-  })
-  id: number;
-
+export class TimeStamped {
   @Field(() => Date, {
     description: '创建时间',
   })

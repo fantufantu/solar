@@ -1,16 +1,18 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
-import { Preset } from '../any-use/preset.entity';
 import { Authorization } from './authorization.entity';
 import { User } from './user.entity';
+import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
 
 @Entity({
   name: 'role',
 })
 @ObjectType()
-export class Role extends Preset {
+export class Role extends IdentifiedTimeStamped {
   @Field(() => String, { description: '角色名称' })
-  @Column()
+  @Column({
+    comment: '角色名称',
+  })
   name: string;
 
   @ManyToMany(() => User, (user) => user.roles)

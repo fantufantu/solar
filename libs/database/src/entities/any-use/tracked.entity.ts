@@ -1,20 +1,20 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { BeforeInsert, Column, DeleteDateColumn } from 'typeorm';
-import { Preset } from './preset.entity';
+import { TimeStamped } from './time-stamped.entity';
 
 @ObjectType()
-export class Crud extends Preset {
+export class Tracked extends TimeStamped {
   @Field(() => Int, {
-    description: '创建人id',
+    description: '创建人`id`',
   })
-  @Column({ comment: '创建人id', name: 'created_by_id' })
+  @Column({ comment: '创建人`id`', name: 'created_by_id' })
   createdById: number;
 
   @Field(() => Int, {
-    description: '最后更新人id',
+    description: '最后更新人`id`',
   })
   @Column({
-    comment: '最后更新人id',
+    comment: '最后更新人`id`',
     name: 'updated_by_id',
   })
   updatedById: number;
@@ -26,7 +26,7 @@ export class Crud extends Preset {
   deletedAt: Date | null;
 
   /**
-   * 新建时默认设置更新人为创建人
+   * @description 新建时默认设置更新人为创建人
    */
   @BeforeInsert()
   private _useUpdatedBy() {
@@ -34,7 +34,7 @@ export class Crud extends Preset {
   }
 
   /**
-   * 删除当前实例
+   * @description 删除当前实例
    */
   set deletedById(deleteById: number) {
     this.deletedAt = new Date();
