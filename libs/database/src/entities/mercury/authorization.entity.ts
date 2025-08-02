@@ -20,7 +20,7 @@ import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
 @Entity({
   name: 'authorization',
 })
-@Unique(['tenant_code', 'resourceCode', 'actionCode'])
+@Unique(['tenantCode', 'resourceCode', 'actionCode'])
 @ObjectType({
   description: '权限',
 })
@@ -66,6 +66,6 @@ export class Authorization extends IdentifiedTracked {
   action: AuthorizationAction;
 
   get uniqueBy() {
-    return [this.tenantCode, this.resourceCode, this.actionCode].join('-');
+    return [this.tenantCode, this.resourceCode, this.actionCode].join('::');
   }
 }

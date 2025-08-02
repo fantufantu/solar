@@ -67,8 +67,9 @@ export class AuthorizationService {
           actionCode,
         });
 
-        if (authorizeds.has(_authorization.uniqueBy)) {
-          authorizeds.get(_authorization.uniqueBy)!.deletedAt = null;
+        const _authorized = authorizeds.get(_authorization.uniqueBy);
+        if (_authorized) {
+          _authorized.deletedAt = null;
           return;
         }
 
