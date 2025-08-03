@@ -19,8 +19,8 @@ export class TransactionLoader {
    */
   readonly categoryLoader = new DataLoader<number, Category | null>(
     async (ids: number[]) => {
-      const [categories] = await this.categoryService.getCategories({
-        filterBy: {
+      const [categories] = await this.categoryService.categories({
+        filter: {
           ids,
         },
       });
