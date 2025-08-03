@@ -4,13 +4,13 @@ import { Category } from '@/libs/database/entities/earth/category.entity';
 import { PaginatedCategories } from './dto/paginated-categories.object';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
-import { PaginateBy } from 'assets/dto/paginate-by.input';
-import { FilterCategoriesBy } from './dto/filter-categories-by.input';
-import { CreateCategoryBy } from './dto/create-category-by.input';
-import { UpdateCategoryBy } from './dto/update-category-by.input';
+import { Pagination } from 'assets/dto/pagination.input';
+import { FilterArticleCategoriesInput } from './dto/filter-categories.input';
+import { CreateArticleCategoryInput } from './dto/create-category.input';
+import { UpdateArticleCategoryInput } from './dto/update-category.input';
 import { JwtAuthGuard } from '@/libs/passport/guards';
-import { Pagination } from 'utils/decorators/filter.decorator';
-import { Filter } from 'utils/decorators/pagination.decorator';
+import { PaginationArgs } from 'utils/decorators/pagination.decorator';
+import { FilterArgs } from 'utils/decorators/filter.decorator';
 
 @Resolver(() => Category)
 export class CategoryResolver {
@@ -22,15 +22,15 @@ export class CategoryResolver {
   })
   @UseInterceptors(PaginatedInterceptor)
   getCategories(
-    @Pagination() paginateBy: PaginateBy,
-    @Filter({
-      type: () => FilterCategoriesBy,
+    @PaginationArgs() pagination: Pagination,
+    @FilterArgs({
+      type: () => FilterArticleCategoriesInput,
     })
-    filterBy?: FilterCategoriesBy,
+    filter?: FilterArticleCategoriesInput,
   ) {
     return this.categoryService.getCategories({
-      paginateBy,
-      filterBy,
+      pagination,
+      filter,
     });
   }
 
@@ -39,8 +39,8 @@ export class CategoryResolver {
     description: '创建文章分类',
   })
   @UseGuards(JwtAuthGuard)
-  async create(@Args('createBy') createBy: CreateCategoryBy) {
-    return await this.categoryService.create(createBy);
+  async create(@Args('input') input: CreateArticleCategoryInput) {
+    return await this.categoryService.create(input);
   }
 
   @Mutation(() => Boolean, {
@@ -53,9 +53,9 @@ export class CategoryResolver {
       type: () => Int,
     })
     id: number,
-    @Args('updateBy') updateBy: UpdateCategoryBy,
+    @Args('input') input: UpdateArticleCategoryInput,
   ) {
-    return await this.categoryService.update(id, updateBy);
+    return await this.categoryService.update(id, input);
   }
 
   @Mutation(() => Boolean, {

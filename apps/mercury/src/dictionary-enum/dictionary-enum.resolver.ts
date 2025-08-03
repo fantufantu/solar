@@ -2,11 +2,11 @@ import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { DictionaryEnumService } from './dictionary-enum.service';
 import { PaginatedDictionaryEnum } from './dto/paginated-dictionary-enums.object';
 import { DictionaryEnum } from '@/libs/database/entities/mercury/dictionary-enum.entity';
-import { PaginateBy } from 'assets/dto/paginate-by.input';
-import { CreateDictionaryEnumBy } from './dto/create-dictionary-enum-by.input';
-import { UpdateDictionaryEnumBy } from './dto/update-dictionary-enum-by.input';
+import { Pagination } from 'assets/dto/pagination.input';
+import { CreateDictionaryEnumInput } from './dto/create-dictionary-enum.input';
+import { UpdateDictionaryEnumInput } from './dto/update-dictionary-enum.input';
 import { Permission } from 'utils/decorators/permission.decorator';
-import { Pagination } from 'utils/decorators/filter.decorator';
+import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver()
@@ -21,10 +21,10 @@ export class DictionaryEnumResolver {
     action: AuthorizationActionCode.Create,
   })
   createDictionaryEnum(
-    @Args('createBy')
-    createBy: CreateDictionaryEnumBy,
+    @Args('input')
+    input: CreateDictionaryEnumInput,
   ) {
-    return this.dictionaryEnumService.create(createBy);
+    return this.dictionaryEnumService.create(input);
   }
 
   @Query(() => PaginatedDictionaryEnum, {
@@ -34,9 +34,9 @@ export class DictionaryEnumResolver {
     resource: DictionaryEnum.name,
     action: AuthorizationActionCode.Read,
   })
-  dictionaryEnums(@Pagination() paginateBy: PaginateBy) {
+  dictionaryEnums(@PaginationArgs() pagination: Pagination) {
     return this.dictionaryEnumService.dictionaryEnums({
-      paginateBy,
+      pagination,
     });
   }
 
@@ -60,10 +60,10 @@ export class DictionaryEnumResolver {
   })
   updateDictionaryEnum(
     @Args('id', { type: () => Int }) id: number,
-    @Args('updateBy')
-    updateBy: UpdateDictionaryEnumBy,
+    @Args('input')
+    input: UpdateDictionaryEnumInput,
   ) {
-    return this.dictionaryEnumService.update(id, updateBy);
+    return this.dictionaryEnumService.update(id, input);
   }
 
   @Mutation(() => Boolean, {

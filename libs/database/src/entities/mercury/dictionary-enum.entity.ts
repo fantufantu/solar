@@ -12,17 +12,21 @@ export class DictionaryEnum extends IdentifiedTimeStamped {
     description: 'code',
   })
   @Column({
+    type: 'varchar',
+    length: 40,
     comment: 'code',
   })
   code: string;
 
   @Field(() => String, {
-    description: '描述',
+    description: '名称',
   })
   @Column({
-    comment: '描述',
+    type: 'varchar',
+    length: 40,
+    comment: '名称',
   })
-  description: string;
+  name: string;
 
   @Field(() => String, {
     description: '排序值',

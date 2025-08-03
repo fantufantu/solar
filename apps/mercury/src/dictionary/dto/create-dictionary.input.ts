@@ -2,8 +2,8 @@ import { InputType, PickType } from '@nestjs/graphql';
 import { Dictionary } from '@/libs/database/entities/mercury/dictionary.entity';
 
 @InputType()
-export class CreateDictionaryBy extends PickType(
+export class CreateDictionaryInput extends PickType(
   Dictionary,
-  ['code', 'description', 'sortBy'],
+  ['code', 'name', 'sortBy'],
   InputType,
 ) {}

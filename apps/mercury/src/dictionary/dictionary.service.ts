@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
 import { Dictionary } from '@/libs/database/entities/mercury/dictionary.entity';
 import { paginateQuery } from 'utils/query-builder';
-import type { CreateDictionaryBy } from './dto/create-dictionary-by.input';
-import type { QueryBy } from 'typings/controller';
-import type { UpdateDictionaryBy } from './dto/update-dictionary-by.input';
+import type { CreateDictionaryInput } from './dto/create-dictionary.input';
+import type { Query } from 'typings/controller';
+import type { UpdateDictionaryInput } from './dto/update-dictionary.input';
 
 @Injectable()
 export class DictionaryService {
@@ -15,19 +15,19 @@ export class DictionaryService {
   ) {}
 
   /**
-   * 创建字典
+   * @description 创建字典
    */
-  create(createBy: CreateDictionaryBy) {
+  create(input: CreateDictionaryInput) {
     return this.dictionaryRepository.save(
-      this.dictionaryRepository.create(createBy),
+      this.dictionaryRepository.create(input),
     );
   }
 
   /**
-   * 分页查询字典
+   * @description 分页查询字典
    */
-  getDictionaries(queryBy?: QueryBy<Dictionary>) {
-    return paginateQuery(this.dictionaryRepository, queryBy);
+  getDictionaries(query?: Query<Dictionary>) {
+    return paginateQuery(this.dictionaryRepository, query);
   }
 
   /**
@@ -40,12 +40,12 @@ export class DictionaryService {
   /**
    * 更新字典
    */
-  async update(id: number, updateBy: UpdateDictionaryBy) {
+  async update(id: number, input: UpdateDictionaryInput) {
     return !!(
       await this.dictionaryRepository
         .createQueryBuilder()
         .update()
-        .set(this.dictionaryRepository.create(updateBy))
+        .set(this.dictionaryRepository.create(input))
         .whereInIds(id)
         .execute()
     ).affected;

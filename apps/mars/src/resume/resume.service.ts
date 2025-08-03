@@ -8,7 +8,7 @@ import { User } from '@/libs/database/entities/mercury/user.entity';
 import { MercuryClientService } from '@/libs/mercury-client';
 import { AuthorizationResourceCode } from '@/libs/database/entities/mercury/authorization-resource.entity';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization-action.entity';
-import { PaginateBy } from 'assets/dto/paginate-by.input';
+import { PaginateBy } from 'assets/dto/pagination.input';
 
 @Injectable()
 export class ResumeService {

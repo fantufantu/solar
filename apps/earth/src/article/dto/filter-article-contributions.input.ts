@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class ArticleContributionsBy {
+export class FilterArticleContributionsInput {
   @Field(() => Date, { description: '开始时间' })
   from: Date;
 

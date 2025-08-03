@@ -7,14 +7,14 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { PaginateBy } from 'assets/dto/paginate-by.input';
+import { Pagination } from 'assets/dto/pagination.input';
 import { PaginatedRole } from './dto/paginated-roles.object';
 import { Role } from '@/libs/database/entities/mercury/role.entity';
 import { RoleService } from './role.service';
 import { CreateRoleInput } from './dto/create-role.input';
 import { UpdateRoleInput } from './dto/update-role.input';
 import { Permission } from 'utils/decorators/permission.decorator';
-import { Pagination } from 'utils/decorators/filter.decorator';
+import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver(() => Role)
@@ -33,25 +33,24 @@ export class RoleResolver {
   }
 
   @Query(() => PaginatedRole, {
-    name: 'roles',
     description: '分页查询角色',
   })
   @Permission({
     resource: Role.name,
     action: AuthorizationActionCode.Read,
   })
-  getRoles(@Pagination() paginateBy: PaginateBy) {
+  roles(@PaginationArgs() pagination: Pagination) {
     return this.roleService.getRoles({
-      paginateBy,
+      pagination,
     });
   }
 
-  @Query(() => Role, { name: 'role', description: '查询单个角色' })
+  @Query(() => Role, { description: '查询单个角色' })
   @Permission({
     resource: Role.name,
     action: AuthorizationActionCode.Read,
   })
-  getRole(@Args('id', { type: () => Int }) id: number) {
+  role(@Args('id', { type: () => Int }) id: number) {
     return this.roleService.getRole(id);
   }
 

@@ -10,7 +10,7 @@ import {
 import type { User } from '@/libs/database/entities/mercury/user.entity';
 import type { CreateRoleInput } from './dto/create-role.input';
 import type { UpdateRoleInput } from './dto/update-role.input';
-import type { QueryBy } from 'typings/controller';
+import type { Query } from 'typings/controller';
 import { Authorizing } from 'utils/decorators/permission.decorator';
 
 @Injectable()
@@ -32,8 +32,8 @@ export class RoleService {
   /**
    * 分页查询角色
    */
-  getRoles(queryBy?: QueryBy<Role>) {
-    return paginateQuery(this.roleRepository, queryBy);
+  getRoles(query?: Query<Role>) {
+    return paginateQuery(this.roleRepository, query);
   }
 
   /**

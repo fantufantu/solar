@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
 import { DictionaryEnum } from '@/libs/database/entities/mercury/dictionary-enum.entity';
 import { paginateQuery } from 'utils/query-builder';
-import type { QueryBy } from 'typings/controller';
-import type { CreateDictionaryEnumBy } from './dto/create-dictionary-enum-by.input';
-import type { UpdateDictionaryEnumBy } from './dto/update-dictionary-enum-by.input';
+import type { Query } from 'typings/controller';
+import type { CreateDictionaryEnumInput } from './dto/create-dictionary-enum.input';
+import type { UpdateDictionaryEnumInput } from './dto/update-dictionary-enum.input';
 
 @Injectable()
 export class DictionaryEnumService {
@@ -15,23 +15,23 @@ export class DictionaryEnumService {
   ) {}
 
   /**
-   * 创建字典枚举
+   * @description 创建字典枚举
    */
-  create(createBy: CreateDictionaryEnumBy) {
+  create(input: CreateDictionaryEnumInput) {
     return this.dictionaryEnumRepository.save(
-      this.dictionaryEnumRepository.create(createBy),
+      this.dictionaryEnumRepository.create(input),
     );
   }
 
   /**
-   * 分页查询字典枚举
+   * @description 分页查询字典枚举
    */
-  dictionaryEnums(queryBy?: QueryBy<DictionaryEnum>) {
-    return paginateQuery(this.dictionaryEnumRepository, queryBy);
+  dictionaryEnums(query?: Query<DictionaryEnum>) {
+    return paginateQuery(this.dictionaryEnumRepository, query);
   }
 
   /**
-   * 查询单个字典枚举
+   * @description 查询单个字典枚举
    */
   dictionaryEnum(id: number) {
     return this.dictionaryEnumRepository.findOneBy({ id });
@@ -40,19 +40,19 @@ export class DictionaryEnumService {
   /**
    * 更新单个字典枚举
    */
-  async update(id: number, updateBy: UpdateDictionaryEnumBy) {
+  async update(id: number, input: UpdateDictionaryEnumInput) {
     return !!(
       await this.dictionaryEnumRepository
         .createQueryBuilder()
         .update()
-        .set(this.dictionaryEnumRepository.create(updateBy))
+        .set(this.dictionaryEnumRepository.create(input))
         .whereInIds(id)
         .execute()
     ).affected;
   }
 
   /**
-   * 删除单个字典枚举
+   * @description 删除单个字典枚举
    */
   async remove(id: number) {
     return !!(

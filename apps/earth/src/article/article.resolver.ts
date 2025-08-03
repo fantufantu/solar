@@ -10,21 +10,21 @@ import {
 import { ArticleService } from './article.service';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
-import { CreateArticleBy } from './dto/create-article-by.input';
+import { CreateArticleInput } from './dto/create-article.input';
 import { User } from '@/libs/database/entities/earth/user.entity';
-import { UpdateArticleBy } from './dto/update-article-by.input';
+import { UpdateArticleInput } from './dto/update-article.input';
 import { PaginatedArticles } from './dto/paginated-articles.object';
-import { PaginateBy } from 'assets/dto/paginate-by.input';
-import { FilterArticlesBy } from './dto/filter-articles-by.input';
+import { Pagination } from 'assets/dto/pagination.input';
+import { FilterArticlesInput } from './dto/filter-articles.input';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 import { ArticleLoader } from './article.loader';
 import { Category } from '@/libs/database/entities/earth/category.entity';
 import { Article } from '@/libs/database/entities/earth/article.entity';
 import { ArticleContribution } from './dto/article-contribution.object';
-import { ArticleContributionsBy } from './dto/article-contributions-by.input';
+import { FilterArticleContributionsInput } from './dto/filter-article-contributions.input';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
-import { Pagination } from 'utils/decorators/filter.decorator';
-import { Filter } from 'utils/decorators/pagination.decorator';
+import { PaginationArgs } from 'utils/decorators/pagination.decorator';
+import { FilterArgs } from 'utils/decorators/filter.decorator';
 
 @Resolver(() => Article)
 export class ArticleResolver {
@@ -36,10 +36,10 @@ export class ArticleResolver {
   @Mutation(() => Article, { name: 'createArticle', description: '创建文章' })
   @UseGuards(JwtAuthGuard)
   async create(
-    @Args('createBy') createBy: CreateArticleBy,
+    @Args('input') input: CreateArticleInput,
     @WhoAmI() whoAmI: User,
   ) {
-    return await this.articleService.create(createBy, whoAmI.id);
+    return await this.articleService.create(input, whoAmI.id);
   }
 
   @Mutation(() => Boolean, {
@@ -52,10 +52,10 @@ export class ArticleResolver {
       type: () => Int,
     })
     id: number,
-    @Args('updateBy') updateBy: UpdateArticleBy,
+    @Args('input') input: UpdateArticleInput,
     @WhoAmI() whoAmI: User,
   ) {
-    return await this.articleService.update(id, updateBy, whoAmI.id);
+    return await this.articleService.update(id, input, whoAmI.id);
   }
 
   @Query(() => PaginatedArticles, {
@@ -64,15 +64,15 @@ export class ArticleResolver {
   })
   @UseInterceptors(PaginatedInterceptor)
   async getArticles(
-    @Pagination() paginateBy: PaginateBy,
-    @Filter({
-      type: () => FilterArticlesBy,
+    @PaginationArgs() pagination: Pagination,
+    @FilterArgs({
+      type: () => FilterArticlesInput,
     })
-    filterBy: FilterArticlesBy,
+    filter: FilterArticlesInput,
   ) {
     return await this.articleService.articles({
-      paginateBy,
-      filterBy,
+      pagination,
+      filter,
     });
   }
 
@@ -99,15 +99,14 @@ export class ArticleResolver {
   }
 
   @Query(() => [ArticleContribution], {
-    description: '获取指定时间段内文章贡献数',
+    description: '文章贡献数',
   })
   @UseGuards(JwtAuthGuard)
   async articleContributions(
-    @Args('queryBy')
-    queryBy: ArticleContributionsBy,
+    @FilterArgs() filter: FilterArticleContributionsInput,
     @WhoAmI() whoAmI: User,
   ) {
-    return this.articleService.articleContributions(queryBy, whoAmI.id);
+    return this.articleService.articleContributions(filter, whoAmI.id);
   }
 
   @ResolveField(() => [Category], {

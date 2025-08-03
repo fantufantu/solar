@@ -2,11 +2,11 @@ import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { DictionaryService } from './dictionary.service';
 import { Dictionary } from '@/libs/database/entities/mercury/dictionary.entity';
 import { PaginatedDictionaries } from './dto/paginated-dictionaries.object';
-import { PaginateBy } from 'assets/dto/paginate-by.input';
-import { CreateDictionaryBy } from './dto/create-dictionary-by.input';
-import { UpdateDictionaryBy } from './dto/update-dictionary-by.input';
+import { Pagination } from 'assets/dto/pagination.input';
+import { CreateDictionaryInput } from './dto/create-dictionary.input';
+import { UpdateDictionaryInput } from './dto/update-dictionary.input';
 import { Permission } from 'utils/decorators/permission.decorator';
-import { Pagination } from 'utils/decorators/filter.decorator';
+import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver()
@@ -18,8 +18,8 @@ export class DictionaryResolver {
     resource: Dictionary.name,
     action: AuthorizationActionCode.Create,
   })
-  createDictionary(@Args('createBy') createBy: CreateDictionaryBy) {
-    return this.dictionaryService.create(createBy);
+  createDictionary(@Args('input') input: CreateDictionaryInput) {
+    return this.dictionaryService.create(input);
   }
 
   @Query(() => PaginatedDictionaries, {
@@ -30,9 +30,9 @@ export class DictionaryResolver {
     resource: Dictionary.name,
     action: AuthorizationActionCode.Read,
   })
-  dictionaries(@Pagination() paginateBy: PaginateBy) {
+  dictionaries(@PaginationArgs() pagination: Pagination) {
     return this.dictionaryService.getDictionaries({
-      paginateBy,
+      pagination,
     });
   }
 
@@ -52,9 +52,9 @@ export class DictionaryResolver {
   })
   updateDictionary(
     @Args('id', { type: () => Int }) id: number,
-    @Args('updateBy') updateBy: UpdateDictionaryBy,
+    @Args('input') input: UpdateDictionaryInput,
   ) {
-    return this.dictionaryService.update(id, updateBy);
+    return this.dictionaryService.update(id, input);
   }
 
   @Mutation(() => Boolean, { description: '删除字典' })

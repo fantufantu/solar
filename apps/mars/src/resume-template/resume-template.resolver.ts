@@ -8,9 +8,9 @@ import { JwtAuthGuard } from '@/libs/passport/guards';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { PaginatedResumeTemplates } from './dto/paginated-resume-templates.object';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
-import { PaginateBy } from 'assets/dto/paginate-by.input';
+import { PaginateBy } from 'assets/dto/pagination.input';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
-import { Pagination } from 'utils/decorators/filter.decorator';
+import { Pagination } from 'utils/decorators/pagination.decorator';
 
 @Resolver(() => ResumeTemplate)
 export class ResumeTemplateResolver {

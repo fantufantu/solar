@@ -48,6 +48,9 @@ export class User extends IdentifiedTimeStamped {
   @Column({
     unique: true,
     name: 'email_address',
+    type: 'varchar',
+    length: 128,
+    comment: '邮箱地址',
   })
   @IsEmail()
   emailAddress: string;
@@ -58,11 +61,17 @@ export class User extends IdentifiedTimeStamped {
   })
   @Column({
     nullable: true,
+    type: 'varchar',
+    length: 128,
+    comment: '头像',
   })
   avatar?: string;
 
   @Column({
     select: false,
+    comment: '密码',
+    type: 'varchar',
+    length: 60,
   })
   @MaxLength(20)
   @MinLength(6)

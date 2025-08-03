@@ -30,6 +30,8 @@ export class Authorization extends IdentifiedTracked {
   @Column({
     name: 'tenant_code',
     comment: '租户`code`',
+    type: 'varchar',
+    length: 40,
   })
   tenantCode: string;
 
@@ -39,6 +41,8 @@ export class Authorization extends IdentifiedTracked {
   @Column({
     name: 'resource_code',
     comment: '资源`code`',
+    type: 'varchar',
+    length: 40,
   })
   resourceCode: string;
 

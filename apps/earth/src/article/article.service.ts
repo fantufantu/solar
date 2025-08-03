@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { CreateArticleBy } from './dto/create-article-by.input';
+import { CreateArticleInput } from './dto/create-article.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from '@/libs/database/entities/earth/article.entity';
 import { Repository } from 'typeorm';
-import { UpdateArticleBy } from './dto/update-article-by.input';
-import { FilterArticlesBy } from './dto/filter-articles-by.input';
-import { QueryBy } from 'typings/controller';
+import { UpdateArticleInput } from './dto/update-article.input';
+import { FilterArticlesInput } from './dto/filter-articles.input';
+import { Query } from 'typings/controller';
 import { ArticleWithCategory } from '@/libs/database/entities/earth/article-with-category.entity';
 import { isEmpty } from '@aiszlab/relax';
-import { ArticleContributionsBy } from './dto/article-contributions-by.input';
+import { FilterArticleContributionsInput } from './dto/filter-article-contributions.input';
 import dayjs from 'dayjs';
 import { ArticleContribution } from './dto/article-contribution.object';
 
@@ -25,8 +25,8 @@ export class ArticleService {
    * @description
    * 创建文章
    */
-  async create(createBy: CreateArticleBy, createdById: number) {
-    const { categoryCodes, ..._article } = createBy;
+  async create(input: CreateArticleInput, createdById: number) {
+    const { categoryCodes, ..._article } = input;
 
     const article = await this.articleRepository.save(
       this.articleRepository.create({
@@ -56,7 +56,7 @@ export class ArticleService {
    * @param updateBy 更新文章信息
    * @param updatedById 更新者id
    */
-  async update(id: number, updateBy: UpdateArticleBy, updatedById: number) {
+  async update(id: number, updateBy: UpdateArticleInput, updatedById: number) {
     const { categoryCodes, ...article } = updateBy;
 
     // 更新文章
@@ -104,9 +104,9 @@ export class ArticleService {
    * 分页查询文章列表
    */
   async articles({
-    paginateBy: { limit, page } = { limit: 10, page: 1 },
-    filterBy: { categoryCodes = [] } = {},
-  }: QueryBy<FilterArticlesBy> = {}) {
+    pagination: { limit, page } = { limit: 10, page: 1 },
+    filter: { categoryCodes = [] } = {},
+  }: Query<FilterArticlesInput> = {}) {
     const _sqb = this.articleRepository.createQueryBuilder('article');
 
     if (categoryCodes.length > 0) {
@@ -159,7 +159,7 @@ export class ArticleService {
    * 指定时间段内文章贡献数
    */
   async articleContributions(
-    { from, to }: ArticleContributionsBy,
+    { from, to }: FilterArticleContributionsInput,
     who: number,
   ) {
     // 性能考虑：不允许超过1年时间查询

@@ -4,7 +4,7 @@ import { UpdateResumeTemplateInput } from './dto/update-resume-template.input';
 import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PaginateBy } from 'assets/dto/paginate-by.input';
+import { PaginateBy } from 'assets/dto/pagination.input';
 
 @Injectable()
 export class ResumeTemplateService {

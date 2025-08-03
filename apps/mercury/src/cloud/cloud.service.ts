@@ -22,7 +22,7 @@ export class CloudService {
    * @description
    * 获取腾讯云COS临时秘钥
    */
-  async getCredential(): Promise<Credential> {
+  async credential(): Promise<Credential> {
     const [secretId, secretKey, bucket, region] =
       await this.plutoClient.getConfigurations<
         [string, string, string, string]

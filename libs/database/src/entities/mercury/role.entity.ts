@@ -12,6 +12,8 @@ export class Role extends IdentifiedTimeStamped {
   @Field(() => String, { description: '角色名称' })
   @Column({
     comment: '角色名称',
+    type: 'varchar',
+    length: 40,
   })
   name: string;
 

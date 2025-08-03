@@ -11,7 +11,7 @@ export class Tenant extends TimeStamped {
   @Field(() => String, { description: '租户`code`' })
   @PrimaryColumn({
     type: 'varchar',
-    length: 10,
+    length: 40,
     comment: '租户`code`',
   })
   @MaxLength(10)
@@ -20,7 +20,7 @@ export class Tenant extends TimeStamped {
   @Field(() => String, { description: '租户名称' })
   @Column({
     type: 'varchar',
-    length: 20,
+    length: 40,
     comment: '租户名称',
   })
   @MaxLength(20)

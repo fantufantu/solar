@@ -1,11 +1,14 @@
-import { Args } from '@nestjs/graphql';
+import { Args, ArgsOptions } from '@nestjs/graphql';
 
 /**
- * 分页参数
+ * @description 筛选参数
  */
-export const Pagination = () => {
-  return Args('paginateBy', {
+export const FilterArgs = (
+  options?: Pick<ArgsOptions, 'type' | 'nullable'>,
+) => {
+  return Args('filter', {
     nullable: true,
-    description: '分页参数',
+    description: '筛选参数',
+    ...options,
   });
 };

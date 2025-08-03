@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { paginateQuery } from 'utils/query-builder';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 import { AuthorizeBy } from './dto/authorize-by.input';
-import type { QueryBy } from 'typings/controller';
+import type { Query } from 'typings/controller';
 import type { Repository } from 'typeorm';
 
 @Injectable()
@@ -14,11 +14,10 @@ export class AuthorizationService {
   ) {}
 
   /**
-   * @description
-   * 分页查询权限
+   * @description 分页查询权限
    */
-  getAuthorizations(queryBy?: QueryBy<Authorization>) {
-    return paginateQuery(this.authorizationRepository, queryBy);
+  getAuthorizations(query?: Query<Authorization>) {
+    return paginateQuery(this.authorizationRepository, query);
   }
 
   /**

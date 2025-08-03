@@ -19,12 +19,14 @@ export class Dictionary extends TimeStamped {
   code: string;
 
   @Field(() => String, {
-    description: '描述',
+    description: '名称',
   })
   @Column({
-    comment: '描述',
+    comment: '名称',
+    type: 'varchar',
+    length: 40,
   })
-  description: string;
+  name: string;
 
   @Field(() => Int, {
     description: '排序',

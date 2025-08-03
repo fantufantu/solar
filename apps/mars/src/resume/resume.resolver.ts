@@ -9,8 +9,8 @@ import { User } from '@/libs/database/entities/mercury/user.entity';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { Paginated } from 'assets/dto/paginated.factory';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
-import { Pagination } from 'utils/decorators/filter.decorator';
-import { PaginateBy } from 'assets/dto/paginate-by.input';
+import { Pagination } from 'utils/decorators/pagination.decorator';
+import { PaginateBy } from 'assets/dto/pagination.input';
 
 @Resolver(() => Resume)
 export class ResumeResolver {

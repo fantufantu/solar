@@ -6,7 +6,7 @@ import { Article } from '@/libs/database/entities/earth/article.entity';
  * 创建文章
  */
 @InputType()
-export class CreateArticleBy extends PickType(
+export class CreateArticleInput extends PickType(
   Article,
   ['title', 'content', 'cover'],
   InputType,
