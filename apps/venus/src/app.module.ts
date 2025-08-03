@@ -26,7 +26,7 @@ import { MercuryClientModule } from '@/libs/mercury-client';
       },
     }),
     // 数据库
-    DatabaseModule.forRoot(ApplicationToken.Venus, { synchronize: true }),
+    DatabaseModule.forRoot(ApplicationToken.Venus),
     // 鉴权
     PassportModule,
     // 用户信息

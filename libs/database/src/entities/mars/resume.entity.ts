@@ -46,6 +46,8 @@ export class Resume extends Tracked {
   @Column({
     name: 'default_template_code',
     comment: '默认简历模板`code`',
+    type: 'varchar',
+    length: 40,
   })
   defaultTemplateCode: string;
 

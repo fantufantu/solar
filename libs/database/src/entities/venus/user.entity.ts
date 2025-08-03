@@ -1,4 +1,4 @@
-import { Directive, Field, Int, ObjectType } from '@nestjs/graphql';
+import { Directive, Field, Int, ObjectType, OmitType } from '@nestjs/graphql';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
 import { TimeStamped } from '../any-use/time-stamped.entity';
@@ -6,7 +6,7 @@ import { TimeStamped } from '../any-use/time-stamped.entity';
 @ObjectType()
 @Directive('@key(fields: "id")')
 @Entity()
-export class User extends TimeStamped {
+export class User extends OmitType(TimeStamped, ['createdAt', 'updatedAt']) {
   @Field(() => Int, {
     description: '用户`id`',
   })
@@ -17,12 +17,13 @@ export class User extends TimeStamped {
 
   @Field(() => Int, {
     nullable: true,
-    description: '默认账本 id',
+    description: '默认账本`id`',
   })
   @Column({
     nullable: true,
     name: 'default_billing_id',
     type: 'int',
+    comment: '默认账本`id`',
   })
   defaultBillingId?: number | null;
 

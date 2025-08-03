@@ -1,11 +1,11 @@
-import { Directive, Field, Int, ObjectType } from '@nestjs/graphql';
-import { Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Directive, Field, Int, ObjectType, OmitType } from '@nestjs/graphql';
+import { Entity, PrimaryColumn } from 'typeorm';
 import { TimeStamped } from '../any-use/time-stamped.entity';
 
 @ObjectType()
 @Directive('@key(fields: "id")')
 @Entity()
-export class User extends TimeStamped {
+export class User extends OmitType(TimeStamped, ['createdAt', 'updatedAt']) {
   @Field(() => Int, {
     description: '用户`id`',
   })

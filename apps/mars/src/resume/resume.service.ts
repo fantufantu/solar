@@ -6,9 +6,8 @@ import { Resume } from '@/libs/database/entities/mars/resume.entity';
 import { Brackets, Repository } from 'typeorm';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { MercuryClientService } from '@/libs/mercury-client';
-import { AuthorizationResourceCode } from '@/libs/database/entities/mercury/authorization-resource.entity';
-import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization-action.entity';
-import { PaginateBy } from 'assets/dto/pagination.input';
+import { Pagination } from 'assets/dto/pagination.input';
+import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Injectable()
 export class ResumeService {
@@ -19,7 +18,7 @@ export class ResumeService {
   ) {}
 
   /**
-   * 新建简历
+   * @description 新建简历
    */
   async create(createResumeInput: CreateResumeInput, who: User) {
     return await this.resumeRepository.save(
@@ -31,7 +30,7 @@ export class ResumeService {
   }
 
   /**
-   * 更新简历
+   * @description 更新简历
    */
   async update(id: number, updateResumeInput: UpdateResumeInput, who: User) {
     return (
@@ -83,9 +82,9 @@ export class ResumeService {
    * 1. 如果当前用户是管理员，则返回所有简历；
    * 2. 如果当前用户是普通用户，则返回当前用户的简历；
    */
-  async resumes(who: number, { limit, page }: PaginateBy) {
+  async resumes(who: number, { limit, page }: Pagination) {
     const isAdmin = await this.mercuryClientService.isAuthorized(who, {
-      resource: AuthorizationResourceCode.Authorization,
+      resource: Resume.name,
       action: AuthorizationActionCode.All,
     });
 

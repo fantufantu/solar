@@ -1,12 +1,12 @@
 import { ObjectType, Field, Float, Int } from '@nestjs/graphql';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
 import { Category } from './category.entity';
 import { Billing } from './billing.entity';
+import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
 
 @ObjectType()
 @Entity()
-export class Transaction extends IdentifiedTimeStamped {
+export class Transaction extends IdentifiedTracked {
   @Field(() => Int, {
     description: '账本`id`',
   })
@@ -24,10 +24,11 @@ export class Transaction extends IdentifiedTimeStamped {
   billing: Billing;
 
   @Field(() => Int, {
-    description: '分类id',
+    description: '分类`id`',
   })
   @Column({
     name: 'category_id',
+    comment: '分类`id`',
   })
   categoryId: number;
 
@@ -43,13 +44,9 @@ export class Transaction extends IdentifiedTimeStamped {
     type: 'decimal',
     precision: 11,
     scale: 2,
+    comment: '交易金额',
   })
   amount: number;
-
-  @Column({
-    name: 'created_by_id',
-  })
-  createdById: number;
 
   @Field(() => String, {
     description: '备注',
@@ -57,7 +54,8 @@ export class Transaction extends IdentifiedTimeStamped {
   })
   @Column({
     nullable: true,
-    type: 'longtext',
+    type: 'tinytext',
+    comment: '备注',
   })
   remark: string;
 
@@ -66,6 +64,7 @@ export class Transaction extends IdentifiedTimeStamped {
   })
   @Column({
     name: 'happened_at',
+    comment: '发生时间',
   })
   happenedAt: Date;
 }

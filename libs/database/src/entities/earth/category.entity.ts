@@ -19,9 +19,9 @@ import { TimeStamped } from '../any-use/time-stamped.entity';
 @Entity()
 export class Category extends TimeStamped {
   @Field(() => String, {
-    description: '分类code',
+    description: '分类`code`',
   })
-  @PrimaryColumn({ type: 'varchar', length: 40 })
+  @PrimaryColumn({ type: 'varchar', length: 40, comment: '分类`code`' })
   @IsString()
   @MaxLength(40)
   code: string;
@@ -29,15 +29,23 @@ export class Category extends TimeStamped {
   @Field(() => String, {
     description: '名称',
   })
-  @Column()
+  @Column({
+    comment: '名称',
+    type: 'varchar',
+    length: 40,
+  })
   @IsString()
   @MaxLength(20)
   name: string;
 
   @Field(() => String, {
-    description: '图片地址',
+    description: '图片',
   })
-  @Column()
+  @Column({
+    comment: '图片',
+    type: 'varchar',
+    length: 128,
+  })
   image: string;
 
   @OneToMany(() => ArticleWithCategory, (_) => _.category)

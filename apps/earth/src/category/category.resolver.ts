@@ -64,24 +64,24 @@ export class CategoryResolver {
   })
   @UseGuards(JwtAuthGuard)
   async remove(
-    @Args('id', {
-      type: () => Int,
+    @Args('code', {
+      type: () => String,
     })
-    id: number,
+    code: string,
   ) {
-    return await this.categoryService.remove(id);
+    return await this.categoryService.remove(code);
   }
 
   @Query(() => Category, {
     name: 'articleCategory',
     description: '查询文章分类',
   })
-  async getCategory(
-    @Args('id', {
-      type: () => Int,
+  async articleCategory(
+    @Args('code', {
+      type: () => String,
     })
-    id: number,
+    code: string,
   ) {
-    return await this.categoryService.getCategory(id);
+    return await this.categoryService.category(code);
   }
 }

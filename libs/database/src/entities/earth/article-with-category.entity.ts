@@ -7,6 +7,7 @@ import { Category } from './category.entity';
 export class ArticleWithCategory extends IdentifiedTimeStamped {
   @Column({
     name: 'article_id',
+    comment: '文章`id`',
   })
   articleId: number;
 
@@ -16,6 +17,9 @@ export class ArticleWithCategory extends IdentifiedTimeStamped {
 
   @Column({
     name: 'category_code',
+    comment: '分类`code`',
+    type: 'varchar',
+    length: 40,
   })
   categoryCode: string;
 

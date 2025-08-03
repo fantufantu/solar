@@ -9,6 +9,8 @@ export class Billing extends IdentifiedTracked {
   @Field(() => String, { description: '账本名称' })
   @Column({
     comment: '账本名称',
+    type: 'varchar',
+    length: 40,
   })
   name: string;
 

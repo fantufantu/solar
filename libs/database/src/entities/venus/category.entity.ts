@@ -9,7 +9,7 @@ export class Category extends IdentifiedTimeStamped {
   @Field(() => String, { description: '名称' })
   @Column({
     type: 'varchar',
-    length: 100,
+    length: 40,
     comment: '名称',
   })
   name: string;

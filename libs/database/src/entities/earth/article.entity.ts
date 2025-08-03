@@ -11,17 +11,24 @@ export class Article extends IdentifiedTracked {
   @Field(() => String, {
     description: '标题',
   })
-  @Column()
+  @Column({
+    comment: '标题',
+    type: 'varchar',
+    length: 40,
+  })
   title: string;
 
   @Field(() => String, {
     description: '正文',
   })
-  @Column('longtext')
+  @Column({
+    type: 'longtext',
+    comment: '正文',
+  })
   content: string;
 
-  @Field(() => String, { nullable: true, description: '封面地址' })
-  @Column({ nullable: true })
+  @Field(() => String, { nullable: true, description: '封面' })
+  @Column({ nullable: true, comment: '封面', type: 'varchar', length: 128 })
   cover?: string;
 
   @OneToMany(() => ArticleWithCategory, (_) => _.article)

@@ -29,8 +29,9 @@ export class ResumeTemplate extends Tracked {
     description: '模板封面地址',
   })
   @Column({
-    type: 'text',
+    type: 'varchar',
     comment: '模板封面地址',
+    length: 128,
   })
   cover: string;
 }

@@ -8,9 +8,9 @@ import { JwtAuthGuard } from '@/libs/passport/guards';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { PaginatedResumeTemplates } from './dto/paginated-resume-templates.object';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
-import { PaginateBy } from 'assets/dto/pagination.input';
+import { Pagination } from 'assets/dto/pagination.input';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
-import { Pagination } from 'utils/decorators/pagination.decorator';
+import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 
 @Resolver(() => ResumeTemplate)
 export class ResumeTemplateResolver {
@@ -52,8 +52,8 @@ export class ResumeTemplateResolver {
 
   @Query(() => PaginatedResumeTemplates, { description: '简历模板列表' })
   @UseInterceptors(PaginatedInterceptor)
-  resumeTemplates(@Pagination() paginateBy: PaginateBy) {
-    return this.resumeTemplateService.resumeTemplates({ paginateBy });
+  resumeTemplates(@PaginationArgs() pagination: Pagination) {
+    return this.resumeTemplateService.resumeTemplates({ pagination });
   }
 
   @Query(() => ResumeTemplate, { description: '简历模板详情' })
