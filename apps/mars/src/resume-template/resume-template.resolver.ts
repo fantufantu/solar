@@ -19,26 +19,22 @@ export class ResumeTemplateResolver {
   @UseGuards(JwtAuthGuard)
   @Mutation(() => ResumeTemplate, { description: '创建简历模板' })
   createResumeTemplate(
-    @Args('createResumeTemplateInput')
-    createResumeTemplateInput: CreateResumeTemplateInput,
+    @Args('input')
+    input: CreateResumeTemplateInput,
     @WhoAmI() who: User,
   ) {
-    return this.resumeTemplateService.create(createResumeTemplateInput, who.id);
+    return this.resumeTemplateService.create(input, who.id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Boolean, { description: '更新简历模板' })
   updateResumeTemplate(
     @Args('code', { type: () => String }) code: string,
-    @Args('updateResumeTemplateInput')
-    updateResumeTemplateInput: UpdateResumeTemplateInput,
+    @Args('input')
+    input: UpdateResumeTemplateInput,
     @WhoAmI() who: User,
   ) {
-    return this.resumeTemplateService.update(
-      code,
-      updateResumeTemplateInput,
-      who.id,
-    );
+    return this.resumeTemplateService.update(code, input, who.id);
   }
 
   @UseGuards(JwtAuthGuard)

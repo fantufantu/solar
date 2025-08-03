@@ -20,10 +20,10 @@ export class ResumeService {
   /**
    * @description 新建简历
    */
-  async create(createResumeInput: CreateResumeInput, who: User) {
+  async create(input: CreateResumeInput, who: User) {
     return await this.resumeRepository.save(
       this.resumeRepository.create({
-        ...createResumeInput,
+        ...input,
         createdById: who.id,
       }),
     );
@@ -32,11 +32,11 @@ export class ResumeService {
   /**
    * @description 更新简历
    */
-  async update(id: number, updateResumeInput: UpdateResumeInput, who: User) {
+  async update(id: number, input: UpdateResumeInput, who: User) {
     return (
       ((
         await this.resumeRepository.update(id, {
-          ...updateResumeInput,
+          ...input,
           updatedById: who.id,
         })
       ).affected ?? 0) > 0

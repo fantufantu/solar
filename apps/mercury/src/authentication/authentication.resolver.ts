@@ -15,21 +15,19 @@ export class AuthenticationResolver {
 
   @Mutation(() => String, { description: '登录' })
   @UseInterceptors(AuthenticatedInterceptor)
-  login(@Args('loginInput') loginInput: LoginInput) {
-    return this.authenticationService.login(loginInput);
+  login(@Args('input') input: LoginInput) {
+    return this.authenticationService.login(input);
   }
 
   @Mutation(() => String, { description: '注册' })
   @UseInterceptors(AuthenticatedInterceptor)
-  register(@Args('registerInput') registerInput: RegisterInput) {
-    return this.authenticationService.register(registerInput);
+  register(@Args('input') input: RegisterInput) {
+    return this.authenticationService.register(input);
   }
 
   @Mutation(() => Boolean, { description: '修改密码' })
-  changePassword(
-    @Args('changePasswordInput') changePasswordInput: ChangePasswordInput,
-  ) {
-    return this.authenticationService.changePassword(changePasswordInput);
+  changePassword(@Args('input') input: ChangePasswordInput) {
+    return this.authenticationService.changePassword(input);
   }
 
   @Mutation(() => Boolean, { description: '注销' })

@@ -27,9 +27,9 @@ export class AuthenticationService {
    * @description
    * 登录
    */
-  async login(loginInput: LoginInput) {
+  async login(input: LoginInput) {
     // 匹配用户信息
-    const user = await this.getValidUser(loginInput);
+    const user = await this.getValidUser(input);
     // 加密生成token
     return [this.passportService.sign(user.id), user.id];
   }
@@ -38,14 +38,14 @@ export class AuthenticationService {
    * @description
    * 注册
    */
-  async register(registerInput: RegisterInput) {
+  async register(input: RegisterInput) {
     // 邮箱验证
     await this.userService.verify({
-      who: registerInput.emailAddress,
-      captcha: registerInput.captcha,
+      who: input.emailAddress,
+      captcha: input.captcha,
     });
     // 用户注册
-    const user = await this.signUp(registerInput);
+    const user = await this.signUp(input);
     // 加密生成token
     return [this.passportService.sign(user.id), user.id];
   }
@@ -54,9 +54,9 @@ export class AuthenticationService {
    * @description
    * 验证用户名/密码
    */
-  async getValidUser(loginInput: LoginInput) {
+  async getValidUser(input: LoginInput) {
     // 根据关键字获取用户
-    const user = await this.userService.getUser(loginInput.who, {
+    const user = await this.userService.getUser(input.who, {
       select: {
         id: true,
         password: true,
@@ -68,7 +68,7 @@ export class AuthenticationService {
     // 校验密码
     const isPasswordValid = compareSync(
       this.decryptByRsaPrivateKey(
-        loginInput.password,
+        input.password,
         await this.plutoClient.getConfiguration<string>({
           token: ConfigurationRegisterToken.Rsa,
           property: RsaPropertyToken.PrivateKey,
@@ -88,8 +88,7 @@ export class AuthenticationService {
    * @description
    * 创建用户
    */
-  async signUp(registerInput: RegisterInput) {
-    const { password, ..._registerInput } = registerInput;
+  async signUp({ password, ..._registerInput }: RegisterInput) {
     // 注册密码解密
     const decryptedPassword = password
       ? this.decryptByRsaPrivateKey(

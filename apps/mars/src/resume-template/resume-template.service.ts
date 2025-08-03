@@ -16,13 +16,10 @@ export class ResumeTemplateService {
   /**
    * @description 创建简历模板
    */
-  async create(
-    createResumeTemplateInput: CreateResumeTemplateInput,
-    who: number,
-  ) {
+  async create(input: CreateResumeTemplateInput, who: number) {
     return await this.resumeTemplateRepository.save(
       this.resumeTemplateRepository.create({
-        ...createResumeTemplateInput,
+        ...input,
         createdById: who,
       }),
     );
@@ -31,15 +28,11 @@ export class ResumeTemplateService {
   /**
    * @description 更新简历模板
    */
-  async update(
-    code: string,
-    updateResumeTemplateInput: UpdateResumeTemplateInput,
-    who: number,
-  ) {
+  async update(code: string, input: UpdateResumeTemplateInput, who: number) {
     return !!(await this.resumeTemplateRepository.save(
       this.resumeTemplateRepository.create({
         code,
-        ...updateResumeTemplateInput,
+        ...input,
         updatedById: who,
       }),
     ));

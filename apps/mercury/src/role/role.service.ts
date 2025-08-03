@@ -21,34 +21,33 @@ export class RoleService {
   ) {}
 
   /**
-   * 创建角色
+   * @description 创建角色
    */
-  create(createRoleInput: CreateRoleInput) {
-    return this.roleRepository.save(
-      this.roleRepository.create(createRoleInput),
-    );
+  create(input: CreateRoleInput) {
+    return this.roleRepository.save(this.roleRepository.create(input));
   }
 
   /**
-   * 分页查询角色
+   * @description 分页查询角色
    */
   getRoles(query?: Query<Role>) {
     return paginateQuery(this.roleRepository, query);
   }
 
   /**
-   * 查询单个角色
+   * @description 查询单个角色
    */
   getRole(id: number) {
     return this.roleRepository.findOneBy({ id });
   }
 
   /**
-   * 更新角色
+   * @description 更新角色
    */
-  async update(id: number, updateRoleInput: UpdateRoleInput) {
-    const { userIds, authorizationIds, ..._updateRoleInput } = updateRoleInput;
-
+  async update(
+    id: number,
+    { userIds, authorizationIds, ...input }: UpdateRoleInput,
+  ) {
     // 更新关联的用户
     userIds?.length &&
       (await this.roleRepository
@@ -79,14 +78,14 @@ export class RoleService {
       await this.roleRepository
         .createQueryBuilder()
         .update()
-        .set(this.roleRepository.create(_updateRoleInput))
+        .set(this.roleRepository.create(input))
         .whereInIds(id)
         .execute()
     ).affected;
   }
 
   /**
-   * 删除角色
+   * @description 删除角色
    */
   async remove(id: number) {
     return !!(
@@ -99,7 +98,7 @@ export class RoleService {
   }
 
   /**
-   * 查询角色关联的用户ids
+   * @description 查询角色关联的用户`id`列表
    */
   async getUserIds(id: number) {
     return (
@@ -126,8 +125,7 @@ export class RoleService {
 
   /**
    * 鉴权
-   * @description
-   * 如果是资源管理员权限，也认为有权限
+   * @description 如果是资源管理员权限，也认为有权限
    */
   async isAuthorized(userId: number, authorizing: Authorizing) {
     const qb = this.roleRepository
@@ -149,8 +147,7 @@ export class RoleService {
 
   /**
    * 获取当前用户对应的权限资源
-   * @description
-   * 获取当前用户对应的角色 -> 根据角色获取角色关联的权限资源
+   * @description 获取当前用户对应的角色 -> 根据角色获取角色关联的权限资源
    */
   async getResourceCodesByUserId(id: number, tenantCode?: string) {
     const qb = this.roleRepository

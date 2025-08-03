@@ -28,8 +28,8 @@ export class RoleResolver {
     resource: Role.name,
     action: AuthorizationActionCode.Create,
   })
-  createRole(@Args('createRoleInput') createRoleInput: CreateRoleInput) {
-    return this.roleService.create(createRoleInput);
+  createRole(@Args('input') input: CreateRoleInput) {
+    return this.roleService.create(input);
   }
 
   @Query(() => PaginatedRole, {
@@ -66,9 +66,9 @@ export class RoleResolver {
       type: () => Int,
     })
     id: number,
-    @Args('updateRoleInput') updateRoleInput: UpdateRoleInput,
+    @Args('input') input: UpdateRoleInput,
   ) {
-    return this.roleService.update(id, updateRoleInput);
+    return this.roleService.update(id, input);
   }
 
   @Mutation(() => Boolean, {
