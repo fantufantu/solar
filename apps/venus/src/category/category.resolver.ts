@@ -2,14 +2,14 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UseInterceptors } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { Category } from '@/libs/database/entities/venus/category.entity';
-import { CreateCategoryBy } from './dto/create-category-by.input';
-import { UpdateCategoryBy } from './dto/update-category-by.input';
-import { FilterCategoriesBy } from './dto/filter-categories-by.input';
-import { PaginateBy } from 'assets/dto/pagination.input';
+import { CreateTransactionCategoryInput } from './dto/create-category.input';
+import { UpdateTransactionCategoryInput } from './dto/update-category.input';
+import { FilterTransactionCategoryInput } from './dto/filter-categories.input';
+import { Pagination } from 'assets/dto/pagination.input';
 import { PaginatedCategories } from './dto/paginated-categories.object';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
-import { Pagination } from 'utils/decorators/pagination.decorator';
-import { Filter } from 'utils/decorators/filter.decorator';
+import { PaginationArgs } from 'utils/decorators/pagination.decorator';
+import { FilterArgs } from 'utils/decorators/filter.decorator';
 
 @Resolver(() => Category)
 export class CategoryResolver {
@@ -19,33 +19,31 @@ export class CategoryResolver {
     name: 'createTransactionCategory',
     description: '创建交易分类',
   })
-  create(@Args('createBy') createBy: CreateCategoryBy) {
-    return this.categoryService.create(createBy);
+  create(@Args('input') input: CreateTransactionCategoryInput) {
+    return this.categoryService.create(input);
   }
 
   @Query(() => PaginatedCategories, {
-    name: 'transactionCategories',
     description: '分页查询交易分类',
   })
   @UseInterceptors(PaginatedInterceptor)
-  getCategories(
-    @Pagination() paginateBy: PaginateBy,
-    @Filter() filterBy: FilterCategoriesBy,
+  transactionCategories(
+    @PaginationArgs() pagination: Pagination,
+    @FilterArgs() filter: FilterTransactionCategoryInput,
   ) {
-    return this.categoryService.getCategories({
-      paginateBy,
-      filterBy,
+    return this.categoryService.categories({
+      pagination,
+      filter,
     });
   }
 
   @Query(() => Category, {
-    name: 'transactionCategory',
     description: '查询单个交易分类',
   })
-  getCategory(
+  transactionCategory(
     @Args('id', { type: () => Int, description: '交易分类id' }) id: number,
   ) {
-    return this.categoryService.getCategory(id);
+    return this.categoryService.category(id);
   }
 
   @Mutation(() => Boolean, {
@@ -58,12 +56,12 @@ export class CategoryResolver {
       description: '交易分类id',
     })
     id: number,
-    @Args('updateBy', {
+    @Args('input', {
       description: '交易分类',
     })
-    updateBy: UpdateCategoryBy,
+    input: UpdateTransactionCategoryInput,
   ) {
-    return this.categoryService.update(id, updateBy);
+    return this.categoryService.update(id, input);
   }
 
   @Mutation(() => Boolean, {

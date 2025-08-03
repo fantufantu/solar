@@ -8,7 +8,7 @@ import {
   ResolveReference,
 } from '@nestjs/graphql';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
-import { SetDefaultBillingBy } from './dto/set-default-billing-by.input';
+import { UpdateDefaultBillingInput } from './dto/update-default-billing.input';
 import { User } from '@/libs/database/entities/venus/user.entity';
 import { UserLoader } from './user.loader';
 import { UserService } from './user.service';
@@ -26,11 +26,11 @@ export class UserResolver {
     description: '设置默认账本',
   })
   @UseGuards(JwtAuthGuard)
-  setDefaultBilling(
-    @Args('setBy') setBy: SetDefaultBillingBy,
+  updateDefaultBilling(
+    @Args('input') input: UpdateDefaultBillingInput,
     @WhoAmI() whoAmI: User,
   ) {
-    return this.userService.setDefaultBilling(setBy, whoAmI.id);
+    return this.userService.updateDefaultBilling(input, whoAmI.id);
   }
 
   @ResolveField('defaultBilling', () => Billing, {

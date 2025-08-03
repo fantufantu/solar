@@ -1,9 +1,9 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
-export class SetDefaultBillingBy {
+export class UpdateDefaultBillingInput {
   @Field(() => Int, {
-    description: '账本ID',
+    description: '账本`id`',
   })
   id: number;
 

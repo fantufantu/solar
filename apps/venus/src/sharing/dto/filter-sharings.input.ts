@@ -1,6 +1,6 @@
 import { TargetType } from '@/libs/database/entities/venus/sharing.entity';
 
-export class FilterSharingsBy {
+export class FilterSharingsInput {
   /**
    * @description
    * 目标类型

@@ -1,7 +1,7 @@
 import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class TransactionAmountGroupedByCategory {
+export class TransactionsAmount {
   @Field(() => Int, {
     description: '分类id',
   })

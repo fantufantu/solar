@@ -17,7 +17,7 @@ export class BillingLoader {
   public readonly getSharingsByBillingId = new DataLoader<number, Sharing[]>(
     async (billingIds: number[]) => {
       // 查询分享列表
-      const sharings = await this.sharingService.getSharings({
+      const sharings = await this.sharingService.sharings({
         targetType: TargetType.Billing,
         targetIds: billingIds,
       });

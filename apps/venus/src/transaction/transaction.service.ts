@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
-import { CreateTransactionBy } from './dto/create-transaction-by.input';
-import { FilterTransactionsBy } from './dto/filter-transactions-by.input';
-import { UpdateTransactionBy } from './dto/update-transaction-by.input';
+import { CreateTransactionInput } from './dto/create-transaction.input';
+import { FilterTransactionsInput } from './dto/filter-transactions.input';
+import { UpdateTransactionInput } from './dto/update-transaction.input';
 import { Transaction } from '@/libs/database/entities/venus/transaction.entity';
 import { paginateQuery } from 'utils/query-builder';
-import { GroupTransactionAmountByCategory } from './dto/group-transaction-amount-by-category.input';
-import { QueryBy } from 'typings/controller';
-import { TransactionAmountGroupedByCategory } from './dto/transaction-amount-grouped-by-category';
+import { FilterTransactionsAmountInput } from './dto/filter-transactions-amount.input';
+import { Query } from 'typings/controller';
+import { TransactionsAmount } from './dto/transactions-amount.object';
 
 @Injectable()
 export class TransactionService {
@@ -21,10 +21,10 @@ export class TransactionService {
    * @author murukal
    * @description 创建交易
    */
-  create(createTransactionBy: CreateTransactionBy, createdById: number) {
+  create(input: CreateTransactionInput, createdById: number) {
     return this.transactionRepository.save(
       this.transactionRepository.create({
-        ...createTransactionBy,
+        ...input,
         createdById,
       }),
     );
@@ -32,17 +32,15 @@ export class TransactionService {
 
   /**
    * @author murukal
-   * @description
-   * 查询交易列表
+   * @description 查询交易列表
    */
-  getTransactions({ filterBy, ..._queryBy }: QueryBy<FilterTransactionsBy>) {
-    const { categoryIds, happenedFrom, happenedTo, ..._filterBy } =
-      filterBy || {};
+  transactions({ filter, ..._query }: Query<FilterTransactionsInput>) {
+    const { categoryIds, happenedFrom, happenedTo, ..._filter } = filter || {};
 
     return paginateQuery(this.transactionRepository, {
-      ..._queryBy,
-      filterBy: {
-        ..._filterBy,
+      ..._query,
+      filter: {
+        ..._filter,
         ...(categoryIds && {
           categoryId: In(categoryIds),
         }),
@@ -53,7 +51,7 @@ export class TransactionService {
           happenedAt: LessThanOrEqual(happenedTo),
         }),
       },
-      sortBy: {
+      sort: {
         happenedAt: 'DESC',
         categoryId: 'ASC',
         createdAt: 'DESC',
@@ -63,9 +61,9 @@ export class TransactionService {
 
   /**
    * @author murukal
-   * @description 根据 id 查询交易
+   * @description 根据`id`查询交易
    */
-  getTransactionById(id: number) {
+  transactionById(id: number) {
     return this.transactionRepository
       .createQueryBuilder('transaction')
       .whereInIds(id)
@@ -76,9 +74,8 @@ export class TransactionService {
    * @author murukal
    * @description 更新交易
    */
-  async update(id: number, updateTransactionBy: UpdateTransactionBy) {
-    return !!(await this.transactionRepository.update(id, updateTransactionBy))
-      .affected;
+  async update(id: number, input: UpdateTransactionInput) {
+    return !!(await this.transactionRepository.update(id, input)).affected;
   }
 
   /**
@@ -93,10 +90,8 @@ export class TransactionService {
    * @author murukal
    * @description 获取分类下的总金额
    */
-  async getTransactionAmountsGroupedByCategory(
-    groupBy: GroupTransactionAmountByCategory,
-  ) {
-    const { billingId, categoryIds, happenedFrom, happenedTo } = groupBy;
+  async transactionsAmounts(filter: FilterTransactionsAmountInput) {
+    const { billingId, categoryIds, happenedFrom, happenedTo } = filter;
 
     const qb = this.transactionRepository
       .createQueryBuilder()
@@ -124,8 +119,6 @@ export class TransactionService {
         happenedTo,
       });
 
-    return (await qb
-      .groupBy('categoryId')
-      .execute()) as TransactionAmountGroupedByCategory[];
+    return (await qb.groupBy('categoryId').execute()) as TransactionsAmount[];
   }
 }

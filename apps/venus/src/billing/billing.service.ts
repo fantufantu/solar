@@ -6,10 +6,10 @@ import {
   TargetType,
 } from '@/libs/database/entities/venus/sharing.entity';
 import { SharingService } from '../sharing/sharing.service';
-import { CreateBillingBy } from './dto/create-billing-by.input';
-import { UpdateBillingBy } from './dto/update-billing-by.input';
+import { CreateBillingInput } from './dto/create-billing.input';
+import { UpdateBillingInput } from './dto/update-billing.input';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
-import { SetBillingLimitBy } from './dto/set-billing-limit-by.input';
+import { UpdateBillingLimitationInput } from './dto/update-billing-limitation.input';
 
 @Injectable()
 export class BillingService {
@@ -23,10 +23,10 @@ export class BillingService {
    * @author murukal
    * @description 创建账本
    */
-  create(createBillingBy: CreateBillingBy, createdById: number) {
+  create(input: CreateBillingInput, createdById: number) {
     return this.billingRepository.save(
       this.billingRepository.create({
-        ...createBillingBy,
+        ...input,
         createdById,
       }),
     );
@@ -85,10 +85,10 @@ export class BillingService {
    * @author murukal
    * @description 更新账本信息
    */
-  update(id: number, updateBillingBy: UpdateBillingBy) {
+  update(id: number, input: UpdateBillingInput) {
     return this.billingRepository.update(
       id,
-      this.billingRepository.create(updateBillingBy),
+      this.billingRepository.create(input),
     );
   }
 
@@ -139,9 +139,9 @@ export class BillingService {
 
   /**
    * @author murukal
-   * @description 设置账本限额
+   * @description 更新账本限额
    */
-  async setLimit(id: number, setBy: SetBillingLimitBy) {
-    return !!(await this.billingRepository.update(id, setBy)).affected;
+  async updateLimitation(id: number, input: UpdateBillingLimitationInput) {
+    return ((await this.billingRepository.update(id, input)).affected ?? 0) > 0;
   }
 }

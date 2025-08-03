@@ -10,22 +10,22 @@ import {
 } from '@nestjs/graphql';
 import { TransactionService } from './transaction.service';
 import { Transaction } from '@/libs/database/entities/venus/transaction.entity';
-import { CreateTransactionBy } from './dto/create-transaction-by.input';
-import { UpdateTransactionBy } from './dto/update-transaction-by.input';
+import { CreateTransactionInput } from './dto/create-transaction.input';
+import { UpdateTransactionInput } from './dto/update-transaction.input';
 import { TransactionLoader } from './transaction.loader';
 import { JwtAuthGuard } from '@/libs/passport/guards';
-import { FilterTransactionsBy } from './dto/filter-transactions-by.input';
-import { PaginateBy } from 'assets/dto/pagination.input';
+import { FilterTransactionsInput } from './dto/filter-transactions.input';
+import { Pagination } from 'assets/dto/pagination.input';
 import { Category } from '@/libs/database/entities/venus/category.entity';
 import { User } from '@/libs/database/entities/venus/user.entity';
 import { PaginatedTransactions } from './dto/paginated-transactions.object';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
-import { TransactionAmountGroupedByCategory } from './dto/transaction-amount-grouped-by-category';
-import { GroupTransactionAmountByCategory } from './dto/group-transaction-amount-by-category.input';
+import { TransactionsAmount } from './dto/transactions-amount.object';
+import { FilterTransactionsAmountInput } from './dto/filter-transactions-amount.input';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
-import { Filter } from 'utils/decorators/filter.decorator';
-import { Pagination } from 'utils/decorators/pagination.decorator';
+import { FilterArgs } from 'utils/decorators/filter.decorator';
+import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 
 @Resolver(() => Transaction)
 export class TransactionResolver {
@@ -39,13 +39,13 @@ export class TransactionResolver {
   })
   @UseGuards(JwtAuthGuard)
   createTransaction(
-    @Args('createBy', {
+    @Args('input', {
       description: '交易',
     })
-    createTransactionBy: CreateTransactionBy,
+    input: CreateTransactionInput,
     @WhoAmI() whoAmI: User,
   ) {
-    return this.transactionService.create(createTransactionBy, whoAmI.id);
+    return this.transactionService.create(input, whoAmI.id);
   }
 
   @Query(() => PaginatedTransactions, {
@@ -55,16 +55,16 @@ export class TransactionResolver {
   @UseInterceptors(PaginatedInterceptor)
   @UseGuards(JwtAuthGuard)
   getTransactions(
-    @Filter({
-      type: () => FilterTransactionsBy,
+    @FilterArgs({
+      type: () => FilterTransactionsInput,
       nullable: false,
     })
-    filterBy: FilterTransactionsBy,
-    @Pagination() paginateBy: PaginateBy,
+    filter: FilterTransactionsInput,
+    @PaginationArgs() pagination: Pagination,
   ) {
-    return this.transactionService.getTransactions({
-      filterBy,
-      paginateBy,
+    return this.transactionService.transactions({
+      filter,
+      pagination,
     });
   }
 
@@ -76,7 +76,7 @@ export class TransactionResolver {
   getTransactionById(
     @Args('id', { type: () => Int, description: '交易id' }) id: number,
   ) {
-    return this.transactionService.getTransactionById(id);
+    return this.transactionService.transactionById(id);
   }
 
   @Mutation(() => Boolean, {
@@ -84,10 +84,10 @@ export class TransactionResolver {
   })
   updateTransaction(
     @Args('id', { type: () => Int, description: '交易id' }) id: number,
-    @Args('updateBy', { description: '交易' })
-    updateBy: UpdateTransactionBy,
+    @Args('input', { description: '交易' })
+    input: UpdateTransactionInput,
   ) {
-    return this.transactionService.update(id, updateBy);
+    return this.transactionService.update(id, input);
   }
 
   @Mutation(() => Boolean)
@@ -95,17 +95,14 @@ export class TransactionResolver {
     return this.transactionService.remove(id);
   }
 
-  @Query(() => [TransactionAmountGroupedByCategory], {
-    name: 'transactionAmountsGroupedByCategory',
+  @Query(() => [TransactionsAmount], {
     description: '按交易类别计算金额总和',
   })
-  async getTransactionAmountsGroupedByCategory(
-    @Args('groupBy', { description: '分组' })
-    groupBy: GroupTransactionAmountByCategory,
+  async transactionsAmounts(
+    @Args('filter', { description: '过滤参数' })
+    filter: FilterTransactionsAmountInput,
   ) {
-    return await this.transactionService.getTransactionAmountsGroupedByCategory(
-      groupBy,
-    );
+    return await this.transactionService.transactionsAmounts(filter);
   }
 
   @ResolveField('category', () => Category, {

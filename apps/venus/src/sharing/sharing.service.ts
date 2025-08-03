@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateSharingBy } from './dto/create-sharing-by.input';
-import { FilterSharingsBy } from './dto/filter-sharings-by.input';
-import { RemoveSharingBy } from './dto/remove-sharing-by.input';
+import { CreateSharingInput } from './dto/create-sharing.input';
+import { FilterSharingsInput } from './dto/filter-sharings.input';
+import { RemoveSharingInput } from './dto/remove-sharing.input';
 import { Sharing } from '@/libs/database/entities/venus/sharing.entity';
 
 @Injectable()
@@ -17,9 +17,9 @@ export class SharingService {
    * @author murukal
    * @description 分享
    */
-  async create(createSharingBy: CreateSharingBy) {
+  async create(input: CreateSharingInput) {
     return !!(await this.sharingRepository.save(
-      this.sharingRepository.create(createSharingBy),
+      this.sharingRepository.create(input),
     ));
   }
 
@@ -27,20 +27,20 @@ export class SharingService {
    * @author murukal
    * @description 删除分享
    */
-  async remove(removeSharingBy: RemoveSharingBy) {
+  async remove(input: RemoveSharingInput) {
     const qb = this.sharingRepository
       .createQueryBuilder()
       .delete()
       .where('targetId = :targetId', {
-        targetId: removeSharingBy.targetId,
+        targetId: input.targetId,
       })
       .andWhere('targetType = :targetType', {
-        targetType: removeSharingBy.targetType,
+        targetType: input.targetType,
       });
 
-    if (removeSharingBy.sharedById) {
+    if (input.sharedById) {
       qb.andWhere('sharedById = :sharedById', {
-        sharedById: removeSharingBy.sharedById,
+        sharedById: input.sharedById,
       });
     }
 
@@ -51,7 +51,7 @@ export class SharingService {
    * @author murukal
    * @description 查询分享列表
    */
-  async getSharings({ targetIds, targetType }: FilterSharingsBy) {
+  async sharings({ targetIds, targetType }: FilterSharingsInput) {
     return await this.sharingRepository
       .createQueryBuilder()
       .where('targetType = :targetType', {

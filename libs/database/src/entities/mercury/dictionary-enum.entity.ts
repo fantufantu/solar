@@ -41,6 +41,8 @@ export class DictionaryEnum extends IdentifiedTimeStamped {
   @Column({
     name: 'parent_code',
     comment: '所属字典`code`',
+    type: 'varchar',
+    length: 40,
   })
   parentCode: number;
 

@@ -1,9 +1,8 @@
 import { LimitDuration } from 'assets/entities/limit-duration.billing.enum';
-import { CreateBillingBy } from './create-billing-by.input';
-import { InputType, Field, PartialType, Float } from '@nestjs/graphql';
+import { InputType, Field, Float } from '@nestjs/graphql';
 
 @InputType()
-export class SetBillingLimitBy extends PartialType(CreateBillingBy) {
+export class UpdateBillingLimitationInput {
   @Field(() => LimitDuration, {
     description: '限制时间段',
   })

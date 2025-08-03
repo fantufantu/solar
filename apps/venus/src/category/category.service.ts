@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
-import { CreateCategoryBy } from './dto/create-category-by.input';
-import { FilterCategoriesBy } from './dto/filter-categories-by.input';
-import { UpdateCategoryBy } from './dto/update-category-by.input';
+import { CreateTransactionCategoryInput } from './dto/create-category.input';
+import { FilterTransactionCategoryInput } from './dto/filter-categories.input';
+import { UpdateTransactionCategoryInput } from './dto/update-category.input';
 import { Category } from '@/libs/database/entities/venus/category.entity';
-import { QueryBy } from 'typings/controller';
+import { Query } from 'typings/controller';
 import { paginateQuery } from 'utils/query-builder';
 
 @Injectable()
@@ -16,27 +16,23 @@ export class CategoryService {
   ) {}
 
   /**
-   * @description
-   * 创建交易分类
+   * @description 创建交易分类
    */
-  create(createBy: CreateCategoryBy) {
-    return this.categoryRepository.save(
-      this.categoryRepository.create(createBy),
-    );
+  create(input: CreateTransactionCategoryInput) {
+    return this.categoryRepository.save(this.categoryRepository.create(input));
   }
 
   /**
-   * @description
-   * 查询交易分类列表
+   * @description 查询交易分类列表
    */
-  getCategories({
-    filterBy: { ids, ..._filterBy } = { ids: [] },
-    ..._queryBy
-  }: QueryBy<FilterCategoriesBy>) {
+  categories({
+    filter: { ids, ..._filter } = { ids: [] },
+    ..._query
+  }: Query<FilterTransactionCategoryInput>) {
     return paginateQuery(this.categoryRepository, {
-      ..._queryBy,
-      filterBy: {
-        ..._filterBy,
+      ..._query,
+      filter: {
+        ..._filter,
         ...(ids.length > 0 && {
           id: In(ids),
         }),
@@ -45,31 +41,28 @@ export class CategoryService {
   }
 
   /**
-   * @description
-   * 查询交易分类
+   * @description 查询交易分类
    */
-  getCategory(id: number) {
+  category(id: number) {
     return this.categoryRepository.findOneBy({
       id,
     });
   }
 
   /**
-   * @description
-   * 更新交易分类
+   * @description 更新交易分类
    */
-  async update(id: number, updateBy: UpdateCategoryBy) {
+  async update(id: number, input: UpdateTransactionCategoryInput) {
     return !!(
       await this.categoryRepository.update(
         id,
-        this.categoryRepository.create(updateBy),
+        this.categoryRepository.create(input),
       )
     ).affected;
   }
 
   /**
-   * @description
-   * 删除交易分类
+   * @description 删除交易分类
    */
   async remove(id: number) {
     return !!(await this.categoryRepository.delete(id)).affected;

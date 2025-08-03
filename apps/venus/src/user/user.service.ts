@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { SetDefaultBillingBy } from './dto/set-default-billing-by.input';
+import { UpdateDefaultBillingInput } from './dto/update-default-billing.input';
 import { User } from '@/libs/database/entities/venus/user.entity';
 
 @Injectable()
@@ -25,15 +25,10 @@ export class UserService {
    * @author murukal
    * @description 设置默认账本
    */
-  async setDefaultBilling(
-    setDefaultBillingBy: SetDefaultBillingBy,
-    userId: number,
-  ) {
+  async updateDefaultBilling(input: UpdateDefaultBillingInput, userId: number) {
     // 处理默认账本信息
     // 取消默认账本，账本 id = null
-    const defaultBillingId = setDefaultBillingBy.isDefault
-      ? setDefaultBillingBy.id
-      : null;
+    const defaultBillingId = input.isDefault ? input.id : null;
 
     // 设置默认账本
     return !!(await this.userRepository.save(

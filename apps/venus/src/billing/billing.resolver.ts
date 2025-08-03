@@ -10,15 +10,15 @@ import {
 } from '@nestjs/graphql';
 import { BillingService } from './billing.service';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
-import { CreateBillingBy } from './dto/create-billing-by.input';
-import { UpdateBillingBy } from './dto/update-billing-by.input';
+import { CreateBillingInput } from './dto/create-billing.input';
+import { UpdateBillingInput } from './dto/update-billing.input';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { Sharing } from '@/libs/database/entities/venus/sharing.entity';
 import { BillingLoader } from './billing.loader';
 import { User } from '@/libs/database/entities/venus/user.entity';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 import { PaginatedBillings } from './dto/paginated-billings.object';
-import { SetBillingLimitBy } from './dto/set-billing-limit-by.input';
+import { UpdateBillingLimitationInput } from './dto/update-billing-limitation.input';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 
 @Resolver(() => Billing)
@@ -33,11 +33,11 @@ export class BillingResolver {
   })
   @UseGuards(JwtAuthGuard)
   createBilling(
-    @Args('createBy')
-    createBillingBy: CreateBillingBy,
+    @Args('input')
+    input: CreateBillingInput,
     @WhoAmI() whoAmI: User,
   ) {
-    return this.billingService.create(createBillingBy, whoAmI.id);
+    return this.billingService.create(input, whoAmI.id);
   }
 
   @Query(() => PaginatedBillings, {
@@ -69,10 +69,10 @@ export class BillingResolver {
   @UseGuards(JwtAuthGuard)
   updateBilling(
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
-    @Args('updateBy')
-    updateBy: UpdateBillingBy,
+    @Args('input')
+    input: UpdateBillingInput,
   ) {
-    return this.billingService.update(id, updateBy);
+    return this.billingService.update(id, input);
   }
 
   @Mutation(() => Boolean, {
@@ -90,12 +90,12 @@ export class BillingResolver {
     description: '设置限额',
   })
   @UseGuards(JwtAuthGuard)
-  setBillingLimit(
+  updateBillingLimitation(
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
-    @Args('setBy')
-    setBy: SetBillingLimitBy,
+    @Args('input')
+    input: UpdateBillingLimitationInput,
   ) {
-    return this.billingService.setLimit(id, setBy);
+    return this.billingService.updateLimitation(id, input);
   }
 
   @ResolveField('sharings', () => [Sharing], {

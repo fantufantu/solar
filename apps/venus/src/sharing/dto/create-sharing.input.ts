@@ -2,7 +2,7 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 import { TargetType } from '@/libs/database/entities/venus/sharing.entity';
 
 @InputType()
-export class CreateSharingBy {
+export class CreateSharingInput {
   @Field(() => Int, {
     description: '目标id',
   })
