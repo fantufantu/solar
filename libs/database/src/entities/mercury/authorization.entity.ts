@@ -1,21 +1,23 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import {
-  Column,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  Unique,
-} from 'typeorm';
-import {
-  AuthorizationAction,
-  AuthorizationActionCode,
-} from './authorization-action.entity';
-import {
-  AuthorizationResource,
-  AuthorizationResourceCode,
-} from './authorization-resource.entity';
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Column, Entity, Unique } from 'typeorm';
 import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
+import { GraphQLEnumToken } from 'assets/tokens';
+
+/**
+ * @description 权限操作
+ */
+export enum AuthorizationActionCode {
+  Create = 'create',
+  Read = 'read',
+  Update = 'update',
+  Delete = 'delete',
+  All = '*',
+}
+
+registerEnumType(AuthorizationActionCode, {
+  name: GraphQLEnumToken.AuthorizationActionCode,
+  description: '权限操作code',
+});
 
 @Entity({
   name: 'authorization',
@@ -31,22 +33,14 @@ export class Authorization extends IdentifiedTracked {
   })
   tenantCode: string;
 
-  @Field(() => AuthorizationResourceCode, {
+  @Field(() => String, {
     description: '资源`code`',
   })
   @Column({
-    type: 'enum',
-    enum: AuthorizationResourceCode,
     name: 'resource_code',
     comment: '资源`code`',
   })
-  resourceCode: AuthorizationResourceCode;
-
-  @ManyToOne(() => AuthorizationResource, {
-    nullable: false,
-  })
-  @JoinColumn({ referencedColumnName: 'code', name: 'resource_code' })
-  resource: AuthorizationResource;
+  resourceCode: string;
 
   @Field(() => AuthorizationActionCode, {
     description: '操作`code`',
@@ -58,12 +52,6 @@ export class Authorization extends IdentifiedTracked {
     comment: '操作`code`',
   })
   actionCode: AuthorizationActionCode;
-
-  @ManyToOne(() => AuthorizationAction, {
-    nullable: false,
-  })
-  @JoinColumn({ referencedColumnName: 'code', name: 'action_code' })
-  action: AuthorizationAction;
 
   get uniqueBy() {
     return [this.tenantCode, this.resourceCode, this.actionCode].join('::');

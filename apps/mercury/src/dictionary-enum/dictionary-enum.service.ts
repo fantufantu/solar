@@ -26,14 +26,14 @@ export class DictionaryEnumService {
   /**
    * 分页查询字典枚举
    */
-  getDictionaryEnums(queryBy?: QueryBy<DictionaryEnum>) {
+  dictionaryEnums(queryBy?: QueryBy<DictionaryEnum>) {
     return paginateQuery(this.dictionaryEnumRepository, queryBy);
   }
 
   /**
    * 查询单个字典枚举
    */
-  getDictionaryEnum(id: number) {
+  dictionaryEnum(id: number) {
     return this.dictionaryEnumRepository.findOneBy({ id });
   }
 

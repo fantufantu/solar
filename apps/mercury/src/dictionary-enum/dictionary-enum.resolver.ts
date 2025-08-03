@@ -1,6 +1,4 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization-action.entity';
-import { AuthorizationResourceCode } from '@/libs/database/entities/mercury/authorization-resource.entity';
 import { DictionaryEnumService } from './dictionary-enum.service';
 import { PaginatedDictionaryEnum } from './dto/paginated-dictionary-enums.object';
 import { DictionaryEnum } from '@/libs/database/entities/mercury/dictionary-enum.entity';
@@ -9,6 +7,7 @@ import { CreateDictionaryEnumBy } from './dto/create-dictionary-enum-by.input';
 import { UpdateDictionaryEnumBy } from './dto/update-dictionary-enum-by.input';
 import { Permission } from 'utils/decorators/permission.decorator';
 import { Pagination } from 'utils/decorators/filter.decorator';
+import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver()
 export class DictionaryEnumResolver {
@@ -18,7 +17,7 @@ export class DictionaryEnumResolver {
     description: '创建字典枚举',
   })
   @Permission({
-    resource: AuthorizationResourceCode.DictionaryEnum,
+    resource: DictionaryEnum.name,
     action: AuthorizationActionCode.Create,
   })
   createDictionaryEnum(
@@ -29,36 +28,34 @@ export class DictionaryEnumResolver {
   }
 
   @Query(() => PaginatedDictionaryEnum, {
-    name: 'dictionaryEnums',
     description: '分页查询字典枚举',
   })
   @Permission({
-    resource: AuthorizationResourceCode.DictionaryEnum,
+    resource: DictionaryEnum.name,
     action: AuthorizationActionCode.Read,
   })
-  getDictionaryEnums(@Pagination() paginateBy: PaginateBy) {
-    return this.dictionaryEnumService.getDictionaryEnums({
+  dictionaryEnums(@Pagination() paginateBy: PaginateBy) {
+    return this.dictionaryEnumService.dictionaryEnums({
       paginateBy,
     });
   }
 
   @Query(() => DictionaryEnum, {
-    name: 'dictionaryEnum',
     description: '查询单个字典枚举',
   })
   @Permission({
-    resource: AuthorizationResourceCode.DictionaryEnum,
+    resource: DictionaryEnum.name,
     action: AuthorizationActionCode.Read,
   })
-  getDictionaryEnum(@Args('id', { type: () => Int }) id: number) {
-    return this.dictionaryEnumService.getDictionaryEnum(id);
+  dictionaryEnum(@Args('id', { type: () => Int }) id: number) {
+    return this.dictionaryEnumService.dictionaryEnum(id);
   }
 
   @Mutation(() => Boolean, {
     description: '更新字典枚举',
   })
   @Permission({
-    resource: AuthorizationResourceCode.DictionaryEnum,
+    resource: DictionaryEnum.name,
     action: AuthorizationActionCode.Update,
   })
   updateDictionaryEnum(
@@ -73,7 +70,7 @@ export class DictionaryEnumResolver {
     description: '删除字典枚举',
   })
   @Permission({
-    resource: AuthorizationResourceCode.DictionaryEnum,
+    resource: DictionaryEnum.name,
     action: AuthorizationActionCode.Delete,
   })
   removeDictionaryEnum(@Args('id', { type: () => Int }) id: number) {

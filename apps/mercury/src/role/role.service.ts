@@ -3,9 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, type Repository } from 'typeorm';
 import { Role } from '@/libs/database/entities/mercury/role.entity';
 import { paginateQuery } from 'utils/query-builder';
-import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization-action.entity';
-import type { AuthorizationResourceCode } from '@/libs/database/entities/mercury/authorization-resource.entity';
-import type { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
+import {
+  AuthorizationActionCode,
+  type Authorization,
+} from '@/libs/database/entities/mercury/authorization.entity';
 import type { User } from '@/libs/database/entities/mercury/user.entity';
 import type { CreateRoleInput } from './dto/create-role.input';
 import type { UpdateRoleInput } from './dto/update-role.input';
@@ -168,8 +169,8 @@ export class RoleService {
       });
     }
 
-    return (
-      (await qb.execute()) as { resourceCode: AuthorizationResourceCode }[]
-    ).map(({ resourceCode }) => resourceCode);
+    return ((await qb.execute()) as { resourceCode: string }[]).map(
+      ({ resourceCode }) => resourceCode,
+    );
   }
 }

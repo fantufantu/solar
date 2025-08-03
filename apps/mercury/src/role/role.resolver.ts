@@ -8,8 +8,6 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { PaginateBy } from 'assets/dto/paginate-by.input';
-import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization-action.entity';
-import { AuthorizationResourceCode } from '@/libs/database/entities/mercury/authorization-resource.entity';
 import { PaginatedRole } from './dto/paginated-roles.object';
 import { Role } from '@/libs/database/entities/mercury/role.entity';
 import { RoleService } from './role.service';
@@ -17,6 +15,7 @@ import { CreateRoleInput } from './dto/create-role.input';
 import { UpdateRoleInput } from './dto/update-role.input';
 import { Permission } from 'utils/decorators/permission.decorator';
 import { Pagination } from 'utils/decorators/filter.decorator';
+import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver(() => Role)
 export class RoleResolver {
@@ -26,7 +25,7 @@ export class RoleResolver {
     description: '创建角色',
   })
   @Permission({
-    resource: AuthorizationResourceCode.Role,
+    resource: Role.name,
     action: AuthorizationActionCode.Create,
   })
   createRole(@Args('createRoleInput') createRoleInput: CreateRoleInput) {
@@ -38,7 +37,7 @@ export class RoleResolver {
     description: '分页查询角色',
   })
   @Permission({
-    resource: AuthorizationResourceCode.Role,
+    resource: Role.name,
     action: AuthorizationActionCode.Read,
   })
   getRoles(@Pagination() paginateBy: PaginateBy) {
@@ -49,7 +48,7 @@ export class RoleResolver {
 
   @Query(() => Role, { name: 'role', description: '查询单个角色' })
   @Permission({
-    resource: AuthorizationResourceCode.Role,
+    resource: Role.name,
     action: AuthorizationActionCode.Read,
   })
   getRole(@Args('id', { type: () => Int }) id: number) {
@@ -60,7 +59,7 @@ export class RoleResolver {
     description: '更新角色',
   })
   @Permission({
-    resource: AuthorizationResourceCode.Role,
+    resource: Role.name,
     action: AuthorizationActionCode.Update,
   })
   updateRole(
@@ -77,7 +76,7 @@ export class RoleResolver {
     description: '删除角色',
   })
   @Permission({
-    resource: AuthorizationResourceCode.Role,
+    resource: Role.name,
     action: AuthorizationActionCode.Delete,
   })
   removeRole(@Args('id', { type: () => Int }) id: number) {

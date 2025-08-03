@@ -1,5 +1,4 @@
-import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization-action.entity';
-import { AuthorizationResourceCode } from '@/libs/database/entities/mercury/authorization-resource.entity';
+import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common';
 import { PermissionGuard } from 'assets/guards';
@@ -9,7 +8,7 @@ import { MetadataToken } from 'assets/tokens';
  * 权限路径
  */
 export interface Authorizing {
-  resource: AuthorizationResourceCode;
+  resource: string;
   action: AuthorizationActionCode;
 }
 
