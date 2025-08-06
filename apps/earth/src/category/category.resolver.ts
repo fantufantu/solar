@@ -17,11 +17,10 @@ export class CategoryResolver {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Query(() => PaginatedCategories, {
-    name: 'articleCategories',
     description: '分页查询文章分类',
   })
   @UseInterceptors(PaginatedInterceptor)
-  getCategories(
+  articleCategories(
     @PaginationArgs() pagination: Pagination,
     @FilterArgs({
       type: () => FilterArticleCategoriesInput,
@@ -35,20 +34,20 @@ export class CategoryResolver {
   }
 
   @Mutation(() => Category, {
-    name: 'createArticleCategory',
     description: '创建文章分类',
   })
   @UseGuards(JwtAuthGuard)
-  async create(@Args('input') input: CreateArticleCategoryInput) {
+  async createArticleCategory(
+    @Args('input') input: CreateArticleCategoryInput,
+  ) {
     return await this.categoryService.create(input);
   }
 
   @Mutation(() => Boolean, {
-    name: 'updateArticleCategory',
     description: '更新文章分类',
   })
   @UseGuards(JwtAuthGuard)
-  async update(
+  async updateArticleCategory(
     @Args('id', {
       type: () => Int,
     })
@@ -59,11 +58,10 @@ export class CategoryResolver {
   }
 
   @Mutation(() => Boolean, {
-    name: 'removeArticleCategory',
     description: '删除文章分类',
   })
   @UseGuards(JwtAuthGuard)
-  async remove(
+  async removeArticleCategory(
     @Args('code', {
       type: () => String,
     })
@@ -73,7 +71,6 @@ export class CategoryResolver {
   }
 
   @Query(() => Category, {
-    name: 'articleCategory',
     description: '查询文章分类',
   })
   async articleCategory(
