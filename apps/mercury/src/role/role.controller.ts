@@ -10,12 +10,12 @@ export class RoleController {
 
   @MessagePattern({ cmd: CommandToken.Authorize })
   async isAuthorized({
-    userId,
+    who,
     authorizing,
   }: {
-    userId: number;
+    who: number;
     authorizing: Authorizing;
   }) {
-    return await this.roleService.isAuthorized(userId, authorizing);
+    return await this.roleService.isAuthorized(who, authorizing);
   }
 }

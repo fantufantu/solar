@@ -124,22 +124,22 @@ export class RoleService {
   }
 
   /**
-   * 鉴权
-   * @description 如果是资源管理员权限，也认为有权限
+   * @description 鉴权
+   * 1. 如果是资源管理员权限，也认为有权限
    */
-  async isAuthorized(userId: number, authorizing: Authorizing) {
+  async isAuthorized(who: number, authorizing: Authorizing) {
     const qb = this.roleRepository
       .createQueryBuilder('role')
       .innerJoin('role.users', 'user')
       .innerJoin('role.authorizations', 'authorization')
-      .where('user.id = :userId', {
-        userId,
+      .where('user.id = :who', {
+        who,
       })
-      .andWhere('authorization.resource = :resource', {
+      .andWhere('authorization.resourceCode = :resource', {
         resource: authorizing.resource,
       })
-      .andWhere('authorization.action = :action', {
-        action: In([authorizing.action, AuthorizationActionCode.All]),
+      .andWhere('authorization.actionCode IN (:...actions)', {
+        actions: [authorizing.action, AuthorizationActionCode.All],
       });
 
     return (await qb.getCount()) > 0;

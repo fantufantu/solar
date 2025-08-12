@@ -31,15 +31,15 @@ export class MercuryClientService {
    * @description
    * 鉴权
    */
-  isAuthorized(userId: number, Authorizing: Authorizing) {
+  isAuthorized(who: number, authorizing: Authorizing) {
     return lastValueFrom(
       this.client.send<boolean>(
         {
           cmd: CommandToken.Authorize,
         },
         {
-          userId,
-          ...Authorizing,
+          who,
+          authorizing,
         },
       ),
     );
