@@ -10,6 +10,7 @@ import {
 import { PassportModule } from '@/libs/passport';
 import { ResumeTemplateModule } from './resume-template/resume-template.module';
 import { MercuryClientModule } from '@/libs/mercury-client';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { MercuryClientModule } from '@/libs/mercury-client';
     ResumeModule,
     // 简历模板模块
     ResumeTemplateModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

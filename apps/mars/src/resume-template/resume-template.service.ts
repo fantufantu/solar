@@ -72,4 +72,20 @@ export class ResumeTemplateService {
   async resumeTemplate(code: string) {
     return await this.resumeTemplateRepository.findOneBy({ code });
   }
+
+  /**
+   * @description 收藏的简历模板列表
+   * 当前用户收藏的简历模板列表数据，使用分页格式数据返回
+   */
+  async starredResumeTemplates({
+    pagination: { limit, page },
+  }: {
+    pagination: Pagination;
+  }) {
+    return await this.resumeTemplateRepository
+      .createQueryBuilder()
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount();
+  }
 }

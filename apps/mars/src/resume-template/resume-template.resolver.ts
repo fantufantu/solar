@@ -59,4 +59,11 @@ export class ResumeTemplateResolver {
   ) {
     return this.resumeTemplateService.resumeTemplate(code);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => PaginatedResumeTemplates, { description: '收藏的简历模板列表' })
+  @UseInterceptors(PaginatedInterceptor)
+  starredResumeTemplates(@PaginationArgs() pagination: Pagination) {
+    return this.resumeTemplateService.starredResumeTemplates({ pagination });
+  }
 }
