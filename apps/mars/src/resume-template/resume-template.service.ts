@@ -5,12 +5,15 @@ import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.en
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pagination } from 'assets/dto/pagination.input';
+import { User } from '@/libs/database/entities/mars/user.entity';
 
 @Injectable()
 export class ResumeTemplateService {
   constructor(
     @InjectRepository(ResumeTemplate)
     private readonly resumeTemplateRepository: Repository<ResumeTemplate>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   /**
@@ -79,11 +82,27 @@ export class ResumeTemplateService {
    */
   async starredResumeTemplates({
     pagination: { limit, page },
+    who,
   }: {
     pagination: Pagination;
-  }) {
+    who: number;
+  }): Promise<[ResumeTemplate[], number]> {
+    const _starredResumeTemplateCodes =
+      (
+        await this.userRepository.findOneBy({
+          id: who,
+        })
+      )?.starredResumeTemplateCodes ?? [];
+
+    if (_starredResumeTemplateCodes.length === 0) {
+      return [[], 0];
+    }
+
     return await this.resumeTemplateRepository
-      .createQueryBuilder()
+      .createQueryBuilder('resumeTemplate')
+      .where('resumeTemplate.code IN (:...codes)', {
+        codes: _starredResumeTemplateCodes,
+      })
       .skip((page - 1) * limit)
       .take(limit)
       .getManyAndCount();

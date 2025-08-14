@@ -63,7 +63,13 @@ export class ResumeTemplateResolver {
   @UseGuards(JwtAuthGuard)
   @Query(() => PaginatedResumeTemplates, { description: '收藏的简历模板列表' })
   @UseInterceptors(PaginatedInterceptor)
-  starredResumeTemplates(@PaginationArgs() pagination: Pagination) {
-    return this.resumeTemplateService.starredResumeTemplates({ pagination });
+  starredResumeTemplates(
+    @PaginationArgs() pagination: Pagination,
+    @WhoAmI() who: User,
+  ) {
+    return this.resumeTemplateService.starredResumeTemplates({
+      pagination,
+      who: who.id,
+    });
   }
 }
