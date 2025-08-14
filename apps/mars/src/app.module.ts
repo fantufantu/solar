@@ -27,11 +27,12 @@ import { UserModule } from './user/user.module';
     PassportModule,
     // 数据库
     DatabaseModule.forRoot(ApplicationToken.Mars),
+    // 用户模块
+    UserModule,
     // 简历模块
     ResumeModule,
     // 简历模板模块
     ResumeTemplateModule,
-    UserModule,
   ],
   controllers: [],
   providers: [],
