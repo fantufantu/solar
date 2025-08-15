@@ -5,7 +5,6 @@ import {
   BeforeUpdate,
   Column,
   Entity,
-  JoinTable,
   ManyToMany,
 } from 'typeorm';
 import { randomUUID } from 'crypto';

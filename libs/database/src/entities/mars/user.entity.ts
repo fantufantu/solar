@@ -14,7 +14,7 @@ export class User extends OmitType(TimeStamped, ['createdAt', 'updatedAt']) {
   })
   id: number;
 
-  @Field(() => Int, {
+  @Field(() => [String], {
     nullable: true,
     description: '收藏的简历模板`code`列表',
   })

@@ -23,12 +23,12 @@ export class UserService {
 
     const _starred = new Set(_user.starredResumeTemplateCodes);
     if (_starred.has(code)) {
-      return true;
+      return _user.starredResumeTemplateCodes;
     }
 
     _starred.add(code);
     _user.starredResumeTemplateCodes = Array.from(_starred);
-    return !!(await this.userRepository.save(_user));
+    return (await this.userRepository.save(_user)).starredResumeTemplateCodes;
   }
 
   /**
@@ -44,11 +44,21 @@ export class UserService {
 
     const _starred = new Set(_user.starredResumeTemplateCodes);
     if (!_starred.has(code)) {
-      return true;
+      return _user.starredResumeTemplateCodes;
     }
 
     _starred.delete(code);
     _user.starredResumeTemplateCodes = Array.from(_starred);
-    return !!(await this.userRepository.save(_user));
+    return (await this.userRepository.save(_user)).starredResumeTemplateCodes;
+  }
+
+  /**
+   * @description 根据`id`查询用户信息
+   */
+  async user(id: number) {
+    return await this.userRepository.findOne({
+      where: { id },
+      select: ['starredResumeTemplateCodes'],
+    });
   }
 }
