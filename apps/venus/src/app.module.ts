@@ -16,9 +16,9 @@ import { MercuryClientModule } from '@/libs/mercury-client';
 
 @Module({
   imports: [
-    // mercury 微服务客户端
+    // `mercury`微服务客户端
     MercuryClientModule,
-    // api
+    // API
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       autoSchemaFile: {

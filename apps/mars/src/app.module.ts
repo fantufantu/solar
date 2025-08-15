@@ -14,7 +14,7 @@ import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
-    // 微服务
+    // `mercury`微服务客户端
     MercuryClientModule,
     // API
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
@@ -23,18 +23,16 @@ import { UserModule } from './user/user.module';
         federation: 2,
       },
     }),
-    // 鉴权
-    PassportModule,
     // 数据库
     DatabaseModule.forRoot(ApplicationToken.Mars),
-    // 用户模块
-    UserModule,
+    // 鉴权
+    PassportModule,
     // 简历模块
     ResumeModule,
     // 简历模板模块
     ResumeTemplateModule,
+    // 用户模块
+    UserModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
