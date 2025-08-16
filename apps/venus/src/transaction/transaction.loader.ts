@@ -15,7 +15,7 @@ export class TransactionLoader {
   /**
    * @author murukal
    * @description
-   * 根据交易分类id获取分类信息
+   * 根据交易分类`id`获取分类信息
    */
   readonly categoryLoader = new DataLoader<number, Category | null>(
     async (ids: number[]) => {
@@ -34,7 +34,7 @@ export class TransactionLoader {
   /**
    * @author murukal
    * @description
-   * 根据账本id获取账本
+   * 根据账本`id`获取账本
    */
   readonly billingLoader = new DataLoader<number, Billing | null>(
     async (ids: number[]) => {

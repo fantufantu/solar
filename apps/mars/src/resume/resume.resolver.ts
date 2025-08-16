@@ -1,4 +1,12 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Int,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { ResumeService } from './resume.service';
 import { Resume } from '@/libs/database/entities/mars/resume.entity';
 import { CreateResumeInput } from './dto/create-resume.input';
@@ -11,10 +19,15 @@ import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor'
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { Pagination } from 'assets/dto/pagination.input';
 import { PaginatedResumes } from './dto/paginated-resumes.object';
+import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.entity';
+import { ResumeLoader } from './resume.loader';
 
 @Resolver(() => Resume)
 export class ResumeResolver {
-  constructor(private readonly resumeService: ResumeService) {}
+  constructor(
+    private readonly resumeService: ResumeService,
+    private readonly resumeLoader: ResumeLoader,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Resume, { description: '创建简历' })
@@ -75,5 +88,14 @@ export class ResumeResolver {
     @PaginationArgs() pagination: Pagination,
   ) {
     return this.resumeService.resumes(who.id, pagination);
+  }
+
+  @ResolveField('defaultTemplate', () => ResumeTemplate, {
+    description: '默认简历模板',
+  })
+  resumeTemplate(@Parent() resume: Resume) {
+    return this.resumeLoader.resumeTemplateLoader.load(
+      resume.defaultTemplateCode,
+    );
   }
 }
