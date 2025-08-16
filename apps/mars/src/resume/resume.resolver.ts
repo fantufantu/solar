@@ -5,7 +5,7 @@ import { CreateResumeInput } from './dto/create-resume.input';
 import { UpdateResumeInput } from './dto/update-resume.input';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
-import { User } from '@/libs/database/entities/mercury/user.entity';
+import { User } from '@/libs/database/entities/mars/user.entity';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
@@ -19,7 +19,7 @@ export class ResumeResolver {
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Resume, { description: '创建简历' })
   createResume(@Args('input') input: CreateResumeInput, @WhoAmI() who: User) {
-    return this.resumeService.create(input, who);
+    return this.resumeService.create(input, who.id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -29,7 +29,7 @@ export class ResumeResolver {
     @Args('input') input: UpdateResumeInput,
     @WhoAmI() who: User,
   ) {
-    return this.resumeService.update(id, input, who);
+    return this.resumeService.update(id, input, who.id);
   }
 
   @UseGuards(JwtAuthGuard)

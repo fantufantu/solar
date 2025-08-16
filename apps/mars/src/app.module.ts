@@ -11,6 +11,7 @@ import { PassportModule } from '@/libs/passport';
 import { ResumeTemplateModule } from './resume-template/resume-template.module';
 import { MercuryClientModule } from '@/libs/mercury-client';
 import { UserModule } from './user/user.module';
+import { User } from '@/libs/database/entities/mars/user.entity';
 
 @Module({
   imports: [
@@ -21,6 +22,9 @@ import { UserModule } from './user/user.module';
       driver: ApolloFederationDriver,
       autoSchemaFile: {
         federation: 2,
+      },
+      buildSchemaOptions: {
+        orphanedTypes: [User],
       },
     }),
     // 数据库
