@@ -13,7 +13,7 @@ export class UserLoader {
   public readonly billings = new DataLoader<number, Billing | null>(
     async (ids: number[]) => {
       // 查询账本列表
-      const _billings = (await this.billingService.billings(ids)).reduce(
+      const _billings = (await this.billingService.billings({ ids })).reduce(
         (prev, _billing) => prev.set(_billing.id, _billing),
         new Map<number, Billing>(),
       );

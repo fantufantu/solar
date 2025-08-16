@@ -38,7 +38,9 @@ export class TransactionLoader {
    */
   readonly billingLoader = new DataLoader<number, Billing | null>(
     async (ids: number[]) => {
-      const billings = await this.billingService.getBillingsByIds(ids);
+      const billings = await this.billingService.billings({
+        ids,
+      });
 
       return ids.map(
         (id) => billings.find((billing) => billing.id === id) || null,
