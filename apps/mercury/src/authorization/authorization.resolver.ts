@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthorizationService } from './authorization.service';
 import { PaginatedAuthorizations } from './dto/paginated-authorizations.object';
-import { AuthorizeBy } from './dto/authorize-by.input';
+import { AuthorizeInput } from './dto/authorize.input';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
@@ -23,10 +23,7 @@ export class AuthorizationResolver {
   @Mutation(() => Boolean, {
     description: '授权',
   })
-  authorize(
-    @Args('authorizeBy') authorizeBy: AuthorizeBy,
-    @WhoAmI() who: User,
-  ) {
-    return this.authorizationService.authorize(authorizeBy, who.id);
+  authorize(@Args('input') input: AuthorizeInput, @WhoAmI() who: User) {
+    return this.authorizationService.authorize(input, who.id);
   }
 }

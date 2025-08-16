@@ -1,4 +1,4 @@
-export class VerifyBy {
+export class VerifyInput {
   who: string;
   captcha: string;
 }

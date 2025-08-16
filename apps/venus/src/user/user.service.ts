@@ -13,11 +13,12 @@ export class UserService {
 
   /**
    * @author murukal
-   * @description 根据 id 查询用户信息
+   * @description 根据`id`查询用户信息
    */
-  async getUserById(id: number) {
-    return await this.userRepository.findOneBy({
-      id,
+  async user(id: number) {
+    return await this.userRepository.findOne({
+      where: { id },
+      select: ['defaultBillingId'],
     });
   }
 

@@ -129,7 +129,7 @@ export class BillingService {
    * @author murukal
    * @description 根据账本 id 列表，查询账本列表
    */
-  async getBillingsByIds(ids: number[]): Promise<Billing[]> {
+  async billings(ids: number[]): Promise<Billing[]> {
     if (ids.length === 0) return [];
 
     return await this.billingRepository.findBy({

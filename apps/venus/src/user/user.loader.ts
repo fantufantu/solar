@@ -8,16 +8,16 @@ export class UserLoader {
   constructor(private readonly billingService: BillingService) {}
 
   /**
-   * 根据账本 id 获取账本信息
+   * @description 根据账本`id`获取账本信息
    */
-  public readonly getBillingById = new DataLoader<number, Billing | null>(
+  public readonly billings = new DataLoader<number, Billing | null>(
     async (ids: number[]) => {
       // 查询账本列表
-      const billings = await this.billingService.getBillingsByIds(ids);
-      // id => 账本
-      return ids.map(
-        (id) => billings.find((billing) => billing.id === id) || null,
+      const _billings = (await this.billingService.billings(ids)).reduce(
+        (prev, _billing) => prev.set(_billing.id, _billing),
+        new Map<number, Billing>(),
       );
+      return ids.map((id) => _billings.get(id) ?? null);
     },
     {
       cache: false,

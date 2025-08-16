@@ -13,6 +13,7 @@ import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { MercuryClientModule } from '@/libs/mercury-client';
+import { User } from '@/libs/database/entities/venus/user.entity';
 
 @Module({
   imports: [
@@ -23,6 +24,9 @@ import { MercuryClientModule } from '@/libs/mercury-client';
       driver: ApolloFederationDriver,
       autoSchemaFile: {
         federation: 2,
+      },
+      buildSchemaOptions: {
+        orphanedTypes: [User],
       },
     }),
     // 数据库
