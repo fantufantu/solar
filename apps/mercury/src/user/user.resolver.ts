@@ -67,7 +67,7 @@ export class UserResolver {
   }
 
   @ResolveReference()
-  async getUser(reference: { __typename: string; id: number }) {
-    return await this.userService.getUser(reference.id);
+  async user(reference: { __typename: string; id: number }) {
+    return await this.userService.user(reference.id);
   }
 }

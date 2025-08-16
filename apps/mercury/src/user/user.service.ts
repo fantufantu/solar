@@ -77,7 +77,7 @@ export class UserService {
    * @author murukal
    * @description 查询单个用户
    */
-  async getUser(
+  async user(
     who: number | string,
     options?: Pick<FindOneOptions<User>, 'select' | 'relations'>,
   ) {
@@ -161,7 +161,7 @@ export class UserService {
 
   /**
    * @author murukal
-   * @description 根据用户id批量查询用户信息
+   * @description 根据用户`id`批量查询用户信息
    */
   async getUsersByIds(ids: number[]) {
     return await this.userRepository.findBy({
@@ -204,7 +204,7 @@ export class UserService {
    * @description 修改密码
    */
   async changePassword(who: string, password: string) {
-    const _user = await this.getUser(who);
+    const _user = await this.user(who);
     if (!_user) throw new UnauthorizedException('用户不存在');
 
     return !!(await this.userRepository.save(
