@@ -15,19 +15,19 @@ export class ResumeLoader {
    * @description
    * 根据模板`code`查询模板列表
    */
-  readonly resumeTemplateLoader = new DataLoader<
-    string,
-    Nullable<ResumeTemplate>
-  >(async (codes: string[]) => {
-    const [resumeTemplates] = await this.resumeTemplateService.resumeTemplates({
-      where: { codes },
-    });
-    const _resumeTemplates = resumeTemplates.reduce(
-      (prev, _resumeTemplate) =>
-        prev.set(_resumeTemplate.code, _resumeTemplate),
-      new Map<string, ResumeTemplate>(),
-    );
+  readonly resumeTemplates = new DataLoader<string, Nullable<ResumeTemplate>>(
+    async (codes: string[]) => {
+      const [resumeTemplates] =
+        await this.resumeTemplateService.resumeTemplates({
+          where: { codes },
+        });
+      const _resumeTemplates = resumeTemplates.reduce(
+        (prev, _resumeTemplate) =>
+          prev.set(_resumeTemplate.code, _resumeTemplate),
+        new Map<string, ResumeTemplate>(),
+      );
 
-    return codes.map((_code) => _resumeTemplates.get(_code) ?? null);
-  });
+      return codes.map((_code) => _resumeTemplates.get(_code) ?? null);
+    },
+  );
 }

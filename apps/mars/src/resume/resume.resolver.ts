@@ -94,8 +94,6 @@ export class ResumeResolver {
     description: '默认简历模板',
   })
   resumeTemplate(@Parent() resume: Resume) {
-    return this.resumeLoader.resumeTemplateLoader.load(
-      resume.defaultTemplateCode,
-    );
+    return this.resumeLoader.resumeTemplates.load(resume.defaultTemplateCode);
   }
 }

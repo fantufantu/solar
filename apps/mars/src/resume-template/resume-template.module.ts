@@ -8,5 +8,6 @@ import { User } from '@/libs/database/entities/mars/user.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([ResumeTemplate, User])],
   providers: [ResumeTemplateResolver, ResumeTemplateService],
+  exports: [ResumeTemplateService],
 })
 export class ResumeTemplateModule {}
