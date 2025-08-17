@@ -58,7 +58,7 @@ export class ResumeTemplateService {
    * @description 分页查询简历模板列表
    */
   async resumeTemplates({
-    pagination: { limit = Infinity, page = 1 } = {},
+    pagination: { limit = 0, page = 1 } = {},
     where: { codes = [] } = {},
   }: {
     pagination?: Partial<Pagination>;
@@ -66,12 +66,14 @@ export class ResumeTemplateService {
   }) {
     const qb = this.resumeTemplateRepository
       .createQueryBuilder('resumeTemplate')
-      .skip((page - 1) * limit)
-      .take(limit)
       .where('1 = 1');
 
+    if (limit > 0) {
+      qb.skip(Math.max(1, page - 1) * limit).take(limit);
+    }
+
     if (codes.length > 0) {
-      qb.where('resumeTemplate.code IN (:...codes)', {
+      qb.andWhere('resumeTemplate.code IN (:...codes)', {
         codes,
       });
     }
