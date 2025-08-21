@@ -33,7 +33,7 @@ export class ResumeService {
   /**
    * @description 更新简历
    */
-  async update(id: number, input: UpdateResumeInput, who: User) {
+  async update(id: string, input: UpdateResumeInput, who: User) {
     return (
       ((
         await this.resumeRepository.update(id, {
@@ -51,7 +51,7 @@ export class ResumeService {
    * @param who
    * @param permanently 永久删除
    */
-  async remove(id: number, who: number, permanently: boolean) {
+  async remove(id: string, who: number, permanently: boolean) {
     const _resume = this.resumeRepository.create();
     _resume.deletedById = who;
 

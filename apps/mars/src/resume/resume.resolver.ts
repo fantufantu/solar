@@ -25,7 +25,7 @@ export class ResumeResolver {
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Boolean, { description: '更新简历' })
   updateResume(
-    @Args('id', { type: () => Int }) id: number,
+    @Args('id', { type: () => String }) id: string,
     @Args('input') input: UpdateResumeInput,
     @WhoAmI() who: User,
   ) {
@@ -35,8 +35,8 @@ export class ResumeResolver {
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Boolean, { description: '删除简历' })
   removeResume(
-    @Args('id', { type: () => Int })
-    id: number,
+    @Args('id', { type: () => String })
+    id: string,
     @Args('permanently', {
       type: () => Boolean,
       description: '是否永久删除',
