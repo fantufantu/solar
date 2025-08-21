@@ -41,17 +41,15 @@ export class BillingResolver {
   }
 
   @Query(() => PaginatedBillings, {
-    name: 'billings',
     description: '查询账本列表',
   })
   @UseInterceptors(PaginatedInterceptor)
   @UseGuards(JwtAuthGuard)
   billings(@WhoAmI() who: User) {
-    return this.billingService.getBillingsByUserId(who.id);
+    return this.billingService.billings({ who: who.id });
   }
 
   @Query(() => Billing, {
-    name: 'billing',
     description: '查询账本',
     nullable: true,
   })
@@ -60,7 +58,7 @@ export class BillingResolver {
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
     @WhoAmI() whoAmI: User,
   ) {
-    return this.billingService.getBilling(id, whoAmI.id);
+    return this.billingService.billing(id, whoAmI.id);
   }
 
   @Mutation(() => Boolean, {
@@ -98,19 +96,19 @@ export class BillingResolver {
     return this.billingService.updateLimitation(id, input);
   }
 
-  @ResolveField('sharings', () => [Sharing], {
+  @ResolveField(() => [Sharing], {
     description: '分享',
     nullable: true,
   })
-  getSharings(@Parent() billing: Billing) {
-    return this.billingLoader.getSharingsByBillingId.load(billing.id);
+  sharings(@Parent() billing: Billing) {
+    return this.billingLoader.sharings.load(billing.id);
   }
 
-  @ResolveField('createdBy', () => User, {
+  @ResolveField(() => User, {
     description: '创建人',
     nullable: true,
   })
-  async getCreatedBy(@Parent() billing: Billing) {
+  async createdBy(@Parent() billing: Billing) {
     return { __typename: User.name, id: billing.createdById };
   }
 }

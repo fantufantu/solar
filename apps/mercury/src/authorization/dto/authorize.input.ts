@@ -2,7 +2,7 @@ import { AuthorizationActionCode } from '@/libs/database/entities/mercury/author
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-class AuthorizeWhat {
+class AuthorizationInput {
   @Field(() => String, {
     description: '权限资源code',
   })
@@ -15,14 +15,14 @@ class AuthorizeWhat {
 }
 
 @InputType()
-export class AuthorizeBy {
+export class AuthorizeInput {
   @Field(() => String, {
     description: '租户code',
   })
   tenantCode: string;
 
-  @Field(() => [AuthorizeWhat], {
+  @Field(() => [AuthorizationInput], {
     description: '权限范围',
   })
-  authorizations: AuthorizeWhat[];
+  authorizations: AuthorizationInput[];
 }

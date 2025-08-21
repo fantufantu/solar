@@ -9,8 +9,8 @@ import {
   TencentCloudPropertyToken,
 } from 'assets/tokens';
 import { PlutoClientService } from '@/libs/pluto-client';
-import type { VerifyBy } from './dto/verify-by.input';
-import { UpdateUserBy } from './dto/update-user-by.input';
+import { VerifyInput } from './dto/verify.input';
+import { UpdateUserInput } from './dto/update-user.input';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { CacheService } from '@/libs/cache';
 
@@ -77,7 +77,7 @@ export class UserService {
    * @author murukal
    * @description 查询单个用户
    */
-  async getUser(
+  async user(
     who: number | string,
     options?: Pick<FindOneOptions<User>, 'select' | 'relations'>,
   ) {
@@ -108,13 +108,13 @@ export class UserService {
    * @description 验证用户邮箱
    */
   async verify(
-    verifyBy: VerifyBy,
+    { captcha, who }: VerifyInput,
     token: CacheToken = CacheToken.RegisterCaptcha,
   ) {
-    const { 0: sent } =
-      (await this.cacheService.getCaptchaValidation(verifyBy.who, token)) ?? [];
+    const { 0: _sentCaptcha } =
+      (await this.cacheService.getCaptchaValidation(who, token)) ?? [];
 
-    if (!sent || sent !== verifyBy.captcha) {
+    if (_sentCaptcha !== captcha) {
       throw new Error('邮箱验证失败，请检查验证码');
     }
 
@@ -161,7 +161,7 @@ export class UserService {
 
   /**
    * @author murukal
-   * @description 根据用户id批量查询用户信息
+   * @description 根据用户`id`批量查询用户信息
    */
   async getUsersByIds(ids: number[]) {
     return await this.userRepository.findBy({
@@ -193,9 +193,9 @@ export class UserService {
    * @author murukal
    * @description 更新用户信息
    */
-  async updateUser(id: number, updateBy: UpdateUserBy) {
+  async updateUser(id: number, input: UpdateUserInput) {
     return !!(
-      await this.userRepository.update(id, this.userRepository.create(updateBy))
+      await this.userRepository.update(id, this.userRepository.create(input))
     ).affected;
   }
 
@@ -204,7 +204,7 @@ export class UserService {
    * @description 修改密码
    */
   async changePassword(who: string, password: string) {
-    const _user = await this.getUser(who);
+    const _user = await this.user(who);
     if (!_user) throw new UnauthorizedException('用户不存在');
 
     return !!(await this.userRepository.save(

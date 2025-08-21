@@ -6,7 +6,11 @@ import { TimeStamped } from '../any-use/time-stamped.entity';
 @ObjectType()
 @Directive('@key(fields: "id")')
 @Entity()
-export class User extends OmitType(TimeStamped, ['createdAt', 'updatedAt']) {
+export class User extends OmitType(
+  TimeStamped,
+  ['createdAt', 'updatedAt'],
+  ObjectType,
+) {
   @Field(() => Int, {
     description: '用户`id`',
   })

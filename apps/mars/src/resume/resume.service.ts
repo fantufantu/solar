@@ -4,7 +4,6 @@ import { UpdateResumeInput } from './dto/update-resume.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Resume } from '@/libs/database/entities/mars/resume.entity';
 import { Brackets, Repository } from 'typeorm';
-import { User } from '@/libs/database/entities/mercury/user.entity';
 import { MercuryClientService } from '@/libs/mercury-client';
 import { Pagination } from 'assets/dto/pagination.input';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
@@ -21,11 +20,11 @@ export class ResumeService {
   /**
    * @description 新建简历
    */
-  async create(input: CreateResumeInput, who: User) {
+  async create(input: CreateResumeInput, who: number) {
     return await this.resumeRepository.save(
       this.resumeRepository.create({
         ...input,
-        createdById: who.id,
+        createdById: who,
       }),
     );
   }
@@ -33,12 +32,12 @@ export class ResumeService {
   /**
    * @description 更新简历
    */
-  async update(id: string, input: UpdateResumeInput, who: User) {
+  async update(id: string, input: UpdateResumeInput, who: number) {
     return (
       ((
         await this.resumeRepository.update(id, {
           ...input,
-          updatedById: who.id,
+          updatedById: who,
         })
       ).affected ?? 0) > 0
     );

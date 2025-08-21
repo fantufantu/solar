@@ -58,15 +58,27 @@ export class ResumeTemplateService {
    * @description 分页查询简历模板列表
    */
   async resumeTemplates({
-    pagination: { limit, page },
+    pagination: { limit = 0, page = 1 } = {},
+    where: { codes = [] } = {},
   }: {
-    pagination: Pagination;
+    pagination?: Partial<Pagination>;
+    where?: { codes?: string[] };
   }) {
-    return await this.resumeTemplateRepository
-      .createQueryBuilder()
-      .skip((page - 1) * limit)
-      .take(limit)
-      .getManyAndCount();
+    const qb = this.resumeTemplateRepository
+      .createQueryBuilder('resumeTemplate')
+      .where('1 = 1');
+
+    if (limit > 0) {
+      qb.skip(Math.max(1, page - 1) * limit).take(limit);
+    }
+
+    if (codes.length > 0) {
+      qb.andWhere('resumeTemplate.code IN (:...codes)', {
+        codes,
+      });
+    }
+
+    return await qb.getManyAndCount();
   }
 
   /**

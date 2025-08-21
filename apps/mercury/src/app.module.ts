@@ -20,9 +20,9 @@ import { CacheModule } from '@/libs/cache';
 @Module({
   imports: [
     CacheModule,
-    // pluto 微服务客户端
+    // `pluto`微服务客户端
     PlutoClientModule,
-    // api
+    // API
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       autoSchemaFile: {

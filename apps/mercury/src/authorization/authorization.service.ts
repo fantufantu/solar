@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginateQuery } from 'utils/query-builder';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
-import { AuthorizeBy } from './dto/authorize-by.input';
+import { AuthorizeInput } from './dto/authorize.input';
 import type { Query } from 'typings/controller';
 import type { Repository } from 'typeorm';
 
@@ -23,11 +23,11 @@ export class AuthorizationService {
   /**
    * @description 分配权限
    */
-  async authorize(authorizeBy: AuthorizeBy, who: number) {
+  async authorize({ tenantCode, authorizations }: AuthorizeInput, who: number) {
     const authorizeds = (
       await this.authorizationRepository.find({
         where: {
-          tenantCode: authorizeBy.tenantCode,
+          tenantCode: tenantCode,
         },
       })
     ).reduce((prev, authorization) => {
@@ -36,10 +36,10 @@ export class AuthorizationService {
       return prev;
     }, new Map<string, Authorization>());
 
-    authorizeBy.authorizations.forEach((resource) => {
+    authorizations.forEach((resource) => {
       resource.actionCodes.forEach((actionCode) => {
         const _authorization = this.authorizationRepository.create({
-          tenantCode: authorizeBy.tenantCode,
+          tenantCode,
           resourceCode: resource.resourceCode,
           actionCode,
         });

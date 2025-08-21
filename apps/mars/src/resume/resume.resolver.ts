@@ -1,25 +1,38 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Int,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { ResumeService } from './resume.service';
 import { Resume } from '@/libs/database/entities/mars/resume.entity';
 import { CreateResumeInput } from './dto/create-resume.input';
 import { UpdateResumeInput } from './dto/update-resume.input';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
-import { User } from '@/libs/database/entities/mercury/user.entity';
+import { User } from '@/libs/database/entities/mars/user.entity';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { Pagination } from 'assets/dto/pagination.input';
 import { PaginatedResumes } from './dto/paginated-resumes.object';
+import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.entity';
+import { ResumeLoader } from './resume.loader';
 
 @Resolver(() => Resume)
 export class ResumeResolver {
-  constructor(private readonly resumeService: ResumeService) {}
+  constructor(
+    private readonly resumeService: ResumeService,
+    private readonly resumeLoader: ResumeLoader,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Resume, { description: '创建简历' })
   createResume(@Args('input') input: CreateResumeInput, @WhoAmI() who: User) {
-    return this.resumeService.create(input, who);
+    return this.resumeService.create(input, who.id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -29,7 +42,7 @@ export class ResumeResolver {
     @Args('input') input: UpdateResumeInput,
     @WhoAmI() who: User,
   ) {
-    return this.resumeService.update(id, input, who);
+    return this.resumeService.update(id, input, who.id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -75,5 +88,12 @@ export class ResumeResolver {
     @PaginationArgs() pagination: Pagination,
   ) {
     return this.resumeService.resumes(who.id, pagination);
+  }
+
+  @ResolveField('defaultTemplate', () => ResumeTemplate, {
+    description: '默认简历模板',
+  })
+  resumeTemplate(@Parent() resume: Resume) {
+    return this.resumeLoader.resumeTemplates.load(resume.defaultTemplateCode);
   }
 }

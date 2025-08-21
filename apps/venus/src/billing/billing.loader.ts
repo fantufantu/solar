@@ -12,9 +12,9 @@ export class BillingLoader {
 
   /**
    * @description
-   * 根据账本 id 获取分享信息
+   * 根据账本`id`获取分享信息
    */
-  public readonly getSharingsByBillingId = new DataLoader<number, Sharing[]>(
+  public readonly sharings = new DataLoader<number, Sharing[]>(
     async (billingIds: number[]) => {
       // 查询分享列表
       const sharings = await this.sharingService.sharings({
@@ -22,14 +22,11 @@ export class BillingLoader {
         targetIds: billingIds,
       });
 
-      // 按账本 id 归类
+      // 按账本`id`归类
       const groupedSharings = sharings.reduce((prev, sharing) => {
-        if (!prev.has(sharing.targetId)) {
-          return prev.set(sharing.targetId, [sharing]);
-        }
-
-        prev.get(sharing.targetId)!.push(sharing);
-        return prev;
+        const _sharings = prev.get(sharing.targetId) ?? [];
+        _sharings.push(sharing);
+        return prev.set(sharing.targetId, _sharings);
       }, new Map<number, Sharing[]>());
 
       return billingIds.map(

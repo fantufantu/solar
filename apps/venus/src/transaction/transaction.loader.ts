@@ -15,7 +15,7 @@ export class TransactionLoader {
   /**
    * @author murukal
    * @description
-   * 根据交易分类id获取分类信息
+   * 根据交易分类`id`获取分类信息
    */
   readonly categoryLoader = new DataLoader<number, Category | null>(
     async (ids: number[]) => {
@@ -34,11 +34,13 @@ export class TransactionLoader {
   /**
    * @author murukal
    * @description
-   * 根据账本id获取账本
+   * 根据账本`id`获取账本
    */
   readonly billingLoader = new DataLoader<number, Billing | null>(
     async (ids: number[]) => {
-      const billings = await this.billingService.getBillingsByIds(ids);
+      const billings = await this.billingService.billings({
+        ids,
+      });
 
       return ids.map(
         (id) => billings.find((billing) => billing.id === id) || null,

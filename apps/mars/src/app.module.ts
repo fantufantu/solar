@@ -11,10 +11,11 @@ import { PassportModule } from '@/libs/passport';
 import { ResumeTemplateModule } from './resume-template/resume-template.module';
 import { MercuryClientModule } from '@/libs/mercury-client';
 import { UserModule } from './user/user.module';
+import { User } from '@/libs/database/entities/mars/user.entity';
 
 @Module({
   imports: [
-    // 微服务
+    // `mercury`微服务客户端
     MercuryClientModule,
     // API
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
@@ -22,19 +23,20 @@ import { UserModule } from './user/user.module';
       autoSchemaFile: {
         federation: 2,
       },
+      buildSchemaOptions: {
+        orphanedTypes: [User],
+      },
     }),
-    // 鉴权
-    PassportModule,
     // 数据库
     DatabaseModule.forRoot(ApplicationToken.Mars),
-    // 用户模块
-    UserModule,
+    // 鉴权
+    PassportModule,
     // 简历模块
     ResumeModule,
     // 简历模板模块
     ResumeTemplateModule,
+    // 用户模块
+    UserModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}

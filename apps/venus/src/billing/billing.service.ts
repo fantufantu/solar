@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { Brackets, In, Repository } from 'typeorm';
 import {
   Sharing,
   TargetType,
@@ -34,33 +34,9 @@ export class BillingService {
 
   /**
    * @author murukal
-   * @description 查询指定用户 id 相关的账本列表
-   */
-  async getBillingsByUserId(userId: number) {
-    return await this.billingRepository
-      .createQueryBuilder('billing')
-      .leftJoinAndSelect(
-        Sharing,
-        'sharing',
-        'sharing.targetType = :targetType AND sharing.targetId = billing.id',
-        {
-          targetType: TargetType.Billing,
-        },
-      )
-      .where(
-        '( billing.createdById = :userId OR sharing.sharedById = :userId )',
-        {
-          userId,
-        },
-      )
-      .getManyAndCount();
-  }
-
-  /**
-   * @author murukal
    * @description 查询单个账本
    */
-  getBilling(id: number, userId: number) {
+  billing(id: number, userId: number) {
     return this.billingRepository
       .createQueryBuilder('billing')
       .leftJoinAndSelect(
@@ -129,12 +105,41 @@ export class BillingService {
    * @author murukal
    * @description 根据账本 id 列表，查询账本列表
    */
-  async getBillingsByIds(ids: number[]): Promise<Billing[]> {
-    if (ids.length === 0) return [];
+  async billings({
+    ids = [],
+    who,
+  }: {
+    ids?: number[];
+    who?: number;
+  }): Promise<Billing[]> {
+    const qb = this.billingRepository
+      .createQueryBuilder('billing')
+      .where('1 = 1')
+      .orderBy('billing.updatedAt', 'DESC');
 
-    return await this.billingRepository.findBy({
-      id: In(ids),
-    });
+    if (who) {
+      qb.leftJoinAndSelect(
+        Sharing,
+        'sharing',
+        'sharing.targetType = :targetType AND sharing.targetId = billing.id',
+        {
+          targetType: TargetType.Billing,
+        },
+      ).andWhere(
+        new Brackets((qb) => {
+          qb.where('billing.createdById = :who', { who }).orWhere(
+            'sharing.sharedById = :who',
+            { who },
+          );
+        }),
+      );
+    }
+
+    if (ids.length > 0) {
+      qb.andWhere('billing.id IN (:...ids)', { ids });
+    }
+
+    return await qb.getMany();
   }
 
   /**

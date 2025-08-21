@@ -9,7 +9,7 @@ import {
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { UserService } from './user.service';
-import { UpdateUserBy } from './dto/update-user-by.input';
+import { UpdateUserInput } from './dto/update-user.input';
 import { CacheToken } from 'assets/tokens';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 
@@ -44,9 +44,9 @@ export class UserResolver {
   @UseGuards(JwtAuthGuard)
   async updateUser(
     @WhoAmI() whoAmI: User,
-    @Args('updateBy') updateBy: UpdateUserBy,
+    @Args('input') input: UpdateUserInput,
   ) {
-    return await this.userService.updateUser(whoAmI.id, updateBy);
+    return await this.userService.updateUser(whoAmI.id, input);
   }
 
   @Mutation(() => Date, {
@@ -67,7 +67,7 @@ export class UserResolver {
   }
 
   @ResolveReference()
-  async getUser(reference: { __typename: string; id: number }) {
-    return await this.userService.getUser(reference.id);
+  async user(reference: { __typename: string; id: number }) {
+    return await this.userService.user(reference.id);
   }
 }
