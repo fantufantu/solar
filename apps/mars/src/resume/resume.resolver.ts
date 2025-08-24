@@ -87,7 +87,7 @@ export class ResumeResolver {
     @WhoAmI() who: User,
     @PaginationArgs() pagination: Pagination,
   ) {
-    return this.resumeService.resumes(who.id, pagination);
+    return this.resumeService.deletedResumes(who.id, pagination);
   }
 
   @ResolveField('defaultTemplate', () => ResumeTemplate, {
