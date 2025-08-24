@@ -69,7 +69,7 @@ export class ResumeTemplateService {
       .where('1 = 1');
 
     if (limit > 0) {
-      qb.skip(Math.max(1, page - 1) * limit).take(limit);
+      qb.skip(Math.max(0, page - 1) * limit).take(limit);
     }
 
     if (codes.length > 0) {
