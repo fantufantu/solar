@@ -1,6 +1,5 @@
 import {
   Args,
-  Int,
   Mutation,
   Parent,
   Query,
@@ -88,6 +87,17 @@ export class ResumeResolver {
     @PaginationArgs() pagination: Pagination,
   ) {
     return this.resumeService.deletedResumes(who.id, pagination);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => Boolean, {
+    description: '下载简历`PDF`',
+  })
+  downloadResume(
+    @Args('id', { type: () => String }) id: string,
+    @WhoAmI() who: User,
+  ) {
+    return this.resumeService.downloadResume(id, who.id);
   }
 
   @ResolveField('defaultTemplate', () => ResumeTemplate, {

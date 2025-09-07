@@ -94,6 +94,7 @@ export enum CommandToken {
   GetConfiguration = 'configuration.get',
   GetConfigurations = 'configurations.get',
   GetUser = 'user.get',
+  GetCredential = 'credential.get',
   Authorize = 'role.authorize',
   isLoggedIn = 'authentication.logged-in',
 }

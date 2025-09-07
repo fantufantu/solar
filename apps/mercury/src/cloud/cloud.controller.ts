@@ -1,13 +1,14 @@
-import { Controller, Post, Sse } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { CloudService } from './cloud.service';
+import { CommandToken } from 'assets/tokens';
+import { MessagePattern } from '@nestjs/microservices';
 
 @Controller()
 export class CloudController {
   constructor(private readonly cloudService: CloudService) {}
 
-  @Post('/api/chat')
-  @Sse()
-  chat() {
-    return this.cloudService.chat('');
+  @MessagePattern({ cmd: CommandToken.GetCredential })
+  async credential() {
+    return await this.cloudService.credential();
   }
 }

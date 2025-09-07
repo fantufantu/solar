@@ -8,6 +8,8 @@ import { MercuryClientService } from '@/libs/mercury-client';
 import { Pagination } from 'assets/dto/pagination.input';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 import dayjs from 'dayjs';
+import puppeteer from 'puppeteer';
+import COS from 'cos-js-sdk-v5';
 
 @Injectable()
 export class ResumeService {
@@ -128,5 +130,35 @@ export class ResumeService {
       .orderBy('resume.deletedAt', 'DESC');
 
     return await _qb.getManyAndCount();
+  }
+
+  /**
+   * 下载简历`PFD`
+   */
+  async downloadResume(id: string, who: number) {
+    const browser = await puppeteer.launch({});
+    const page = await browser.newPage();
+    await page.goto('https://www.baidu.com/');
+
+    const _file = await page.pdf({
+      path: 'resume.pdf',
+      format: 'A4',
+    });
+
+    const _credential = await this.mercuryClientService.credential();
+    const _cos = new COS({
+      SecretId: _credential.secretId,
+      SecretKey: _credential.secretKey,
+      SecurityToken: _credential.securityToken,
+    });
+
+    _cos.uploadFile({
+      Bucket: _credential.bucket,
+      Region: _credential.region,
+      Key: id + '-' + who + '-' + 'resume.pdf',
+      Body: new Blob([_file as BlobPart], { type: 'application/pdf' }),
+    });
+
+    await browser.close();
   }
 }
