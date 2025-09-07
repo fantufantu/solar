@@ -28,7 +28,7 @@ import { User } from '@/libs/database/entities/mars/user.entity';
       },
     }),
     // 数据库
-    DatabaseModule.forRoot(ApplicationToken.Mars),
+    DatabaseModule.forRoot(ApplicationToken.Mars, { synchronize: false }),
     // 鉴权
     PassportModule,
     // 简历模块

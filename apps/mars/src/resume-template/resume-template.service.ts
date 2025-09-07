@@ -44,12 +44,12 @@ export class ResumeTemplateService {
   /**
    * @description 删除简历模板
    */
-  async remove(id: number, deletedById: number) {
+  async remove(code: string, deletedById: number) {
     const _resumeTemplate = this.resumeTemplateRepository.create();
     _resumeTemplate.deletedById = deletedById;
 
     return (
-      ((await this.resumeTemplateRepository.update(id, _resumeTemplate))
+      ((await this.resumeTemplateRepository.update(code, _resumeTemplate))
         .affected ?? 0) > 0
     );
   }

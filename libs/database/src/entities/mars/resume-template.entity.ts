@@ -34,4 +34,13 @@ export class ResumeTemplate extends Tracked {
     length: 128,
   })
   cover: string;
+
+  @Field(() => [String], {
+    description: '简历模板标签',
+  })
+  @Column({
+    type: 'simple-array',
+    comment: '简历模板标签',
+  })
+  tags: string;
 }

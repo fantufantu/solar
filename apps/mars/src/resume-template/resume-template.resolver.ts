@@ -40,10 +40,10 @@ export class ResumeTemplateResolver {
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Boolean, { description: '删除简历模板' })
   removeResumeTemplate(
-    @Args('id', { type: () => Int }) id: number,
+    @Args('code', { type: () => String }) code: string,
     @WhoAmI() who: User,
   ) {
-    return this.resumeTemplateService.remove(id, who.id);
+    return this.resumeTemplateService.remove(code, who.id);
   }
 
   @Query(() => PaginatedResumeTemplates, { description: '简历模板列表' })
