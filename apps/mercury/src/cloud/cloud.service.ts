@@ -19,7 +19,7 @@ export class CloudService {
 
   /**
    * @description
-   * 获取腾讯云COS临时秘钥
+   * 获取腾讯云`COS`临时秘钥
    */
   async credential(): Promise<Credential> {
     const [secretId, secretKey, bucket, region] =

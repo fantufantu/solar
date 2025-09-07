@@ -47,7 +47,7 @@
     "bcrypt": "^6.0.0",
     "cache-manager": "^7.2.0",
     "class-validator": "^0.14.2",
-    "cos-js-sdk-v5": "^1.10.1",
+    "cos-nodejs-sdk-v5": "^2.15.4",
     "dataloader": "^2.2.3",
     "dayjs": "^1.11.18",
     "graphql": "^16.11.0",

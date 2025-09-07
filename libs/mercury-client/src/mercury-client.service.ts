@@ -70,7 +70,7 @@ export class MercuryClientService {
         {
           cmd: CommandToken.GetCredential,
         },
-        null,
+        {},
       ),
     );
   }

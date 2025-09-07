@@ -9,7 +9,7 @@ import { Pagination } from 'assets/dto/pagination.input';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 import dayjs from 'dayjs';
 import puppeteer from 'puppeteer';
-import COS from 'cos-js-sdk-v5';
+import COS from 'cos-nodejs-sdk-v5';
 
 @Injectable()
 export class ResumeService {
@@ -138,11 +138,11 @@ export class ResumeService {
   async downloadResume(id: string, who: number) {
     const browser = await puppeteer.launch({});
     const page = await browser.newPage();
-    await page.goto('https://www.baidu.com/');
+    await page.goto(`https://knowthy.net/resume/preview/${id}`);
 
     const _file = await page.pdf({
-      path: 'resume.pdf',
       format: 'A4',
+      printBackground: true,
     });
 
     const _credential = await this.mercuryClientService.credential();
@@ -152,13 +152,14 @@ export class ResumeService {
       SecurityToken: _credential.securityToken,
     });
 
-    _cos.uploadFile({
+    const uploaded = await _cos.putObject({
       Bucket: _credential.bucket,
       Region: _credential.region,
       Key: id + '-' + who + '-' + 'resume.pdf',
-      Body: new Blob([_file as BlobPart], { type: 'application/pdf' }),
+      Body: Buffer.from(_file),
     });
 
     await browser.close();
+    return !!uploaded.Location;
   }
 }
