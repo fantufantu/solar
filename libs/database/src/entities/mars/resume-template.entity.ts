@@ -43,4 +43,14 @@ export class ResumeTemplate extends Tracked {
     comment: '简历模板标签',
   })
   tags: string;
+
+  @Field(() => String, {
+    description: '简历模板描述',
+  })
+  @Column({
+    type: 'varchar',
+    comment: '简历模板描述',
+    length: 1024,
+  })
+  description: string;
 }
