@@ -74,7 +74,7 @@ export class ResumeResolver {
   })
   @UseInterceptors(PaginatedInterceptor)
   resumes(@WhoAmI() who: User, @PaginationArgs() pagination: Pagination) {
-    return this.resumeService.resumes(who.id, pagination);
+    return this.resumeService.resumes({ who: who.id }, pagination);
   }
 
   @UseGuards(JwtAuthGuard)

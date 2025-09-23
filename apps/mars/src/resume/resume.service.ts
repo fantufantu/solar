@@ -91,17 +91,30 @@ export class ResumeService {
    * 1. 如果当前用户是管理员，则返回所有简历；
    * 2. 如果当前用户是普通用户，则返回当前用户的简历；
    */
-  async resumes(who: number, { limit, page }: Pagination) {
-    const isAdmin = await this.mercuryClientService.isAuthorized(who, {
-      resource: Resume.name,
-      action: AuthorizationActionCode.All,
-    });
+  async resumes(
+    { who, templateCodes = [] }: { who?: number; templateCodes?: string[] },
+    pagination?: Pagination,
+  ) {
+    const isAdmin =
+      !who ||
+      (await this.mercuryClientService.isAuthorized(who, {
+        resource: Resume.name,
+        action: AuthorizationActionCode.All,
+      }));
 
     const _qb = this.resumeRepository
       .createQueryBuilder('resume')
-      .skip((page - 1) * limit)
-      .take(limit)
       .where('1 = 1');
+
+    if (pagination) {
+      _qb.skip((pagination.page - 1) * pagination.limit).take(pagination.limit);
+    }
+
+    if (templateCodes.length > 0) {
+      _qb.andWhere('resume.defaultTemplateCode IN (:...templateCodes)', {
+        templateCodes,
+      });
+    }
 
     if (!isAdmin) {
       _qb.andWhere(
