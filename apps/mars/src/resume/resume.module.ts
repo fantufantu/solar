@@ -12,5 +12,6 @@ import { ResumeTemplateModule } from '../resume-template/resume-template.module'
     forwardRef(() => ResumeTemplateModule),
   ],
   providers: [ResumeLoader, ResumeResolver, ResumeService],
+  exports: [ResumeService],
 })
 export class ResumeModule {}

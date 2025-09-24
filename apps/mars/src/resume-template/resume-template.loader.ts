@@ -14,7 +14,7 @@ export class ResumeTemplateLoader {
    */
   readonly citationCount = new DataLoader<string, number>(
     async (codes: string[]) => {
-      const { 0: resumes } = await this.resumeService.resumes({
+      const resumes = await this.resumeService.resumes({
         templateCodes: codes,
       });
 

@@ -51,7 +51,7 @@ export class ResumeResolver {
     id: string,
     @Args('permanently', {
       type: () => Boolean,
-      description: '是否永久删除',
+      description: '永久删除',
       nullable: true,
       defaultValue: false,
     })

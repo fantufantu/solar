@@ -10,6 +10,7 @@ import { AuthorizationActionCode } from '@/libs/database/entities/mercury/author
 import dayjs from 'dayjs';
 import puppeteer from 'puppeteer';
 import COS from 'cos-nodejs-sdk-v5';
+import { ResumesWhere } from './dto/resumes';
 
 @Injectable()
 export class ResumeService {
@@ -87,12 +88,14 @@ export class ResumeService {
 
   /**
    * 查询简历列表
-   * @description
-   * 1. 如果当前用户是管理员，则返回所有简历；
-   * 2. 如果当前用户是普通用户，则返回当前用户的简历；
    */
+  resumes(where: ResumesWhere): Promise<Resume[]>;
+  resumes(
+    where: ResumesWhere,
+    pagination: Pagination,
+  ): Promise<[Resume[], number]>;
   async resumes(
-    { who, templateCodes = [] }: { who?: number; templateCodes?: string[] },
+    { who, templateCodes = [] }: ResumesWhere,
     pagination?: Pagination,
   ) {
     const isAdmin =
@@ -127,7 +130,11 @@ export class ResumeService {
       );
     }
 
-    return await _qb.getManyAndCount();
+    if (pagination) {
+      return await _qb.getManyAndCount();
+    } else {
+      return await _qb.getMany();
+    }
   }
 
   /**
