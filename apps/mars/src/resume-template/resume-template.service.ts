@@ -2,10 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { CreateResumeTemplateInput } from './dto/create-resume-template.input';
 import { UpdateResumeTemplateInput } from './dto/update-resume-template.input';
 import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.entity';
-import { Repository } from 'typeorm';
+import { Brackets, In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pagination } from 'assets/dto/pagination.input';
 import { User } from '@/libs/database/entities/mars/user.entity';
+import { ResumeService } from '../resume/resume.service';
+import { RecommendedResumeTemplatesArgs } from './dto/recommended-resume-templates.args';
 
 @Injectable()
 export class ResumeTemplateService {
@@ -14,6 +16,7 @@ export class ResumeTemplateService {
     private readonly resumeTemplateRepository: Repository<ResumeTemplate>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly resumeService: ResumeService,
   ) {}
 
   /**
@@ -118,5 +121,49 @@ export class ResumeTemplateService {
       .skip((page - 1) * limit)
       .take(limit)
       .getManyAndCount();
+  }
+
+  /**
+   * 推荐的简历
+   * @description
+   * 1. 推荐引用次数最多的模板列表
+   * 2. 传入`code`时，返回指定模板相同标签的模板
+   */
+  async recommendedResumeTemplates({ code }: RecommendedResumeTemplatesArgs) {
+    const _tags =
+      (code
+        ? (await this.resumeTemplateRepository.findOneBy({ code }))?.tags
+        : null) ?? [];
+
+    let _codes: string[] = [];
+
+    if (_tags.length > 0) {
+      _codes = (
+        await this.resumeTemplateRepository
+          .createQueryBuilder('resumeTemplate')
+          .where(
+            new Brackets((qb) => {
+              for (const _tag of _tags) {
+                qb.orWhere('resumeTemplate.tags REGEXP :tag', {
+                  tag: `^${_tag},|,${_tag},|,${_tag}$`,
+                });
+              }
+            }),
+          )
+          .getMany()
+      ).map((item) => item.code);
+    }
+
+    const _recommendedCodes = (
+      await this.resumeService.countByTemplateCode(_codes)
+    )
+      .slice(0, 5)
+      .map((item) => item.templateCode);
+
+    return await this.resumeTemplateRepository.find({
+      where: {
+        code: In(_recommendedCodes),
+      },
+    });
   }
 }

@@ -20,6 +20,7 @@ import { Pagination } from 'assets/dto/pagination.input';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { ResumeTemplateLoader } from './resume-template.loader';
+import { RecommendedResumeTemplatesArgs } from './dto/recommended-resume-templates.args';
 
 @Resolver(() => ResumeTemplate)
 export class ResumeTemplateResolver {
@@ -83,6 +84,11 @@ export class ResumeTemplateResolver {
       pagination,
       who: who.id,
     });
+  }
+
+  @Query(() => [ResumeTemplate], { description: '推荐的简历模板列表' })
+  recommendedResumeTemplates(@Args() args: RecommendedResumeTemplatesArgs) {
+    return this.resumeTemplateService.recommendedResumeTemplates(args);
   }
 
   @ResolveField(() => Int, {

@@ -8,8 +8,6 @@ import { MercuryClientService } from '@/libs/mercury-client';
 import { Pagination } from 'assets/dto/pagination.input';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 import dayjs from 'dayjs';
-import puppeteer from 'puppeteer';
-import COS from 'cos-nodejs-sdk-v5';
 import { ResumesWhere } from './dto/resumes';
 
 @Injectable()
@@ -89,15 +87,7 @@ export class ResumeService {
   /**
    * 查询简历列表
    */
-  resumes(where: ResumesWhere): Promise<Resume[]>;
-  resumes(
-    where: ResumesWhere,
-    pagination: Pagination,
-  ): Promise<[Resume[], number]>;
-  async resumes(
-    { who, templateCodes = [] }: ResumesWhere,
-    pagination?: Pagination,
-  ) {
+  async resumes({ who }: ResumesWhere, pagination: Pagination) {
     const isAdmin =
       !who ||
       (await this.mercuryClientService.isAuthorized(who, {
@@ -107,17 +97,9 @@ export class ResumeService {
 
     const _qb = this.resumeRepository
       .createQueryBuilder('resume')
-      .where('1 = 1');
-
-    if (pagination) {
-      _qb.skip((pagination.page - 1) * pagination.limit).take(pagination.limit);
-    }
-
-    if (templateCodes.length > 0) {
-      _qb.andWhere('resume.defaultTemplateCode IN (:...templateCodes)', {
-        templateCodes,
-      });
-    }
+      .where('1 = 1')
+      .skip((pagination.page - 1) * pagination.limit)
+      .take(pagination.limit);
 
     if (!isAdmin) {
       _qb.andWhere(
@@ -130,11 +112,7 @@ export class ResumeService {
       );
     }
 
-    if (pagination) {
-      return await _qb.getManyAndCount();
-    } else {
-      return await _qb.getMany();
-    }
+    return await _qb.getManyAndCount();
   }
 
   /**
@@ -153,33 +131,26 @@ export class ResumeService {
   }
 
   /**
-   * 下载简历`PFD`
+   * 按模板`code`统计引用次数
    */
-  async downloadResume(id: string, who: number) {
-    const browser = await puppeteer.launch({});
-    const page = await browser.newPage();
-    await page.goto(`https://knowthy.net/resume/preview/${id}`);
+  async countByTemplateCode(templateCodes: string[] = []) {
+    const qb = this.resumeRepository
+      .createQueryBuilder('resume')
+      .select('COUNT(1)', 'count')
+      .addSelect('resume.defaultTemplateCode', 'templateCode')
+      .groupBy('resume.defaultTemplateCode')
+      .orderBy('count', 'DESC')
+      .where('1 = 1');
 
-    const _file = await page.pdf({
-      format: 'A4',
-      printBackground: true,
-    });
+    if (templateCodes.length > 0) {
+      qb.andWhere('resume.defaultTemplateCode IN (:...templateCodes)', {
+        templateCodes,
+      });
+    }
 
-    const _credential = await this.mercuryClientService.credential();
-    const _cos = new COS({
-      SecretId: _credential.secretId,
-      SecretKey: _credential.secretKey,
-      SecurityToken: _credential.securityToken,
-    });
-
-    const uploaded = await _cos.putObject({
-      Bucket: _credential.bucket,
-      Region: _credential.region,
-      Key: id + '-' + who + '-' + 'resume.pdf',
-      Body: Buffer.from(_file),
-    });
-
-    await browser.close();
-    return !!uploaded.Location;
+    return (await qb.execute()) as {
+      templateCode: string;
+      count: number;
+    }[];
   }
 }

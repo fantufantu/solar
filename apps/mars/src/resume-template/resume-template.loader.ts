@@ -1,8 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
-import { ResumeTemplateService } from './resume-template.service';
-import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.entity';
-import { Nullable } from '@aiszlab/relax/types';
 import { ResumeService } from '../resume/resume.service';
 
 @Injectable()
@@ -14,15 +11,11 @@ export class ResumeTemplateLoader {
    */
   readonly citationCount = new DataLoader<string, number>(
     async (codes: string[]) => {
-      const resumes = await this.resumeService.resumes({
-        templateCodes: codes,
-      });
-
-      const citationCounts = resumes.reduce((counts, resume) => {
-        const count = counts.get(resume.defaultTemplateCode) ?? 0;
-        counts.set(resume.defaultTemplateCode, count + 1);
-        return counts;
-      }, new Map<string, number>());
+      const citationCounts = new Map(
+        (await this.resumeService.countByTemplateCode(codes)).map(
+          ({ count, templateCode }) => [templateCode, count],
+        ),
+      );
 
       return codes.map((code) => citationCounts.get(code) ?? 0);
     },

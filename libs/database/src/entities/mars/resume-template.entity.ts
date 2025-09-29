@@ -42,7 +42,7 @@ export class ResumeTemplate extends Tracked {
     type: 'simple-array',
     comment: '简历模板标签',
   })
-  tags: string;
+  tags: string[];
 
   @Field(() => String, {
     description: '简历模板描述',

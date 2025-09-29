@@ -9,10 +9,4 @@ export interface ResumesWhere {
    * - 如果不传，则返回所有简历
    */
   who?: number;
-
-  /**
-   * 简历模板`code`
-   * - 如果传了，则返回使用这些模板创建的简历
-   */
-  templateCodes?: string[];
 }

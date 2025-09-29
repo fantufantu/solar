@@ -1,4 +1,4 @@
-import { InputType, Int, Field, PickType } from '@nestjs/graphql';
+import { InputType, PickType } from '@nestjs/graphql';
 import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.entity';
 
 @InputType()

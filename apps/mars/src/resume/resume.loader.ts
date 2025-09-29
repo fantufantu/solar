@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
-import { Category } from '@/libs/database/entities/venus/category.entity';
-import { Billing } from '@/libs/database/entities/venus/billing.entity';
 import { ResumeTemplateService } from '../resume-template/resume-template.service';
 import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.entity';
 import { Nullable } from '@aiszlab/relax/types';
