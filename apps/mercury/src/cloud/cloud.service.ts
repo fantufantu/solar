@@ -58,6 +58,7 @@ export class CloudService {
               'name/cos:PutObject',
               'name/cos:PostObject',
               'name/cos:GetBucket',
+              'name/cos:GetObject',
             ],
             bucket,
             region,
