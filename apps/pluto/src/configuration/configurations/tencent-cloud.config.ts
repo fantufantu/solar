@@ -1,33 +1,37 @@
 import { registerAs } from '@nestjs/config';
+import { ConfigurationRegisterToken } from 'assets/tokens';
 import {
-  ConfigurationRegisterToken,
-  TencentCloudPropertyToken,
-} from 'assets/tokens';
-import { ValueOf } from '@aiszlab/relax/types';
+  TENCENT_CLOUD_CONFIGURATION,
+  TencentCloudConfiguration,
+} from 'constants/cloud';
 
-export default registerAs<
-  Record<ValueOf<typeof TencentCloudPropertyToken>, string>
->(ConfigurationRegisterToken.TencentCloud, () => {
-  return {
-    [TencentCloudPropertyToken.SecretId]:
-      process.env.TENCENT_CLOUD_SECRET_ID ?? '',
-    [TencentCloudPropertyToken.SecretKey]:
-      process.env.TENCENT_CLOUD_SECRET_KEY ?? '',
+export default registerAs<Record<TencentCloudConfiguration, string>>(
+  ConfigurationRegisterToken.TencentCloud,
+  () => {
+    return {
+      [TENCENT_CLOUD_CONFIGURATION.secret_id]:
+        process.env.TENCENT_CLOUD_SECRET_ID ?? '',
+      [TENCENT_CLOUD_CONFIGURATION.secret_key]:
+        process.env.TENCENT_CLOUD_SECRET_KEY ?? '',
 
-    [TencentCloudPropertyToken.FantuBucket]: process.env.FANTU_BUCKET ?? '',
-    [TencentCloudPropertyToken.FantuBucketRegion]:
-      process.env.FANTU_BUCKET_REGION ?? '',
+      [TENCENT_CLOUD_CONFIGURATION.fantu_bucket]:
+        process.env.FANTU_BUCKET ?? '',
+      [TENCENT_CLOUD_CONFIGURATION.fantu_bucket_region]:
+        process.env.FANTU_BUCKET_REGION ?? '',
 
-    [TencentCloudPropertyToken.KnowthyBucket]: process.env.KNOWTHY_BUCKET ?? '',
-    [TencentCloudPropertyToken.KnowthyBucketRegion]:
-      process.env.KNOWTHY_BUCKET_REGION ?? '',
+      [TENCENT_CLOUD_CONFIGURATION.knowthy_bucket]:
+        process.env.KNOWTHY_BUCKET ?? '',
+      [TENCENT_CLOUD_CONFIGURATION.knowthy_bucket_region]:
+        process.env.KNOWTHY_BUCKET_REGION ?? '',
 
-    [TencentCloudPropertyToken.SesRegion]: process.env.SES_REGION ?? '',
+      [TENCENT_CLOUD_CONFIGURATION.ses_region]: process.env.SES_REGION ?? '',
 
-    [TencentCloudPropertyToken.DatabaseHost]: process.env.DATABASE_HOST ?? '',
-    [TencentCloudPropertyToken.DatabasePort]:
-      process.env.DATABASE_PORT ?? '3306',
-    [TencentCloudPropertyToken.DatabasePassword]:
-      process.env.DATABASE_PASSWORD ?? '',
-  };
-});
+      [TENCENT_CLOUD_CONFIGURATION.database_host]:
+        process.env.DATABASE_HOST ?? '',
+      [TENCENT_CLOUD_CONFIGURATION.database_port]:
+        process.env.DATABASE_PORT ?? '3306',
+      [TENCENT_CLOUD_CONFIGURATION.database_password]:
+        process.env.DATABASE_PASSWORD ?? '',
+    };
+  },
+);

@@ -3,16 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions, In, Like, Not } from 'typeorm';
 import dayjs from 'dayjs';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
-import {
-  CacheToken,
-  ConfigurationRegisterToken,
-  TencentCloudPropertyToken,
-} from 'assets/tokens';
+import { CacheToken, ConfigurationRegisterToken } from 'assets/tokens';
 import { PlutoClientService } from '@/libs/pluto-client';
 import { VerifyInput } from './dto/verify.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { CacheService } from '@/libs/cache';
+import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud';
 
 @Injectable()
 export class UserService {
@@ -138,15 +135,15 @@ export class UserService {
     const [secretId, secretKey, region] = await Promise.all([
       this.plutoClient.getConfiguration<string>({
         token: ConfigurationRegisterToken.TencentCloud,
-        property: TencentCloudPropertyToken.SecretId,
+        property: TENCENT_CLOUD_CONFIGURATION.secret_id,
       }),
       this.plutoClient.getConfiguration<string>({
         token: ConfigurationRegisterToken.TencentCloud,
-        property: TencentCloudPropertyToken.SecretKey,
+        property: TENCENT_CLOUD_CONFIGURATION.secret_key,
       }),
       this.plutoClient.getConfiguration<string>({
         token: ConfigurationRegisterToken.TencentCloud,
-        property: TencentCloudPropertyToken.SesRegion,
+        property: TENCENT_CLOUD_CONFIGURATION.ses_region,
       }),
     ]);
 

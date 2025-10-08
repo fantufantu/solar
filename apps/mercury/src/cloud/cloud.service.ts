@@ -1,11 +1,13 @@
 import { PlutoClientService } from '@/libs/pluto-client';
 import { Injectable } from '@nestjs/common';
-import {
-  ConfigurationRegisterToken,
-  TencentCloudPropertyToken,
-} from 'assets/tokens';
+import { ConfigurationRegisterToken } from 'assets/tokens';
 import { getCredential, getPolicy } from 'qcloud-cos-sts';
-import { Credential } from './dto/credential.object';
+import {
+  BUCKET_NAME,
+  BucketName,
+  CosCredential,
+} from './dto/cos-credential.object';
+import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud';
 
 @Injectable()
 export class CloudService {
@@ -14,17 +16,17 @@ export class CloudService {
    */
   buckets = new Map([
     [
-      'fantu',
+      BUCKET_NAME.fantu,
       {
-        bucket: TencentCloudPropertyToken.FantuBucket,
-        region: TencentCloudPropertyToken.FantuBucketRegion,
+        bucket: TENCENT_CLOUD_CONFIGURATION.fantu_bucket,
+        region: TENCENT_CLOUD_CONFIGURATION.fantu_bucket_region,
       },
     ],
     [
-      'knowthy',
+      BUCKET_NAME.knowthy,
       {
-        bucket: TencentCloudPropertyToken.KnowthyBucket,
-        region: TencentCloudPropertyToken.KnowthyBucketRegion,
+        bucket: TENCENT_CLOUD_CONFIGURATION.knowthy_bucket,
+        region: TENCENT_CLOUD_CONFIGURATION.knowthy_bucket_region,
       },
     ],
   ]);
@@ -34,7 +36,7 @@ export class CloudService {
   /**
    * 获取腾讯云`COS`临时秘钥
    */
-  async credential(bucketName: string): Promise<Credential> {
+  async cosCredential(bucketName: BucketName): Promise<CosCredential> {
     const _bucket = this.buckets.get(bucketName);
     if (!_bucket) {
       throw new Error('未配置当前存储桶对应的配置内容');
@@ -46,11 +48,11 @@ export class CloudService {
       >([
         {
           token: ConfigurationRegisterToken.TencentCloud,
-          property: TencentCloudPropertyToken.SecretId,
+          property: TENCENT_CLOUD_CONFIGURATION.secret_id,
         },
         {
           token: ConfigurationRegisterToken.TencentCloud,
-          property: TencentCloudPropertyToken.SecretKey,
+          property: TENCENT_CLOUD_CONFIGURATION.secret_key,
         },
         {
           token: ConfigurationRegisterToken.TencentCloud,

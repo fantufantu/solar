@@ -36,26 +36,6 @@ export enum ConfigurationRegisterToken {
 }
 
 /**
- * tencent cloud
- */
-export const TencentCloudPropertyToken = {
-  SecretId: 'secretId',
-  SecretKey: 'secretKey',
-
-  FantuBucket: 'fantu-bucket',
-  FantuBucketRegion: 'fantu-bucket-region',
-
-  KnowthyBucket: 'knowthy-bucket',
-  KnowthyBucketRegion: 'knowthy-bucket-region',
-
-  SesRegion: 'ses-region',
-
-  DatabaseHost: 'database-host',
-  DatabasePort: 'database-port',
-  DatabasePassword: 'database-password',
-} as const;
-
-/**
  * @description
  * rsa 属性
  */
@@ -113,6 +93,9 @@ export enum GraphQLEnumToken {
   TransactionDirection = 'TransactionDirection',
   SharingTargetType = 'SharingTargetType',
   BillingLimitDuration = 'BillingLimitDuration',
+
+  // cos
+  BucketName = 'BucketName',
 }
 
 /**
