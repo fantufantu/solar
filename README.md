@@ -25,20 +25,6 @@
 * `apt install zsh -y`
 * `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
 
-- 安装 mysql
-
-* `apt install mysql-server -y`
-* 使用 root 用户访问，开启云服务器 3306 防火墙
-* 进入 mysql 使用 sql 更新认证方式
-* `UPDATE user SET plugin='mysql_native_password' WHERE User='root';`
-* `FLUSH PRIVILEGES;`
-
-- 安装 git
-
-* `add-apt-repository ppa:git-core/ppa`
-* `apt update`
-* `apt install git`
-
 - 借助`nvm`安装`nodejs`
 
 https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating
