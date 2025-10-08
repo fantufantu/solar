@@ -4,7 +4,6 @@ import { lastValueFrom } from 'rxjs';
 import { CommandToken, ProviderToken } from 'assets/tokens';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import type { Authorizing } from 'utils/decorators/permission.decorator';
-import { Credential } from 'apps/mercury/src/cloud/dto/credential.object';
 
 @Injectable()
 export class MercuryClientService {
@@ -57,20 +56,6 @@ export class MercuryClientService {
           cmd: CommandToken.isLoggedIn,
         },
         userId,
-      ),
-    );
-  }
-
-  /**
-   * 获取云服务认证信息
-   */
-  async credential() {
-    return await lastValueFrom<Credential>(
-      this.client.send(
-        {
-          cmd: CommandToken.GetCredential,
-        },
-        {},
       ),
     );
   }

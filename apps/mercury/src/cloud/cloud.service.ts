@@ -2,26 +2,44 @@ import { PlutoClientService } from '@/libs/pluto-client';
 import { Injectable } from '@nestjs/common';
 import {
   ConfigurationRegisterToken,
-  OpenaiPropertyToken,
   TencentCloudPropertyToken,
 } from 'assets/tokens';
 import { getCredential, getPolicy } from 'qcloud-cos-sts';
 import { Credential } from './dto/credential.object';
-import { ChatOpenAI } from '@langchain/openai';
 
 @Injectable()
 export class CloudService {
-  robot: ChatOpenAI | null;
+  /**
+   * 腾讯云`COS`配置项
+   */
+  buckets = new Map([
+    [
+      'fantu',
+      {
+        bucket: TencentCloudPropertyToken.FantuBucket,
+        region: TencentCloudPropertyToken.FantuBucketRegion,
+      },
+    ],
+    [
+      'knowthy',
+      {
+        bucket: TencentCloudPropertyToken.KnowthyBucket,
+        region: TencentCloudPropertyToken.KnowthyBucketRegion,
+      },
+    ],
+  ]);
 
-  constructor(private readonly plutoClient: PlutoClientService) {
-    this.initializeRobot();
-  }
+  constructor(private readonly plutoClient: PlutoClientService) {}
 
   /**
-   * @description
    * 获取腾讯云`COS`临时秘钥
    */
-  async credential(): Promise<Credential> {
+  async credential(bucketName: string): Promise<Credential> {
+    const _bucket = this.buckets.get(bucketName);
+    if (!_bucket) {
+      throw new Error('未配置当前存储桶对应的配置内容');
+    }
+
     const [secretId, secretKey, bucket, region] =
       await this.plutoClient.getConfigurations<
         [string, string, string, string]
@@ -36,16 +54,16 @@ export class CloudService {
         },
         {
           token: ConfigurationRegisterToken.TencentCloud,
-          property: TencentCloudPropertyToken.Bucket,
+          property: _bucket.bucket,
         },
         {
           token: ConfigurationRegisterToken.TencentCloud,
-          property: TencentCloudPropertyToken.BucketRegion,
+          property: _bucket.region,
         },
       ]);
 
     if (!secretId || !secretKey || !bucket || !region) {
-      throw new Error('腾讯云COS配置项缺失！');
+      throw new Error('腾讯云`COS`配置项缺失！');
     }
 
     const _cretenial = (
@@ -75,39 +93,5 @@ export class CloudService {
       bucket,
       region,
     };
-  }
-
-  /**
-   * @description
-   * 初始化 openai 机器人
-   */
-  async initializeRobot() {
-    const [apiKey, baseURL, model] = await this.plutoClient.getConfigurations<
-      [string, string, string]
-    >([
-      {
-        token: ConfigurationRegisterToken.Openai,
-        property: OpenaiPropertyToken.ApiKey,
-      },
-      {
-        token: ConfigurationRegisterToken.Openai,
-        property: OpenaiPropertyToken.BaseUrl,
-      },
-      {
-        token: ConfigurationRegisterToken.Openai,
-        property: OpenaiPropertyToken.Model,
-      },
-    ]);
-
-    // 配置缺失时，对话机器人不进行初始化
-    if (!apiKey || !baseURL || !model) {
-      return;
-    }
-
-    this.robot = new ChatOpenAI({
-      apiKey,
-      configuration: { baseURL },
-      model,
-    });
   }
 }

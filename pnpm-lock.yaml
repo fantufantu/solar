@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@aiszlab/relax':
-        specifier: ^2.0.6
-        version: 2.0.6(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 2.0.8-beta.4
+        version: 2.0.8-beta.4(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@apollo/gateway':
         specifier: ^2.11.2
         version: 2.11.2(encoding@0.1.13)(graphql@16.11.0)
@@ -186,8 +186,8 @@ importers:
 
 packages:
 
-  '@aiszlab/relax@2.0.6':
-    resolution: {integrity: sha512-9Lst+BEUwWZS/ol2ASEEuQZslVggYiZqL4zhqLPMWAJArCdFenxjtczD6v5nZCgnqOJ0MsbUmWG/tlF2QirN5Q==}
+  '@aiszlab/relax@2.0.8-beta.4':
+    resolution: {integrity: sha512-TbRWRVEJPaGOTNfIKmT+cZPYpJlZcDf/8RkfsIyaOn45fnUXedTm43HZFbElXs5dUWDYs7SL+/eED54chz+dJw==}
     peerDependencies:
       react: '>=18'
       react-dom: '>=18'
@@ -5016,7 +5016,7 @@ packages:
 
 snapshots:
 
-  '@aiszlab/relax@2.0.6(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@aiszlab/relax@2.0.8-beta.4(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.28.4
       next: 15.5.2(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

@@ -26,7 +26,7 @@
     "start:halley": "nest start halley"
   },
   "dependencies": {
-    "@aiszlab/relax": "^2.0.6",
+    "@aiszlab/relax": "2.0.8-beta.4",
     "@apollo/gateway": "^2.11.2",
     "@apollo/server": "^4.12.2",
     "@apollo/subgraph": "^2.11.2",

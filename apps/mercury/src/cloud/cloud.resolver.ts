@@ -1,4 +1,4 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 import { Credential } from './dto/credential.object';
 import { CloudService } from './cloud.service';
 
@@ -9,7 +9,7 @@ export class CloudResolver {
   @Query(() => Credential, {
     description: '获取腾讯云COS临时秘钥',
   })
-  async credential() {
-    return await this.cloudService.credential();
+  async credential(@Args('bucketName') bucketName: string) {
+    return await this.cloudService.credential(bucketName);
   }
 }

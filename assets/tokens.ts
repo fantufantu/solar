@@ -36,21 +36,24 @@ export enum ConfigurationRegisterToken {
 }
 
 /**
- * tencent cloud 属性
+ * tencent cloud
  */
-export enum TencentCloudPropertyToken {
-  SecretId = 'secretId',
-  SecretKey = 'secretKey',
+export const TencentCloudPropertyToken = {
+  SecretId: 'secretId',
+  SecretKey: 'secretKey',
 
-  Bucket = 'bucket',
-  BucketRegion = 'bucket-region',
+  FantuBucket: 'fantu-bucket',
+  FantuBucketRegion: 'fantu-bucket-region',
 
-  SesRegion = 'ses-region',
+  KnowthyBucket: 'knowthy-bucket',
+  KnowthyBucketRegion: 'knowthy-bucket-region',
 
-  DatabaseHost = 'database-host',
-  DatabasePort = 'database-port',
-  DatabasePassword = 'database-password',
-}
+  SesRegion: 'ses-region',
+
+  DatabaseHost: 'database-host',
+  DatabasePort: 'database-port',
+  DatabasePassword: 'database-password',
+} as const;
 
 /**
  * @description
@@ -94,7 +97,6 @@ export enum CommandToken {
   GetConfiguration = 'configuration.get',
   GetConfigurations = 'configurations.get',
   GetUser = 'user.get',
-  GetCredential = 'credential.get',
   Authorize = 'role.authorize',
   isLoggedIn = 'authentication.logged-in',
 }
