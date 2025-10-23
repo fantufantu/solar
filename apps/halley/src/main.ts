@@ -8,6 +8,7 @@ async function bootstrap() {
       origin: [
         /aisz\.dev$/,
         /fantufantu\.com$/,
+        /knowthy\.net$/,
         /localhost:9527$/,
         /localhost:8200$/,
       ],
