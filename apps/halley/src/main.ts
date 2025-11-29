@@ -10,7 +10,9 @@ async function bootstrap() {
         /fantufantu\.com$/,
         /knowthy\.net$/,
         /localhost:9527$/,
+        /127.0.0.1:9527$/,
         /localhost:8200$/,
+        /127.0.0.1:8200$/,
       ],
     },
   });
