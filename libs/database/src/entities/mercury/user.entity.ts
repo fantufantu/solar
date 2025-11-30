@@ -1,18 +1,10 @@
 import { BadRequestException } from '@nestjs/common';
 import { Directive, Field, ObjectType } from '@nestjs/graphql';
-import {
-  BeforeInsert,
-  BeforeUpdate,
-  Column,
-  Entity,
-  ManyToMany,
-} from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
 import { randomUUID } from 'crypto';
 import { hashSync } from 'bcrypt';
 import { IsEmail, MaxLength, MinLength, isURL } from 'class-validator';
 import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
-
-import { Role } from './role.entity';
 
 @ObjectType()
 @Directive('@key(fields: "id")')
@@ -75,9 +67,6 @@ export class User extends IdentifiedTimeStamped {
   @MaxLength(20)
   @MinLength(6)
   password: string;
-
-  @ManyToMany(() => Role, (role) => role.users)
-  roles?: Role[];
 
   @BeforeInsert()
   @BeforeUpdate()

@@ -1,6 +1,13 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindOneOptions, In, Like, Not } from 'typeorm';
+import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
+import {
+  Repository,
+  FindOneOptions,
+  In,
+  Like,
+  Not,
+  EntityManager,
+} from 'typeorm';
 import dayjs from 'dayjs';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
 import { CacheToken, ConfigurationRegisterToken } from 'assets/tokens';
@@ -10,14 +17,20 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { CacheService } from '@/libs/cache';
 import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud';
+import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
+import { ROLES } from '@/libs/database/entities/mercury/role.entity';
 
 @Injectable()
 export class UserService {
   private sesClient: SesClient;
 
   constructor(
+    @InjectEntityManager()
+    private readonly entityManager: EntityManager,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(RoleWithUser)
+    private readonly roleWithUserRepository: Repository<RoleWithUser>,
     private readonly plutoClient: PlutoClientService,
     private readonly cacheService: CacheService,
   ) {
@@ -120,10 +133,31 @@ export class UserService {
 
   /**
    * @author murukal
-   * @description 创建用户
+   * 1. 创建用户
+   * 2. 默认分配游客角色
+   *
+   * 分配角色失败，保证用户数据回滚
    */
   async create(user: Partial<User>) {
-    return this.userRepository.save(this.userRepository.create(user));
+    const { resolve, reject, promise } = Promise.withResolvers<User>();
+
+    this.entityManager
+      .transaction(async (entityManager) => {
+        const _user = entityManager.create(User, user);
+        await entityManager.save(_user);
+
+        // 默认分配游客角色
+        entityManager.create(RoleWithUser, {
+          roleCode: ROLES.GUEST,
+          userId: _user.id,
+        });
+        await entityManager.save(RoleWithUser);
+
+        resolve(_user);
+      })
+      .catch((error) => reject(error));
+
+    return promise;
   }
 
   /**

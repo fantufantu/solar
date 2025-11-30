@@ -35,8 +35,7 @@ export class AuthenticationService {
   }
 
   /**
-   * @description
-   * 注册
+   * 用户注册
    */
   async register(input: RegisterInput) {
     // 邮箱验证
@@ -85,8 +84,7 @@ export class AuthenticationService {
   }
 
   /**
-   * @description
-   * 创建用户
+   * 注册
    */
   async signUp({ password, ..._registerInput }: RegisterInput) {
     // 注册密码解密

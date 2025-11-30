@@ -16,6 +16,10 @@ import { UpdateRoleInput } from './dto/update-role.input';
 import { Permission } from 'utils/decorators/permission.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '@/libs/passport/guards';
+import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
+import { User } from '@/libs/database/entities/mercury/user.entity';
 
 @Resolver(() => Role)
 export class RoleResolver {
@@ -40,7 +44,7 @@ export class RoleResolver {
     action: AuthorizationActionCode.Read,
   })
   roles(@PaginationArgs() pagination: Pagination) {
-    return this.roleService.getRoles({
+    return this.roleService.roles({
       pagination,
     });
   }
@@ -50,8 +54,8 @@ export class RoleResolver {
     resource: Role.name,
     action: AuthorizationActionCode.Read,
   })
-  role(@Args('id', { type: () => Int }) id: number) {
-    return this.roleService.getRole(id);
+  role(@Args('code', { type: () => String }) code: string) {
+    return this.roleService.role(code);
   }
 
   @Mutation(() => Boolean, {
@@ -62,13 +66,13 @@ export class RoleResolver {
     action: AuthorizationActionCode.Update,
   })
   updateRole(
-    @Args('id', {
-      type: () => Int,
+    @Args('code', {
+      type: () => String,
     })
-    id: number,
+    code: string,
     @Args('input') input: UpdateRoleInput,
   ) {
-    return this.roleService.update(id, input);
+    return this.roleService.update(code, input);
   }
 
   @Mutation(() => Boolean, {
@@ -78,23 +82,15 @@ export class RoleResolver {
     resource: Role.name,
     action: AuthorizationActionCode.Delete,
   })
-  removeRole(@Args('id', { type: () => Int }) id: number) {
-    return this.roleService.remove(id);
+  removeRole(@Args('code', { type: () => String }) code: string) {
+    return this.roleService.remove(code);
   }
 
-  @ResolveField(() => [Int], {
-    name: 'userIds',
-    description: '关联的用户ids',
+  @UseGuards(JwtAuthGuard)
+  @Query(() => [Role], {
+    description: '查询用户已授权范围',
   })
-  getUserIds(@Parent() role: Role) {
-    return this.roleService.getUserIds(role.id);
-  }
-
-  @ResolveField(() => [Int], {
-    name: 'authorizationIds',
-    description: '关联的权限ids',
-  })
-  getAuthorizationIds(@Parent() role: Role) {
-    return this.roleService.getAuthorizationIds(role.id);
+  authorized(@WhoAmI() user: User) {
+    return this.roleService.authorizedByUserId(user.id);
   }
 }

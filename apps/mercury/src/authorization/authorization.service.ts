@@ -16,7 +16,7 @@ export class AuthorizationService {
   /**
    * @description 分页查询权限
    */
-  getAuthorizations(query?: Query<Authorization>) {
+  authorizations(query?: Query<Authorization>) {
     return paginateQuery(this.authorizationRepository, query);
   }
 

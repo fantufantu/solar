@@ -1,23 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, type Repository } from 'typeorm';
+import { type Repository } from 'typeorm';
 import { Role } from '@/libs/database/entities/mercury/role.entity';
 import { paginateQuery } from 'utils/query-builder';
 import {
   AuthorizationActionCode,
   type Authorization,
 } from '@/libs/database/entities/mercury/authorization.entity';
-import type { User } from '@/libs/database/entities/mercury/user.entity';
 import type { CreateRoleInput } from './dto/create-role.input';
 import type { UpdateRoleInput } from './dto/update-role.input';
 import type { Query } from 'typings/controller';
 import { Authorizing } from 'utils/decorators/permission.decorator';
+import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
 
 @Injectable()
 export class RoleService {
   constructor(
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
+    @InjectRepository(RoleWithUser)
+    private readonly roleWithUserRepository: Repository<RoleWithUser>,
   ) {}
 
   /**
@@ -28,24 +30,24 @@ export class RoleService {
   }
 
   /**
-   * @description 分页查询角色
+   * 分页查询角色
    */
-  getRoles(query?: Query<Role>) {
+  roles(query?: Query<Role>) {
     return paginateQuery(this.roleRepository, query);
   }
 
   /**
-   * @description 查询单个角色
+   * 查询单个角色
    */
-  getRole(id: number) {
-    return this.roleRepository.findOneBy({ id });
+  role(code: string) {
+    return this.roleRepository.findOneBy({ code });
   }
 
   /**
    * @description 更新角色
    */
   async update(
-    id: number,
+    code: string,
     { userIds, authorizationIds, ...input }: UpdateRoleInput,
   ) {
     // 更新关联的用户
@@ -53,7 +55,7 @@ export class RoleService {
       (await this.roleRepository
         .createQueryBuilder()
         .relation('users')
-        .of(id)
+        .of(code)
         .add(userIds));
 
     // 更新关联的权限
@@ -62,14 +64,14 @@ export class RoleService {
         await this.roleRepository
           .createQueryBuilder()
           .relation('authorizations')
-          .of(id)
+          .of(code)
           .loadMany<Authorization>()
       ).map((auth) => auth.id);
 
       await this.roleRepository
         .createQueryBuilder()
         .relation('authorizations')
-        .of(id)
+        .of(code)
         .addAndRemove(authorizationIds, removeAuthorizationIds);
     }
 
@@ -79,48 +81,26 @@ export class RoleService {
         .createQueryBuilder()
         .update()
         .set(this.roleRepository.create(input))
-        .whereInIds(id)
+        .where({
+          code,
+        })
         .execute()
     ).affected;
   }
 
   /**
-   * @description 删除角色
+   * 删除角色
    */
-  async remove(id: number) {
+  async remove(code: string) {
     return !!(
       await this.roleRepository
         .createQueryBuilder()
         .delete()
-        .whereInIds(id)
+        .where({
+          code,
+        })
         .execute()
     ).affected;
-  }
-
-  /**
-   * @description 查询角色关联的用户`id`列表
-   */
-  async getUserIds(id: number) {
-    return (
-      await this.roleRepository
-        .createQueryBuilder()
-        .relation('users')
-        .of(id)
-        .loadMany<User>()
-    ).map((user) => user.id);
-  }
-
-  /**
-   * 查询角色关联的权限ids
-   */
-  async getAuthorizationIds(id: number) {
-    return (
-      await this.roleRepository
-        .createQueryBuilder()
-        .relation('authorizations')
-        .of(id)
-        .loadMany<Authorization>()
-    ).map((authorization) => authorization.id);
   }
 
   /**
@@ -146,15 +126,19 @@ export class RoleService {
   }
 
   /**
-   * 获取当前用户对应的权限资源
-   * @description 获取当前用户对应的角色 -> 根据角色获取角色关联的权限资源
+   * 获取当前用户对应的权限点
+   * 1. 获取当前用户对应的角色
+   * 2. 根据角色获取角色关联的权限资源
    */
-  async getResourceCodesByUserId(id: number, tenantCode?: string) {
-    const qb = this.roleRepository
-      .createQueryBuilder('role')
-      .innerJoinAndSelect('role.users', 'user')
+  async authorizedByUserId(id: number, tenantCode?: string) {
+    const qb = this.roleWithUserRepository
+      .createQueryBuilder('roleWithUser')
+      .innerJoinAndSelect('roleWithUser.role', 'role')
       .innerJoinAndSelect('role.authorizations', 'authorization')
-      .select('DISTINCT authorization.resourceCode')
+      .select('authorization.tenantCode', 'tenantCode')
+      .addSelect('authorization.resourceCode', 'resourceCode')
+      .addSelect('authorization.actionCode', 'actionCode')
+      .distinct(true)
       .where('1 = 1')
       .andWhere('user.id = :userId', {
         userId: id,
@@ -166,8 +150,6 @@ export class RoleService {
       });
     }
 
-    return ((await qb.execute()) as { resourceCode: string }[]).map(
-      ({ resourceCode }) => resourceCode,
-    );
+    return await qb.execute();
   }
 }

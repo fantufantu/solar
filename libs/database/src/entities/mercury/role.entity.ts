@@ -1,14 +1,30 @@
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
-import { Authorization } from './authorization.entity';
-import { User } from './user.entity';
-import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { TimeStamped } from '../any-use/time-stamped.entity';
+
+/**
+ * 内置角色
+ */
+export const ROLES = {
+  // 管理员
+  ADMIN: 'admin',
+  // 游客
+  GUEST: 'guest',
+};
 
 @Entity({
   name: 'role',
 })
 @ObjectType()
-export class Role extends IdentifiedTimeStamped {
+export class Role extends TimeStamped {
+  @Field(() => String, { description: '角色`code`' })
+  @PrimaryColumn({
+    comment: '角色`code`',
+    type: 'varchar',
+    length: 20,
+  })
+  code: string;
+
   @Field(() => String, { description: '角色名称' })
   @Column({
     comment: '角色名称',
@@ -16,26 +32,4 @@ export class Role extends IdentifiedTimeStamped {
     length: 40,
   })
   name: string;
-
-  @ManyToMany(() => User, (user) => user.roles)
-  @JoinTable({
-    name: 'role_with_user',
-    joinColumn: { name: 'role_id', referencedColumnName: 'id' },
-    inverseJoinColumn: {
-      name: 'user_id',
-      referencedColumnName: 'id',
-    },
-  })
-  users: User[];
-
-  @ManyToMany(() => Authorization)
-  @JoinTable({
-    name: 'role_with_authorization',
-    joinColumn: { name: 'role_id', referencedColumnName: 'id' },
-    inverseJoinColumn: {
-      name: 'authorization_id',
-      referencedColumnName: 'id',
-    },
-  })
-  authorizations: Authorization[];
 }

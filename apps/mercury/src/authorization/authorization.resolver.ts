@@ -15,8 +15,8 @@ export class AuthorizationResolver {
     description: '分页查询权限',
     name: 'authorizations',
   })
-  getAuthorizations() {
-    return this.authorizationService.getAuthorizations();
+  authorizations() {
+    return this.authorizationService.authorizations();
   }
 
   @UseGuards(JwtAuthGuard)
