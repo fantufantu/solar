@@ -16,7 +16,7 @@ export class AuthorizationResolver {
     name: 'authorizations',
   })
   authorizations() {
-    return this.authorizationService.authorizations();
+    return this.authorizationService.paginate();
   }
 
   @UseGuards(JwtAuthGuard)

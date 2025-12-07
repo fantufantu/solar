@@ -30,7 +30,11 @@ export const paginateQuery = async <
   }
 
   // 注入分页参数
-  queryBuild.skip(skip).take(query?.pagination?.limit);
+  queryBuild.skip(skip);
+
+  if (query?.pagination?.limit !== Infinity) {
+    queryBuild.take(query?.pagination?.limit);
+  }
 
   // 注入排序参数
   query?.sort && queryBuild.orderBy(query.sort);

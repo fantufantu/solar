@@ -7,5 +7,6 @@ import { Authorization } from '@/libs/database/entities/mercury/authorization.en
 @Module({
   imports: [TypeOrmModule.forFeature([Authorization])],
   providers: [AuthorizationResolver, AuthorizationService],
+  exports: [AuthorizationService],
 })
 export class AuthorizationModule {}

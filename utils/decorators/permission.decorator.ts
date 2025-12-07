@@ -1,23 +1,15 @@
-import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common';
+import { PermissionPoint } from 'apps/mercury/src/role/dto/permission';
 import { PermissionGuard } from 'assets/guards';
 import { MetadataToken } from 'assets/tokens';
 
 /**
- * 权限路径
- */
-export interface Authorizing {
-  resource: string;
-  action: AuthorizationActionCode;
-}
-
-/**
  * 鉴权
  */
-export const Permission = (authorizing: Authorizing) => {
+export const Permission = (permissionPoint: PermissionPoint) => {
   return applyDecorators(
-    SetMetadata(MetadataToken.Permission, authorizing),
+    SetMetadata(MetadataToken.Permission, permissionPoint),
     UseGuards(JwtAuthGuard, PermissionGuard),
   );
 };

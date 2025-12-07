@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { type Repository } from 'typeorm';
-import { Role } from '@/libs/database/entities/mercury/role.entity';
+import { Role, ROLES } from '@/libs/database/entities/mercury/role.entity';
 import { paginateQuery } from 'utils/query-builder';
 import {
   AuthorizationActionCode,
@@ -10,8 +10,10 @@ import {
 import type { CreateRoleInput } from './dto/create-role.input';
 import type { UpdateRoleInput } from './dto/update-role.input';
 import type { Query } from 'typings/controller';
-import { Authorizing } from 'utils/decorators/permission.decorator';
 import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
+import { AuthorizationService } from '../authorization/authorization.service';
+import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role_with_authorization.entity';
+import { PermissionPoint } from './dto/permission';
 
 @Injectable()
 export class RoleService {
@@ -20,6 +22,9 @@ export class RoleService {
     private readonly roleRepository: Repository<Role>,
     @InjectRepository(RoleWithUser)
     private readonly roleWithUserRepository: Repository<RoleWithUser>,
+    @InjectRepository(RoleWithAuthorization)
+    private readonly roleWithAuthorizationRepository: Repository<RoleWithAuthorization>,
+    private readonly authorizationService: AuthorizationService,
   ) {}
 
   /**
@@ -107,7 +112,7 @@ export class RoleService {
    * @description 鉴权
    * 1. 如果是资源管理员权限，也认为有权限
    */
-  async isAuthorized(who: number, authorizing: Authorizing) {
+  async isAuthorized(who: number, permissionPoint: PermissionPoint) {
     const qb = this.roleRepository
       .createQueryBuilder('role')
       .innerJoin('role.users', 'user')
@@ -116,10 +121,10 @@ export class RoleService {
         who,
       })
       .andWhere('authorization.resourceCode = :resource', {
-        resource: authorizing.resource,
+        resource: permissionPoint.resource,
       })
       .andWhere('authorization.actionCode IN (:...actions)', {
-        actions: [authorizing.action, AuthorizationActionCode.All],
+        actions: [permissionPoint.action, AuthorizationActionCode.All],
       });
 
     return (await qb.getCount()) > 0;
@@ -129,19 +134,42 @@ export class RoleService {
    * 获取当前用户对应的权限点
    * 1. 获取当前用户对应的角色
    * 2. 根据角色获取角色关联的权限资源
+   *
+   * 如果是管理员，直接返回所有权限点
    */
   async authorizedByUserId(id: number, tenantCode?: string) {
-    const qb = this.roleWithUserRepository
-      .createQueryBuilder('roleWithUser')
-      .innerJoinAndSelect('roleWithUser.role', 'role')
-      .innerJoinAndSelect('role.authorizations', 'authorization')
+    const roleCodes = new Set(
+      (
+        await this.roleWithUserRepository
+          .createQueryBuilder()
+          .where({
+            userId: id,
+          })
+          .getMany()
+      ).map(({ roleCode }) => roleCode),
+    );
+
+    if (roleCodes.has(ROLES.ADMIN)) {
+      return await this.authorizationService.authorizations({
+        where: {
+          tenantCode,
+        },
+      });
+    }
+
+    const qb = this.roleWithAuthorizationRepository
+      .createQueryBuilder('roleWithAuthorization')
+      .innerJoinAndSelect(
+        'roleWithAuthorization.authorization',
+        'authorization',
+      )
       .select('authorization.tenantCode', 'tenantCode')
       .addSelect('authorization.resourceCode', 'resourceCode')
       .addSelect('authorization.actionCode', 'actionCode')
       .distinct(true)
       .where('1 = 1')
-      .andWhere('user.id = :userId', {
-        userId: id,
+      .andWhere('roleWithAuthorization.roleCode IN (:...roleCodes)', {
+        roleCodes: Array.from(roleCodes),
       });
 
     if (tenantCode) {
@@ -150,6 +178,7 @@ export class RoleService {
       });
     }
 
-    return await qb.execute();
+    const authorizedPoints: Authorization[] = await qb.execute();
+    return authorizedPoints;
   }
 }

@@ -3,7 +3,7 @@ import type { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 import { CommandToken, ProviderToken } from 'assets/tokens';
 import { User } from '@/libs/database/entities/mercury/user.entity';
-import type { Authorizing } from 'utils/decorators/permission.decorator';
+import { PermissionPoint } from 'apps/mercury/src/role/dto/permission';
 
 @Injectable()
 export class MercuryClientService {
@@ -31,7 +31,7 @@ export class MercuryClientService {
    * @description
    * 鉴权
    */
-  isAuthorized(who: number, authorizing: Authorizing) {
+  isAuthorized(who: number, permissionPoint: PermissionPoint) {
     return lastValueFrom(
       this.client.send<boolean>(
         {
@@ -39,7 +39,7 @@ export class MercuryClientService {
         },
         {
           who,
-          authorizing,
+          permissionPoint,
         },
       ),
     );

@@ -4,7 +4,7 @@ import { paginateQuery } from 'utils/query-builder';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 import { AuthorizeInput } from './dto/authorize.input';
 import type { Query } from 'typings/controller';
-import type { Repository } from 'typeorm';
+import type { FindManyOptions, Repository } from 'typeorm';
 
 @Injectable()
 export class AuthorizationService {
@@ -14,14 +14,14 @@ export class AuthorizationService {
   ) {}
 
   /**
-   * @description 分页查询权限
+   * 分页查询权限
    */
-  authorizations(query?: Query<Authorization>) {
+  paginate(query?: Query<Authorization>) {
     return paginateQuery(this.authorizationRepository, query);
   }
 
   /**
-   * @description 分配权限
+   * 分配权限
    */
   async authorize({ tenantCode, authorizations }: AuthorizeInput, who: number) {
     const authorizeds = (
@@ -58,5 +58,12 @@ export class AuthorizationService {
       (await this.authorizationRepository.save([...authorizeds.values()]))
         .length > 0
     );
+  }
+
+  /**
+   * 查询权限数据
+   */
+  authorizations(options: FindManyOptions<Authorization>) {
+    return this.authorizationRepository.find(options);
   }
 }
