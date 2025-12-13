@@ -15,7 +15,10 @@ import { CreateRoleInput } from './dto/create-role.input';
 import { UpdateRoleInput } from './dto/update-role.input';
 import { Permission } from 'utils/decorators/permission.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
-import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
+import {
+  Authorization,
+  AuthorizationActionCode,
+} from '@/libs/database/entities/mercury/authorization.entity';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
@@ -87,7 +90,7 @@ export class RoleResolver {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Query(() => [Role], {
+  @Query(() => [Authorization], {
     description: '查询用户已授权范围',
   })
   authorized(@WhoAmI() user: User) {
