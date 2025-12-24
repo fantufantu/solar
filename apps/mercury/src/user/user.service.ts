@@ -4,9 +4,8 @@ import {
   Repository,
   FindOneOptions,
   In,
-  Like,
-  Not,
   EntityManager,
+  Brackets,
 } from 'typeorm';
 import dayjs from 'dayjs';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
@@ -19,6 +18,8 @@ import { CacheService } from '@/libs/cache';
 import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud';
 import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
 import { ROLES } from '@/libs/database/entities/mercury/role.entity';
+import { Pagination } from 'assets/dto/pagination.input';
+import { FilterUserInput } from './dto/filter-user.input';
 
 @Injectable()
 export class UserService {
@@ -29,8 +30,6 @@ export class UserService {
     private readonly entityManager: EntityManager,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(RoleWithUser)
-    private readonly roleWithUserRepository: Repository<RoleWithUser>,
     private readonly plutoClient: PlutoClientService,
     private readonly cacheService: CacheService,
   ) {
@@ -202,26 +201,6 @@ export class UserService {
 
   /**
    * @author murukal
-   * @description 查询用户列表
-   */
-  async getUsersByWho(who: string, exclude: number) {
-    const likeBy = `%${who}%`;
-
-    // 查询指定用户
-    return await this.userRepository.findBy([
-      {
-        username: Like(likeBy),
-        id: Not(exclude),
-      },
-      {
-        emailAddress: Like(likeBy),
-        id: Not(exclude),
-      },
-    ]);
-  }
-
-  /**
-   * @author murukal
    * @description 更新用户信息
    */
   async updateUser(id: number, input: UpdateUserInput) {
@@ -244,5 +223,34 @@ export class UserService {
         password,
       }),
     ));
+  }
+
+  /**
+   * @author murukal
+   * 分页查询用户列表
+   */
+  async paginateUsers({
+    filter,
+    pagination,
+  }: {
+    filter: FilterUserInput;
+    pagination: Pagination;
+  }) {
+    const qb = this.userRepository.createQueryBuilder('user').where('1 = 1');
+
+    if (filter?.keyword) {
+      qb.andWhere(
+        new Brackets((qb) => {
+          qb.where('user.username REGEXP :keyword')
+            .orWhere('user.nickname REGEXP :keyword')
+            .orWhere('user.emailAddress REGEXP :keyword');
+        }),
+      ).setParameter('keyword', filter.keyword);
+    }
+
+    return await qb
+      .skip((pagination.page - 1) * pagination.limit)
+      .take(pagination.limit)
+      .getManyAndCount();
   }
 }

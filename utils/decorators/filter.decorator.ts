@@ -9,6 +9,7 @@ export const FilterArgs = (
   return Args('filter', {
     nullable: true,
     description: '筛选参数',
+    defaultValue: {},
     ...options,
   });
 };

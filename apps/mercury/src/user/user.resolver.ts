@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, UseInterceptors } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -12,6 +12,12 @@ import { UserService } from './user.service';
 import { UpdateUserInput } from './dto/update-user.input';
 import { CacheToken } from 'assets/tokens';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
+import { PaginationArgs } from 'utils/decorators/pagination.decorator';
+import { Pagination } from 'assets/dto/pagination.input';
+import { FilterArgs } from 'utils/decorators/filter.decorator';
+import { FilterUserInput } from './dto/filter-user.input';
+import { PaginatedUsers } from './dto/paginated-users.object';
+import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -26,16 +32,19 @@ export class UserResolver {
     return who;
   }
 
-  @Query(() => [User], {
-    name: 'users',
-    description: '利用账户信息查询账户列表',
+  @Query(() => PaginatedUsers, {
+    description: '分页查询用户列表（接口严格鉴权）',
   })
+  @UseInterceptors(PaginatedInterceptor)
   @UseGuards(JwtAuthGuard)
-  async getUsers(
-    @Args('who', { type: () => String, description: '账户信息' }) who: string,
-    @WhoAmI() whoAmI: User,
+  async paginateUsers(
+    @PaginationArgs() pagination: Pagination,
+    @FilterArgs() filter: FilterUserInput,
   ) {
-    return await this.userService.getUsersByWho(who, whoAmI.id);
+    return await this.userService.paginateUsers({
+      filter,
+      pagination,
+    });
   }
 
   @Mutation(() => Boolean, {
