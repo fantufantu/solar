@@ -65,16 +65,7 @@ export class AuthenticationService {
     if (!user) throw new UnauthorizedException('用户名或者密码错误！');
 
     // 校验密码
-    const isPasswordValid = compareSync(
-      this.decryptByRsaPrivateKey(
-        input.password,
-        await this.plutoClient.getConfiguration<string>({
-          token: ConfigurationRegisterToken.Rsa,
-          property: RsaPropertyToken.PrivateKey,
-        }),
-      ),
-      user.password,
-    );
+    const isPasswordValid = compareSync(input.password, user.password);
 
     if (!isPasswordValid) {
       throw new UnauthorizedException('用户名或者密码错误！');
@@ -108,7 +99,7 @@ export class AuthenticationService {
    * @description
    * 利用RSA公钥私钥解密前端传输过来的密文密码
    */
-  decryptByRsaPrivateKey(encoding: string, privateKey: string): string {
+  private decryptByRsaPrivateKey(encoding: string, privateKey: string): string {
     try {
       return privateDecrypt(
         { key: privateKey, padding: constants.RSA_PKCS1_PADDING },

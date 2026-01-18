@@ -132,8 +132,9 @@ export class RoleService {
 
   /**
    * 获取当前用户对应的权限点
-   * 1. 获取当前用户对应的角色
-   * 2. 根据角色获取角色关联的权限资源
+   * 1. 当前用户没有任何角色权限，直接按空返回
+   * 2. 获取当前用户对应的角色
+   * 3. 根据角色获取角色关联的权限资源
    *
    * 如果是管理员，直接返回所有权限点
    */
@@ -148,6 +149,10 @@ export class RoleService {
           .getMany()
       ).map(({ roleCode }) => roleCode),
     );
+
+    if (roleCodes.size === 0) {
+      return [];
+    }
 
     if (roleCodes.has(ROLES.ADMIN)) {
       return await this.authorizationService.authorizations({
