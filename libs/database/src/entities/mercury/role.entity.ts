@@ -2,16 +2,6 @@ import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { TimeStamped } from '../any-use/time-stamped.entity';
 
-/**
- * 内置角色
- */
-export const ROLES = {
-  // 管理员
-  ADMIN: 'admin',
-  // 游客
-  GUEST: 'guest',
-};
-
 @Entity({
   name: 'role',
 })

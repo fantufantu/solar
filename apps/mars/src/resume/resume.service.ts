@@ -9,6 +9,7 @@ import { Pagination } from 'assets/dto/pagination.input';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 import dayjs from 'dayjs';
 import { ResumesWhere } from './dto/resumes';
+import { isUndefined } from '@aiszlab/relax';
 
 @Injectable()
 export class ResumeService {
@@ -88,31 +89,28 @@ export class ResumeService {
    * 查询简历列表
    */
   async resumes({ who }: ResumesWhere, pagination: Pagination) {
-    const isAdmin =
-      !who ||
-      (await this.mercuryClientService.isAuthorized(who, {
-        resource: Resume.name,
-        action: AuthorizationActionCode.All,
-      }));
+    const isResumeAdmin = await this.mercuryClientService.isAuthorized(who, {
+      resource: Resume.name,
+      action: AuthorizationActionCode.All,
+    });
 
-    const _qb = this.resumeRepository
+    const qb = this.resumeRepository
       .createQueryBuilder('resume')
       .where('1 = 1')
       .skip((pagination.page - 1) * pagination.limit)
       .take(pagination.limit);
 
-    if (!isAdmin) {
-      _qb.andWhere(
-        new Brackets((qb) => {
-          qb.where('resume.createdById = :who', { who }).orWhere(
-            'resume.updatedById = :who',
-            { who },
-          );
+    if (!isResumeAdmin) {
+      qb.andWhere(
+        new Brackets((childQuery) => {
+          childQuery
+            .where('resume.createdById = :who', { who })
+            .orWhere('resume.updatedById = :who', { who });
         }),
       );
     }
 
-    return await _qb.getManyAndCount();
+    return await qb.getManyAndCount();
   }
 
   /**

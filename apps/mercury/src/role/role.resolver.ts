@@ -1,12 +1,4 @@
-import {
-  Args,
-  Int,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Pagination } from 'assets/dto/pagination.input';
 import { PaginatedRole } from './dto/paginated-roles.object';
 import { Role } from '@/libs/database/entities/mercury/role.entity';
@@ -93,7 +85,9 @@ export class RoleResolver {
   @Query(() => [Authorization], {
     description: '查询用户已授权范围',
   })
-  authorized(@WhoAmI() user: User) {
-    return this.roleService.authorizedByUserId(user.id);
+  authorizedList(@WhoAmI() user: User) {
+    return this.roleService.authorizedList({
+      who: user.id,
+    });
   }
 }

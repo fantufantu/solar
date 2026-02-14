@@ -70,7 +70,7 @@ export class ResumeResolver {
 
   @UseGuards(JwtAuthGuard)
   @Query(() => PaginatedResumes, {
-    description: '查询简历列表',
+    description: '查询用户可见的简历列表',
   })
   @UseInterceptors(PaginatedInterceptor)
   resumes(@WhoAmI() who: User, @PaginationArgs() pagination: Pagination) {

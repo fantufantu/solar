@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { type Repository } from 'typeorm';
-import { Role, ROLES } from '@/libs/database/entities/mercury/role.entity';
+import { Role } from '@/libs/database/entities/mercury/role.entity';
 import { paginateQuery } from 'utils/query-builder';
 import {
+  Authorization,
   AuthorizationActionCode,
-  type Authorization,
 } from '@/libs/database/entities/mercury/authorization.entity';
 import type { CreateRoleInput } from './dto/create-role.input';
 import type { UpdateRoleInput } from './dto/update-role.input';
@@ -14,6 +14,7 @@ import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.en
 import { AuthorizationService } from '../authorization/authorization.service';
 import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role_with_authorization.entity';
 import { PermissionPoint } from './dto/permission';
+import { SYSTEM_WILDCARD } from 'constants/common';
 
 @Injectable()
 export class RoleService {
@@ -24,7 +25,6 @@ export class RoleService {
     private readonly roleWithUserRepository: Repository<RoleWithUser>,
     @InjectRepository(RoleWithAuthorization)
     private readonly roleWithAuthorizationRepository: Repository<RoleWithAuthorization>,
-    private readonly authorizationService: AuthorizationService,
   ) {}
 
   /**
@@ -81,50 +81,78 @@ export class RoleService {
     }
 
     // 更新角色字段
-    return !!(
-      await this.roleRepository
-        .createQueryBuilder()
-        .update()
-        .set(this.roleRepository.create(input))
-        .where({
-          code,
-        })
-        .execute()
-    ).affected;
+    return (
+      ((
+        await this.roleRepository
+          .createQueryBuilder()
+          .update()
+          .set(this.roleRepository.create(input))
+          .where({
+            code,
+          })
+          .execute()
+      ).affected ?? 0) > 0
+    );
   }
 
   /**
    * 删除角色
    */
   async remove(code: string) {
-    return !!(
-      await this.roleRepository
-        .createQueryBuilder()
-        .delete()
-        .where({
-          code,
-        })
-        .execute()
-    ).affected;
+    return (
+      ((
+        await this.roleRepository
+          .createQueryBuilder()
+          .delete()
+          .where({
+            code,
+          })
+          .execute()
+      ).affected ?? 0) > 0
+    );
   }
 
   /**
-   * @description 鉴权
-   * 1. 如果是资源管理员权限，也认为有权限
+   * 获取指定用户对应的角色`Code`列表
    */
-  async isAuthorized(who: number, permissionPoint: PermissionPoint) {
-    const qb = this.roleRepository
-      .createQueryBuilder('role')
-      .innerJoin('role.users', 'user')
-      .innerJoin('role.authorizations', 'authorization')
-      .where('user.id = :who', {
-        who,
+  async yourRoleCodes(who: number) {
+    return new Set(
+      (
+        await this.roleWithUserRepository
+          .createQueryBuilder()
+          .where({
+            userId: who,
+          })
+          .getMany()
+      ).map(({ roleCode }) => roleCode),
+    );
+  }
+
+  /**
+   * 验证指定用户是否包含指定权限点
+   * 1. 获取当前用户所拥有的角色
+   * 2. 识别角色是否包含对应权限点
+   */
+  async isAuthorized(
+    who: number,
+    permissionPoint: PermissionPoint,
+  ): Promise<boolean> {
+    const roleCodes = await this.yourRoleCodes(who);
+    if (roleCodes.size === 0) {
+      return false;
+    }
+
+    const qb = this.roleWithAuthorizationRepository
+      .createQueryBuilder('roleWithAuthorization')
+      .innerJoin('roleWithAuthorization.authorization', 'authorization')
+      .where('roleWithAuthorization.roleCode IN (:...roleCodes)', {
+        roleCodes: Array.from(roleCodes),
       })
-      .andWhere('authorization.resourceCode = :resource', {
-        resource: permissionPoint.resource,
+      .andWhere('authorization.resourceCode IN (:...resourceCodes)', {
+        resourceCodes: [permissionPoint.resource, AuthorizationActionCode.All],
       })
-      .andWhere('authorization.actionCode IN (:...actions)', {
-        actions: [permissionPoint.action, AuthorizationActionCode.All],
+      .andWhere('authorization.actionCode IN (:...actionCodes)', {
+        actionCodes: [permissionPoint.action, AuthorizationActionCode.All],
       });
 
     return (await qb.getCount()) > 0;
@@ -132,34 +160,20 @@ export class RoleService {
 
   /**
    * 获取当前用户对应的权限点
-   * 1. 当前用户没有任何角色权限，直接按空返回
-   * 2. 获取当前用户对应的角色
+   * 1. 获取当前用户对应的角色
+   * 2. 没有任何角色时，直接按空返回
    * 3. 根据角色获取角色关联的权限资源
-   *
-   * 如果是管理员，直接返回所有权限点
    */
-  async authorizedByUserId(id: number, tenantCode?: string) {
-    const roleCodes = new Set(
-      (
-        await this.roleWithUserRepository
-          .createQueryBuilder()
-          .where({
-            userId: id,
-          })
-          .getMany()
-      ).map(({ roleCode }) => roleCode),
-    );
-
+  async authorizedList({
+    who,
+    tenantCode,
+  }: {
+    who: number;
+    tenantCode?: string;
+  }) {
+    const roleCodes = await this.yourRoleCodes(who);
     if (roleCodes.size === 0) {
       return [];
-    }
-
-    if (roleCodes.has(ROLES.ADMIN)) {
-      return await this.authorizationService.authorizations({
-        where: {
-          tenantCode,
-        },
-      });
     }
 
     const qb = this.roleWithAuthorizationRepository
@@ -172,8 +186,7 @@ export class RoleService {
       .addSelect('authorization.resourceCode', 'resourceCode')
       .addSelect('authorization.actionCode', 'actionCode')
       .distinct(true)
-      .where('1 = 1')
-      .andWhere('roleWithAuthorization.roleCode IN (:...roleCodes)', {
+      .where('roleWithAuthorization.roleCode IN (:...roleCodes)', {
         roleCodes: Array.from(roleCodes),
       });
 

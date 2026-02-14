@@ -16,8 +16,6 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { CacheService } from '@/libs/cache';
 import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud';
-import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
-import { ROLES } from '@/libs/database/entities/mercury/role.entity';
 import { Pagination } from 'assets/dto/pagination.input';
 import { FilterUserInput } from './dto/filter-user.input';
 
@@ -144,14 +142,6 @@ export class UserService {
       .transaction(async (entityManager) => {
         const _user = entityManager.create(User, user);
         await entityManager.save(_user);
-
-        // 默认分配游客角色
-        entityManager.create(RoleWithUser, {
-          roleCode: ROLES.GUEST,
-          userId: _user.id,
-        });
-        await entityManager.save(RoleWithUser);
-
         resolve(_user);
       })
       .catch((error) => reject(error));

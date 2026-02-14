@@ -2,16 +2,19 @@ import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Column, Entity, Unique } from 'typeorm';
 import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
 import { GraphQLEnumToken } from 'assets/tokens';
+import { SYSTEM_WILDCARD } from 'constants/common';
 
 /**
- * @description 权限操作
+ * 权限-操作枚举
+ * 分：增、查、改、删、`ALL`
+ * `ALL` 比较特殊，表示拥有对整个资源的操作权限
  */
 export enum AuthorizationActionCode {
   Create = 'create',
   Read = 'read',
   Update = 'update',
   Delete = 'delete',
-  All = '*',
+  All = 'all',
 }
 
 registerEnumType(AuthorizationActionCode, {
@@ -58,6 +61,8 @@ export class Authorization extends IdentifiedTracked {
   actionCode: AuthorizationActionCode;
 
   get uniqueBy() {
-    return [this.tenantCode, this.resourceCode, this.actionCode].join('::');
+    return [this.tenantCode, this.resourceCode, this.actionCode].join(
+      SYSTEM_WILDCARD.SEPARATOR,
+    );
   }
 }
