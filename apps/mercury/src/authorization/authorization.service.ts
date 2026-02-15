@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { paginateQuery } from 'utils/query-builder';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 import type { Query } from 'typings/controller';
-import type { FindManyOptions, Repository } from 'typeorm';
+import type { Repository } from 'typeorm';
 import { CreateAuthorizationInput } from './dto/create-authorization.input';
 
 @Injectable()
@@ -16,8 +15,14 @@ export class AuthorizationService {
   /**
    * 分页查询权限
    */
-  paginate(query?: Query<Authorization>) {
-    return paginateQuery(this.authorizationRepository, query);
+  async paginate({
+    pagination: { limit, page } = { limit: 10, page: 1 },
+  }: Query<Authorization>) {
+    return await this.authorizationRepository
+      .createQueryBuilder('authorization')
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount();
   }
 
   /**

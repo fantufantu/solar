@@ -1,12 +1,15 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthorizationService } from './authorization.service';
 import { PaginatedAuthorizations } from './dto/paginated-authorizations.object';
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { CreateAuthorizationInput } from './dto/create-authorization.input';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
+import { Pagination } from 'assets/dto/pagination.input';
+import { PaginationArgs } from 'utils/decorators/pagination.decorator';
+import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 
 @Resolver()
 export class AuthorizationResolver {
@@ -15,8 +18,11 @@ export class AuthorizationResolver {
   @Query(() => PaginatedAuthorizations, {
     description: '分页查询权限',
   })
-  paginateAuthorizations() {
-    return this.authorizationService.paginate();
+  @UseInterceptors(PaginatedInterceptor)
+  paginateAuthorizations(@PaginationArgs() pagination: Pagination) {
+    return this.authorizationService.paginate({
+      pagination,
+    });
   }
 
   @UseGuards(JwtAuthGuard)
