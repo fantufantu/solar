@@ -30,6 +30,9 @@ registerEnumType(AuthorizationActionCode, {
   description: '权限',
 })
 export class Authorization extends IdentifiedTracked {
+  @Field(() => String, {
+    description: '租户`code`',
+  })
   @Column({
     name: 'tenant_code',
     comment: '租户`code`',
