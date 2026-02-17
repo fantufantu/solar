@@ -11,10 +11,11 @@ import {
   Authorization,
   AuthorizationActionCode,
 } from '@/libs/database/entities/mercury/authorization.entity';
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { User } from '@/libs/database/entities/mercury/user.entity';
+import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 
 @Resolver(() => Role)
 export class RoleResolver {
@@ -34,6 +35,7 @@ export class RoleResolver {
   @Query(() => PaginatedRole, {
     description: '分页查询角色',
   })
+  @UseInterceptors(PaginatedInterceptor)
   // @Permission({
   //   resource: Role.name,
   //   action: AuthorizationActionCode.Read,
