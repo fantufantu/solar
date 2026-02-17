@@ -6,8 +6,8 @@ import { SYSTEM_WILDCARD } from 'constants/common';
 
 /**
  * 权限-操作枚举
- * 分：增、查、改、删、`ALL`
- * `ALL` 比较特殊，表示拥有对整个资源的操作权限
+ * 分：增、查、改、删、`All`
+ * `All` 比较特殊，表示拥有对整个资源的操作权限
  */
 export enum AuthorizationActionCode {
   Create = 'create',

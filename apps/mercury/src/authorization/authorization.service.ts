@@ -61,14 +61,7 @@ export class AuthorizationService {
       throw new Error('权限点不存在');
     }
 
-    const updatedCount =
-      (
-        await this.authorizationRepository.update(id, {
-          deletedById: who,
-          deletedAt: new Date(),
-        })
-      ).affected ?? 0;
-
-    return updatedCount > 0;
+    authorization.deletedById = who;
+    return !!(await this.authorizationRepository.save(authorization));
   }
 }

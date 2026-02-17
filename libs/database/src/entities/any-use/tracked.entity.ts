@@ -26,7 +26,7 @@ export class Tracked extends TimeStamped {
   deletedAt: Date | null;
 
   /**
-   * @description 新建时默认设置更新人为创建人
+   * 新建时默认设置更新人为创建人
    */
   @BeforeInsert()
   private _useUpdatedBy() {
@@ -34,7 +34,7 @@ export class Tracked extends TimeStamped {
   }
 
   /**
-   * @description 删除当前实例
+   * 删除当前实例
    */
   set deletedById(deleteById: number) {
     this.deletedAt = new Date();
