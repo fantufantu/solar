@@ -11,10 +11,8 @@ import type { CreateRoleInput } from './dto/create-role.input';
 import type { UpdateRoleInput } from './dto/update-role.input';
 import type { Query } from 'typings/controller';
 import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
-import { AuthorizationService } from '../authorization/authorization.service';
 import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role_with_authorization.entity';
 import { PermissionPoint } from './dto/permission';
-import { SYSTEM_WILDCARD } from 'constants/common';
 
 @Injectable()
 export class RoleService {
@@ -37,8 +35,14 @@ export class RoleService {
   /**
    * 分页查询角色
    */
-  roles(query?: Query<Role>) {
-    return paginateQuery(this.roleRepository, query);
+  async paginate({
+    pagination: { limit, page } = { limit: 10, page: 1 },
+  }: Query<Role>) {
+    return await this.roleRepository
+      .createQueryBuilder('role')
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount();
   }
 
   /**

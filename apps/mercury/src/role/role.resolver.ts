@@ -38,8 +38,8 @@ export class RoleResolver {
     resource: Role.name,
     action: AuthorizationActionCode.Read,
   })
-  roles(@PaginationArgs() pagination: Pagination) {
-    return this.roleService.roles({
+  paginateRoles(@PaginationArgs() pagination: Pagination) {
+    return this.roleService.paginate({
       pagination,
     });
   }
