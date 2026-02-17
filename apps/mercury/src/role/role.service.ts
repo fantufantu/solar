@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { type Repository } from 'typeorm';
 import { Role } from '@/libs/database/entities/mercury/role.entity';
-import { paginateQuery } from 'utils/query-builder';
 import {
   Authorization,
   AuthorizationActionCode,
+  AuthorizationResourceCode,
 } from '@/libs/database/entities/mercury/authorization.entity';
 import type { CreateRoleInput } from './dto/create-role.input';
 import type { UpdateRoleInput } from './dto/update-role.input';
@@ -13,6 +13,7 @@ import type { Query } from 'typings/controller';
 import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
 import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role_with_authorization.entity';
 import { PermissionPoint } from './dto/permission';
+import { SYSTEM_WILDCARD } from 'constants/common';
 
 @Injectable()
 export class RoleService {
@@ -153,7 +154,10 @@ export class RoleService {
         roleCodes: Array.from(roleCodes),
       })
       .andWhere('authorization.resourceCode IN (:...resourceCodes)', {
-        resourceCodes: [permissionPoint.resource, AuthorizationActionCode.All],
+        resourceCodes: [
+          permissionPoint.resource,
+          AuthorizationResourceCode.All,
+        ],
       })
       .andWhere('authorization.actionCode IN (:...actionCodes)', {
         actionCodes: [permissionPoint.action, AuthorizationActionCode.All],

@@ -23,10 +23,10 @@ export class RoleResolver {
   @Mutation(() => Role, {
     description: '创建角色',
   })
-  @Permission({
-    resource: Role.name,
-    action: AuthorizationActionCode.Create,
-  })
+  // @Permission({
+  //   resource: Role.name,
+  //   action: AuthorizationActionCode.Create,
+  // })
   createRole(@Args('input') input: CreateRoleInput) {
     return this.roleService.create(input);
   }
@@ -34,10 +34,10 @@ export class RoleResolver {
   @Query(() => PaginatedRole, {
     description: '分页查询角色',
   })
-  @Permission({
-    resource: Role.name,
-    action: AuthorizationActionCode.Read,
-  })
+  // @Permission({
+  //   resource: Role.name,
+  //   action: AuthorizationActionCode.Read,
+  // })
   paginateRoles(@PaginationArgs() pagination: Pagination) {
     return this.roleService.paginate({
       pagination,

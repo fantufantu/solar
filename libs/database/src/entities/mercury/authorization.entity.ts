@@ -17,6 +17,13 @@ export enum AuthorizationActionCode {
   All = 'all',
 }
 
+/**
+ * 权限-资源
+ */
+export enum AuthorizationResourceCode {
+  All = 'all',
+}
+
 registerEnumType(AuthorizationActionCode, {
   name: GraphQLEnumToken.AuthorizationActionCode,
   description: '权限操作code',
