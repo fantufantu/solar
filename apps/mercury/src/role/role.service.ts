@@ -147,4 +147,28 @@ export class RoleService {
 
     return (await qb.getCount()) > 0;
   }
+
+  /**
+   * 获取当前用户对应的权限点
+   * 1. 获取当前用户对应的角色
+   * 2. 没有任何角色时，直接按空返回
+   * 3. 根据角色获取角色关联的权限资源
+   */
+  async authorizations(roleCode: string) {
+    const qb = this.roleWithAuthorizationRepository
+      .createQueryBuilder('roleWithAuthorization')
+      .innerJoinAndSelect(
+        'roleWithAuthorization.authorization',
+        'authorization',
+      )
+      .select('authorization.resourceCode', 'resourceCode')
+      .addSelect('authorization.actionCode', 'actionCode')
+      .distinct(true)
+      .where('roleWithAuthorization.roleCode = :...roleCode', {
+        roleCode,
+      });
+
+    const authorizedPoints: Authorization[] = await qb.execute();
+    return authorizedPoints;
+  }
 }

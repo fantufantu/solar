@@ -1,4 +1,11 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { Pagination } from 'assets/dto/pagination.input';
 import { PaginatedRole } from './dto/paginated-roles.object';
 import { Role } from '@/libs/database/entities/mercury/role.entity';
@@ -7,7 +14,10 @@ import { CreateRoleInput } from './dto/create-role.input';
 import { UpdateRoleInput } from './dto/update-role.input';
 import { Permission } from 'utils/decorators/permission.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
-import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
+import {
+  Authorization,
+  AuthorizationActionCode,
+} from '@/libs/database/entities/mercury/authorization.entity';
 import { UseInterceptors } from '@nestjs/common';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 
@@ -75,5 +85,13 @@ export class RoleResolver {
   })
   removeRole(@Args('code', { type: () => String }) code: string) {
     return this.roleService.remove(code);
+  }
+
+  @ResolveField(() => [Authorization], {
+    description: '角色拥有的权限点',
+    nullable: true,
+  })
+  authorizations(@Parent() role: Role) {
+    return this.roleService.authorizations(role.code);
   }
 }
