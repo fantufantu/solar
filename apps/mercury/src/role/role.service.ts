@@ -10,20 +10,18 @@ import {
 import type { CreateRoleInput } from './dto/create-role.input';
 import type { UpdateRoleInput } from './dto/update-role.input';
 import type { Query } from 'typings/controller';
-import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
 import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role_with_authorization.entity';
 import { PermissionPoint } from './dto/permission';
-import { SYSTEM_WILDCARD } from 'constants/common';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class RoleService {
   constructor(
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
-    @InjectRepository(RoleWithUser)
-    private readonly roleWithUserRepository: Repository<RoleWithUser>,
     @InjectRepository(RoleWithAuthorization)
     private readonly roleWithAuthorizationRepository: Repository<RoleWithAuthorization>,
+    private readonly userService: UserService,
   ) {}
 
   /**
@@ -118,22 +116,6 @@ export class RoleService {
   }
 
   /**
-   * 获取指定用户对应的角色`Code`列表
-   */
-  async yourRoleCodes(who: number) {
-    return new Set(
-      (
-        await this.roleWithUserRepository
-          .createQueryBuilder()
-          .where({
-            userId: who,
-          })
-          .getMany()
-      ).map(({ roleCode }) => roleCode),
-    );
-  }
-
-  /**
    * 验证指定用户是否包含指定权限点
    * 1. 获取当前用户所拥有的角色
    * 2. 识别角色是否包含对应权限点
@@ -142,7 +124,7 @@ export class RoleService {
     who: number,
     permissionPoint: PermissionPoint,
   ): Promise<boolean> {
-    const roleCodes = await this.yourRoleCodes(who);
+    const roleCodes = await this.userService.roleCodes(who);
     if (roleCodes.size === 0) {
       return false;
     }
@@ -164,47 +146,5 @@ export class RoleService {
       });
 
     return (await qb.getCount()) > 0;
-  }
-
-  /**
-   * 获取当前用户对应的权限点
-   * 1. 获取当前用户对应的角色
-   * 2. 没有任何角色时，直接按空返回
-   * 3. 根据角色获取角色关联的权限资源
-   */
-  async authorizedList({
-    who,
-    tenantCode,
-  }: {
-    who: number;
-    tenantCode?: string;
-  }) {
-    const roleCodes = await this.yourRoleCodes(who);
-    if (roleCodes.size === 0) {
-      return [];
-    }
-
-    const qb = this.roleWithAuthorizationRepository
-      .createQueryBuilder('roleWithAuthorization')
-      .innerJoinAndSelect(
-        'roleWithAuthorization.authorization',
-        'authorization',
-      )
-      .select('authorization.tenantCode', 'tenantCode')
-      .addSelect('authorization.resourceCode', 'resourceCode')
-      .addSelect('authorization.actionCode', 'actionCode')
-      .distinct(true)
-      .where('roleWithAuthorization.roleCode IN (:...roleCodes)', {
-        roleCodes: Array.from(roleCodes),
-      });
-
-    if (tenantCode) {
-      qb.andWhere('authorization.tenantCode = :tenantCode', {
-        tenantCode,
-      });
-    }
-
-    const authorizedPoints: Authorization[] = await qb.execute();
-    return authorizedPoints;
   }
 }

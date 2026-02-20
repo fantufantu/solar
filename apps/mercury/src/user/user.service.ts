@@ -18,6 +18,9 @@ import { CacheService } from '@/libs/cache';
 import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud';
 import { Pagination } from 'assets/dto/pagination.input';
 import { FilterUserInput } from './dto/filter-user.input';
+import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
+import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role_with_authorization.entity';
+import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Injectable()
 export class UserService {
@@ -28,6 +31,10 @@ export class UserService {
     private readonly entityManager: EntityManager,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(RoleWithUser)
+    private readonly roleWithUserRepository: Repository<RoleWithUser>,
+    @InjectRepository(RoleWithAuthorization)
+    private readonly roleWithAuthorizationRepository: Repository<RoleWithAuthorization>,
     private readonly plutoClient: PlutoClientService,
     private readonly cacheService: CacheService,
   ) {
@@ -242,5 +249,63 @@ export class UserService {
       .skip((pagination.page - 1) * pagination.limit)
       .take(pagination.limit)
       .getManyAndCount();
+  }
+
+  /**
+   * 获取指定用户对应的角色`Code`列表
+   */
+  async roleCodes(who: number) {
+    return new Set(
+      (
+        await this.roleWithUserRepository
+          .createQueryBuilder()
+          .where({
+            userId: who,
+          })
+          .getMany()
+      ).map(({ roleCode }) => roleCode),
+    );
+  }
+
+  /**
+   * 获取当前用户对应的权限点
+   * 1. 获取当前用户对应的角色
+   * 2. 没有任何角色时，直接按空返回
+   * 3. 根据角色获取角色关联的权限资源
+   */
+  async authorizations({
+    who,
+    tenantCode,
+  }: {
+    who: number;
+    tenantCode?: string;
+  }) {
+    const roleCodes = await this.roleCodes(who);
+    if (roleCodes.size === 0) {
+      return [];
+    }
+
+    const qb = this.roleWithAuthorizationRepository
+      .createQueryBuilder('roleWithAuthorization')
+      .innerJoinAndSelect(
+        'roleWithAuthorization.authorization',
+        'authorization',
+      )
+      .select('authorization.tenantCode', 'tenantCode')
+      .addSelect('authorization.resourceCode', 'resourceCode')
+      .addSelect('authorization.actionCode', 'actionCode')
+      .distinct(true)
+      .where('roleWithAuthorization.roleCode IN (:...roleCodes)', {
+        roleCodes: Array.from(roleCodes),
+      });
+
+    if (tenantCode) {
+      qb.andWhere('authorization.tenantCode = :tenantCode', {
+        tenantCode,
+      });
+    }
+
+    const authorizedPoints: Authorization[] = await qb.execute();
+    return authorizedPoints;
   }
 }

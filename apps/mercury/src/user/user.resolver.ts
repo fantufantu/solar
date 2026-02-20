@@ -2,7 +2,9 @@ import { UseGuards, UseInterceptors } from '@nestjs/common';
 import {
   Args,
   Mutation,
+  Parent,
   Query,
+  ResolveField,
   ResolveReference,
   Resolver,
 } from '@nestjs/graphql';
@@ -18,6 +20,7 @@ import { FilterArgs } from 'utils/decorators/filter.decorator';
 import { FilterUserInput } from './dto/filter-user.input';
 import { PaginatedUsers } from './dto/paginated-users.object';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
+import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -56,6 +59,16 @@ export class UserResolver {
     @Args('input') input: UpdateUserInput,
   ) {
     return await this.userService.updateUser(whoAmI.id, input);
+  }
+
+  @ResolveField(() => [Authorization], {
+    description: '用户拥有的权限点',
+    nullable: true,
+  })
+  authorizations(@Parent() user: User) {
+    return this.userService.authorizations({
+      who: user.id,
+    });
   }
 
   @Mutation(() => Date, {

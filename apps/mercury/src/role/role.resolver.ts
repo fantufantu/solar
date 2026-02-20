@@ -7,14 +7,8 @@ import { CreateRoleInput } from './dto/create-role.input';
 import { UpdateRoleInput } from './dto/update-role.input';
 import { Permission } from 'utils/decorators/permission.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
-import {
-  Authorization,
-  AuthorizationActionCode,
-} from '@/libs/database/entities/mercury/authorization.entity';
-import { UseGuards, UseInterceptors } from '@nestjs/common';
-import { JwtAuthGuard } from '@/libs/passport/guards';
-import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
-import { User } from '@/libs/database/entities/mercury/user.entity';
+import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
+import { UseInterceptors } from '@nestjs/common';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 
 @Resolver(() => Role)
@@ -47,10 +41,10 @@ export class RoleResolver {
   }
 
   @Query(() => Role, { description: '查询单个角色' })
-  @Permission({
-    resource: Role.name,
-    action: AuthorizationActionCode.Read,
-  })
+  // @Permission({
+  //   resource: Role.name,
+  //   action: AuthorizationActionCode.Read,
+  // })
   role(@Args('code', { type: () => String }) code: string) {
     return this.roleService.role(code);
   }
@@ -81,15 +75,5 @@ export class RoleResolver {
   })
   removeRole(@Args('code', { type: () => String }) code: string) {
     return this.roleService.remove(code);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Query(() => [Authorization], {
-    description: '查询用户已授权范围',
-  })
-  authorizedList(@WhoAmI() user: User) {
-    return this.roleService.authorizedList({
-      who: user.id,
-    });
   }
 }
