@@ -273,13 +273,7 @@ export class UserService {
    * 2. 没有任何角色时，直接按空返回
    * 3. 根据角色获取角色关联的权限资源
    */
-  async authorizations({
-    who,
-    tenantCode,
-  }: {
-    who: number;
-    tenantCode?: string;
-  }) {
+  async authorizations({ who }: { who: number }) {
     const roleCodes = await this.roleCodes(who);
     if (roleCodes.size === 0) {
       return [];
@@ -291,19 +285,12 @@ export class UserService {
         'roleWithAuthorization.authorization',
         'authorization',
       )
-      .select('authorization.tenantCode', 'tenantCode')
-      .addSelect('authorization.resourceCode', 'resourceCode')
+      .select('authorization.resourceCode', 'resourceCode')
       .addSelect('authorization.actionCode', 'actionCode')
       .distinct(true)
       .where('roleWithAuthorization.roleCode IN (:...roleCodes)', {
         roleCodes: Array.from(roleCodes),
       });
-
-    if (tenantCode) {
-      qb.andWhere('authorization.tenantCode = :tenantCode', {
-        tenantCode,
-      });
-    }
 
     const authorizedPoints: Authorization[] = await qb.execute();
     return authorizedPoints;

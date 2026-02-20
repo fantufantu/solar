@@ -1,5 +1,5 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { Column, Entity, Unique } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
 import { GraphQLEnumToken } from 'assets/tokens';
 import { SYSTEM_WILDCARD } from 'constants/common';
@@ -32,22 +32,10 @@ registerEnumType(AuthorizationActionCode, {
 @Entity({
   name: 'authorization',
 })
-@Unique(['tenantCode', 'resourceCode', 'actionCode'])
 @ObjectType({
   description: '权限',
 })
 export class Authorization extends IdentifiedTracked {
-  @Field(() => String, {
-    description: '租户`code`',
-  })
-  @Column({
-    name: 'tenant_code',
-    comment: '租户`code`',
-    type: 'varchar',
-    length: 40,
-  })
-  tenantCode: string;
-
   @Field(() => String, {
     description: '资源`code`',
   })
@@ -71,8 +59,6 @@ export class Authorization extends IdentifiedTracked {
   actionCode: AuthorizationActionCode;
 
   get uniqueBy() {
-    return [this.tenantCode, this.resourceCode, this.actionCode].join(
-      SYSTEM_WILDCARD.SEPARATOR,
-    );
+    return [this.resourceCode, this.actionCode].join(SYSTEM_WILDCARD.SEPARATOR);
   }
 }

@@ -31,7 +31,7 @@ import { CacheModule } from '@/libs/cache';
     }),
     // 数据库
     DatabaseModule.forRoot(ApplicationToken.Mercury, {
-      synchronize: false,
+      synchronize: true,
     }),
     // 认证
     PassportModule,

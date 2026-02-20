@@ -32,7 +32,6 @@ export class AuthorizationService {
    */
   async create(input: CreateAuthorizationInput, who: number) {
     const isCreated = await this.authorizationRepository.existsBy({
-      tenantCode: input.tenantCode,
       resourceCode: input.resourceCode,
       actionCode: input.actionCode,
     });
