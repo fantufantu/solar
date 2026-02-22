@@ -164,10 +164,11 @@ export class RoleService {
         'roleWithAuthorization.authorization',
         'authorization',
       )
-      .select('authorization.resourceCode', 'resourceCode')
+      .select('authorization.id', 'id')
+      .addSelect('authorization.resourceCode', 'resourceCode')
       .addSelect('authorization.actionCode', 'actionCode')
       .distinct(true)
-      .where('roleWithAuthorization.roleCode = :...roleCode', {
+      .where('roleWithAuthorization.roleCode = :roleCode', {
         roleCode,
       });
 
@@ -188,13 +189,14 @@ export class RoleService {
       .transaction(async (entityManager) => {
         await entityManager.delete(RoleWithAuthorization, { roleCode });
 
-        await entityManager.insert(
-          RoleWithAuthorization,
-          authorizationIds.map((authorizationId) => ({
-            roleCode,
-            authorizationId,
-          })),
-        );
+        authorizationIds.length > 0 &&
+          (await entityManager.insert(
+            RoleWithAuthorization,
+            authorizationIds.map((authorizationId) => ({
+              roleCode,
+              authorizationId,
+            })),
+          ));
 
         resolve(true);
       })
