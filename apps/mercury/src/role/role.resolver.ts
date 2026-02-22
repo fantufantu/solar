@@ -20,6 +20,7 @@ import {
 } from '@/libs/database/entities/mercury/authorization.entity';
 import { UseInterceptors } from '@nestjs/common';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
+import { AssignAuthorizationsInput } from './dto/assign-authorizations.input';
 
 @Resolver(() => Role)
 export class RoleResolver {
@@ -67,10 +68,7 @@ export class RoleResolver {
     action: AuthorizationActionCode.Update,
   })
   updateRole(
-    @Args('code', {
-      type: () => String,
-    })
-    code: string,
+    @Args('code', { type: () => String }) code: string,
     @Args('input') input: UpdateRoleInput,
   ) {
     return this.roleService.update(code, input);
@@ -93,5 +91,19 @@ export class RoleResolver {
   })
   authorizations(@Parent() role: Role) {
     return this.roleService.authorizations(role.code);
+  }
+
+  @Mutation(() => Boolean, {
+    description: '角色分配权限',
+  })
+  @Permission({
+    resource: Role.name,
+    action: AuthorizationActionCode.Update,
+  })
+  assignAuthorizations(
+    @Args('input', { type: () => AssignAuthorizationsInput })
+    input: AssignAuthorizationsInput,
+  ) {
+    return this.roleService.assignAuthorizations(input);
   }
 }

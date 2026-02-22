@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { type Repository } from 'typeorm';
+import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
+import { EntityManager, type Repository } from 'typeorm';
 import { Role } from '@/libs/database/entities/mercury/role.entity';
 import {
   Authorization,
@@ -13,6 +13,7 @@ import type { Query } from 'typings/controller';
 import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role_with_authorization.entity';
 import { PermissionPoint } from './dto/permission';
 import { UserService } from '../user/user.service';
+import { AssignAuthorizationsInput } from './dto/assign-authorizations.input';
 
 @Injectable()
 export class RoleService {
@@ -22,6 +23,8 @@ export class RoleService {
     @InjectRepository(RoleWithAuthorization)
     private readonly roleWithAuthorizationRepository: Repository<RoleWithAuthorization>,
     private readonly userService: UserService,
+    @InjectEntityManager()
+    private readonly entityManager: EntityManager,
   ) {}
 
   /**
@@ -170,5 +173,33 @@ export class RoleService {
 
     const authorizedPoints: Authorization[] = await qb.execute();
     return authorizedPoints;
+  }
+
+  /**
+   * 为角色分配权限
+   */
+  async assignAuthorizations({
+    authorizationIds,
+    roleCode,
+  }: AssignAuthorizationsInput) {
+    const { promise, reject, resolve } = Promise.withResolvers<boolean>();
+
+    this.entityManager
+      .transaction(async (entityManager) => {
+        await entityManager.delete(RoleWithAuthorization, { roleCode });
+
+        await entityManager.insert(
+          RoleWithAuthorization,
+          authorizationIds.map((authorizationId) => ({
+            roleCode,
+            authorizationId,
+          })),
+        );
+
+        resolve(true);
+      })
+      .catch((error) => reject(error));
+
+    return promise;
   }
 }
