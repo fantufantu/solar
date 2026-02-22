@@ -96,10 +96,10 @@ export class RoleResolver {
   @Mutation(() => Boolean, {
     description: '角色分配权限',
   })
-  @Permission({
-    resource: Role.name,
-    action: AuthorizationActionCode.Update,
-  })
+  // @Permission({
+  //   resource: Role.name,
+  //   action: AuthorizationActionCode.Update,
+  // })
   assignAuthorizations(
     @Args('input', { type: () => AssignAuthorizationsInput })
     input: AssignAuthorizationsInput,
