@@ -267,7 +267,8 @@ export class UserService {
         'roleWithAuthorization.authorization',
         'authorization',
       )
-      .select('authorization.resourceCode', 'resourceCode')
+      .select('authorization.id', 'id')
+      .addSelect('authorization.resourceCode', 'resourceCode')
       .addSelect('authorization.actionCode', 'actionCode')
       .distinct(true)
       .where('roleWithAuthorization.roleCode IN (:...roleCodes)', {
