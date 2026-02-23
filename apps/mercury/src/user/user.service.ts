@@ -90,32 +90,10 @@ export class UserService {
 
   /**
    * @author murukal
-   * @description 查询单个用户
+   * 查询用户信息
    */
-  async user(
-    who: number | string,
-    options?: Pick<FindOneOptions<User>, 'select' | 'relations'>,
-  ) {
-    // who 为空：抛出异常
-    if (!who) {
-      throw new Error('用户凭证不能为空！');
-    }
-
-    // 查询指定用户
-    return await this.userRepository.findOne({
-      ...options,
-      where: [
-        {
-          id: who as number,
-        },
-        {
-          username: who as string,
-        },
-        {
-          emailAddress: who as string,
-        },
-      ],
-    });
+  async who(options: FindOneOptions<User>) {
+    return await this.userRepository.findOne(options);
   }
 
   /**
@@ -212,7 +190,10 @@ export class UserService {
    * @description 修改密码
    */
   async changePassword(who: string, password: string) {
-    const _user = await this.user(who);
+    const _user = await this.who({
+      where: [{ username: who }, { emailAddress: who }],
+    });
+
     if (!_user) throw new UnauthorizedException('用户不存在');
 
     return !!(await this.userRepository.save(

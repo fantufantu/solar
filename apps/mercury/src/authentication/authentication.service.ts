@@ -55,9 +55,16 @@ export class AuthenticationService {
    */
   async getValidUser(input: LoginInput) {
     // 根据关键字获取用户
-    const user = await this.userService.user(input.who, {
+    const user = await this.userService.who({
+      where: [
+        {
+          username: input.who,
+        },
+        {
+          emailAddress: input.who,
+        },
+      ],
       select: {
-        id: true,
         password: true,
       },
     });

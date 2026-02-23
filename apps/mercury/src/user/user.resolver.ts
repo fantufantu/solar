@@ -91,7 +91,7 @@ export class UserResolver {
 
   @ResolveReference()
   async user(reference: { __typename: string; id: number }) {
-    return await this.userService.user(reference.id);
+    return this.userService.who({ where: { id: reference.id } });
   }
 
   @Mutation(() => Boolean, {
@@ -99,5 +99,14 @@ export class UserResolver {
   })
   assignRoles(@Args('input') input: AssignRolesInput) {
     return this.userService.assignRoles(input);
+  }
+
+  @Query(() => User, {
+    description: '你是谁',
+    nullable: true,
+  })
+  @UseGuards(new JwtAuthGuard(true))
+  whoAreYou(@Args('id') id: number) {
+    return this.userService.who({ where: { id } });
   }
 }

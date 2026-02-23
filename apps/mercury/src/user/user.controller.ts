@@ -9,6 +9,6 @@ export class UserController {
 
   @MessagePattern({ cmd: CommandToken.GetUser })
   async user(id: number) {
-    return await this.userService.user(id);
+    return await this.userService.who({ where: { id } });
   }
 }
