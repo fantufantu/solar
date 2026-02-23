@@ -21,6 +21,7 @@ import { FilterUserInput } from './dto/filter-user.input';
 import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
 import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role_with_authorization.entity';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
+import { AssignRolesInput } from './dto/assign-roles.input';
 
 @Injectable()
 export class UserService {
@@ -294,5 +295,34 @@ export class UserService {
 
     const authorizedPoints: Authorization[] = await qb.execute();
     return authorizedPoints;
+  }
+
+  /**
+   * 分配角色
+   * @author murukal
+   */
+  assignRoles({ roleCodes, userId }: AssignRolesInput): Promise<boolean> {
+    const { promise, reject, resolve } = Promise.withResolvers<boolean>();
+
+    this.entityManager
+      .transaction(async (entityManager) => {
+        await entityManager.delete(RoleWithUser, {
+          userId,
+        });
+
+        roleCodes.length > 0 &&
+          (await entityManager.insert(
+            RoleWithUser,
+            roleCodes.map((roleCode) => ({
+              roleCode,
+              userId,
+            })),
+          ));
+
+        resolve(true);
+      })
+      .catch((error) => reject(error));
+
+    return promise;
   }
 }

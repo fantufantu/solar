@@ -21,6 +21,7 @@ import { FilterUserInput } from './dto/filter-user.input';
 import { PaginatedUsers } from './dto/paginated-users.object';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
+import { AssignRolesInput } from './dto/assign-roles.input';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -91,5 +92,12 @@ export class UserResolver {
   @ResolveReference()
   async user(reference: { __typename: string; id: number }) {
     return await this.userService.user(reference.id);
+  }
+
+  @Mutation(() => Boolean, {
+    description: '分配角色',
+  })
+  assignRoles(@Args('input') input: AssignRolesInput) {
+    return this.userService.assignRoles(input);
   }
 }
