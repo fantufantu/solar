@@ -74,10 +74,10 @@ export class UserResolver {
   }
 
   @ResolveField(() => [String], {
-    description: '用户拥有的角色列表',
+    description: '用户拥有的角色`code`列表',
     nullable: true,
   })
-  async roles(@Parent() user: User) {
+  async roleCodes(@Parent() user: User) {
     return toArray(await this.userService.roleCodes(user.id));
   }
 
