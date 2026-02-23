@@ -22,6 +22,7 @@ import { PaginatedUsers } from './dto/paginated-users.object';
 import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 import { AssignRolesInput } from './dto/assign-roles.input';
+import { toArray } from '@aiszlab/relax';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -70,6 +71,14 @@ export class UserResolver {
     return this.userService.authorizations({
       who: user.id,
     });
+  }
+
+  @ResolveField(() => [String], {
+    description: '用户拥有的角色列表',
+    nullable: true,
+  })
+  async roles(@Parent() user: User) {
+    return toArray(await this.userService.roleCodes(user.id));
   }
 
   @Mutation(() => Date, {
