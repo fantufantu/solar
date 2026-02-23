@@ -65,6 +65,7 @@ export class AuthenticationService {
         },
       ],
       select: {
+        id: true,
         password: true,
       },
     });
