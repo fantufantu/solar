@@ -20,9 +20,9 @@ export enum ProviderToken {
 /**
  * 自定义的插件 token
  */
-export enum MetadataToken {
-  Permission = 'permission',
-}
+export const METADATA_TOKEN = {
+  AUTHORIZATION: 'authorization',
+} as const;
 
 /**
  * @description

@@ -5,7 +5,7 @@ import { PaginatedDictionaries } from './dto/paginated-dictionaries.object';
 import { Pagination } from 'assets/dto/pagination.input';
 import { CreateDictionaryInput } from './dto/create-dictionary.input';
 import { UpdateDictionaryInput } from './dto/update-dictionary.input';
-import { Permission } from 'utils/decorators/permission.decorator';
+import { Authorization } from 'utils/decorators/authorization.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 
@@ -14,7 +14,7 @@ export class DictionaryResolver {
   constructor(private readonly dictionaryService: DictionaryService) {}
 
   @Mutation(() => Dictionary, { description: '创建字典' })
-  @Permission({
+  @Authorization({
     resource: Dictionary.name,
     action: AuthorizationActionCode.Create,
   })
@@ -26,7 +26,7 @@ export class DictionaryResolver {
     name: 'dictionaries',
     description: '分页查询字典',
   })
-  @Permission({
+  @Authorization({
     resource: Dictionary.name,
     action: AuthorizationActionCode.Read,
   })
@@ -37,7 +37,7 @@ export class DictionaryResolver {
   }
 
   @Query(() => Dictionary, { name: 'dictionary', description: '查询单个字典' })
-  @Permission({
+  @Authorization({
     resource: Dictionary.name,
     action: AuthorizationActionCode.Read,
   })
@@ -46,7 +46,7 @@ export class DictionaryResolver {
   }
 
   @Mutation(() => Boolean, { description: '更新字典' })
-  @Permission({
+  @Authorization({
     resource: Dictionary.name,
     action: AuthorizationActionCode.Update,
   })
@@ -58,7 +58,7 @@ export class DictionaryResolver {
   }
 
   @Mutation(() => Boolean, { description: '删除字典' })
-  @Permission({
+  @Authorization({
     resource: Dictionary.name,
     action: AuthorizationActionCode.Delete,
   })

@@ -5,7 +5,7 @@ import { DictionaryEnum } from '@/libs/database/entities/mercury/dictionary-enum
 import { Pagination } from 'assets/dto/pagination.input';
 import { CreateDictionaryEnumInput } from './dto/create-dictionary-enum.input';
 import { UpdateDictionaryEnumInput } from './dto/update-dictionary-enum.input';
-import { Permission } from 'utils/decorators/permission.decorator';
+import { Authorization } from 'utils/decorators/authorization.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 
@@ -16,7 +16,7 @@ export class DictionaryEnumResolver {
   @Mutation(() => DictionaryEnum, {
     description: '创建字典枚举',
   })
-  @Permission({
+  @Authorization({
     resource: DictionaryEnum.name,
     action: AuthorizationActionCode.Create,
   })
@@ -30,7 +30,7 @@ export class DictionaryEnumResolver {
   @Query(() => PaginatedDictionaryEnum, {
     description: '分页查询字典枚举',
   })
-  @Permission({
+  @Authorization({
     resource: DictionaryEnum.name,
     action: AuthorizationActionCode.Read,
   })
@@ -43,7 +43,7 @@ export class DictionaryEnumResolver {
   @Query(() => DictionaryEnum, {
     description: '查询单个字典枚举',
   })
-  @Permission({
+  @Authorization({
     resource: DictionaryEnum.name,
     action: AuthorizationActionCode.Read,
   })
@@ -54,7 +54,7 @@ export class DictionaryEnumResolver {
   @Mutation(() => Boolean, {
     description: '更新字典枚举',
   })
-  @Permission({
+  @Authorization({
     resource: DictionaryEnum.name,
     action: AuthorizationActionCode.Update,
   })
@@ -69,7 +69,7 @@ export class DictionaryEnumResolver {
   @Mutation(() => Boolean, {
     description: '删除字典枚举',
   })
-  @Permission({
+  @Authorization({
     resource: DictionaryEnum.name,
     action: AuthorizationActionCode.Delete,
   })

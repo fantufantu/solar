@@ -2,7 +2,7 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { RoleService } from './role.service';
 import { CommandToken } from 'assets/tokens';
-import { PermissionPoint } from './dto/permission';
+import { AuthorizationPoint } from './dto/authorization';
 
 @Controller()
 export class RoleController {
@@ -11,11 +11,11 @@ export class RoleController {
   @MessagePattern({ cmd: CommandToken.Authorize })
   async isAuthorized({
     who,
-    permissionPoint,
+    authorizationPoint,
   }: {
     who: number;
-    permissionPoint: PermissionPoint;
+    authorizationPoint: AuthorizationPoint;
   }) {
-    return await this.roleService.isAuthorized(who, permissionPoint);
+    return await this.roleService.isAuthorized(who, authorizationPoint);
   }
 }

@@ -39,7 +39,7 @@ export class UserResolver {
   }
 
   @Query(() => PaginatedUsers, {
-    description: '分页查询用户列表（接口严格鉴权）',
+    description: '分页查询用户列表',
   })
   @UseInterceptors(PaginatedInterceptor)
   @UseGuards(JwtAuthGuard)

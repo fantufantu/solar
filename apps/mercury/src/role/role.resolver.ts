@@ -12,10 +12,10 @@ import { Role } from '@/libs/database/entities/mercury/role.entity';
 import { RoleService } from './role.service';
 import { CreateRoleInput } from './dto/create-role.input';
 import { UpdateRoleInput } from './dto/update-role.input';
-import { Permission } from 'utils/decorators/permission.decorator';
+import { Authorization } from 'utils/decorators/authorization.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import {
-  Authorization,
+  Authorization as AuthorizationEntity,
   AuthorizationActionCode,
 } from '@/libs/database/entities/mercury/authorization.entity';
 import { UseInterceptors } from '@nestjs/common';
@@ -29,10 +29,10 @@ export class RoleResolver {
   @Mutation(() => Role, {
     description: '创建角色',
   })
-  // @Permission({
-  //   resource: Role.name,
-  //   action: AuthorizationActionCode.Create,
-  // })
+  @Authorization({
+    resource: Role.name,
+    action: AuthorizationActionCode.Create,
+  })
   createRole(@Args('input') input: CreateRoleInput) {
     return this.roleService.create(input);
   }
@@ -41,10 +41,10 @@ export class RoleResolver {
     description: '分页查询角色',
   })
   @UseInterceptors(PaginatedInterceptor)
-  // @Permission({
-  //   resource: Role.name,
-  //   action: AuthorizationActionCode.Read,
-  // })
+  @Authorization({
+    resource: Role.name,
+    action: AuthorizationActionCode.Read,
+  })
   paginateRoles(@PaginationArgs() pagination: Pagination) {
     return this.roleService.paginate({
       pagination,
@@ -52,10 +52,10 @@ export class RoleResolver {
   }
 
   @Query(() => Role, { description: '查询单个角色' })
-  // @Permission({
-  //   resource: Role.name,
-  //   action: AuthorizationActionCode.Read,
-  // })
+  @Authorization({
+    resource: Role.name,
+    action: AuthorizationActionCode.Read,
+  })
   role(@Args('code', { type: () => String }) code: string) {
     return this.roleService.role(code);
   }
@@ -63,7 +63,7 @@ export class RoleResolver {
   @Mutation(() => Boolean, {
     description: '更新角色',
   })
-  @Permission({
+  @Authorization({
     resource: Role.name,
     action: AuthorizationActionCode.Update,
   })
@@ -77,7 +77,7 @@ export class RoleResolver {
   @Mutation(() => Boolean, {
     description: '删除角色',
   })
-  @Permission({
+  @Authorization({
     resource: Role.name,
     action: AuthorizationActionCode.Delete,
   })
@@ -85,7 +85,7 @@ export class RoleResolver {
     return this.roleService.remove(code);
   }
 
-  @ResolveField(() => [Authorization], {
+  @ResolveField(() => [AuthorizationEntity], {
     description: '角色拥有的权限点',
     nullable: true,
   })
@@ -96,10 +96,10 @@ export class RoleResolver {
   @Mutation(() => Boolean, {
     description: '角色分配权限',
   })
-  // @Permission({
-  //   resource: Role.name,
-  //   action: AuthorizationActionCode.Update,
-  // })
+  @Authorization({
+    resource: Role.name,
+    action: AuthorizationActionCode.Update,
+  })
   assignAuthorizations(
     @Args('input', { type: () => AssignAuthorizationsInput })
     input: AssignAuthorizationsInput,

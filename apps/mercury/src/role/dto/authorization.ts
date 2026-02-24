@@ -3,7 +3,7 @@ import { AuthorizationActionCode } from '@/libs/database/entities/mercury/author
 /**
  * 检查的权限点
  */
-export interface PermissionPoint {
+export interface AuthorizationPoint {
   resource: string;
   action: AuthorizationActionCode;
 }
