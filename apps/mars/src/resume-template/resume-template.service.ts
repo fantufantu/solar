@@ -138,20 +138,23 @@ export class ResumeTemplateService {
     let _codes: string[] = [];
 
     if (_tags.length > 0) {
-      _codes = (
+      (
         await this.resumeTemplateRepository
           .createQueryBuilder('resumeTemplate')
           .where(
             new Brackets((qb) => {
               for (const _tag of _tags) {
-                qb.orWhere('resumeTemplate.tags REGEXP :tag', {
-                  tag: `^${_tag},|,${_tag},|,${_tag}$`,
+                qb.orWhere('FIND_IN_SET(:tag, resumeTemplate.tags)', {
+                  tag: _tag,
                 });
               }
             }),
           )
           .getMany()
-      ).map((item) => item.code);
+      ).forEach((item) => {
+        if (item.code === code) return;
+        _codes.push(item.code);
+      });
     }
 
     const _recommendedCodes = (
