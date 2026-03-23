@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
-import { MicroservicePort, ServicePort } from 'assets/ports';
+import { MICRO_SERVICE_PORTS, SERVICE_PORTS } from 'constants/ports';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -16,14 +16,15 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,
     options: {
-      port: MicroservicePort.Mercury,
+      port: MICRO_SERVICE_PORTS.MERCURY,
     },
   });
 
   await app.startAllMicroservices();
-  await app.listen(ServicePort.Mercury);
+  await app.listen(SERVICE_PORTS.MERCURY);
   console.info(
-    `mercury is running on http://localhost:${ServicePort.Mercury}/graphql`,
+    `mercury is running on http://localhost:${SERVICE_PORTS.MERCURY}/graphql`,
   );
 }
+
 bootstrap();

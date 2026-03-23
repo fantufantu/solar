@@ -4,11 +4,10 @@ import { SERVICE_PORTS } from 'constants/ports';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(SERVICE_PORTS.EARTH);
+  await app.listen(SERVICE_PORTS.JUPITER);
 
   console.info(
-    `earth is running on http://localhost:${SERVICE_PORTS.EARTH}/graphql`,
+    `jupiter is running on http://localhost:${SERVICE_PORTS.JUPITER}/graphql`,
   );
 }
-
 bootstrap();

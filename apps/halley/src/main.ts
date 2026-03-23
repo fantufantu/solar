@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { ServicePort } from 'assets/ports';
+import { SERVICE_PORTS } from 'constants/ports';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -17,10 +17,10 @@ async function bootstrap() {
     },
   });
 
-  await application.listen(ServicePort.Halley);
+  await application.listen(SERVICE_PORTS.HALLEY);
 
   console.info(
-    `halley is running on http://localhost:${ServicePort.Halley}/graphql`,
+    `halley is running on http://localhost:${SERVICE_PORTS.HALLEY}/graphql`,
   );
 }
 bootstrap();

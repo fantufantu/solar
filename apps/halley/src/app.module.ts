@@ -7,7 +7,7 @@ import { GraphQLDataSourceRequestKind } from '@apollo/gateway/dist/datasources/t
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { Context, GraphQLModule } from '@nestjs/graphql';
-import { ServicePort } from 'assets/ports';
+import { SERVICE_PORTS } from 'constants/ports';
 import { ApplicationToken } from 'assets/tokens';
 import type { IncomingMessage } from 'http';
 
@@ -42,19 +42,23 @@ class RouterDataSource extends RemoteGraphQLDataSource {
               subgraphs: [
                 {
                   name: ApplicationToken.Mercury,
-                  url: `http://localhost:${ServicePort.Mercury}/graphql`,
+                  url: `http://localhost:${SERVICE_PORTS.MERCURY}/graphql`,
                 },
                 {
                   name: ApplicationToken.Venus,
-                  url: `http://localhost:${ServicePort.Venus}/graphql`,
+                  url: `http://localhost:${SERVICE_PORTS.VENUS}/graphql`,
                 },
                 {
                   name: ApplicationToken.Earth,
-                  url: `http://localhost:${ServicePort.Earth}/graphql`,
+                  url: `http://localhost:${SERVICE_PORTS.EARTH}/graphql`,
                 },
                 {
                   name: ApplicationToken.Mars,
-                  url: `http://localhost:${ServicePort.Mars}/graphql`,
+                  url: `http://localhost:${SERVICE_PORTS.MARS}/graphql`,
+                },
+                {
+                  name: ApplicationToken.Jupiter,
+                  url: `http://localhost:${SERVICE_PORTS.JUPITER}/graphql`,
                 },
               ],
             }),

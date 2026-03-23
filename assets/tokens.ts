@@ -6,6 +6,7 @@ export enum ApplicationToken {
   Venus = 'venus',
   Earth = 'earth',
   Mars = 'mars',
+  Jupiter = 'jupiter',
 }
 
 /**

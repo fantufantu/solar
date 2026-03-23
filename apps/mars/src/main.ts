@@ -1,13 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ServicePort } from 'assets/ports';
+import { SERVICE_PORTS } from 'constants/ports';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(ServicePort.Mars);
+  await app.listen(SERVICE_PORTS.MARS);
 
   console.info(
-    `mars is running on http://localhost:${ServicePort.Mars}/graphql`,
+    `mars is running on http://localhost:${SERVICE_PORTS.MARS}/graphql`,
   );
 }
 bootstrap();

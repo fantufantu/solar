@@ -2,7 +2,7 @@ import { Global, Module } from '@nestjs/common';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { PlutoClientService } from './pluto-client.service';
 import { ProviderToken } from 'assets/tokens';
-import { MicroservicePort } from 'assets/ports';
+import { MICRO_SERVICE_PORTS } from 'constants/ports';
 
 @Global()
 @Module({
@@ -14,7 +14,7 @@ import { MicroservicePort } from 'assets/ports';
         ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
-            port: MicroservicePort.Pluto,
+            port: MICRO_SERVICE_PORTS.PLUTO,
           },
         }),
     },

@@ -9,31 +9,13 @@
     "webpack": true
   },
   "projects": {
-    "sun": {
-      "type": "application",
-      "root": "apps/sun",
-      "entryFile": "main",
-      "sourceRoot": "apps/sun/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/sun/tsconfig.app.json"
-      }
-    },
-    "mercury": {
-      "type": "application",
-      "root": "apps/mercury",
-      "entryFile": "main",
-      "sourceRoot": "apps/mercury/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/mercury/tsconfig.app.json"
-      }
-    },
-    "passport": {
+    "cache": {
       "type": "library",
-      "root": "libs/passport",
+      "root": "libs/cache",
       "entryFile": "index",
-      "sourceRoot": "libs/passport/src",
+      "sourceRoot": "libs/cache/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/passport/tsconfig.lib.json"
+        "tsConfigPath": "libs/cache/tsconfig.lib.json"
       }
     },
     "database": {
@@ -45,6 +27,51 @@
         "tsConfigPath": "libs/database/tsconfig.lib.json"
       }
     },
+    "earth": {
+      "type": "application",
+      "root": "apps/earth",
+      "entryFile": "main",
+      "sourceRoot": "apps/earth/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/earth/tsconfig.app.json"
+      }
+    },
+    "halley": {
+      "type": "application",
+      "root": "apps/halley",
+      "entryFile": "main",
+      "sourceRoot": "apps/halley/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/halley/tsconfig.app.json"
+      }
+    },
+    "jupiter": {
+      "type": "application",
+      "root": "apps/jupiter",
+      "entryFile": "main",
+      "sourceRoot": "apps/jupiter/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/jupiter/tsconfig.app.json"
+      }
+    },
+    "mars": {
+      "type": "application",
+      "root": "apps/mars",
+      "entryFile": "main",
+      "sourceRoot": "apps/mars/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/mars/tsconfig.app.json"
+      }
+    },
+    "mercury": {
+      "type": "application",
+      "root": "apps/mercury",
+      "entryFile": "main",
+      "sourceRoot": "apps/mercury/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/mercury/tsconfig.app.json"
+      }
+    },
     "mercury-client": {
       "type": "library",
       "root": "libs/mercury-client",
@@ -52,6 +79,15 @@
       "sourceRoot": "libs/mercury-client/src",
       "compilerOptions": {
         "tsConfigPath": "libs/mercury-client/tsconfig.lib.json"
+      }
+    },
+    "passport": {
+      "type": "library",
+      "root": "libs/passport",
+      "entryFile": "index",
+      "sourceRoot": "libs/passport/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/passport/tsconfig.lib.json"
       }
     },
     "pluto": {
@@ -72,6 +108,15 @@
         "tsConfigPath": "libs/pluto-client/tsconfig.lib.json"
       }
     },
+    "sun": {
+      "type": "application",
+      "root": "apps/sun",
+      "entryFile": "main",
+      "sourceRoot": "apps/sun/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sun/tsconfig.app.json"
+      }
+    },
     "venus": {
       "type": "application",
       "root": "apps/venus",
@@ -79,42 +124,6 @@
       "sourceRoot": "apps/venus/src",
       "compilerOptions": {
         "tsConfigPath": "apps/venus/tsconfig.app.json"
-      }
-    },
-    "halley": {
-      "type": "application",
-      "root": "apps/halley",
-      "entryFile": "main",
-      "sourceRoot": "apps/halley/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/halley/tsconfig.app.json"
-      }
-    },
-    "earth": {
-      "type": "application",
-      "root": "apps/earth",
-      "entryFile": "main",
-      "sourceRoot": "apps/earth/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/earth/tsconfig.app.json"
-      }
-    },
-    "cache": {
-      "type": "library",
-      "root": "libs/cache",
-      "entryFile": "index",
-      "sourceRoot": "libs/cache/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/cache/tsconfig.lib.json"
-      }
-    },
-    "mars": {
-      "type": "application",
-      "root": "apps/mars",
-      "entryFile": "main",
-      "sourceRoot": "apps/mars/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/mars/tsconfig.app.json"
       }
     }
   }

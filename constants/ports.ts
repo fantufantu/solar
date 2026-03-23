@@ -1,0 +1,13 @@
+export const SERVICE_PORTS = {
+  MERCURY: 3100,
+  VENUS: 3200,
+  EARTH: 3300,
+  MARS: 3400,
+  JUPITER: 3500,
+  HALLEY: 3900,
+} as const;
+
+export const MICRO_SERVICE_PORTS = {
+  PLUTO: 3010,
+  MERCURY: 3110,
+};
