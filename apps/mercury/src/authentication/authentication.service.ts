@@ -4,15 +4,12 @@ import { constants, privateDecrypt, randomUUID } from 'crypto';
 import { PlutoClientService } from '@/libs/pluto-client';
 import { PassportService } from '@/libs/passport';
 import { RegisterInput } from './dto/register.input';
-import {
-  CacheToken,
-  ConfigurationRegisterToken,
-  RsaPropertyToken,
-} from 'assets/tokens';
+import { CacheToken, RsaPropertyToken } from 'assets/tokens';
 import { UserService } from '../user/user.service';
 import { LoginInput } from './dto/login.input';
 import { CacheService } from '@/libs/cache';
 import { ChangePasswordInput } from './dto/change-password.input';
+import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
 
 @Injectable()
 export class AuthenticationService {
@@ -91,7 +88,7 @@ export class AuthenticationService {
       ? this.decryptByRsaPrivateKey(
           password,
           await this.plutoClient.getConfiguration<string>({
-            token: ConfigurationRegisterToken.Rsa,
+            token: REGISTERED_CONFIGURATION_TOKENS.RSA,
             property: RsaPropertyToken.PrivateKey,
           }),
         )
@@ -148,7 +145,7 @@ export class AuthenticationService {
     const decryptedPassword = this.decryptByRsaPrivateKey(
       password,
       await this.plutoClient.getConfiguration<string>({
-        token: ConfigurationRegisterToken.Rsa,
+        token: REGISTERED_CONFIGURATION_TOKENS.RSA,
         property: RsaPropertyToken.PrivateKey,
       }),
     );

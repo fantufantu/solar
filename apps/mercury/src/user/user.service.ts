@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import dayjs from 'dayjs';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
-import { CacheToken, ConfigurationRegisterToken } from 'assets/tokens';
+import { CacheToken } from 'assets/tokens';
 import { PlutoClientService } from '@/libs/pluto-client';
 import { VerifyInput } from './dto/verify.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -22,10 +22,11 @@ import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.en
 import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role_with_authorization.entity';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 import { AssignRolesInput } from './dto/assign-roles.input';
+import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
 
 @Injectable()
 export class UserService {
-  private sesClient: SesClient;
+  private sesClient: SesClient | null = null;
 
   constructor(
     @InjectEntityManager()
@@ -61,17 +62,18 @@ export class UserService {
       .padStart(6, '0');
 
     // 执行发送邮件
-    const { MessageId, RequestId } = await this.sesClient.SendEmail({
-      FromEmailAddress: 'no-replay@account.fantufantu.com',
-      Destination: [to],
-      Subject: '通过邮件确认身份',
-      Template: {
-        TemplateID: 28985,
-        TemplateData: JSON.stringify({
-          captcha,
-        }),
-      },
-    });
+    const { MessageId, RequestId } =
+      (await this.sesClient?.SendEmail({
+        FromEmailAddress: 'no-replay@account.fantufantu.com',
+        Destination: [to],
+        Subject: '通过邮件确认身份',
+        Template: {
+          TemplateID: 28985,
+          TemplateData: JSON.stringify({
+            captcha,
+          }),
+        },
+      })) ?? {};
 
     if (!MessageId || !RequestId) {
       throw new Error(
@@ -143,15 +145,15 @@ export class UserService {
   private async initializeSesClient() {
     const [secretId, secretKey, region] = await Promise.all([
       this.plutoClient.getConfiguration<string>({
-        token: ConfigurationRegisterToken.TencentCloud,
+        token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
         property: TENCENT_CLOUD_CONFIGURATION.secret_id,
       }),
       this.plutoClient.getConfiguration<string>({
-        token: ConfigurationRegisterToken.TencentCloud,
+        token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
         property: TENCENT_CLOUD_CONFIGURATION.secret_key,
       }),
       this.plutoClient.getConfiguration<string>({
-        token: ConfigurationRegisterToken.TencentCloud,
+        token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
         property: TENCENT_CLOUD_CONFIGURATION.ses_region,
       }),
     ]);

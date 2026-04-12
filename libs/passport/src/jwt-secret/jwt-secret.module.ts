@@ -1,10 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PlutoClientModule, PlutoClientService } from '@/libs/pluto-client';
-import {
-  ConfigurationRegisterToken,
-  JwtPropertyToken,
-  ProviderToken,
-} from 'assets/tokens';
+import { JwtPropertyToken, ProviderToken } from 'assets/tokens';
+import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
 
 @Module({
   imports: [PlutoClientModule],
@@ -14,7 +11,7 @@ import {
       inject: [PlutoClientService],
       useFactory: async (client: PlutoClientService) => {
         return await client.getConfiguration({
-          token: ConfigurationRegisterToken.Jwt,
+          token: REGISTERED_CONFIGURATION_TOKENS.JWT,
           property: JwtPropertyToken.Secret,
         });
       },

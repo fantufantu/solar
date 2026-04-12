@@ -1,12 +1,12 @@
 import { registerAs } from '@nestjs/config';
-import { ConfigurationRegisterToken } from 'assets/tokens';
 import {
   TENCENT_CLOUD_CONFIGURATION,
   TencentCloudConfiguration,
 } from 'constants/cloud';
+import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
 
 export default registerAs<Record<TencentCloudConfiguration, string>>(
-  ConfigurationRegisterToken.TencentCloud,
+  REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
   () => {
     return {
       [TENCENT_CLOUD_CONFIGURATION.secret_id]:

@@ -1,6 +1,5 @@
 import type {
   CommandToken,
-  ConfigurationRegisterToken,
   TencentCloudPropertyToken,
   JwtPropertyToken,
   RsaPropertyToken,

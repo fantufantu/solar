@@ -1,9 +1,10 @@
 import { registerAs } from '@nestjs/config';
 import { generateKeyPairSync } from 'crypto';
-import { RsaPropertyToken, ConfigurationRegisterToken } from 'assets/tokens';
+import { RsaPropertyToken } from 'assets/tokens';
+import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
 
 export default registerAs<Record<RsaPropertyToken, string>>(
-  ConfigurationRegisterToken.Rsa,
+  REGISTERED_CONFIGURATION_TOKENS.RSA,
   () => {
     // 利用 crypto 生成公私密钥对
     const { publicKey, privateKey } = generateKeyPairSync('rsa', {

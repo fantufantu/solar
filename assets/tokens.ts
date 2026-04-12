@@ -27,17 +27,6 @@ export const METADATA_TOKEN = {
 
 /**
  * @description
- * config 注册值
- */
-export enum ConfigurationRegisterToken {
-  TencentCloud = 'tencent-cloud',
-  Jwt = 'jwt',
-  Rsa = 'rsa',
-  Openai = 'openai',
-}
-
-/**
- * @description
  * rsa 属性
  */
 export enum RsaPropertyToken {

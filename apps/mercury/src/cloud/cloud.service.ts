@@ -1,6 +1,5 @@
 import { PlutoClientService } from '@/libs/pluto-client';
 import { Injectable } from '@nestjs/common';
-import { ConfigurationRegisterToken } from 'assets/tokens';
 import { getCredential, getPolicy } from 'qcloud-cos-sts';
 import {
   BUCKET_NAME,
@@ -8,6 +7,7 @@ import {
   CosCredential,
 } from './dto/cos-credential.object';
 import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud';
+import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
 
 @Injectable()
 export class CloudService {
@@ -47,19 +47,19 @@ export class CloudService {
         [string, string, string, string]
       >([
         {
-          token: ConfigurationRegisterToken.TencentCloud,
+          token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
           property: TENCENT_CLOUD_CONFIGURATION.secret_id,
         },
         {
-          token: ConfigurationRegisterToken.TencentCloud,
+          token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
           property: TENCENT_CLOUD_CONFIGURATION.secret_key,
         },
         {
-          token: ConfigurationRegisterToken.TencentCloud,
+          token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
           property: _bucket.bucket,
         },
         {
-          token: ConfigurationRegisterToken.TencentCloud,
+          token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
           property: _bucket.region,
         },
       ]);
