@@ -34,6 +34,12 @@ module.exports = {
       script: 'pnpm',
       args: 'start:mars',
     },
+    // 旅游服务
+    {
+      name: 'jupiter',
+      script: 'pnpm',
+      args: 'start:jupiter',
+    },
     // 集成服务
     {
       name: 'halley',

@@ -7,7 +7,10 @@ async function bootstrap() {
   await app.listen(SERVICE_PORTS.JUPITER);
 
   console.info(
-    `jupiter is running on http://localhost:${SERVICE_PORTS.JUPITER}/graphql`,
+    `jupiter graphql is running on http://localhost:${SERVICE_PORTS.JUPITER}/graphql`,
+  );
+  console.info(
+    `jupiter api is running on http://localhost:${SERVICE_PORTS.JUPITER}/`,
   );
 }
 bootstrap();
