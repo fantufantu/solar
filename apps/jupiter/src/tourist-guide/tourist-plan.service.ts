@@ -4,7 +4,7 @@ import { ChatOpenAI } from '@langchain/openai';
 import { PlutoClientService } from '@/libs/pluto-client';
 import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
 import { VOLC_ARK_PROPERTY_TOKENS } from 'constants/volc-ark';
-import { usePlanPrompt } from './prompts/plan.prompt';
+import { useProposalPrompt } from './prompts/proposal.prompt';
 import { CreateTouristPlanInput } from './dto/create-tourist-plan.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entity';
@@ -23,7 +23,7 @@ export class TouristPlanService {
   /**
    * 读取出行方案
    */
-  async touristPlan(id: string) {
+  async proposal(id: string) {
     const proposal$ = new Observable<string>((subscriber) => {
       this.generateTouristPlan(id)
         .then(async (chunks) => {
@@ -105,7 +105,7 @@ export class TouristPlanService {
           property: VOLC_ARK_PROPERTY_TOKENS.CABIN_CAB_BASE_URL,
         },
       ]),
-      usePlanPrompt({
+      useProposalPrompt({
         cities: _touristPlan.cities.map((item) => item.name).join(','),
         depatureAt: dayjs(_touristPlan.depatureAt).format('YYYY-MM-DD'),
         duration: _touristPlan.duration,
@@ -133,5 +133,22 @@ export class TouristPlanService {
     return await this.touristPlanRepository.save(
       this.touristPlanRepository.create(input),
     );
+  }
+
+  /**
+   * 查询出行计划
+   */
+  async touristPlan(id: string) {
+    return await this.touristPlanRepository
+      .findOneBy({
+        id,
+      })
+      .then((_touristPlan) => {
+        if (!_touristPlan) {
+          throw new Error('Tourist plan not found');
+        }
+
+        return _touristPlan;
+      });
   }
 }
