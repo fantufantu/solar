@@ -23,8 +23,8 @@ import { ApplicationToken } from 'assets/tokens';
     }),
 
     // 数据库
-    DatabaseModule.forRoot(ApplicationToken.Mercury, {
-      synchronize: true,
+    DatabaseModule.forRoot(ApplicationToken.Jupiter, {
+      synchronize: false,
     }),
 
     TouristPlanModule,

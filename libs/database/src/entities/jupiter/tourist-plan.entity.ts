@@ -89,9 +89,9 @@ export class TouristPlan extends TimeStamped {
   })
   @Column({
     name: 'proposal',
-    type: 'varchar',
+    type: 'mediumtext',
     comment: '出行方案提案',
-    length: 1024,
+    nullable: true,
   })
   proposal: string | null = null;
 }
