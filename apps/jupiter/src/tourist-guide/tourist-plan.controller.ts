@@ -6,7 +6,7 @@ export class TouristPlanController {
   constructor(private readonly touristPlanService: TouristPlanService) {}
 
   @Sse('proposal/:id')
-  touristPlan(@Param('id') id: string) {
+  proposal(@Param('id') id: string) {
     return this.touristPlanService.proposal(id);
   }
 }

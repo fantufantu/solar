@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { endWith, map, Observable } from 'rxjs';
 import { ChatOpenAI } from '@langchain/openai';
 import { PlutoClientService } from '@/libs/pluto-client';
 import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
@@ -11,6 +11,9 @@ import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entit
 import { Repository } from 'typeorm';
 import dayjs from 'dayjs';
 import { isString } from '@aiszlab/relax';
+import { COMPLETED_MESSAGE_EVENT } from 'utils/sse.util';
+import { MessageEvent } from 'typings/sse.types';
+import { STATUS_CODE } from 'constants/sse.constant';
 
 @Injectable()
 export class TouristPlanService {
@@ -44,31 +47,35 @@ export class TouristPlanService {
         });
     });
 
-    return proposal$.pipe((source) => {
-      return new Observable<string>((subscriber) => {
-        let proposal: string | null = null;
+    return proposal$.pipe(
+      (source) => {
+        return new Observable<string>((subscriber) => {
+          let proposal: string | null = null;
 
-        source.subscribe({
-          next: (value) => {
-            proposal = (proposal ?? '') + value;
-            subscriber.next(value);
-          },
-          complete: () => {
-            // 记录`Agent`生成的出行方案
-            Promise.all([
-              this.touristPlanRepository.update(id, {
-                proposal: proposal ?? '',
-              }),
-              subscriber.complete(),
-            ]);
+          source.subscribe({
+            next: (value) => {
+              proposal = (proposal ?? '') + value;
+              subscriber.next(value);
+            },
+            complete: () => {
+              // 记录`Agent`生成的出行方案
+              Promise.all([
+                this.touristPlanRepository.update(id, {
+                  proposal: proposal ?? '',
+                }),
+                subscriber.complete(),
+              ]);
 
-            return () => {
-              proposal = null;
-            };
-          },
+              return () => {
+                proposal = null;
+              };
+            },
+          });
         });
-      });
-    });
+      },
+      map((value) => ({ type: STATUS_CODE.CONTINUE, data: value })),
+      endWith(COMPLETED_MESSAGE_EVENT()),
+    );
   }
 
   /**
@@ -94,15 +101,15 @@ export class TouristPlanService {
       this.plutoClient.getConfigurations<[string, string, string]>([
         {
           token: REGISTERED_CONFIGURATION_TOKENS.VOLC_ARK,
-          property: VOLC_ARK_PROPERTY_TOKENS.CABIN_CAB_MODEL,
+          property: VOLC_ARK_PROPERTY_TOKENS.ARK_CABIN_CAB_MODEL,
         },
         {
           token: REGISTERED_CONFIGURATION_TOKENS.VOLC_ARK,
-          property: VOLC_ARK_PROPERTY_TOKENS.CABIN_CAB_API_KEY,
+          property: VOLC_ARK_PROPERTY_TOKENS.ARK_CABIN_CAB_API_KEY,
         },
         {
           token: REGISTERED_CONFIGURATION_TOKENS.VOLC_ARK,
-          property: VOLC_ARK_PROPERTY_TOKENS.CABIN_CAB_BASE_URL,
+          property: VOLC_ARK_PROPERTY_TOKENS.ARK_CABIN_CAB_BASE_URL,
         },
       ]),
       useProposalPrompt({

@@ -5,6 +5,7 @@ import {
   rsaConfig,
   tencentCloudConfig,
   openaiConfig,
+  volcArkConfig,
 } from './configurations';
 import { ConfigurationService } from './configuration.service';
 import { ConfigurationController } from './configuration.controller';
@@ -13,7 +14,13 @@ import { ConfigurationController } from './configuration.controller';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [jwtConfig, rsaConfig, tencentCloudConfig, openaiConfig],
+      load: [
+        jwtConfig,
+        rsaConfig,
+        tencentCloudConfig,
+        openaiConfig,
+        volcArkConfig,
+      ],
       envFilePath: ['.env.local'],
     }),
   ],
