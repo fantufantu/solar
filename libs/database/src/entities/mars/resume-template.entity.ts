@@ -13,7 +13,7 @@ export class ResumeTemplate extends Tracked {
     length: 40,
     comment: '简历模板`code`',
   })
-  code: string;
+  code!: string;
 
   @Field(() => String, {
     description: '简历模板名称',
@@ -23,7 +23,7 @@ export class ResumeTemplate extends Tracked {
     length: 40,
     comment: '简历模板名称',
   })
-  name: string;
+  name!: string;
 
   @Field(() => String, {
     description: '简历模板封面地址',
@@ -33,7 +33,7 @@ export class ResumeTemplate extends Tracked {
     comment: '简历模板封面地址',
     length: 128,
   })
-  cover: string;
+  cover!: string;
 
   @Field(() => [String], {
     description: '简历模板标签',
@@ -42,7 +42,7 @@ export class ResumeTemplate extends Tracked {
     type: 'simple-array',
     comment: '简历模板标签',
   })
-  tags: string[];
+  tags!: string[];
 
   @Field(() => String, {
     description: '简历模板描述',
@@ -52,5 +52,5 @@ export class ResumeTemplate extends Tracked {
     comment: '简历模板描述',
     length: 1024,
   })
-  description: string;
+  description!: string;
 }

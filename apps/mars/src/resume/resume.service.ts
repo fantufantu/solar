@@ -9,7 +9,6 @@ import { Pagination } from 'assets/dto/pagination.input';
 import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
 import dayjs from 'dayjs';
 import { ResumesWhere } from './dto/resumes';
-import { isUndefined } from '@aiszlab/relax';
 
 @Injectable()
 export class ResumeService {

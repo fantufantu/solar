@@ -10,7 +10,7 @@ export class TimeStamped {
     name: 'created_at',
     comment: '创建时间',
   })
-  createdAt: Date;
+  createdAt!: Date;
 
   @Field(() => Date, {
     description: '更新时间',
@@ -19,5 +19,5 @@ export class TimeStamped {
     name: 'updated_at',
     comment: '更新时间',
   })
-  updatedAt: Date;
+  updatedAt!: Date;
 }

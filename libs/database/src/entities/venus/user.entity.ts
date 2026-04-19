@@ -17,7 +17,7 @@ export class User extends OmitType(
   @PrimaryColumn({
     comment: '用户`id`',
   })
-  id: number;
+  id!: number;
 
   @Field(() => Int, {
     nullable: true,
