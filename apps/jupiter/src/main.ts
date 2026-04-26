@@ -3,7 +3,12 @@ import { AppModule } from './app.module';
 import { SERVICE_PORTS } from 'constants/ports';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: {
+      origin: [/localhost:9527$/],
+    },
+  });
+
   await app.listen(SERVICE_PORTS.JUPITER);
 
   console.info(
