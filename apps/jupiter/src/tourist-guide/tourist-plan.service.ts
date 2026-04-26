@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, MessageEvent } from '@nestjs/common';
 import { endWith, map, Observable } from 'rxjs';
 import { ChatOpenAI } from '@langchain/openai';
 import { PlutoClientService } from '@/libs/pluto-client';
@@ -12,7 +12,6 @@ import { Repository } from 'typeorm';
 import dayjs from 'dayjs';
 import { isString } from '@aiszlab/relax';
 import { COMPLETED_MESSAGE_EVENT } from 'utils/sse.util';
-import { MessageEvent } from 'typings/sse.types';
 import { STATUS_CODE } from 'constants/sse.constant';
 
 @Injectable()
@@ -26,7 +25,7 @@ export class TouristPlanService {
   /**
    * 读取出行方案
    */
-  async proposal(id: string) {
+  proposal(id: string): Observable<MessageEvent> {
     const proposal$ = new Observable<string>((subscriber) => {
       this.generateTouristPlan(id)
         .then(async (chunks) => {
@@ -73,7 +72,12 @@ export class TouristPlanService {
           });
         });
       },
-      map((value) => ({ type: STATUS_CODE.CONTINUE, data: value })),
+      map((value) => ({
+        data: {
+          statusCode: STATUS_CODE.CONTINUE,
+          proposal: value,
+        },
+      })),
       endWith(COMPLETED_MESSAGE_EVENT()),
     );
   }
