@@ -30,7 +30,7 @@ export class Attraction {
   @Field(() => String, {
     description: '出行目的地`code`',
   })
-  belongTo!: string;
+  cityCode!: string;
 }
 
 @ObjectType()
