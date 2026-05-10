@@ -94,4 +94,16 @@ export class TouristPlan extends TimeStamped {
     nullable: true,
   })
   proposal: string | null = null;
+
+  @Field(() => String, {
+    description: '出行方案归属方',
+  })
+  @Column({
+    name: 'belong_to_id',
+    type: 'varchar',
+    length: 128,
+    comment: '出行方案归属方',
+    nullable: false,
+  })
+  belongToId!: string;
 }

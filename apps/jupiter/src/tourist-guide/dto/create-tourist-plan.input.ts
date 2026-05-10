@@ -26,4 +26,9 @@ export class CreateTouristPlanInput extends PickType(
     description: '出行景区列表',
   })
   attractions!: AttractionInput[];
+
+  @Field(() => String, {
+    description: '出行方案归属方',
+  })
+  belongToId!: string;
 }

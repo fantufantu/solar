@@ -19,7 +19,7 @@ export class User extends IdentifiedTimeStamped {
     unique: true,
   })
   @MaxLength(36)
-  username: string;
+  username!: string;
 
   @Field(() => String, {
     description: '用户昵称',
@@ -31,7 +31,7 @@ export class User extends IdentifiedTimeStamped {
     nullable: true,
   })
   @MaxLength(20)
-  nickname: string | null;
+  nickname!: string | null;
 
   @Field(() => String, {
     description: '邮箱地址',
@@ -44,7 +44,7 @@ export class User extends IdentifiedTimeStamped {
     comment: '邮箱地址',
   })
   @IsEmail()
-  emailAddress: string;
+  emailAddress!: string;
 
   @Field(() => String, {
     description: '头像',
@@ -66,7 +66,7 @@ export class User extends IdentifiedTimeStamped {
   })
   @MaxLength(20)
   @MinLength(6)
-  password: string;
+  password!: string;
 
   @BeforeInsert()
   @BeforeUpdate()
