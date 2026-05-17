@@ -5,7 +5,7 @@ import { SERVICE_PORTS } from 'constants/ports';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: {
-      origin: [/localhost:9527$/],
+      origin: [/localhost:9527$/, /tauri:\/\/localhost$/],
     },
   });
 

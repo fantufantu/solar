@@ -12,7 +12,7 @@ export class Billing extends IdentifiedTracked {
     type: 'varchar',
     length: 40,
   })
-  name: string;
+  name!: string;
 
   @Field(() => LimitDuration, {
     description: '限制时间段',
@@ -25,7 +25,7 @@ export class Billing extends IdentifiedTracked {
     name: 'limit_duration',
     comment: '限制时间段',
   })
-  limitDuration: LimitDuration | null;
+  limitDuration!: LimitDuration | null;
 
   @Field(() => Float, { description: '限制金额', nullable: true })
   @Column({
@@ -36,5 +36,5 @@ export class Billing extends IdentifiedTracked {
     name: 'limit_amount',
     comment: '限制金额',
   })
-  limitAmount: number | null;
+  limitAmount!: number | null;
 }
