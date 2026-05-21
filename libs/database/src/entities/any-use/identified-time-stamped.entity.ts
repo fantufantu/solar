@@ -11,5 +11,5 @@ export class IdentifiedTimeStamped extends TimeStamped {
     comment: 'id',
     name: 'id',
   })
-  id: number;
+  id!: number;
 }

@@ -6,8 +6,10 @@ import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
 import { VOLC_ARK_PROPERTY_TOKENS } from 'constants/volc-ark';
 import { useProposalPrompt } from './prompts/proposal.prompt';
 import { CreateTouristPlanInput } from './dto/create-tourist-plan.input';
+import { UserService } from '../user/user.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entity';
+import { User } from '@/libs/database/entities/jupiter/user.entity';
 import { Repository } from 'typeorm';
 import dayjs from 'dayjs';
 import { isString } from '@aiszlab/relax';
@@ -20,6 +22,7 @@ export class TouristPlanService {
     private readonly plutoClient: PlutoClientService,
     @InjectRepository(TouristPlan)
     private readonly touristPlanRepository: Repository<TouristPlan>,
+    private readonly userService: UserService,
   ) {}
 
   /**
@@ -141,6 +144,8 @@ export class TouristPlanService {
    * 创建出行方案
    */
   async create(input: CreateTouristPlanInput) {
+    await this.userService.isQuotaOverflow(input.belongToId);
+
     return await this.touristPlanRepository.save(
       this.touristPlanRepository.create(input),
     );

@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TouristPlanModule } from './tourist-guide/tourist-plan.module';
+import { MembershipModule } from './membership/membership.module';
 import { PlutoClientModule } from '@/libs/pluto-client';
 import { GraphQLModule } from '@nestjs/graphql';
 import {
@@ -8,6 +9,7 @@ import {
 } from '@nestjs/apollo';
 import { DatabaseModule } from '@/libs/database';
 import { ApplicationToken } from 'assets/tokens';
+import { User } from '@/libs/database/entities/jupiter/user.entity';
 
 @Module({
   imports: [
@@ -20,14 +22,21 @@ import { ApplicationToken } from 'assets/tokens';
       autoSchemaFile: {
         federation: 2,
       },
+      buildSchemaOptions: {
+        orphanedTypes: [User],
+      },
     }),
 
     // 数据库
     DatabaseModule.forRoot(ApplicationToken.Jupiter, {
-      synchronize: false,
+      synchronize: true,
     }),
 
+    // 出行计划模块
     TouristPlanModule,
+
+    // 会员等级模块
+    MembershipModule,
   ],
   controllers: [],
   providers: [],

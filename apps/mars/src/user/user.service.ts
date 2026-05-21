@@ -53,7 +53,7 @@ export class UserService {
   }
 
   /**
-   * @description 根据`id`查询用户信息
+   * 根据`id`查询用户信息
    */
   async user(id: number) {
     return await this.userRepository.findOne({
