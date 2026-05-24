@@ -27,7 +27,9 @@ export class UserService {
    * 升级用户会员等级
    */
   async upgradeMembership(userId: number, membershipId: number) {
-    const { affected } = await this.userRepository.update(userId, { membershipId });
+    const { affected } = await this.userRepository.update(userId, {
+      membershipId,
+    });
     return (affected ?? 0) > 0;
   }
 
@@ -35,13 +37,16 @@ export class UserService {
    * 检查用户今日是否已达配额上限
    */
   async isQuotaOverflow(belongToId: string) {
-    const user = await this.userRepository.findOne({
-      where: { id: Number(belongToId) },
-      relations: ['membership'],
-    });
+    const userId = Number(belongToId);
+
+    const user = isNaN(userId)
+      ? null
+      : await this.userRepository.findOne({
+          where: { id: userId },
+          relations: ['membership'],
+        });
 
     const quota = user?.membership?.quota ?? 3;
-
     const todayStart = dayjs().startOf('day').toDate();
     const todayEnd = dayjs().endOf('day').toDate();
 
