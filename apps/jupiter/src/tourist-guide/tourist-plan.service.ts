@@ -9,8 +9,9 @@ import { CreateTouristPlanInput } from './dto/create-tourist-plan.input';
 import { UserService } from '../user/user.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entity';
-import { User } from '@/libs/database/entities/jupiter/user.entity';
 import { Repository } from 'typeorm';
+import { Query } from 'typings/controller';
+import { FilterTouristPlansInput } from './dto/filter-tourist-plans.input';
 import dayjs from 'dayjs';
 import { isString } from '@aiszlab/relax';
 import { COMPLETED_MESSAGE_EVENT } from 'utils/sse.util';
@@ -83,6 +84,26 @@ export class TouristPlanService {
       })),
       endWith(COMPLETED_MESSAGE_EVENT()),
     );
+  }
+
+  /**
+   * 出行计划列表（分页）
+   */
+  async touristPlans({
+    pagination: { limit, page } = { limit: 10, page: 1 },
+    filter,
+  }: Query<FilterTouristPlansInput>) {
+    const qb = this.touristPlanRepository
+      .createQueryBuilder()
+      .where('1 = 1')
+      .andWhere('belong_to_id = :belongToId', {
+        belongToId: filter?.belongToId,
+      });
+
+    return await qb
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount();
   }
 
   /**
