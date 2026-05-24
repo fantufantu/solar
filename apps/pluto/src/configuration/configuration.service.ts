@@ -1,7 +1,7 @@
 import { PartialTuple } from '@aiszlab/relax/types';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { GetConfigurationBy } from 'typings/micro-service';
+import type { GetConfigurationBy } from 'typings/micro-service';
 
 @Injectable()
 export class ConfigurationService {

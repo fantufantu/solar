@@ -4,7 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { COMMAND_TOKENS, ProviderToken } from 'assets/tokens';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { AuthorizationPoint } from 'apps/mercury/src/role/dto/authorization';
-import { GetUserBy } from 'typings/micro-service';
+import type { GetUserBy } from 'typings/micro-service';
 
 @Injectable()
 export class MercuryClientService {
