@@ -38,3 +38,11 @@ export type GetConfigurationBy =
       token: typeof REGISTERED_CONFIGURATION_TOKENS.VOLC_ARK;
       property: VolcArkPropertyToken;
     };
+
+/**
+ * 获取用户信息入参
+ */
+export interface GetUserBy {
+  id?: number;
+  username?: string;
+}

@@ -4,6 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { CommandToken, ProviderToken } from 'assets/tokens';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { AuthorizationPoint } from 'apps/mercury/src/role/dto/authorization';
+import { GetUserBy } from 'typings/micro-service';
 
 @Injectable()
 export class MercuryClientService {
@@ -13,22 +14,20 @@ export class MercuryClientService {
   ) {}
 
   /**
-   * @description
    * 根据用户id获取用户信息
    */
-  async getUserById(id: number) {
+  async getUserById(params: GetUserBy): Promise<User> {
     return await lastValueFrom<User>(
       this.client.send(
         {
           cmd: CommandToken.GetUser,
         },
-        id,
+        params,
       ),
     );
   }
 
   /**
-   * @description
    * 鉴权
    */
   isAuthorized(who: number, authorizationPoint: AuthorizationPoint) {
@@ -46,7 +45,6 @@ export class MercuryClientService {
   }
 
   /**
-   * @description
    * 当前用户是否在登录有效期
    */
   async isLoggedIn(userId: number) {

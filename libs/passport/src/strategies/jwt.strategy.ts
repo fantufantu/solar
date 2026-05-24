@@ -35,7 +35,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     // 获取数据库中的user信息
-    const user = await this.client.getUserById(payload.id);
+    const user = await this.client.getUserById({
+      id: payload.id,
+    });
+
     if (!user) {
       throw new UnauthorizedException(
         '非常抱歉，服务端没有匹配到正确的用户信息！',
