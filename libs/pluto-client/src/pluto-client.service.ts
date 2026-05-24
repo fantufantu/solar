@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
-import { CommandToken, ProviderToken } from 'assets/tokens';
+import { COMMAND_TOKENS, ProviderToken } from 'assets/tokens';
 import type { GetConfigurationBy } from 'typings/micro-service';
 import type { PartialTuple } from '@aiszlab/relax/types';
 
@@ -20,7 +20,7 @@ export class PlutoClientService {
     return await lastValueFrom(
       this.client.send<T, GetConfigurationBy>(
         {
-          cmd: CommandToken.GetConfiguration,
+          cmd: COMMAND_TOKENS.GET_CONFIGURATION,
         },
         getBy,
       ),
@@ -38,7 +38,7 @@ export class PlutoClientService {
     return await lastValueFrom(
       this.client.send<PartialTuple<T>, GetConfigurationBy[]>(
         {
-          cmd: CommandToken.GetConfigurations,
+          cmd: COMMAND_TOKENS.GET_CONFIGURATIONS,
         },
         tokens,
       ),

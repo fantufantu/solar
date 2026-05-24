@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { CommandToken } from 'assets/tokens';
+import { COMMAND_TOKENS } from 'assets/tokens';
 import type { GetConfigurationBy } from 'typings/micro-service';
 import { ConfigurationService } from './configuration.service';
 
@@ -8,12 +8,12 @@ import { ConfigurationService } from './configuration.service';
 export class ConfigurationController {
   constructor(private readonly configurationService: ConfigurationService) {}
 
-  @MessagePattern({ cmd: CommandToken.GetConfiguration })
+  @MessagePattern({ cmd: COMMAND_TOKENS.GET_CONFIGURATION })
   getConfiguration<T>(getBy: GetConfigurationBy) {
     return this.configurationService.get<T>(getBy);
   }
 
-  @MessagePattern({ cmd: CommandToken.GetConfigurations })
+  @MessagePattern({ cmd: COMMAND_TOKENS.GET_CONFIGURATIONS })
   getConfigurations<T extends unknown[]>(tokens: GetConfigurationBy[]) {
     return this.configurationService.list<T>(tokens);
   }

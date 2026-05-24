@@ -1,5 +1,5 @@
+import { COMMAND_TOKENS } from 'assets/tokens';
 import type {
-  CommandToken,
   TencentCloudPropertyToken,
   JwtPropertyToken,
   RsaPropertyToken,
@@ -11,7 +11,7 @@ import { VolcArkPropertyToken } from 'constants/volc-ark';
  * 微服务指令
  */
 export interface Pattern {
-  cmd: CommandToken;
+  cmd: (typeof COMMAND_TOKENS)[keyof typeof COMMAND_TOKENS];
 }
 
 /**

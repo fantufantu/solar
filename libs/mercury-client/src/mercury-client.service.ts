@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
-import { CommandToken, ProviderToken } from 'assets/tokens';
+import { COMMAND_TOKENS, ProviderToken } from 'assets/tokens';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { AuthorizationPoint } from 'apps/mercury/src/role/dto/authorization';
 import { GetUserBy } from 'typings/micro-service';
@@ -20,7 +20,7 @@ export class MercuryClientService {
     return await lastValueFrom<User>(
       this.client.send(
         {
-          cmd: CommandToken.GetUser,
+          cmd: COMMAND_TOKENS.GET_USER,
         },
         params,
       ),
@@ -34,7 +34,7 @@ export class MercuryClientService {
     return lastValueFrom(
       this.client.send<boolean>(
         {
-          cmd: CommandToken.Authorize,
+          cmd: COMMAND_TOKENS.AUTHORIZE,
         },
         {
           who,
@@ -51,7 +51,7 @@ export class MercuryClientService {
     return await lastValueFrom<boolean>(
       this.client.send(
         {
-          cmd: CommandToken.isLoggedIn,
+          cmd: COMMAND_TOKENS.IS_LOGGED_IN,
         },
         userId,
       ),

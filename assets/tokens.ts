@@ -59,17 +59,13 @@ export enum DatabasePropertyToken {
   password = 'password',
 }
 
-/**
- * @description
- * 服务 cmd
- */
-export enum CommandToken {
-  GetConfiguration = 'configuration.get',
-  GetConfigurations = 'configurations.get',
-  GetUser = 'user.get',
-  Authorize = 'role.authorize',
-  isLoggedIn = 'authentication.logged-in',
-}
+export const COMMAND_TOKENS = {
+  GET_CONFIGURATION: 'configuration.get',
+  GET_CONFIGURATIONS: 'configurations.get',
+  GET_USER: 'user.get',
+  AUTHORIZE: 'role.authorize',
+  IS_LOGGED_IN: 'authentication.logged-in',
+};
 
 /**
  * GraphQL enum tokne
