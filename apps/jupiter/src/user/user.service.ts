@@ -4,6 +4,7 @@ import { User } from '@/libs/database/entities/jupiter/user.entity';
 import { Between, Repository } from 'typeorm';
 import dayjs from 'dayjs';
 import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entity';
+import { MercuryClientService } from '@/libs/mercury-client';
 
 @Injectable()
 export class UserService {
@@ -12,6 +13,7 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(TouristPlan)
     private readonly touristPlanRepository: Repository<TouristPlan>,
+    private readonly mercuryClient: MercuryClientService,
   ) {}
 
   /**
@@ -37,14 +39,16 @@ export class UserService {
    * 检查用户今日是否已达配额上限
    */
   async isQuotaOverflow(belongToId: string) {
-    const userId = Number(belongToId);
+    const userId = (
+      await this.mercuryClient.getUser({
+        username: belongToId,
+      })
+    ).id;
 
-    const user = isNaN(userId)
-      ? null
-      : await this.userRepository.findOne({
-          where: { id: userId },
-          relations: ['membership'],
-        });
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['membership'],
+    });
 
     const quota = user?.membership?.quota ?? 3;
     const todayStart = dayjs().startOf('day').toDate();

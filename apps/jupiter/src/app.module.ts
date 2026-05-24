@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TouristPlanModule } from './tourist-guide/tourist-plan.module';
 import { MembershipModule } from './membership/membership.module';
 import { PlutoClientModule } from '@/libs/pluto-client';
+import { MercuryClientModule } from '@/libs/mercury-client';
 import { GraphQLModule } from '@nestjs/graphql';
 import {
   ApolloFederationDriver,
@@ -15,6 +16,9 @@ import { User } from '@/libs/database/entities/jupiter/user.entity';
   imports: [
     // 配置微服务客户端
     PlutoClientModule,
+
+    // 基建微服务客户端
+    MercuryClientModule,
 
     // API
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({

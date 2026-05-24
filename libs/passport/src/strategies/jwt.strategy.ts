@@ -35,7 +35,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     // 获取数据库中的user信息
-    const user = await this.client.getUserById({
+    const user = await this.client.getUser({
       id: payload.id,
     });
 
