@@ -16,8 +16,8 @@ export class MercuryClientService {
   /**
    * 获取用户信息，支持通过`id`或`username`查询
    */
-  async getUser(params: GetUserBy): Promise<User> {
-    return await lastValueFrom<User>(
+  async getUser(params: GetUserBy) {
+    return await lastValueFrom<User | null>(
       this.client.send(
         {
           cmd: COMMAND_TOKENS.GET_USER,

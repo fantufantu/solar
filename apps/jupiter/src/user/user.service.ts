@@ -43,7 +43,7 @@ export class UserService {
       await this.mercuryClient.getUser({
         username: belongToId,
       })
-    ).id;
+    )?.id;
 
     const user = await this.userRepository.findOne({
       where: { id: userId },
