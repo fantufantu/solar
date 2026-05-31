@@ -11,7 +11,7 @@ import { UserService } from '../user/user.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   TouristPlan,
-  touristPlanSchema,
+  ITINERARY_SCHEMA,
 } from '@/libs/database/entities/jupiter/tourist-plan.entity';
 import { Repository } from 'typeorm';
 import { Query } from 'typings/controller';
@@ -169,7 +169,7 @@ export class TouristPlanService {
     // 1. 查询出行计划，没有提案或已解析过的方案则直接返回
     const _touristPlan = await this.touristPlan(id);
     if (!_touristPlan?.proposal) return;
-    if (_touristPlan.plan) return;
+    if (_touristPlan.itinerary) return;
 
     // 2. 获取 LLM 配置
     const [model, apiKey, baseURL] = await this.plutoClient.getConfigurations<
@@ -203,7 +203,7 @@ export class TouristPlanService {
       },
     });
 
-    const structuredLlm = chat.withStructuredOutput(touristPlanSchema, {
+    const structuredLlm = chat.withStructuredOutput(ITINERARY_SCHEMA, {
       method: 'functionCalling',
       name: 'parseResult',
     });
@@ -213,7 +213,7 @@ export class TouristPlanService {
 
     // 6. 将解析结果存入数据库
     await this.touristPlanRepository.update(id, {
-      plan: result,
+      itinerary: result,
     });
 
     // 7. 返回解析结果

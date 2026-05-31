@@ -3,19 +3,59 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { TimeStamped } from '../any-use/time-stamped.entity';
 import { z } from 'zod';
 
-const attractionSchema = z.object({
-  attractionName: z.string().describe('景点名称'),
-  planAt: z.number().describe('计划游玩开始时间；Unix 时间戳，单位为毫秒'),
-  planGap: z
+const ITINERARY_ITEM_SCHEMA = z.object({
+  itineraryName: z.string().describe('行程名称'),
+  itineraryDescription: z.string().describe('行程描述'),
+  itineraryTip: z.string().describe('行程提示'),
+  itineraryStartAt: z
     .number()
-    .describe('计划游玩时长，建议的景点停留时间；Unix 时间戳，单位为毫秒'),
-  attractionDescription: z.string().describe('景点描述'),
-  tip: z.string().describe('出行提示'),
+    .describe('行程开始时间；Unix 时间戳，单位为毫秒'),
+  itineraryDuration: z
+    .number()
+    .describe('行程时长，建议的景点停留时间；Unix 时间戳，单位为毫秒'),
 });
 
-export const touristPlanSchema = z.object({
-  attractions: z.array(attractionSchema).describe('游玩景点列表'),
+export const ITINERARY_SCHEMA = z.object({
+  items: z.array(ITINERARY_ITEM_SCHEMA).describe('行程列表'),
 });
+
+@ObjectType()
+class TouristPlanItineraryItem implements z.infer<
+  typeof ITINERARY_ITEM_SCHEMA
+> {
+  @Field(() => String, {
+    description: '行程名称',
+  })
+  itineraryName!: string;
+
+  @Field(() => String, {
+    description: '行程描述',
+  })
+  itineraryDescription!: string;
+
+  @Field(() => String, {
+    description: '行程提示',
+  })
+  itineraryTip!: string;
+
+  @Field(() => Number, {
+    description: '行程开始时间',
+  })
+  itineraryStartAt!: number;
+
+  @Field(() => Number, {
+    description: '行程时长',
+  })
+  itineraryDuration!: number;
+}
+
+@ObjectType()
+class TouristPlanItinerary implements z.infer<typeof ITINERARY_SCHEMA> {
+  @Field(() => [TouristPlanItineraryItem], {
+    description: '行程列表',
+  })
+  items!: TouristPlanItineraryItem[];
+}
 
 @ObjectType()
 export class City {
@@ -110,17 +150,17 @@ export class TouristPlan extends TimeStamped {
   })
   proposal: string | null = null;
 
-  @Field(() => String, {
-    description: '解析后的结构化出行计划',
+  @Field(() => TouristPlanItinerary, {
+    description: '解析后的结构化行程',
     nullable: true,
   })
   @Column({
-    name: 'plan',
+    name: 'itinerary',
     type: 'json',
-    comment: '解析后的结构化出行计划',
+    comment: '解析后的结构化行程',
     nullable: true,
   })
-  plan: z.infer<typeof touristPlanSchema> | null = null;
+  itinerary: TouristPlanItinerary | null = null;
 
   @Field(() => String, {
     description: '出行方案归属方',
