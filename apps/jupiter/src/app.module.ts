@@ -33,7 +33,7 @@ import { User } from '@/libs/database/entities/jupiter/user.entity';
 
     // 数据库
     DatabaseModule.forRoot(ApplicationToken.Jupiter, {
-      synchronize: true,
+      synchronize: false,
     }),
 
     // 出行计划模块
