@@ -119,6 +119,10 @@ export class TouristPlanService {
   async generateTouristPlan(id: string) {
     const _touristPlan = await this.touristPlan(id);
 
+    if (_touristPlan.proposal) {
+      return _touristPlan.proposal;
+    }
+
     const {
       '0': [model, apiKey, baseURL],
       '1': prompt,
@@ -162,9 +166,10 @@ export class TouristPlanService {
    * 将出行计划文本解析为结构化数据
    */
   async parseTouristPlan(id: string) {
-    // 1. 查询出行计划
+    // 1. 查询出行计划，没有提案或已解析过的方案则直接返回
     const _touristPlan = await this.touristPlan(id);
     if (!_touristPlan?.proposal) return;
+    if (_touristPlan.plan) return;
 
     // 2. 获取 LLM 配置
     const [model, apiKey, baseURL] = await this.plutoClient.getConfigurations<
