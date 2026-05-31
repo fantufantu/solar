@@ -74,7 +74,7 @@ export class TouristPlanService {
                   })
                   .then(() => this.parseTouristPlan(id)),
                 subscriber.complete(),
-              ]);
+              ]).catch(() => null);
 
               return () => {
                 proposal = null;
