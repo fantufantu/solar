@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 import type { Query } from 'typings/controller';
@@ -37,7 +37,7 @@ export class AuthorizationService {
     });
 
     if (isCreated) {
-      throw new Error('权限点已存在，请勿重复创建');
+      throw new BadRequestException('权限点已存在，请勿重复创建');
     }
 
     return await this.authorizationRepository.save(
@@ -57,7 +57,7 @@ export class AuthorizationService {
     const authorization = await this.authorizationRepository.findOneBy({ id });
 
     if (!authorization) {
-      throw new Error('权限点不存在');
+      throw new BadRequestException('权限点不存在');
     }
 
     authorization.deletedById = who;

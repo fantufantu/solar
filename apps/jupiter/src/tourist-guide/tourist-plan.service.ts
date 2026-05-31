@@ -1,4 +1,4 @@
-import { Injectable, MessageEvent } from '@nestjs/common';
+import { BadRequestException, Injectable, MessageEvent } from '@nestjs/common';
 import { endWith, map, Observable } from 'rxjs';
 import { ChatOpenAI } from '@langchain/openai';
 import { PlutoClientService } from '@/libs/pluto-client';
@@ -117,13 +117,7 @@ export class TouristPlanService {
    * 生成出行方案
    */
   async generateTouristPlan(id: string) {
-    const _touristPlan = await this.touristPlanRepository.findOneBy({
-      id,
-    });
-
-    if (!_touristPlan?.proposal) {
-      throw new Error('Tourist plan not found');
-    }
+    const _touristPlan = await this.touristPlan(id);
 
     const {
       '0': [model, apiKey, baseURL],
@@ -170,9 +164,7 @@ export class TouristPlanService {
   async parseTouristPlan(id: string) {
     // 1. 查询出行计划
     const _touristPlan = await this.touristPlan(id);
-    if (!_touristPlan?.proposal) {
-      throw new Error('Tourist plan not found');
-    }
+    if (!_touristPlan?.proposal) return;
 
     // 2. 获取 LLM 配置
     const [model, apiKey, baseURL] = await this.plutoClient.getConfigurations<
@@ -244,7 +236,7 @@ export class TouristPlanService {
       })
       .then((_touristPlan) => {
         if (!_touristPlan) {
-          throw new Error('Tourist plan not found');
+          throw new BadRequestException('Tourist plan not found');
         }
 
         return _touristPlan;

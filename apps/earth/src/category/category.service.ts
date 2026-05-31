@@ -1,5 +1,5 @@
 import { Category } from '@/libs/database/entities/earth/category.entity';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FilterArticleCategoriesInput } from './dto/filter-categories.input';
@@ -72,7 +72,7 @@ export class CategoryService {
     const _category = await this.categoryRepository.findOneBy({ code });
 
     if (!_category) {
-      throw new Error('当前文章分类不存在！');
+      throw new BadRequestException('当前文章分类不存在！');
     }
 
     // 删除文章与文章分类的关联关系

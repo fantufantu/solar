@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { CreateResumeInput } from './dto/create-resume.input';
 import { UpdateResumeInput } from './dto/update-resume.input';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -74,7 +78,7 @@ export class ResumeService {
     });
 
     if (!_resume) {
-      throw new Error('简历不存在！');
+      throw new BadRequestException('简历不存在！');
     }
 
     if (_resume.createdById !== who) {

@@ -1,5 +1,5 @@
 import { PlutoClientService } from '@/libs/pluto-client';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { getCredential, getPolicy } from 'qcloud-cos-sts';
 import {
   BUCKET_NAME,
@@ -39,7 +39,7 @@ export class CloudService {
   async cosCredential(bucketName: BucketName): Promise<CosCredential> {
     const _bucket = this.buckets.get(bucketName);
     if (!_bucket) {
-      throw new Error('未配置当前存储桶对应的配置内容');
+      throw new BadRequestException('未配置当前存储桶对应的配置内容');
     }
 
     const [secretId, secretKey, bucket, region] =
@@ -65,7 +65,7 @@ export class CloudService {
       ]);
 
     if (!secretId || !secretKey || !bucket || !region) {
-      throw new Error('腾讯云`COS`配置项缺失！');
+      throw new BadRequestException('腾讯云`COS`配置项缺失！');
     }
 
     const _cretenial = (

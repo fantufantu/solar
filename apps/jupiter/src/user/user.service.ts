@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
 import { Between, Repository } from 'typeorm';
@@ -60,7 +60,9 @@ export class UserService {
     });
 
     if (count >= quota) {
-      throw new Error(`今日出行计划创建次数已达上限（${quota}次），请明日再试`);
+      throw new BadRequestException(
+        `今日出行计划创建次数已达上限（${quota}次），请明日再试`,
+      );
     }
   }
 }

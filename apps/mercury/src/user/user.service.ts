@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import {
   Repository,
@@ -54,7 +58,7 @@ export class UserService {
       (await this.cacheService.getCaptchaValidation(to, token)) ?? [];
 
     if (!!sentAt && systemAt.diff(dayjs(sentAt), 'minutes') < 1) {
-      throw new Error('验证码发送太频繁，请稍后再试');
+      throw new BadRequestException('验证码发送太频繁，请稍后再试');
     }
 
     const captcha = Math.floor(Math.random() * 1000000)
@@ -76,7 +80,7 @@ export class UserService {
       })) ?? {};
 
     if (!MessageId || !RequestId) {
-      throw new Error(
+      throw new BadRequestException(
         `邮件发送失败: MessageId(${MessageId}) RequestId(${RequestId})`,
       );
     }
@@ -110,7 +114,7 @@ export class UserService {
       (await this.cacheService.getCaptchaValidation(who, token)) ?? [];
 
     if (_sentCaptcha !== captcha) {
-      throw new Error('邮箱验证失败，请检查验证码');
+      throw new BadRequestException('邮箱验证失败，请检查验证码');
     }
 
     return true;

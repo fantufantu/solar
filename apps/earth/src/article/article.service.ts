@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateArticleInput } from './dto/create-article.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from '@/libs/database/entities/earth/article.entity';
@@ -164,7 +164,7 @@ export class ArticleService {
   ) {
     // 性能考虑：不允许超过1年时间查询
     if (dayjs(from).isBefore(dayjs(to).subtract(1, 'years'))) {
-      throw new Error('时间跨度过大，请不要超过一年');
+      throw new BadRequestException('时间跨度过大，请不要超过一年');
     }
 
     return (await this.articleRepository
