@@ -14,3 +14,14 @@ export const REGISTERED_CONFIGURATION_TOKENS = {
 export type RegisteredConfigurationToken = ValueOf<
   typeof REGISTERED_CONFIGURATION_TOKENS
 >;
+
+/**
+ * openai 配置项
+ */
+export const OPENAI_PROPERTY_TOKEN = {
+  ApiKey: 'api-key',
+  BaseUrl: 'base-url',
+  Model: 'model',
+} as const;
+
+export type OpenaiPropertyToken = ValueOf<typeof OPENAI_PROPERTY_TOKEN>;

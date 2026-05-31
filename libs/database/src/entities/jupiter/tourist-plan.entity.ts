@@ -1,6 +1,21 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { TimeStamped } from '../any-use/time-stamped.entity';
+import { z } from 'zod';
+
+const attractionSchema = z.object({
+  attractionName: z.string().describe('景点名称'),
+  planAt: z.number().describe('计划游玩开始时间；Unix 时间戳，单位为毫秒'),
+  planGap: z
+    .number()
+    .describe('计划游玩时长，建议的景点停留时间；Unix 时间戳，单位为毫秒'),
+  attractionDescription: z.string().describe('景点描述'),
+  tip: z.string().describe('出行提示'),
+});
+
+export const touristPlanSchema = z.object({
+  attractions: z.array(attractionSchema).describe('游玩景点列表'),
+});
 
 @ObjectType()
 export class City {
@@ -94,6 +109,18 @@ export class TouristPlan extends TimeStamped {
     nullable: true,
   })
   proposal: string | null = null;
+
+  @Field(() => String, {
+    description: '解析后的结构化出行计划',
+    nullable: true,
+  })
+  @Column({
+    name: 'plan',
+    type: 'json',
+    comment: '解析后的结构化出行计划',
+    nullable: true,
+  })
+  plan: z.infer<typeof touristPlanSchema> | null = null;
 
   @Field(() => String, {
     description: '出行方案归属方',

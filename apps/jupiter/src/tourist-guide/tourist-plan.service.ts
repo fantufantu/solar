@@ -5,10 +5,14 @@ import { PlutoClientService } from '@/libs/pluto-client';
 import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
 import { VOLC_ARK_PROPERTY_TOKENS } from 'constants/volc-ark';
 import { useProposalPrompt } from './prompts/proposal.prompt';
+import { useParseTextPrompt } from './prompts/parse-text.prompt';
 import { CreateTouristPlanInput } from './dto/create-tourist-plan.input';
 import { UserService } from '../user/user.service';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entity';
+import {
+  TouristPlan,
+  touristPlanSchema,
+} from '@/libs/database/entities/jupiter/tourist-plan.entity';
 import { Repository } from 'typeorm';
 import { Query } from 'typings/controller';
 import { FilterTouristPlansInput } from './dto/filter-tourist-plans.input';
@@ -16,6 +20,7 @@ import dayjs from 'dayjs';
 import { isString } from '@aiszlab/relax';
 import { COMPLETED_MESSAGE_EVENT } from 'utils/sse.util';
 import { STATUS_CODE } from 'constants/sse.constant';
+import { OPENAI_PROPERTY_TOKEN } from 'constants/configuration';
 
 @Injectable()
 export class TouristPlanService {
@@ -63,9 +68,11 @@ export class TouristPlanService {
             complete: () => {
               // 记录`Agent`生成的出行方案
               Promise.all([
-                this.touristPlanRepository.update(id, {
-                  proposal: proposal ?? '',
-                }),
+                this.touristPlanRepository
+                  .update(id, {
+                    proposal: proposal ?? '',
+                  })
+                  .then(() => this.parseTouristPlan(id)),
                 subscriber.complete(),
               ]);
 
@@ -114,12 +121,8 @@ export class TouristPlanService {
       id,
     });
 
-    if (!_touristPlan) {
+    if (!_touristPlan?.proposal) {
       throw new Error('Tourist plan not found');
-    }
-
-    if (_touristPlan.proposal) {
-      return _touristPlan.proposal;
     }
 
     const {
@@ -159,6 +162,65 @@ export class TouristPlanService {
     });
 
     return chat.stream(prompt);
+  }
+
+  /**
+   * 将出行计划文本解析为结构化数据
+   */
+  async parseTouristPlan(id: string) {
+    // 1. 查询出行计划
+    const _touristPlan = await this.touristPlan(id);
+    if (!_touristPlan?.proposal) {
+      throw new Error('Tourist plan not found');
+    }
+
+    // 2. 获取 LLM 配置
+    const [model, apiKey, baseURL] = await this.plutoClient.getConfigurations<
+      [string, string, string]
+    >([
+      {
+        token: REGISTERED_CONFIGURATION_TOKENS.OPENAI,
+        property: OPENAI_PROPERTY_TOKEN.Model,
+      },
+      {
+        token: REGISTERED_CONFIGURATION_TOKENS.OPENAI,
+        property: OPENAI_PROPERTY_TOKEN.ApiKey,
+      },
+      {
+        token: REGISTERED_CONFIGURATION_TOKENS.OPENAI,
+        property: OPENAI_PROPERTY_TOKEN.BaseUrl,
+      },
+    ]);
+
+    // 3. 构建提示词，使用数据库中的 proposal 字段作为待解析文本
+    const prompt = await useParseTextPrompt({
+      text: _touristPlan.proposal,
+    });
+
+    // 4. 创建 LLM 实例并配置结构化输出
+    const chat = new ChatOpenAI({
+      model,
+      configuration: {
+        baseURL,
+        apiKey,
+      },
+    });
+
+    const structuredLlm = chat.withStructuredOutput(touristPlanSchema, {
+      method: 'functionCalling',
+      name: 'parseResult',
+    });
+
+    // 5. 调用大模型获取结构化结果
+    const result = await structuredLlm.invoke(prompt);
+
+    // 6. 将解析结果存入数据库
+    await this.touristPlanRepository.update(id, {
+      plan: result,
+    });
+
+    // 7. 返回解析结果
+    return result;
   }
 
   /**

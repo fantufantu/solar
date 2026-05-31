@@ -43,16 +43,6 @@ export enum JwtPropertyToken {
 }
 
 /**
- * @description
- * openai 配置项
- */
-export enum OpenaiPropertyToken {
-  ApiKey = 'api-key',
-  BaseUrl = 'base-url',
-  Model = 'model',
-}
-
-/**
  * 数据库配置
  */
 export enum DatabasePropertyToken {
