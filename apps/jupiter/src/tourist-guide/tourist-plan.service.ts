@@ -68,11 +68,9 @@ export class TouristPlanService {
             complete: () => {
               // 记录`Agent`生成的出行方案
               Promise.all([
-                this.touristPlanRepository
-                  .update(id, {
-                    proposal: proposal ?? '',
-                  })
-                  .then(() => this.parseTouristPlan(id)),
+                this.touristPlanRepository.update(id, {
+                  proposal: proposal ?? '',
+                }),
                 subscriber.complete(),
               ]).catch(() => null);
 
@@ -163,13 +161,13 @@ export class TouristPlanService {
   }
 
   /**
-   * 将出行计划文本解析为结构化数据
+   * 将出行计划文本解析为结构化数据，返回完整的出行计划
    */
-  async parseTouristPlan(id: string) {
+  async parseTouristPlan(id: string): Promise<TouristPlan> {
     // 1. 查询出行计划，没有提案或已解析过的方案则直接返回
     const _touristPlan = await this.touristPlan(id);
-    if (!_touristPlan?.proposal) return;
-    if (_touristPlan.itinerary) return;
+    if (!_touristPlan?.proposal) return _touristPlan;
+    if (_touristPlan.itinerary) return _touristPlan;
 
     // 2. 获取 LLM 配置
     const [model, apiKey, baseURL] = await this.plutoClient.getConfigurations<
@@ -216,8 +214,8 @@ export class TouristPlanService {
       itinerary: result,
     });
 
-    // 7. 返回解析结果
-    return result;
+    // 7. 返回完整的出行计划数据
+    return await this.touristPlan(id);
   }
 
   /**

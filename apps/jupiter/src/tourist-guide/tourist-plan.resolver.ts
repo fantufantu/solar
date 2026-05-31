@@ -21,6 +21,13 @@ export class TouristPlanResolver {
     return this.touristPlanService.create(input);
   }
 
+  @Mutation(() => TouristPlan, { description: '解析出行计划为结构化行程数据' })
+  parseTouristPlan(
+    @Args('id') id: string,
+  ): Promise<TouristPlan> {
+    return this.touristPlanService.parseTouristPlan(id);
+  }
+
   @Query(() => TouristPlan, { description: '获取出行计划' })
   touristPlan(@Args('id') id: string): Promise<TouristPlan> {
     return this.touristPlanService.touristPlan(id);
