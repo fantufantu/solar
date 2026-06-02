@@ -4,7 +4,7 @@ import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entit
 import { CreateTouristPlanInput } from './dto/create-tourist-plan.input';
 import { Pagination } from 'assets/dto/pagination.input';
 import { PaginatedTouristPlans } from './dto/paginated-tourist-plans.object';
-import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
+import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { UseInterceptors } from '@nestjs/common';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { FilterArgs } from 'utils/decorators/filter.decorator';
@@ -22,9 +22,7 @@ export class TouristPlanResolver {
   }
 
   @Mutation(() => TouristPlan, { description: '解析出行计划为结构化行程数据' })
-  parseTouristPlan(
-    @Args('id') id: string,
-  ): Promise<TouristPlan> {
+  parseTouristPlan(@Args('id') id: string): Promise<TouristPlan> {
     return this.touristPlanService.parseTouristPlan(id);
   }
 

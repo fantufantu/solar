@@ -7,7 +7,7 @@ import { UpdateTransactionCategoryInput } from './dto/update-category.input';
 import { FilterTransactionCategoryInput } from './dto/filter-categories.input';
 import { Pagination } from 'assets/dto/pagination.input';
 import { PaginatedCategories } from './dto/paginated-categories.object';
-import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
+import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { FilterArgs } from 'utils/decorators/filter.decorator';
 

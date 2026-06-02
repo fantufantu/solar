@@ -20,7 +20,7 @@ import { Pagination } from 'assets/dto/pagination.input';
 import { FilterArgs } from 'utils/decorators/filter.decorator';
 import { FilterUserInput } from './dto/filter-user.input';
 import { PaginatedUsers } from './dto/paginated-users.object';
-import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
+import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 import { AssignRolesInput } from './dto/assign-roles.input';
 import { toArray } from '@aiszlab/relax';

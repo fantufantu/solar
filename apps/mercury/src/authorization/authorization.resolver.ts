@@ -9,7 +9,7 @@ import { CreateAuthorizationInput } from './dto/create-authorization.input';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 import { Pagination } from 'assets/dto/pagination.input';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
-import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
+import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 
 @Resolver()
 export class AuthorizationResolver {

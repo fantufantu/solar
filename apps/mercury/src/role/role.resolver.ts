@@ -19,7 +19,7 @@ import {
   AuthorizationActionCode,
 } from '@/libs/database/entities/mercury/authorization.entity';
 import { UseInterceptors } from '@nestjs/common';
-import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
+import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { AssignAuthorizationsInput } from './dto/assign-authorizations.input';
 
 @Resolver(() => Role)

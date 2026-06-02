@@ -3,7 +3,7 @@ import { AuthenticationService } from './authentication.service';
 import { LoginInput } from './dto/login.input';
 import { RegisterInput } from './dto/register.input';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
-import { AuthenticatedInterceptor } from 'assets/interceptors/authenticated.interceptor';
+import { AuthenticatedInterceptor } from 'utils/interceptors/authenticated.interceptor';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { ChangePasswordInput } from './dto/change-password.input';

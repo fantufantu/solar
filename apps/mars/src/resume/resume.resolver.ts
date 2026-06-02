@@ -14,7 +14,7 @@ import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { User } from '@/libs/database/entities/mars/user.entity';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
-import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
+import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { Pagination } from 'assets/dto/pagination.input';
 import { PaginatedResumes } from './dto/paginated-resumes.object';

@@ -16,7 +16,7 @@ import { JwtAuthGuard } from '@/libs/passport/guards';
 import { Sharing } from '@/libs/database/entities/venus/sharing.entity';
 import { BillingLoader } from './billing.loader';
 import { User } from '@/libs/database/entities/venus/user.entity';
-import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
+import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { PaginatedBillings } from './dto/paginated-billings.object';
 import { UpdateBillingLimitationInput } from './dto/update-billing-limitation.input';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';

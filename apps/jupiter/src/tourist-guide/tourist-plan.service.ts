@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, MessageEvent } from '@nestjs/common';
-import { endWith, map, Observable } from 'rxjs';
+import { endWith, map, Observable, shareReplay } from 'rxjs';
 import { ChatOpenAI } from '@langchain/openai';
 import { PlutoClientService } from '@/libs/pluto-client';
 import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
@@ -88,6 +88,7 @@ export class TouristPlanService {
         },
       })),
       endWith(COMPLETED_MESSAGE_EVENT()),
+      shareReplay(),
     );
   }
 

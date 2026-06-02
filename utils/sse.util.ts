@@ -9,3 +9,7 @@ export const COMPLETED_MESSAGE_EVENT = (): MessageEvent => ({
     statusCode: STATUS_CODE.SUCCESS,
   },
 });
+
+/**
+ * SSE
+ */

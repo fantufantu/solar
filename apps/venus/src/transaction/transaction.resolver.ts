@@ -19,7 +19,7 @@ import { Pagination } from 'assets/dto/pagination.input';
 import { Category } from '@/libs/database/entities/venus/category.entity';
 import { User } from '@/libs/database/entities/venus/user.entity';
 import { PaginatedTransactions } from './dto/paginated-transactions.object';
-import { PaginatedInterceptor } from 'assets/interceptors/paginated.interceptor';
+import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
 import { TransactionsAmount } from './dto/transactions-amount.object';
 import { FilterTransactionsAmountInput } from './dto/filter-transactions-amount.input';
