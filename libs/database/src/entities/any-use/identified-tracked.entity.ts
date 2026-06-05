@@ -11,5 +11,5 @@ export class IdentifiedTracked extends Tracked {
     comment: 'id',
     name: 'id',
   })
-  id: number;
+  id!: number;
 }

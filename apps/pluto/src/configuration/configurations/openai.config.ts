@@ -9,8 +9,8 @@ import {
 export default registerAs<Record<OpenaiPropertyToken, Partialable<string>>>(
   REGISTERED_CONFIGURATION_TOKENS.OPENAI,
   () => ({
-    [OPENAI_PROPERTY_TOKEN.ApiKey]: process.env.OPENAI_API_KEY,
-    [OPENAI_PROPERTY_TOKEN.BaseUrl]: process.env.OPENAI_BASE_URL,
-    [OPENAI_PROPERTY_TOKEN.Model]: process.env.OPENAI_MODEL,
+    [OPENAI_PROPERTY_TOKEN.API_KEY]: process.env.OPENAI_API_KEY,
+    [OPENAI_PROPERTY_TOKEN.BASE_URL]: process.env.OPENAI_BASE_URL,
+    [OPENAI_PROPERTY_TOKEN.MODEL]: process.env.OPENAI_MODEL,
   }),
 );

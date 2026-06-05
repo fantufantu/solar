@@ -4,11 +4,14 @@ import { TouristPlanController } from './tourist-plan.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entity';
 import { TouristPlanResolver } from './tourist-plan.resolver';
+import { TouristPlanLoader } from './tourist-plan.loader';
 import { UserModule } from '../user/user.module';
+import { CityModule } from '../city/city.module';
+import { AttractionModule } from '../attraction/attraction.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TouristPlan]), UserModule],
+  imports: [TypeOrmModule.forFeature([TouristPlan]), UserModule, CityModule, AttractionModule],
   controllers: [TouristPlanController],
-  providers: [TouristPlanService, TouristPlanResolver],
+  providers: [TouristPlanService, TouristPlanResolver, TouristPlanLoader],
 })
 export class TouristPlanModule {}

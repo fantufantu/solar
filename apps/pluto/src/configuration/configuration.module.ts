@@ -6,6 +6,7 @@ import {
   tencentCloudConfig,
   openaiConfig,
   volcArkConfig,
+  amapConfig,
 } from './configurations';
 import { ConfigurationService } from './configuration.service';
 import { ConfigurationController } from './configuration.controller';
@@ -20,6 +21,7 @@ import { ConfigurationController } from './configuration.controller';
         tencentCloudConfig,
         openaiConfig,
         volcArkConfig,
+        amapConfig,
       ],
       envFilePath: ['.env.local'],
     }),

@@ -5,6 +5,7 @@ import {
   TargetType,
 } from '@/libs/database/entities/venus/sharing.entity';
 import { SharingService } from '../sharing/sharing.service';
+import { toArray } from '@aiszlab/relax';
 
 @Injectable()
 export class BillingLoader {
@@ -15,11 +16,11 @@ export class BillingLoader {
    * 根据账本`id`获取分享信息
    */
   public readonly sharings = new DataLoader<number, Sharing[]>(
-    async (billingIds: number[]) => {
+    async (billingIds: readonly number[]) => {
       // 查询分享列表
       const sharings = await this.sharingService.sharings({
         targetType: TargetType.Billing,
-        targetIds: billingIds,
+        targetIds: toArray(billingIds),
       });
 
       // 按账本`id`归类

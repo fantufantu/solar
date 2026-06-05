@@ -1,6 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { TimeStamped } from '../any-use/time-stamped.entity';
+import { Attraction } from './attraction.entity';
 import { z } from 'zod';
 
 const ITINERARY_ITEM_SCHEMA = z.object({
@@ -58,37 +59,6 @@ class TouristPlanItinerary implements z.infer<typeof ITINERARY_SCHEMA> {
 }
 
 @ObjectType()
-export class City {
-  @Field(() => String, {
-    description: '出行目的地`code`',
-  })
-  code!: string;
-
-  @Field(() => String, {
-    description: '出行目的地`name`',
-  })
-  name!: string;
-}
-
-@ObjectType()
-export class Attraction {
-  @Field(() => String, {
-    description: '出行景区`id`',
-  })
-  code!: string;
-
-  @Field(() => String, {
-    description: '出行景区`name`',
-  })
-  name!: string;
-
-  @Field(() => String, {
-    description: '出行目的地`code`',
-  })
-  cityCode!: string;
-}
-
-@ObjectType()
 @Entity({ comment: '出行方案', name: 'tourist_plan' })
 export class TouristPlan extends TimeStamped {
   @Field(() => String, {
@@ -100,15 +70,12 @@ export class TouristPlan extends TimeStamped {
   })
   id!: string;
 
-  @Field(() => [City], {
-    description: '出行目的地列表',
-  })
   @Column({
     name: 'cities',
     type: 'json',
-    comment: '出行目的地列表',
+    comment: '出行目的地城市`code`列表',
   })
-  cities!: City[];
+  cityCodes!: string[];
 
   @Field(() => Date, {
     description: '出发日期',
@@ -129,15 +96,15 @@ export class TouristPlan extends TimeStamped {
   })
   duration!: number;
 
-  @Field(() => [Attraction], {
+  @Field(() => [String], {
     description: '出行方案包含的景点列表',
   })
   @Column({
     name: 'attractions',
     type: 'json',
-    comment: '出行方案包含的景点列表',
+    comment: '出行方案包含的景点`code`列表',
   })
-  attractions!: Attraction[];
+  attractionCodes!: string[];
 
   @Field(() => String, {
     description: '出行方案提案',

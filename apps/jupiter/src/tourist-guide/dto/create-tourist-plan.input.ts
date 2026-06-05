@@ -1,15 +1,13 @@
-import {
+import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entity';
+import { Attraction } from '@/libs/database/entities/jupiter/attraction.entity';
+import { Field, InputType, PickType } from '@nestjs/graphql';
+
+@InputType()
+class AttractionInput extends PickType(
   Attraction,
-  City,
-  TouristPlan,
-} from '@/libs/database/entities/jupiter/tourist-plan.entity';
-import { Field, InputType, OmitType, PickType } from '@nestjs/graphql';
-
-@InputType()
-class CityInput extends OmitType(City, [], InputType) {}
-
-@InputType()
-class AttractionInput extends OmitType(Attraction, [], InputType) {}
+  ['code', 'name', 'cityCode'],
+  InputType,
+) {}
 
 @InputType()
 export class CreateTouristPlanInput extends PickType(
@@ -17,10 +15,10 @@ export class CreateTouristPlanInput extends PickType(
   ['depatureAt', 'duration'],
   InputType,
 ) {
-  @Field(() => [CityInput], {
-    description: '出行目的地列表',
+  @Field(() => [String], {
+    description: '出行目的地城市code列表',
   })
-  cities!: CityInput[];
+  cities!: string[];
 
   @Field(() => [AttractionInput], {
     description: '出行景区列表',

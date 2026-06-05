@@ -8,6 +8,7 @@ import { useProposalPrompt } from './prompts/proposal.prompt';
 import { useParseTextPrompt } from './prompts/parse-text.prompt';
 import { CreateTouristPlanInput } from './dto/create-tourist-plan.input';
 import { UserService } from '../user/user.service';
+import { CityService } from '../city/city.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   TouristPlan,
@@ -29,6 +30,7 @@ export class TouristPlanService {
     @InjectRepository(TouristPlan)
     private readonly touristPlanRepository: Repository<TouristPlan>,
     private readonly userService: UserService,
+    private readonly cityService: CityService,
   ) {}
 
   /**
@@ -122,6 +124,15 @@ export class TouristPlanService {
       return _touristPlan.proposal;
     }
 
+    const cityNames = (
+      await Promise.all(
+        _touristPlan.cities.map((code) => this.cityService.city(code)),
+      )
+    )
+      .filter(Boolean)
+      .map((city) => city!.name)
+      .join(',');
+
     const {
       '0': [model, apiKey, baseURL],
       '1': prompt,
@@ -141,7 +152,7 @@ export class TouristPlanService {
         },
       ]),
       useProposalPrompt({
-        cities: _touristPlan.cities.map((item) => item.name).join(','),
+        cities: cityNames,
         depatureAt: dayjs(_touristPlan.depatureAt).format('YYYY-MM-DD'),
         duration: _touristPlan.duration,
         attractions: _touristPlan.attractions
@@ -176,15 +187,15 @@ export class TouristPlanService {
     >([
       {
         token: REGISTERED_CONFIGURATION_TOKENS.OPENAI,
-        property: OPENAI_PROPERTY_TOKEN.Model,
+        property: OPENAI_PROPERTY_TOKEN.MODEL,
       },
       {
         token: REGISTERED_CONFIGURATION_TOKENS.OPENAI,
-        property: OPENAI_PROPERTY_TOKEN.ApiKey,
+        property: OPENAI_PROPERTY_TOKEN.API_KEY,
       },
       {
         token: REGISTERED_CONFIGURATION_TOKENS.OPENAI,
-        property: OPENAI_PROPERTY_TOKEN.BaseUrl,
+        property: OPENAI_PROPERTY_TOKEN.BASE_URL,
       },
     ]);
 

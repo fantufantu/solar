@@ -9,6 +9,7 @@ export const REGISTERED_CONFIGURATION_TOKENS = {
   RSA: 'rsa',
   OPENAI: 'openai',
   VOLC_ARK: 'volc-ark',
+  AMAP: 'amap',
 } as const;
 
 export type RegisteredConfigurationToken = ValueOf<
@@ -19,9 +20,18 @@ export type RegisteredConfigurationToken = ValueOf<
  * openai 配置项
  */
 export const OPENAI_PROPERTY_TOKEN = {
-  ApiKey: 'api-key',
-  BaseUrl: 'base-url',
-  Model: 'model',
+  API_KEY: 'api-key',
+  BASE_URL: 'base-url',
+  MODEL: 'model',
 } as const;
 
 export type OpenaiPropertyToken = ValueOf<typeof OPENAI_PROPERTY_TOKEN>;
+
+/**
+ * 高德地图 配置项
+ */
+export const AMAP_PROPERTY_TOKEN = {
+  API_KEY: 'api-key',
+} as const;
+
+export type AmapPropertyToken = ValueOf<typeof AMAP_PROPERTY_TOKEN>;
