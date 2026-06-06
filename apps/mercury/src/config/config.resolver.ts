@@ -23,7 +23,7 @@ export class ConfigResolver {
   @Query(() => AmapCredential, {
     description: '获取高德地图 API 密钥',
   })
-  async amapApiKey() {
-    return await this.configService.amapApiKey();
+  async amapCredential() {
+    return await this.configService.amapCredential();
   }
 }

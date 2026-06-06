@@ -104,7 +104,7 @@ export class ConfigService {
   /**
    * 获取高德地图 API 密钥
    */
-  async amapApiKey(): Promise<AmapCredential> {
+  async amapCredential(): Promise<AmapCredential> {
     const apiKey = await this.plutoClient.getConfiguration<string>({
       token: REGISTERED_CONFIGURATION_TOKENS.AMAP,
       property: AMAP_PROPERTY_TOKEN.API_KEY,
