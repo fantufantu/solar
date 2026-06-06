@@ -71,7 +71,7 @@ export class TouristPlan extends TimeStamped {
   id!: string;
 
   @Column({
-    name: 'cities',
+    name: 'city_codes',
     type: 'json',
     comment: '出行目的地城市`code`列表',
   })
@@ -100,7 +100,7 @@ export class TouristPlan extends TimeStamped {
     description: '出行方案包含的景点列表',
   })
   @Column({
-    name: 'attractions',
+    name: 'attraction_codes',
     type: 'json',
     comment: '出行方案包含的景点`code`列表',
   })

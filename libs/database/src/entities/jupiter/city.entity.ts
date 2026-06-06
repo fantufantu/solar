@@ -15,5 +15,5 @@ export class City extends Authored {
 
   @Field(() => String, { description: '城市代表图' })
   @Column({ type: 'varchar', length: 128, comment: '城市代表图' })
-  image: string | null = null;
+  image!: string;
 }
