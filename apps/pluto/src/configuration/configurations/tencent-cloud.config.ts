@@ -24,6 +24,11 @@ export default registerAs<Record<TencentCloudConfiguration, string>>(
       [TENCENT_CLOUD_CONFIGURATION.knowthy_bucket_region]:
         process.env.KNOWTHY_BUCKET_REGION ?? '',
 
+      [TENCENT_CLOUD_CONFIGURATION.cabin_cab_bucket]:
+        process.env.CABIN_CAB_BUCKET ?? '',
+      [TENCENT_CLOUD_CONFIGURATION.cabin_cab_bucket_region]:
+        process.env.CABIN_CAB_BUCKET_REGION ?? '',
+
       [TENCENT_CLOUD_CONFIGURATION.ses_region]: process.env.SES_REGION ?? '',
 
       [TENCENT_CLOUD_CONFIGURATION.database_host]:

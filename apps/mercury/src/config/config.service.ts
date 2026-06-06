@@ -33,6 +33,13 @@ export class ConfigService {
         region: TENCENT_CLOUD_CONFIGURATION.knowthy_bucket_region,
       },
     ],
+    [
+      BUCKET_NAME.cabin_cab,
+      {
+        bucket: TENCENT_CLOUD_CONFIGURATION.cabin_cab_bucket,
+        region: TENCENT_CLOUD_CONFIGURATION.cabin_cab_bucket_region,
+      },
+    ],
   ]);
 
   constructor(private readonly plutoClient: PlutoClientService) {}

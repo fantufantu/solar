@@ -5,6 +5,7 @@ import { GraphQLEnumToken } from 'assets/tokens';
 export const BUCKET_NAME = {
   fantu: 'fantu',
   knowthy: 'knowthy',
+  cabin_cab: 'cabin-cab',
 } as const;
 
 export type BucketName = ValueOf<typeof BUCKET_NAME>;

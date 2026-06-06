@@ -13,6 +13,9 @@ export const TENCENT_CLOUD_CONFIGURATION = {
   knowthy_bucket: 'knowthy-bucket',
   knowthy_bucket_region: 'knowthy-bucket-region',
 
+  cabin_cab_bucket: 'cabin-cab-bucket',
+  cabin_cab_bucket_region: 'cabin-cab-bucket-region',
+
   ses_region: 'ses-region',
 
   database_host: 'database-host',
