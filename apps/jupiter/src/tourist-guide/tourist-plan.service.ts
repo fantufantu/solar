@@ -9,6 +9,7 @@ import { useParseTextPrompt } from './prompts/parse-text.prompt';
 import { CreateTouristPlanInput } from './dto/create-tourist-plan.input';
 import { UserService } from '../user/user.service';
 import { CityService } from '../city/city.service';
+import { AttractionService } from '../attraction/attraction.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   TouristPlan,
@@ -31,6 +32,7 @@ export class TouristPlanService {
     private readonly touristPlanRepository: Repository<TouristPlan>,
     private readonly userService: UserService,
     private readonly cityService: CityService,
+    private readonly attractionService: AttractionService,
   ) {}
 
   /**
@@ -124,14 +126,14 @@ export class TouristPlanService {
       return _touristPlan.proposal;
     }
 
-    const cityNames = (
-      await Promise.all(
-        _touristPlan.cities.map((code) => this.cityService.city(code)),
-      )
-    )
-      .filter(Boolean)
-      .map((city) => city!.name)
-      .join(',');
+    const [cityNames, attractionNames] = await Promise.all([
+      this.cityService
+        .citiesByCodes(_touristPlan.cityCodes)
+        .then((cities) => cities.map((city) => city.name)),
+      this.attractionService
+        .attractionsByCodes(_touristPlan.attractionCodes)
+        .then((attractions) => attractions.map((item) => item.name)),
+    ]);
 
     const {
       '0': [model, apiKey, baseURL],
@@ -152,12 +154,10 @@ export class TouristPlanService {
         },
       ]),
       useProposalPrompt({
-        cities: cityNames,
+        cities: cityNames.join(','),
         depatureAt: dayjs(_touristPlan.depatureAt).format('YYYY-MM-DD'),
         duration: _touristPlan.duration,
-        attractions: _touristPlan.attractions
-          .map((item) => item.name)
-          .join(','),
+        attractions: attractionNames.join(','),
       }),
     ]);
 

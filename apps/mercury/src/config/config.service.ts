@@ -6,11 +6,15 @@ import {
   BucketName,
   CosCredential,
 } from './dto/cos-credential.object';
+import { AmapCredential } from './dto/amap-credential.object';
 import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud';
-import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
+import {
+  AMAP_PROPERTY_TOKEN,
+  REGISTERED_CONFIGURATION_TOKENS,
+} from 'constants/configuration';
 
 @Injectable()
-export class CloudService {
+export class ConfigService {
   /**
    * 腾讯云`COS`配置项
    */
@@ -95,5 +99,21 @@ export class CloudService {
       bucket,
       region,
     };
+  }
+
+  /**
+   * 获取高德地图 API 密钥
+   */
+  async amapApiKey(): Promise<AmapCredential> {
+    const apiKey = await this.plutoClient.getConfiguration<string>({
+      token: REGISTERED_CONFIGURATION_TOKENS.AMAP,
+      property: AMAP_PROPERTY_TOKEN.API_KEY,
+    });
+
+    if (!apiKey) {
+      throw new BadRequestException('高德地图 API 密钥未配置');
+    }
+
+    return { apiKey };
   }
 }

@@ -17,17 +17,17 @@ registerEnumType(BUCKET_NAME, {
 @ObjectType()
 export class CosCredential {
   @Field(() => String, { description: '腾讯云`COS`临时密钥`id`' })
-  secretId: string;
+  secretId!: string;
 
   @Field(() => String, { description: '腾讯云`COS`临时密钥`key`' })
-  secretKey: string;
+  secretKey!: string;
 
   @Field(() => String, { description: '腾讯云`COS`临时密钥`token`' })
-  securityToken: string;
+  securityToken!: string;
 
   @Field(() => String, { description: '腾讯云`COS`存储桶标识' })
-  bucket: string;
+  bucket!: string;
 
   @Field(() => String, { description: '腾讯云`COS`存储桶区域' })
-  region: string;
+  region!: string;
 }

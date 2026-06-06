@@ -13,7 +13,7 @@ import {
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
 import { UserModule } from './user/user.module';
-import { CloudModule } from './cloud/cloud.module';
+import { ConfigModule } from './config/config.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { CacheModule } from '@/libs/cache';
 
@@ -47,8 +47,8 @@ import { CacheModule } from '@/libs/cache';
     DictionaryEnumModule,
     // 用户模块
     UserModule,
-    // 云服务模块
-    CloudModule,
+    // 配置模块
+    ConfigModule,
   ],
   controllers: [],
   providers: [],
