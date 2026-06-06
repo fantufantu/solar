@@ -17,6 +17,7 @@ import { User } from '@/libs/database/entities/mars/user.entity';
   imports: [
     // `mercury`微服务客户端
     MercuryClientModule,
+
     // API
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
@@ -27,14 +28,19 @@ import { User } from '@/libs/database/entities/mars/user.entity';
         orphanedTypes: [User],
       },
     }),
+
     // 数据库
     DatabaseModule.forRoot(ApplicationToken.Mars, { synchronize: false }),
+
     // 鉴权
     PassportModule,
+
     // 简历模块
     ResumeModule,
+
     // 简历模板模块
     ResumeTemplateModule,
+
     // 用户模块
     UserModule,
   ],

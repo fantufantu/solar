@@ -13,6 +13,7 @@ import {
 import { DatabaseModule } from '@/libs/database';
 import { ApplicationToken } from 'assets/tokens';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
+import { PassportModule } from '@/libs/passport';
 
 @Module({
   imports: [
@@ -37,6 +38,9 @@ import { User } from '@/libs/database/entities/jupiter/user.entity';
     DatabaseModule.forRoot(ApplicationToken.Jupiter, {
       synchronize: false,
     }),
+
+    // 鉴权
+    PassportModule,
 
     // 出行计划模块
     TouristPlanModule,
