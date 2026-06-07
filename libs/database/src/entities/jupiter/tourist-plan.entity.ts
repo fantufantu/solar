@@ -70,6 +70,9 @@ export class TouristPlan extends TimeStamped {
   })
   id!: string;
 
+  @Field(() => [String], {
+    description: '出行目的地城市`code`列表',
+  })
   @Column({
     name: 'city_codes',
     type: 'json',
