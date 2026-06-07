@@ -126,13 +126,15 @@ export class TouristPlanService {
       return _touristPlan.proposal;
     }
 
-    const [cityNames, attractionNames] = await Promise.all([
+    const [cityNames = [], attractionNames = []] = await Promise.all([
       this.cityService
         .citiesByCodes(_touristPlan.cityCodes)
-        .then((cities) => cities.map((city) => city.name)),
+        .then((cities) => cities.map((city) => city.name))
+        .catch(() => void 0),
       this.attractionService
         .attractionsByCodes(_touristPlan.attractionCodes)
-        .then((attractions) => attractions.map((item) => item.name)),
+        .then((attractions) => attractions.map((item) => item.name))
+        .catch(() => void 0),
     ]);
 
     const {
