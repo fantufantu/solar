@@ -19,12 +19,16 @@ import { PassportModule } from '@/libs/passport';
         federation: 2,
       },
     }),
+
     // 鉴权
     PassportModule,
+
     // 数据库
     DatabaseModule.forRoot(ApplicationToken.Earth),
+
     // 文章
     ArticleModule,
+
     // 文章分类
     CategoryModule,
   ],

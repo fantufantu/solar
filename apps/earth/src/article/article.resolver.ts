@@ -89,10 +89,9 @@ export class ArticleResolver {
   }
 
   @Query(() => Article, {
-    name: 'article',
     description: '根据id查询文章',
   })
-  async getArticleById(
+  async article(
     @Args('id', { type: () => Int, description: 'id' }) id: number,
   ) {
     return await this.articleService.getArticleById(id);
