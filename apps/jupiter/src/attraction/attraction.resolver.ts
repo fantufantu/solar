@@ -19,12 +19,13 @@ import { Pagination } from 'assets/dto/pagination.input';
 import { PaginatedAttractions } from './dto/paginated-attractions.object';
 import { FilterAttractionsInput } from './dto/filter-attractions.input';
 import { UpdateAttractionInput } from './dto/update-attraction.input';
+import { CreateAttractionInput } from './dto/create-attraction.input';
 
 @Resolver(() => Attraction)
 export class AttractionResolver {
   constructor(private readonly attractionService: AttractionService) {}
 
-  @Query(() => PaginatedAttractions, { description: '分页查询景区' })
+  @Query(() => PaginatedAttractions, { description: '分页查询景点' })
   @UseInterceptors(PaginatedInterceptor)
   attractions(
     @PaginationArgs() pagination: Pagination,
@@ -36,7 +37,7 @@ export class AttractionResolver {
     return this.attractionService.attractions({ pagination, filter });
   }
 
-  @Query(() => Attraction, { description: '根据`code`查询景区' })
+  @Query(() => Attraction, { description: '根据`code`查询景点' })
   attraction(
     @Args('code', {
       type: () => String,
@@ -46,7 +47,16 @@ export class AttractionResolver {
     return this.attractionService.attraction(code);
   }
 
-  @Mutation(() => Boolean, { description: '更新景区' })
+  @Mutation(() => Boolean, { description: '创建景点' })
+  @UseGuards(JwtAuthGuard)
+  async createAttraction(
+    @Args('input') input: CreateAttractionInput,
+    @WhoAmI() whoAmI: User,
+  ) {
+    return this.attractionService.create(input, whoAmI.id);
+  }
+
+  @Mutation(() => Boolean, { description: '更新景点' })
   @UseGuards(JwtAuthGuard)
   async updateAttraction(
     @Args('code', {
