@@ -8,7 +8,9 @@ import {
 } from '@nestjs/graphql';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { AttractionService } from './attraction.service';
+import { AttractionLoader } from './attraction.loader';
 import { Attraction } from '@/libs/database/entities/jupiter/attraction.entity';
+import { City } from '@/libs/database/entities/jupiter/city.entity';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
@@ -23,7 +25,10 @@ import { CreateAttractionInput } from './dto/create-attraction.input';
 
 @Resolver(() => Attraction)
 export class AttractionResolver {
-  constructor(private readonly attractionService: AttractionService) {}
+  constructor(
+    private readonly attractionService: AttractionService,
+    private readonly attractionLoader: AttractionLoader,
+  ) {}
 
   @Query(() => PaginatedAttractions, { description: '分页查询景点' })
   @UseInterceptors(PaginatedInterceptor)
@@ -67,6 +72,11 @@ export class AttractionResolver {
     @WhoAmI() whoAmI: User,
   ) {
     return this.attractionService.update(code, input, whoAmI.id);
+  }
+
+  @ResolveField('city', () => City, { description: '所属城市' })
+  city(@Parent() attraction: Attraction) {
+    return this.attractionLoader.cities.load(attraction.cityCode);
   }
 
   @ResolveField('createdBy', () => User, { description: '创建人' })
