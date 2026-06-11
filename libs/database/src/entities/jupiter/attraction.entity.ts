@@ -16,4 +16,12 @@ export class Attraction extends Authored {
   @Field(() => String, { description: '目的地城市`code`' })
   @Column({ type: 'varchar', length: 40, comment: '目的地城市`code`' })
   cityCode!: string;
+
+  @Field(() => String, { description: '景点代表图' })
+  @Column({
+    type: 'varchar',
+    length: 128,
+    comment: '景点代表图',
+  })
+  image!: string;
 }
