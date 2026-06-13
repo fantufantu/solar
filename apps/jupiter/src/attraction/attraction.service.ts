@@ -93,4 +93,17 @@ export class AttractionService {
         .execute()
     ).affected;
   }
+
+  /**
+   * 硬删除景点
+   */
+  async delete(code: string) {
+    return !!(
+      await this.attractionRepository
+        .createQueryBuilder()
+        .delete()
+        .where({ code })
+        .execute()
+    ).affected;
+  }
 }

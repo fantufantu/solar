@@ -74,6 +74,17 @@ export class AttractionResolver {
     return this.attractionService.update(code, input, whoAmI.id);
   }
 
+  @Mutation(() => Boolean, { description: '硬删除景点' })
+  @UseGuards(JwtAuthGuard)
+  async deleteAttraction(
+    @Args('code', {
+      type: () => String,
+    })
+    code: string,
+  ) {
+    return this.attractionService.delete(code);
+  }
+
   @ResolveField('city', () => City, { description: '所属城市' })
   city(@Parent() attraction: Attraction) {
     return this.attractionLoader.cities.load(attraction.cityCode);
