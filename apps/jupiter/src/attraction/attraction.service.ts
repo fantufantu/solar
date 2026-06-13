@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 import { Attraction } from '@/libs/database/entities/jupiter/attraction.entity';
 import { Query } from 'typings/controller';
 import { FilterAttractionsInput } from './dto/filter-attractions.input';
@@ -19,18 +19,26 @@ export class AttractionService {
    */
   async attractions({
     pagination: { limit, page } = { limit: 10, page: 1 },
-    filter: { keyword } = {},
+    filter: { keyword, cityCode } = {},
   }: Query<FilterAttractionsInput>) {
-    const _queryBuilder = this.attractionRepository.createQueryBuilder();
+    const _queryBuilder = this.attractionRepository
+      .createQueryBuilder()
+      .where('1 = 1');
+
+    if (cityCode) {
+      _queryBuilder.andWhere('city_code = :cityCode', { cityCode });
+    }
 
     if (keyword) {
-      _queryBuilder
-        .where('code REGEXP :code')
-        .orWhere('name REGEXP :name')
-        .setParameters({
-          code: keyword,
-          name: keyword,
-        });
+      _queryBuilder.andWhere(
+        new Brackets((qb) => {
+          qb.where('code REGEXP :keyword').orWhere('name REGEXP :keyword');
+        }),
+      );
+
+      _queryBuilder.setParameters({
+        keyword,
+      });
     }
 
     return await _queryBuilder
@@ -72,7 +80,11 @@ export class AttractionService {
   /**
    * 更新景点
    */
-  async update(code: string, input: UpdateAttractionInput, updatedById: number) {
+  async update(
+    code: string,
+    input: UpdateAttractionInput,
+    updatedById: number,
+  ) {
     return !!(
       await this.attractionRepository
         .createQueryBuilder()
