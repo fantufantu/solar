@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TouristPlanModule } from './tourist-guide/tourist-plan.module';
+import { TouristPlanModule } from './tourist-plan/tourist-plan.module';
 import { MembershipModule } from './membership/membership.module';
 import { CityModule } from './city/city.module';
 import { AttractionModule } from './attraction/attraction.module';
