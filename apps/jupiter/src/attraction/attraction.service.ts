@@ -42,6 +42,7 @@ export class AttractionService {
     }
 
     return await _queryBuilder
+      .orderBy('updated_at', 'DESC')
       .skip((page - 1) * limit)
       .take(limit)
       .getManyAndCount();

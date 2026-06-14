@@ -1,6 +1,7 @@
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { CityService } from './city.service';
+import { CityLoader } from './city.loader';
 import { City } from '@/libs/database/entities/jupiter/city.entity';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
 import { JwtAuthGuard } from '@/libs/passport/guards';
@@ -16,7 +17,10 @@ import { CreateCityInput } from './dto/create-city.input';
 
 @Resolver(() => City)
 export class CityResolver {
-  constructor(private readonly cityService: CityService) {}
+  constructor(
+    private readonly cityService: CityService,
+    private readonly cityLoader: CityLoader,
+  ) {}
 
   @Query(() => PaginatedCities, { description: '分页查询城市' })
   @UseInterceptors(PaginatedInterceptor)
@@ -70,5 +74,10 @@ export class CityResolver {
   @ResolveField('updatedBy', () => User, { description: '最后更新人' })
   getUpdatedBy(@Parent() city: City) {
     return { __typename: User.name, id: city.updatedById };
+  }
+
+  @ResolveField(() => Int, { description: '关联景点数量' })
+  attractionCount(@Parent() city: City) {
+    return this.cityLoader.attractionCount.load(city.code);
   }
 }
