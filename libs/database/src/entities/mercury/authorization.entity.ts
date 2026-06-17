@@ -1,7 +1,7 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Column, Entity } from 'typeorm';
 import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
-import { GraphQLEnumToken } from 'assets/tokens';
+import { GRAPHQL_ENUM_TOKEN } from 'constants/common.constant';
 import { SYSTEM_WILDCARD } from 'constants/common.constant';
 
 /**
@@ -25,7 +25,7 @@ export enum AuthorizationResourceCode {
 }
 
 registerEnumType(AuthorizationActionCode, {
-  name: GraphQLEnumToken.AuthorizationActionCode,
+  name: GRAPHQL_ENUM_TOKEN.AUTHORIZATION_ACTION_CODE,
   description: '权限操作code',
 });
 

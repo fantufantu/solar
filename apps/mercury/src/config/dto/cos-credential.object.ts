@@ -1,6 +1,6 @@
 import { ValueOf } from '@aiszlab/relax/types';
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { GraphQLEnumToken } from 'assets/tokens';
+import { GRAPHQL_ENUM_TOKEN } from 'constants/common.constant';
 
 export const BUCKET_NAME = {
   fantu: 'fantu',
@@ -11,7 +11,7 @@ export const BUCKET_NAME = {
 export type BucketName = ValueOf<typeof BUCKET_NAME>;
 
 registerEnumType(BUCKET_NAME, {
-  name: GraphQLEnumToken.BucketName,
+  name: GRAPHQL_ENUM_TOKEN.BUCKET_NAME,
   description: '腾讯云`COS`存储桶名称',
 });
 

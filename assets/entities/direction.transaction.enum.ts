@@ -1,5 +1,5 @@
 import { registerEnumType } from '@nestjs/graphql';
-import { GraphQLEnumToken } from 'assets/tokens';
+import { GRAPHQL_ENUM_TOKEN } from 'constants/common.constant';
 
 /**
  * 交易方向
@@ -10,6 +10,6 @@ export enum Direction {
 }
 
 registerEnumType(Direction, {
-  name: GraphQLEnumToken.TransactionDirection,
+  name: GRAPHQL_ENUM_TOKEN.TRANSACTION_DIRECTION,
   description: '交易方向',
 });

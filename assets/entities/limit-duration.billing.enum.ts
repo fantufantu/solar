@@ -1,5 +1,5 @@
 import { registerEnumType } from '@nestjs/graphql';
-import { GraphQLEnumToken } from 'assets/tokens';
+import { GRAPHQL_ENUM_TOKEN } from 'constants/common.constant';
 
 /**
  * 限制时间段
@@ -12,6 +12,6 @@ export enum LimitDuration {
 }
 
 registerEnumType(LimitDuration, {
-  name: GraphQLEnumToken.BillingLimitDuration,
+  name: GRAPHQL_ENUM_TOKEN.BILLING_LIMIT_DURATION,
   description: '限制时间段',
 });

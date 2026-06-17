@@ -3,7 +3,7 @@ import type {
   TencentCloudPropertyToken,
   JwtPropertyToken,
   RsaPropertyToken,
-} from 'assets/tokens';
+} from 'constants/common.constant';
 import { type REGISTERED_CONFIGURATION_TOKENS } from '../constants/configuration';
 import { VolcArkPropertyToken } from 'constants/volc-ark.constant';
 

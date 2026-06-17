@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int, registerEnumType } from '@nestjs/graphql';
-import { GraphQLEnumToken } from 'assets/tokens';
+import { GRAPHQL_ENUM_TOKEN } from 'constants/common.constant';
 import { Entity, PrimaryColumn, Unique } from 'typeorm';
 
 export enum TargetType {
@@ -8,7 +8,7 @@ export enum TargetType {
 }
 
 registerEnumType(TargetType, {
-  name: GraphQLEnumToken.SharingTargetType,
+  name: GRAPHQL_ENUM_TOKEN.SHARING_TARGET_TYPE,
   description: '共享对象类型',
 });
 
