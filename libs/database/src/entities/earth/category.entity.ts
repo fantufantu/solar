@@ -24,7 +24,7 @@ export class Category extends TimeStamped {
   @PrimaryColumn({ type: 'varchar', length: 40, comment: '分类`code`' })
   @IsString()
   @MaxLength(40)
-  code: string;
+  code!: string;
 
   @Field(() => String, {
     description: '名称',
@@ -36,7 +36,7 @@ export class Category extends TimeStamped {
   })
   @IsString()
   @MaxLength(20)
-  name: string;
+  name!: string;
 
   @Field(() => String, {
     description: '图片',
@@ -46,10 +46,10 @@ export class Category extends TimeStamped {
     type: 'varchar',
     length: 128,
   })
-  image: string;
+  image!: string;
 
   @OneToMany(() => ArticleWithCategory, (_) => _.category)
-  articleWithCategory: ArticleWithCategory[];
+  articleWithCategory!: ArticleWithCategory[];
 
   @BeforeInsert()
   @BeforeUpdate()

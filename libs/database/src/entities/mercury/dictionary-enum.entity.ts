@@ -16,7 +16,7 @@ export class DictionaryEnum extends IdentifiedTimeStamped {
     length: 40,
     comment: 'code',
   })
-  code: string;
+  code!: string;
 
   @Field(() => String, {
     description: '名称',
@@ -26,7 +26,7 @@ export class DictionaryEnum extends IdentifiedTimeStamped {
     length: 40,
     comment: '名称',
   })
-  name: string;
+  name!: string;
 
   @Field(() => String, {
     description: '排序值',
@@ -35,7 +35,7 @@ export class DictionaryEnum extends IdentifiedTimeStamped {
     name: 'sort_by',
     comment: '排序值',
   })
-  sortBy: number;
+  sortBy!: number;
 
   @Field(() => Int, { description: '所属字典`code`' })
   @Column({
@@ -44,9 +44,9 @@ export class DictionaryEnum extends IdentifiedTimeStamped {
     type: 'varchar',
     length: 40,
   })
-  parentCode: number;
+  parentCode!: number;
 
   @ManyToOne(() => Dictionary, (dictionary) => dictionary.children)
   @JoinColumn({ referencedColumnName: 'code', name: 'parent_code' })
-  parent: Dictionary;
+  parent!: Dictionary;
 }

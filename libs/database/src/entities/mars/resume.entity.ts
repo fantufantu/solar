@@ -56,5 +56,5 @@ export class Resume extends Tracked {
   })
   @ManyToOne(() => ResumeTemplate)
   @JoinColumn({ referencedColumnName: 'code', name: 'default_template_code' })
-  defaultTemplate: ResumeTemplate;
+  defaultTemplate!: ResumeTemplate;
 }

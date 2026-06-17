@@ -16,7 +16,7 @@ export class Dictionary extends TimeStamped {
     length: 40,
     comment: 'code',
   })
-  code: string;
+  code!: string;
 
   @Field(() => String, {
     description: '名称',
@@ -26,7 +26,7 @@ export class Dictionary extends TimeStamped {
     type: 'varchar',
     length: 40,
   })
-  name: string;
+  name!: string;
 
   @Field(() => Int, {
     description: '排序',
@@ -35,8 +35,8 @@ export class Dictionary extends TimeStamped {
     name: 'sort_by',
     comment: '排序',
   })
-  sortBy: number;
+  sortBy!: number;
 
   @OneToMany(() => DictionaryEnum, (dictionaryEnum) => dictionaryEnum.parent)
-  children: DictionaryEnum[];
+  children!: DictionaryEnum[];
 }

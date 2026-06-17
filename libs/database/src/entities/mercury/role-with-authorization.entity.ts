@@ -13,19 +13,19 @@ export class RoleWithAuthorization extends TimeStamped {
     type: 'varchar',
     length: 20,
   })
-  roleCode: string;
+  roleCode!: string;
 
   @ManyToOne(() => Role)
   @JoinColumn({ referencedColumnName: 'code', name: 'role_code' })
-  role: Role;
+  role!: Role;
 
   @PrimaryColumn({
     name: 'authorization_id',
     comment: '权限`id`',
   })
-  authorizationId: number;
+  authorizationId!: number;
 
   @ManyToOne(() => Authorization)
   @JoinColumn({ referencedColumnName: 'id', name: 'authorization_id' })
-  authorization: Authorization;
+  authorization!: Authorization;
 }

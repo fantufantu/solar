@@ -10,7 +10,7 @@ import {
 import type { CreateRoleInput } from './dto/create-role.input';
 import type { UpdateRoleInput } from './dto/update-role.input';
 import type { Query } from 'typings/controller';
-import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role_with_authorization.entity';
+import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role-with-authorization.entity';
 import { AuthorizationPoint } from './dto/authorization';
 import { UserService } from '../user/user.service';
 import { AssignAuthorizationsInput } from './dto/assign-authorizations.input';

@@ -9,11 +9,11 @@ export class ArticleWithCategory extends IdentifiedTimeStamped {
     name: 'article_id',
     comment: '文章`id`',
   })
-  articleId: number;
+  articleId!: number;
 
   @ManyToOne(() => Article, (article) => article.articleWithCategory)
   @JoinColumn({ referencedColumnName: 'id', name: 'article_id' })
-  article: Article;
+  article!: Article;
 
   @Column({
     name: 'category_code',
@@ -21,9 +21,9 @@ export class ArticleWithCategory extends IdentifiedTimeStamped {
     type: 'varchar',
     length: 40,
   })
-  categoryCode: string;
+  categoryCode!: string;
 
   @ManyToOne(() => Category, (category) => category.articleWithCategory)
   @JoinColumn({ referencedColumnName: 'code', name: 'category_code' })
-  category: Category;
+  category!: Category;
 }

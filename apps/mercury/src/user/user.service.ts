@@ -24,7 +24,7 @@ import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud.constant';
 import { Pagination } from 'assets/dto/pagination.input';
 import { FilterUserInput } from './dto/filter-user.input';
 import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
-import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role_with_authorization.entity';
+import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role-with-authorization.entity';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 import { AssignRolesInput } from './dto/assign-roles.input';
 import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration.constant';

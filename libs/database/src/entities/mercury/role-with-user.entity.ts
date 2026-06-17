@@ -13,19 +13,19 @@ export class RoleWithUser extends TimeStamped {
     type: 'varchar',
     length: 20,
   })
-  roleCode: string;
+  roleCode!: string;
 
   @ManyToOne(() => Role)
   @JoinColumn({ referencedColumnName: 'code', name: 'role_code' })
-  role: Role;
+  role!: Role;
 
   @PrimaryColumn({
     name: 'user_id',
     comment: '用户`id`',
   })
-  userId: number;
+  userId!: number;
 
   @ManyToOne(() => User)
   @JoinColumn({ referencedColumnName: 'id', name: 'user_id' })
-  user: User;
+  user!: User;
 }

@@ -14,14 +14,14 @@ export class Transaction extends IdentifiedTracked {
     name: 'billing_id',
     comment: '账本`id`',
   })
-  billingId: number;
+  billingId!: number;
 
   @ManyToOne(() => Billing)
   @JoinColumn({
     name: 'billing_id',
     referencedColumnName: 'id',
   })
-  billing: Billing;
+  billing!: Billing;
 
   @Field(() => Int, {
     description: '分类`id`',
@@ -30,14 +30,14 @@ export class Transaction extends IdentifiedTracked {
     name: 'category_id',
     comment: '分类`id`',
   })
-  categoryId: number;
+  categoryId!: number;
 
   @ManyToOne(() => Category)
   @JoinColumn({
     name: 'category_id',
     referencedColumnName: 'id',
   })
-  category: Category;
+  category!: Category;
 
   @Field(() => Float, { description: '交易金额' })
   @Column({
@@ -46,7 +46,7 @@ export class Transaction extends IdentifiedTracked {
     scale: 2,
     comment: '交易金额',
   })
-  amount: number;
+  amount!: number;
 
   @Field(() => String, {
     description: '备注',
@@ -57,7 +57,7 @@ export class Transaction extends IdentifiedTracked {
     type: 'tinytext',
     comment: '备注',
   })
-  remark: string;
+  remark!: string;
 
   @Field(() => Date, {
     description: '发生时间',
@@ -66,5 +66,5 @@ export class Transaction extends IdentifiedTracked {
     name: 'happened_at',
     comment: '发生时间',
   })
-  happenedAt: Date;
+  happenedAt!: Date;
 }

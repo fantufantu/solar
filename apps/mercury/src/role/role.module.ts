@@ -6,7 +6,7 @@ import { Role } from '@/libs/database/entities/mercury/role.entity';
 import { RoleController } from './role.controller';
 import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
 import { AuthorizationModule } from '../authorization/authorization.module';
-import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role_with_authorization.entity';
+import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role-with-authorization.entity';
 import { UserModule } from '../user/user.module';
 
 @Module({

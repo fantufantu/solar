@@ -12,7 +12,7 @@ export class Category extends IdentifiedTimeStamped {
     length: 40,
     comment: '名称',
   })
-  name: string;
+  name!: string;
 
   @Field(() => Direction, {
     description: '交易方向',
@@ -22,5 +22,5 @@ export class Category extends IdentifiedTimeStamped {
     enum: Direction,
     comment: '交易方向',
   })
-  direction: Direction;
+  direction!: Direction;
 }
