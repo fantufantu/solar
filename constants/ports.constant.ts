@@ -10,4 +10,4 @@ export const SERVICE_PORTS = {
 export const MICRO_SERVICE_PORTS = {
   PLUTO: 3010,
   MERCURY: 3110,
-};
+} as const;

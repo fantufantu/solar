@@ -4,7 +4,7 @@ import {
   OPENAI_PROPERTY_TOKEN,
   OpenaiPropertyToken,
   REGISTERED_CONFIGURATION_TOKENS,
-} from 'constants/configuration';
+} from 'constants/configuration.constant';
 
 export default registerAs<Record<OpenaiPropertyToken, Partialable<string>>>(
   REGISTERED_CONFIGURATION_TOKENS.OPENAI,

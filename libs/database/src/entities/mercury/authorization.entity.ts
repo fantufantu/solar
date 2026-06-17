@@ -2,7 +2,7 @@ import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Column, Entity } from 'typeorm';
 import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
 import { GraphQLEnumToken } from 'assets/tokens';
-import { SYSTEM_WILDCARD } from 'constants/common';
+import { SYSTEM_WILDCARD } from 'constants/common.constant';
 
 /**
  * 权限-操作枚举
@@ -45,7 +45,7 @@ export class Authorization extends IdentifiedTracked {
     type: 'varchar',
     length: 40,
   })
-  resourceCode: string;
+  resourceCode!: string;
 
   @Field(() => AuthorizationActionCode, {
     description: '操作`code`',
@@ -56,7 +56,7 @@ export class Authorization extends IdentifiedTracked {
     name: 'action_code',
     comment: '操作`code`',
   })
-  actionCode: AuthorizationActionCode;
+  actionCode!: AuthorizationActionCode;
 
   get uniqueBy() {
     return [this.resourceCode, this.actionCode].join(SYSTEM_WILDCARD.SEPARATOR);

@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { type MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
-import { MICRO_SERVICE_PORTS } from 'constants/ports';
+import { MICRO_SERVICE_PORTS } from 'constants/ports.constant';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(

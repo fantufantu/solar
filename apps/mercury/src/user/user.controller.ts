@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { UserService } from './user.service';
-import { COMMAND_TOKENS } from 'assets/tokens';
+import { COMMAND_TOKENS } from 'constants/common.constant';
 import type { GetUserBy } from 'typings/micro-service';
 
 @Controller()

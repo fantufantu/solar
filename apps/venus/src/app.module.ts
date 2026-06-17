@@ -6,7 +6,7 @@ import {
 import { GraphQLModule } from '@nestjs/graphql';
 import { DatabaseModule } from '@/libs/database';
 import { PassportModule } from '@/libs/passport';
-import { ApplicationToken } from 'assets/tokens';
+import { APPLICATION_TOKEN } from 'constants/app.constant';
 import { BillingModule } from './billing/billing.module';
 import { SharingModule } from './sharing/sharing.module';
 import { UserModule } from './user/user.module';
@@ -30,7 +30,7 @@ import { User } from '@/libs/database/entities/venus/user.entity';
       },
     }),
     // 数据库
-    DatabaseModule.forRoot(ApplicationToken.Venus),
+    DatabaseModule.forRoot(APPLICATION_TOKEN.VENUS),
     // 鉴权
     PassportModule,
     // 用户信息

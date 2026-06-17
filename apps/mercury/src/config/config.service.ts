@@ -7,11 +7,11 @@ import {
   CosCredential,
 } from './dto/cos-credential.object';
 import { AmapCredential } from './dto/amap-credential.object';
-import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud';
+import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud.constant';
 import {
   AMAP_PROPERTY_TOKEN,
   REGISTERED_CONFIGURATION_TOKENS,
-} from 'constants/configuration';
+} from 'constants/configuration.constant';
 
 @Injectable()
 export class ConfigService {
@@ -22,22 +22,22 @@ export class ConfigService {
     [
       BUCKET_NAME.fantu,
       {
-        bucket: TENCENT_CLOUD_CONFIGURATION.fantu_bucket,
-        region: TENCENT_CLOUD_CONFIGURATION.fantu_bucket_region,
+        bucket: TENCENT_CLOUD_CONFIGURATION.FANTU_BUCKET,
+        region: TENCENT_CLOUD_CONFIGURATION.FANTU_BUCKET_REGION,
       },
     ],
     [
       BUCKET_NAME.knowthy,
       {
-        bucket: TENCENT_CLOUD_CONFIGURATION.knowthy_bucket,
-        region: TENCENT_CLOUD_CONFIGURATION.knowthy_bucket_region,
+        bucket: TENCENT_CLOUD_CONFIGURATION.KNOWTHY_BUCKET,
+        region: TENCENT_CLOUD_CONFIGURATION.KNOWTHY_BUCKET_REGION,
       },
     ],
     [
       BUCKET_NAME.cabin_cab,
       {
-        bucket: TENCENT_CLOUD_CONFIGURATION.cabin_cab_bucket,
-        region: TENCENT_CLOUD_CONFIGURATION.cabin_cab_bucket_region,
+        bucket: TENCENT_CLOUD_CONFIGURATION.CABIN_CAB_BUCKET,
+        region: TENCENT_CLOUD_CONFIGURATION.CABIN_CAB_BUCKET_REGION,
       },
     ],
   ]);
@@ -59,11 +59,11 @@ export class ConfigService {
       >([
         {
           token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
-          property: TENCENT_CLOUD_CONFIGURATION.secret_id,
+          property: TENCENT_CLOUD_CONFIGURATION.SECRET_ID,
         },
         {
           token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
-          property: TENCENT_CLOUD_CONFIGURATION.secret_key,
+          property: TENCENT_CLOUD_CONFIGURATION.SECRET_KEY,
         },
         {
           token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,

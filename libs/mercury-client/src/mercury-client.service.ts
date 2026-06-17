@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
-import { COMMAND_TOKENS, ProviderToken } from 'assets/tokens';
+import { COMMAND_TOKENS } from 'constants/common.constant';
+import { PROVIDER_TOKEN } from 'constants/app.constant';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { AuthorizationPoint } from 'apps/mercury/src/role/dto/authorization';
 import type { GetUserBy } from 'typings/micro-service';
@@ -9,7 +10,7 @@ import type { GetUserBy } from 'typings/micro-service';
 @Injectable()
 export class MercuryClientService {
   constructor(
-    @Inject(ProviderToken.MercuryClientProxy)
+    @Inject(PROVIDER_TOKEN.MERCURY_CLIENT_PROXY)
     private readonly client: ClientProxy,
   ) {}
 

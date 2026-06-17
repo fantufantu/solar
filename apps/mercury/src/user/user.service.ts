@@ -13,20 +13,21 @@ import {
 } from 'typeorm';
 import dayjs from 'dayjs';
 import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
-import { CacheToken } from 'assets/tokens';
+import { CACHE_TOKEN } from 'constants/cache.constant';
+import type { CacheToken } from 'constants/cache.constant';
 import { PlutoClientService } from '@/libs/pluto-client';
 import { VerifyInput } from './dto/verify.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { CacheService } from '@/libs/cache';
-import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud';
+import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud.constant';
 import { Pagination } from 'assets/dto/pagination.input';
 import { FilterUserInput } from './dto/filter-user.input';
 import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
 import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role_with_authorization.entity';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 import { AssignRolesInput } from './dto/assign-roles.input';
-import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
+import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration.constant';
 
 @Injectable()
 export class UserService {
@@ -108,7 +109,7 @@ export class UserService {
    */
   async verify(
     { captcha, who }: VerifyInput,
-    token: CacheToken = CacheToken.RegisterCaptcha,
+    token: CacheToken = CACHE_TOKEN.REGISTER_CAPTCHA,
   ) {
     const { 0: _sentCaptcha } =
       (await this.cacheService.getCaptchaValidation(who, token)) ?? [];
@@ -150,15 +151,15 @@ export class UserService {
     const [secretId, secretKey, region] = await Promise.all([
       this.plutoClient.getConfiguration<string>({
         token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
-        property: TENCENT_CLOUD_CONFIGURATION.secret_id,
+        property: TENCENT_CLOUD_CONFIGURATION.SECRET_ID,
       }),
       this.plutoClient.getConfiguration<string>({
         token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
-        property: TENCENT_CLOUD_CONFIGURATION.secret_key,
+        property: TENCENT_CLOUD_CONFIGURATION.SECRET_KEY,
       }),
       this.plutoClient.getConfiguration<string>({
         token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
-        property: TENCENT_CLOUD_CONFIGURATION.ses_region,
+        property: TENCENT_CLOUD_CONFIGURATION.SES_REGION,
       }),
     ]);
 

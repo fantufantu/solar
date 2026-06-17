@@ -1,10 +1,10 @@
 import type { Partialable } from '@aiszlab/relax/types';
 import { registerAs } from '@nestjs/config';
-import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
+import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration.constant';
 import {
   VOLC_ARK_PROPERTY_TOKENS,
   VolcArkPropertyToken,
-} from 'constants/volc-ark';
+} from 'constants/volc-ark.constant';
 
 export default registerAs<Record<VolcArkPropertyToken, Partialable<string>>>(
   REGISTERED_CONFIGURATION_TOKENS.VOLC_ARK,

@@ -7,13 +7,13 @@ import {
 } from 'passport-jwt';
 import type { Request } from 'express';
 import { MercuryClientService } from 'libs/mercury-client/src';
-import { ProviderToken } from 'assets/tokens';
+import { PROVIDER_TOKEN } from 'constants/app.constant';
 import type { Authentication } from '../dto/authentication';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @Inject(ProviderToken.JwtSecret) jwtSecret: string,
+    @Inject(PROVIDER_TOKEN.JWT_SECRET) jwtSecret: string,
     private readonly client: MercuryClientService,
   ) {
     super({

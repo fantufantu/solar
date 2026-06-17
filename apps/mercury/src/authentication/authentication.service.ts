@@ -4,12 +4,13 @@ import { constants, privateDecrypt, randomUUID } from 'crypto';
 import { PlutoClientService } from '@/libs/pluto-client';
 import { PassportService } from '@/libs/passport';
 import { RegisterInput } from './dto/register.input';
-import { CacheToken, RsaPropertyToken } from 'assets/tokens';
+import { RsaPropertyToken } from 'assets/tokens';
+import { CACHE_TOKEN } from 'constants/cache.constant';
 import { UserService } from '../user/user.service';
 import { LoginInput } from './dto/login.input';
 import { CacheService } from '@/libs/cache';
 import { ChangePasswordInput } from './dto/change-password.input';
-import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
+import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration.constant';
 
 @Injectable()
 export class AuthenticationService {
@@ -137,7 +138,7 @@ export class AuthenticationService {
         who,
         captcha,
       },
-      CacheToken.ChangePasswordCaptcha,
+      CACHE_TOKEN.CHANGE_PASSWORD_CAPTCHA,
     );
     if (!isValid) throw new UnauthorizedException('验证码错误');
 

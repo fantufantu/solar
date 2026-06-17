@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import type { DynamicModule } from '@nestjs/common';
-import { ApplicationToken } from 'assets/tokens';
+import type { ApplicationToken } from 'constants/app.constant';
 import { PlutoClientModule, PlutoClientService } from '@/libs/pluto-client';
-import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud';
-import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
+import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud.constant';
+import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration.constant';
 
 @Module({
   providers: [PlutoClientModule],
@@ -28,15 +28,15 @@ export class DatabaseModule {
             } = await client.getConfigurations<[string, string, string]>([
               {
                 token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
-                property: TENCENT_CLOUD_CONFIGURATION.database_host,
+                property: TENCENT_CLOUD_CONFIGURATION.DATABASE_HOST,
               },
               {
                 token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
-                property: TENCENT_CLOUD_CONFIGURATION.database_port,
+                property: TENCENT_CLOUD_CONFIGURATION.DATABASE_PORT,
               },
               {
                 token: REGISTERED_CONFIGURATION_TOKENS.TENCENT_CLOUD,
-                property: TENCENT_CLOUD_CONFIGURATION.database_password,
+                property: TENCENT_CLOUD_CONFIGURATION.DATABASE_PASSWORD,
               },
             ]);
 

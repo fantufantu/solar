@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { METADATA_TOKEN } from 'assets/tokens';
+import { METADATA_TOKEN } from 'constants/common.constant';
 import { MercuryClientService } from '@/libs/mercury-client';
 import { AuthorizationPoint } from 'apps/mercury/src/role/dto/authorization';
 

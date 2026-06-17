@@ -1,14 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
-import { COMMAND_TOKENS, ProviderToken } from 'assets/tokens';
+import { COMMAND_TOKENS } from 'constants/common.constant';
+import { PROVIDER_TOKEN } from 'constants/app.constant';
 import type { GetConfigurationBy } from 'typings/micro-service';
 import type { PartialTuple } from '@aiszlab/relax/types';
 
 @Injectable()
 export class PlutoClientService {
   constructor(
-    @Inject(ProviderToken.PlutoClientProxy)
+    @Inject(PROVIDER_TOKEN.PLUTO_CLIENT_PROXY)
     private readonly client: ClientProxy,
   ) {}
 

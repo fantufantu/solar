@@ -7,9 +7,10 @@ import { GraphQLDataSourceRequestKind } from '@apollo/gateway/dist/datasources/t
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { Context, GraphQLModule } from '@nestjs/graphql';
-import { SERVICE_PORTS } from 'constants/ports';
-import { ApplicationToken } from 'assets/tokens';
+import { SERVICE_PORTS } from 'constants/ports.constant';
+import { APPLICATION_TOKEN } from 'constants/app.constant';
 import type { IncomingMessage } from 'http';
+import { METADATA_TOKEN } from 'constants/common.constant';
 
 interface Context {
   req?: IncomingMessage;
@@ -25,7 +26,7 @@ class RouterDataSource extends RemoteGraphQLDataSource {
 
     const _authorization = context.req?.headers.authorization;
     if (_authorization) {
-      request.http?.headers.set('Authorization', _authorization);
+      request.http?.headers.set(METADATA_TOKEN.AUTHORIZATION, _authorization);
     }
   }
 }
@@ -41,23 +42,23 @@ class RouterDataSource extends RemoteGraphQLDataSource {
             supergraphSdl: new IntrospectAndCompose({
               subgraphs: [
                 {
-                  name: ApplicationToken.Mercury,
+                  name: APPLICATION_TOKEN.MERCURY,
                   url: `http://localhost:${SERVICE_PORTS.MERCURY}/graphql`,
                 },
                 {
-                  name: ApplicationToken.Venus,
+                  name: APPLICATION_TOKEN.VENUS,
                   url: `http://localhost:${SERVICE_PORTS.VENUS}/graphql`,
                 },
                 {
-                  name: ApplicationToken.Earth,
+                  name: APPLICATION_TOKEN.EARTH,
                   url: `http://localhost:${SERVICE_PORTS.EARTH}/graphql`,
                 },
                 {
-                  name: ApplicationToken.Mars,
+                  name: APPLICATION_TOKEN.MARS,
                   url: `http://localhost:${SERVICE_PORTS.MARS}/graphql`,
                 },
                 {
-                  name: ApplicationToken.Jupiter,
+                  name: APPLICATION_TOKEN.JUPITER,
                   url: `http://localhost:${SERVICE_PORTS.JUPITER}/graphql`,
                 },
               ],

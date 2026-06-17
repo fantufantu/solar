@@ -2,8 +2,8 @@ import { BadRequestException, Injectable, MessageEvent } from '@nestjs/common';
 import { endWith, map, Observable, shareReplay } from 'rxjs';
 import { ChatOpenAI } from '@langchain/openai';
 import { PlutoClientService } from '@/libs/pluto-client';
-import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration';
-import { VOLC_ARK_PROPERTY_TOKENS } from 'constants/volc-ark';
+import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration.constant';
+import { VOLC_ARK_PROPERTY_TOKENS } from 'constants/volc-ark.constant';
 import { useProposalPrompt } from './prompts/proposal.prompt';
 import { useParseTextPrompt } from './prompts/parse-text.prompt';
 import { CreateTouristPlanInput } from './dto/create-tourist-plan.input';
@@ -22,7 +22,7 @@ import dayjs from 'dayjs';
 import { isString } from '@aiszlab/relax';
 import { COMPLETED_MESSAGE_EVENT } from 'utils/sse.util';
 import { STATUS_CODE } from 'constants/sse.constant';
-import { OPENAI_PROPERTY_TOKEN } from 'constants/configuration';
+import { OPENAI_PROPERTY_TOKEN } from 'constants/configuration.constant';
 
 @Injectable()
 export class TouristPlanService {

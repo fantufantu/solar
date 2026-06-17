@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ApplicationToken } from 'assets/tokens';
+import { APPLICATION_TOKEN } from 'constants/app.constant';
 import { DatabaseModule } from '@/libs/database';
 import { PassportModule } from '@/libs/passport';
 import { PlutoClientModule } from '@/libs/pluto-client';
@@ -30,7 +30,7 @@ import { CacheModule } from '@/libs/cache';
       },
     }),
     // 数据库
-    DatabaseModule.forRoot(ApplicationToken.Mercury, {
+    DatabaseModule.forRoot(APPLICATION_TOKEN.MERCURY, {
       synchronize: false,
     }),
     // 认证

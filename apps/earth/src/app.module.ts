@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '@/libs/database';
-import { ApplicationToken } from 'assets/tokens';
+import { APPLICATION_TOKEN } from 'constants/app.constant';
 import { ArticleModule } from './article/article.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import {
@@ -24,7 +24,7 @@ import { PassportModule } from '@/libs/passport';
     PassportModule,
 
     // 数据库
-    DatabaseModule.forRoot(ApplicationToken.Earth),
+    DatabaseModule.forRoot(APPLICATION_TOKEN.EARTH),
 
     // 文章
     ArticleModule,

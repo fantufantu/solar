@@ -4,7 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportService } from './passport.service';
 import { MercuryClientModule } from 'libs/mercury-client/src';
 import { JwtSecretModule } from './jwt-secret/jwt-secret.module';
-import { ProviderToken } from 'assets/tokens';
+import { PROVIDER_TOKEN } from 'constants/app.constant';
 import { JwtStrategy } from './strategies';
 
 @Global()
@@ -19,7 +19,7 @@ import { JwtStrategy } from './strategies';
     // jwt 模块
     JwtModule.registerAsync({
       imports: [JwtSecretModule],
-      inject: [ProviderToken.JwtSecret],
+      inject: [PROVIDER_TOKEN.JWT_SECRET],
       useFactory: (secret: string) => {
         return {
           secret,

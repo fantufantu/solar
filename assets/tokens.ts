@@ -1,31 +1,4 @@
 /**
- * 应用服务枚举
- */
-export enum ApplicationToken {
-  Mercury = 'mercury',
-  Venus = 'venus',
-  Earth = 'earth',
-  Mars = 'mars',
-  Jupiter = 'jupiter',
-}
-
-/**
- * 自定义的 provider token
- */
-export enum ProviderToken {
-  PlutoClientProxy = 'PlutoClientProxy',
-  MercuryClientProxy = 'MercuryClientProxy',
-  JwtSecret = 'JwtSecret',
-}
-
-/**
- * 自定义的插件 token
- */
-export const METADATA_TOKEN = {
-  AUTHORIZATION: 'authorization',
-} as const;
-
-/**
  * @description
  * rsa 属性
  */
@@ -49,14 +22,6 @@ export enum DatabasePropertyToken {
   password = 'password',
 }
 
-export const COMMAND_TOKENS = {
-  GET_CONFIGURATION: 'configuration.get',
-  GET_CONFIGURATIONS: 'configurations.get',
-  GET_USER: 'user.get',
-  AUTHORIZE: 'role.authorize',
-  IS_LOGGED_IN: 'authentication.logged-in',
-};
-
 /**
  * GraphQL enum tokne
  */
@@ -74,18 +39,3 @@ export enum GraphQLEnumToken {
   BucketName = 'BucketName',
 }
 
-/**
- * @description
- * cache token
- * 主要用于前缀，在 solar 中，cache key 主要依赖 prefix/value
- */
-export enum CacheToken {
-  // 认证令牌
-  Authenticated = 'authenticated',
-  // 注册验证码
-  RegisterCaptcha = 'register-captcha',
-  // 修改密码验证码
-  ChangePasswordCaptcha = 'change-password-captcha',
-  // None
-  None = '',
-}

@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { COMMAND_TOKENS } from 'assets/tokens';
+import { COMMAND_TOKENS } from 'constants/common.constant';
 import type { GetConfigurationBy } from 'typings/micro-service';
 import { ConfigurationService } from './configuration.service';
 

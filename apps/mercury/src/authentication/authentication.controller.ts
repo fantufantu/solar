@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { AuthenticationService } from './authentication.service';
-import { COMMAND_TOKENS } from 'assets/tokens';
+import { COMMAND_TOKENS } from 'constants/common.constant';
 
 @Controller()
 export class AuthenticationController {

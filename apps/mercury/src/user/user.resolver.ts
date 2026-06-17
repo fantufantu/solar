@@ -13,7 +13,7 @@ import { JwtAuthGuard } from '@/libs/passport/guards';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { UserService } from './user.service';
 import { UpdateUserInput } from './dto/update-user.input';
-import { CacheToken } from 'assets/tokens';
+import { CACHE_TOKEN } from 'constants/cache.constant';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { Pagination } from 'assets/dto/pagination.input';
@@ -86,7 +86,7 @@ export class UserResolver {
     description: '发送注册验证码',
   })
   sendRegisterCaptcha(@Args({ name: 'to', type: () => String }) to: string) {
-    return this.userService.sendCaptcha(to, CacheToken.RegisterCaptcha);
+    return this.userService.sendCaptcha(to, CACHE_TOKEN.REGISTER_CAPTCHA);
   }
 
   @Mutation(() => Date, {
@@ -96,7 +96,7 @@ export class UserResolver {
   sendChangePasswordCaptcha(
     @Args({ name: 'to', type: () => String }) to: string,
   ) {
-    return this.userService.sendCaptcha(to, CacheToken.ChangePasswordCaptcha);
+    return this.userService.sendCaptcha(to, CACHE_TOKEN.CHANGE_PASSWORD_CAPTCHA);
   }
 
   @ResolveReference()

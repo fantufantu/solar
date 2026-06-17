@@ -1,6 +1,7 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
-import { CacheToken } from 'assets/tokens';
+import { CACHE_TOKEN } from 'constants/cache.constant';
+import type { CacheToken } from 'constants/cache.constant';
 import type { Cache } from 'cache-manager';
 import { toCacheKey } from 'utils/cache';
 import type { CaptchaValidation } from './dto/captcha-validation';
@@ -38,7 +39,7 @@ export class CacheService {
    */
   setAuthenticated(userId: number) {
     return this.cacheManager.set(
-      toCacheKey(CacheToken.Authenticated, userId),
+      toCacheKey(CACHE_TOKEN.AUTHENTICATED, userId),
       true,
       7 * 24 * 60 * 60 * 1000,
     );
@@ -50,7 +51,7 @@ export class CacheService {
    */
   getAuthenticated(userId: number) {
     return this.cacheManager.get<isLoggedIn>(
-      toCacheKey(CacheToken.Authenticated, userId),
+      toCacheKey(CACHE_TOKEN.AUTHENTICATED, userId),
     );
   }
 
@@ -59,6 +60,6 @@ export class CacheService {
    * 删除当前用户登录缓存
    */
   removeAuthenticated(userId: number) {
-    return this.cacheManager.del(toCacheKey(CacheToken.Authenticated, userId));
+    return this.cacheManager.del(toCacheKey(CACHE_TOKEN.AUTHENTICATED, userId));
   }
 }

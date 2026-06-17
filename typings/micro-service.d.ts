@@ -1,11 +1,11 @@
-import { COMMAND_TOKENS } from 'assets/tokens';
+import { COMMAND_TOKENS } from 'constants/common.constant';
 import type {
   TencentCloudPropertyToken,
   JwtPropertyToken,
   RsaPropertyToken,
 } from 'assets/tokens';
 import { type REGISTERED_CONFIGURATION_TOKENS } from '../constants/configuration';
-import { VolcArkPropertyToken } from 'constants/volc-ark';
+import { VolcArkPropertyToken } from 'constants/volc-ark.constant';
 
 /**
  * 微服务指令

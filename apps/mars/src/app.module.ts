@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ResumeModule } from './resume/resume.module';
 import { DatabaseModule } from '@/libs/database';
-import { ApplicationToken } from 'assets/tokens';
+import { APPLICATION_TOKEN } from 'constants/app.constant';
 import { GraphQLModule } from '@nestjs/graphql';
 import {
   ApolloFederationDriver,
@@ -30,7 +30,7 @@ import { User } from '@/libs/database/entities/mars/user.entity';
     }),
 
     // 数据库
-    DatabaseModule.forRoot(ApplicationToken.Mars, { synchronize: false }),
+    DatabaseModule.forRoot(APPLICATION_TOKEN.MARS, { synchronize: false }),
 
     // 鉴权
     PassportModule,

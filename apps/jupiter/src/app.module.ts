@@ -11,7 +11,7 @@ import {
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
 import { DatabaseModule } from '@/libs/database';
-import { ApplicationToken } from 'assets/tokens';
+import { APPLICATION_TOKEN } from 'constants/app.constant';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
 import { PassportModule } from '@/libs/passport';
 
@@ -35,7 +35,7 @@ import { PassportModule } from '@/libs/passport';
     }),
 
     // 数据库
-    DatabaseModule.forRoot(ApplicationToken.Jupiter, {
+    DatabaseModule.forRoot(APPLICATION_TOKEN.JUPITER, {
       synchronize: false,
     }),
 
