@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TouristPlanModule } from './tourist-plan/tourist-plan.module';
+import { TouristPlanItineraryModule } from './tourist-plan-itinerary/tourist-plan-itinerary.module';
 import { MembershipModule } from './membership/membership.module';
 import { CityModule } from './city/city.module';
 import { AttractionModule } from './attraction/attraction.module';
@@ -44,6 +45,9 @@ import { PassportModule } from '@/libs/passport';
 
     // 出行计划模块
     TouristPlanModule,
+
+    // 行程明细模块
+    TouristPlanItineraryModule,
 
     // 会员等级模块
     MembershipModule,

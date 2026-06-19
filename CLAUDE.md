@@ -22,14 +22,13 @@ pnpm start:<service>
 ```
 
 ### Lint and test
-No npm scripts are defined for these. Use:
 ```
 npx eslint .
 npx jest                           # Run all tests
 npx jest --testPathPattern=<file>  # Run a single test
 ```
 
-Jest is configured in `package.json` (Jest 30, ts-jest). Test files match `*.spec.ts` in `apps/` and `libs/`. Currently there are no test files in the repo.
+Jest is configured in `package.json` (Jest 30, ts-jest). Test files match `*.spec.ts` in `apps/` and `libs/`. NestJS generators are configured with `"spec": false` in `nest-cli.json`.
 
 ## Architecture
 
@@ -58,24 +57,69 @@ Pluto (TCP:3010)          ← Config server — all other services depend on it 
 |---|---|
 | `libs/database/` | TypeORM module. Uses `PlutoClientService` to dynamically build DB connection options from Pluto config. Entities are grouped by service under `src/entities/<service>/`. |
 | `libs/passport/` | Global JWT auth module (`JwtStrategy` + `JwtModule`). Gets the JWT secret from Pluto at startup. |
-| `libs/mercury-client/` | TCP client proxy for Mercury. Provides `getUser()`, `isAuthorized()`, `isLoggedIn()`. |
-| `libs/pluto-client/` | TCP client proxy for Pluto. Provides `getConfiguration()`, `getConfigurations()`. |
+| `libs/mercury-client/` | TCP client proxy for Mercury. |
+| `libs/pluto-client/` | TCP client proxy for Pluto. |
 | `libs/cache/` | Cache module via `@nestjs/cache-manager`. Used for auth state and captcha codes. |
-| `assets/tokens.ts` | Central token/command registry: `ApplicationToken`, `ProviderToken`, `COMMAND_TOKENS`, `CacheToken`, `GraphQLEnumToken`. |
-| `constants/ports.ts` | All HTTP and TCP port assignments. |
-| `utils/` | Decorators (`@Authorization`, `@Filter`, `@Pagination`, `@Sort`, `@WhoAmI`), interceptors, SSE utilities, query builder helpers. |
+| `constants/` | Token registries: `APPLICATION_TOKEN`, `PROVIDER_TOKEN`, `COMMAND_TOKENS`, `REGISTERED_CONFIGURATION_TOKENS`, `SERVICE_PORTS`, `MICRO_SERVICE_PORTS`. |
+| `utils/` | Decorators (`@Authorization`, `@Filter`, `@Pagination`, `@Sort`, `@WhoAmI`), interceptors, SSE utilities, `paginateQuery` helper. |
 | `typings/` | Shared TypeScript types for microservice patterns and controller queries. |
+| `assets/` | Shared guards (`AuthorizationGuard`), DTOs (`Pagination`). |
 
 ## Key patterns
 
-### Path aliases
-`tsconfig.json` maps `@/libs/*` to `libs/*/src`. In Jest, `moduleNameMapper` provides the same mappings (see `package.json` lines 116-121).
+### Path resolution
+`tsconfig.json` sets `baseUrl: "./"` (repo root), so these import forms all work from any file:
+- `constants/*`, `utils/*`, `typings/*`, `assets/*` — absolute from repo root
+- `@/libs/<name>` or `@/libs/<name>/*` — maps to `libs/<name>/src` and `libs/<name>/src/*`
+- `libs/*` — relative resolution (also works due to `rootDir: "."`)
+
+Jest mirrors these via `moduleNameMapper` in `package.json`.
+
+### Service AppModule boilerplate
+Every service's `AppModule` imports a standard set:
+1. `PlutoClientModule` — always needed (config bootstrap)
+2. `DatabaseModule.forRoot(APPLICATION_TOKEN.<SERVICE>, { synchronize: false })` — TypeORM with Pluto-resolved DB creds. `synchronize` is always `false`.
+3. `GraphQLModule.forRoot<ApolloFederationDriverConfig>({ driver: ApolloFederationDriver, autoSchemaFile: { federation: 2 } })` — federation subgraph. Services that reference cross-service types use `buildSchemaOptions.orphanedTypes`.
+4. `PassportModule` — JWT auth (validates tokens, attaches user to request)
+5. `MercuryClientModule` — only imported by services that call Mercury directly
+
+### Entity inheritance
+Entities in `libs/database/src/entities/` follow this hierarchy from `any-use/`:
+- `TimeStamped` — `createdAt`, `updatedAt`
+- `IdentifiedTimeStamped extends TimeStamped` — adds auto-increment `id`
+- `Authored extends IdentifiedTimeStamped` — adds `createdById`, `updatedById`
+- `Tracked extends Authored` — adds `deletedAt` (soft delete) with a `deletedById` setter
+
+All entity classes carry both TypeORM and GraphQL decorators. The `@ObjectType` decorator on base classes means subclasses inherit GraphQL fields automatically. **创建数据库实体时不需要单独写 SQL 文件**，表结构通过 TypeORM 装饰器定义，数据库同步由运维侧管理（项目内 `synchronize: false`）。
 
 ### Microservice client pattern
-Each client library (pluto-client, mercury-client) registers a custom transport client as a provider. Services import the client's module and inject the service class. Commands are sent via `client.send({ cmd: COMMAND_TOKENS.XXX }, payload)` over TCP.
+Each client library (pluto-client, mercury-client) is a `@Global()` module that:
+1. Creates a `ClientProxy` via `ClientProxyFactory.create({ transport: Transport.TCP, options: { port: <PORT> } })`
+2. Provides it under a named token (`PROVIDER_TOKEN.PLUTO_CLIENT_PROXY` / `PROVIDER_TOKEN.MERCURY_CLIENT_PROXY`)
+3. Exposes a service class that wraps `client.send({ cmd: COMMAND_TOKENS.XXX }, payload)` with `lastValueFrom()` to convert Observable → Promise
 
-### Database module
-`DatabaseModule.forRoot(applicationToken, options)` creates a TypeORM connection. It internally calls `PlutoClientService.getConfiguration()` to resolve DB credentials (Tencent Cloud MySQL), so Pluto must be running first.
+### Configuration flow
+All secrets (DB creds, JWT keys, OpenAI/VolcArk API keys) are stored in Pluto. Services resolve them at startup via `PlutoClientService.getConfiguration()` for single values or `getConfigurations()` for batch fetches (reduces TCP round-trips). Config tokens are defined in `constants/configuration.constant.ts`.
 
-### Decorator-based filtering/pagination/sorting
-Controller query parameters use the `Query<F>` type from `typings/controller.d.ts`. Custom decorators (`@Filter()`, `@Pagination()`, `@Sort()`) extract structured query params. The `PaginatedInterceptor` wraps responses in pagination metadata.
+### Authentication flow
+1. Request arrives with `Authorization: Bearer <jwt>` header
+2. `JwtAuthGuard` extracts the token → delegates to `JwtStrategy`
+3. `JwtStrategy.validate(payload)` calls Mercury: `isLoggedIn(userId)` (checks cache for forced logout), then `getUser({ id })` (fetches from DB)
+4. The resolved user object is attached to `req.user`
+5. `JwtAuthGuard` supports **loose mode** (`new JwtAuthGuard(true)`) — auth failure returns `user: null` instead of throwing 401. Used for public endpoints that optionally show user-specific data.
+6. `@Authorization(point)` is a composite decorator that applies both `JwtAuthGuard` (strict) and `AuthorizationGuard` (checks permissions via Mercury `role.authorize`)
+
+### GraphQL patterns
+- **Module structure**: Each domain module imports `TypeOrmModule.forFeature([Entity])`, declares `Resolver`, `Service`, and `Loader` as providers.
+- **Pagination**: Use `@Filter`, `@Pagination` decorators to extract query params. The service returns `[items, total]` from TypeORM's `getManyAndCount()`. Apply `@UseInterceptors(PaginatedInterceptor)` to wrap into `{ items, total }`.
+- **DataLoaders**: Use `@ResolveField` with a DataLoader to batch-fetch related entities and avoid N+1 queries.
+
+### Jupiter AI patterns
+Jupiter uses LangChain with OpenAI-compatible APIs for AI-powered trip planning:
+- LLM config (model, apiKey, baseURL) is fetched from Pluto at runtime
+- `ChatOpenAI` is instantiated per-request (not a singleton)
+- `chat.withStructuredOutput(schema, { method: 'functionCalling' })` produces typed JSON output via Zod schemas
+- SSE streaming uses RxJS `Observable<MessageEvent>` with `map`, `endWith`, `shareReplay`
+
+### Utility library
+The project uses `@aiszlab/relax` for shared utilities: `ValueOf` type (extracts union of values from a const object), `PartialTuple`, `isString`. Constants files use `ValueOf<typeof CONST>` to create narrow string literal unions from `as const` objects.

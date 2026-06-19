@@ -8,6 +8,7 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entity';
+import { TouristPlanItinerary } from '@/libs/database/entities/jupiter/tourist-plan-itinerary.entity';
 import { City } from '@/libs/database/entities/jupiter/city.entity';
 import { Attraction } from '@/libs/database/entities/jupiter/attraction.entity';
 import { CreateTouristPlanInput } from './dto/create-tourist-plan.input';
@@ -19,12 +20,14 @@ import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { FilterArgs } from 'utils/decorators/filter.decorator';
 import { FilterTouristPlansInput } from './dto/filter-tourist-plans.input';
 import { TouristPlanLoader } from './tourist-plan.loader';
+import { TouristPlanItineraryService } from '../tourist-plan-itinerary/tourist-plan-itinerary.service';
 
 @Resolver(() => TouristPlan)
 export class TouristPlanResolver {
   constructor(
     private readonly touristPlanService: TouristPlanService,
     private readonly touristPlanLoader: TouristPlanLoader,
+    private readonly itineraryService: TouristPlanItineraryService,
   ) {}
 
   @Mutation(() => TouristPlan, { description: '创建出行计划' })
@@ -81,5 +84,14 @@ export class TouristPlanResolver {
         (item): item is Attraction => !!item && !(item instanceof Error),
       )
       .toArray();
+  }
+
+  @ResolveField('itineraries', () => [TouristPlanItinerary], {
+    description: '行程明细列表',
+  })
+  async itineraries(
+    @Parent() touristPlan: TouristPlan,
+  ): Promise<TouristPlanItinerary[]> {
+    return await this.itineraryService.findByTouristPlanId(touristPlan.id);
   }
 }

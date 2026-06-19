@@ -11,10 +11,7 @@ import { UserService } from '../user/user.service';
 import { CityService } from '../city/city.service';
 import { AttractionService } from '../attraction/attraction.service';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  TouristPlan,
-  ITINERARY_SCHEMA,
-} from '@/libs/database/entities/jupiter/tourist-plan.entity';
+import { TouristPlan, TOURIST_PLAN_SCHEMA } from '@/libs/database/entities/jupiter/tourist-plan.entity';
 import { Repository } from 'typeorm';
 import { Query } from 'typings/controller';
 import { FilterTouristPlansInput } from './dto/filter-tourist-plans.input';
@@ -23,6 +20,7 @@ import { isString } from '@aiszlab/relax';
 import { COMPLETED_MESSAGE_EVENT } from 'utils/sse.util';
 import { STATUS_CODE } from 'constants/sse.constant';
 import { OPENAI_PROPERTY_TOKEN } from 'constants/configuration.constant';
+import { TouristPlanItineraryService } from '../tourist-plan-itinerary/tourist-plan-itinerary.service';
 
 @Injectable()
 export class TouristPlanService {
@@ -33,6 +31,7 @@ export class TouristPlanService {
     private readonly userService: UserService,
     private readonly cityService: CityService,
     private readonly attractionService: AttractionService,
+    private readonly itineraryService: TouristPlanItineraryService,
   ) {}
 
   /**
@@ -181,9 +180,13 @@ export class TouristPlanService {
     // 1. 查询出行计划，没有提案或已解析过的方案则直接返回
     const _touristPlan = await this.touristPlan(id);
     if (!_touristPlan?.proposal) return _touristPlan;
-    if (_touristPlan.itinerary) return _touristPlan;
 
-    // 2. 获取 LLM 配置
+    // 2. 检查是否已有行程明细数据
+    const existingItems =
+      await this.itineraryService.findByTouristPlanId(id);
+    if (existingItems.length > 0) return _touristPlan;
+
+    // 3. 获取 LLM 配置
     const [model, apiKey, baseURL] = await this.plutoClient.getConfigurations<
       [string, string, string]
     >([
@@ -201,12 +204,12 @@ export class TouristPlanService {
       },
     ]);
 
-    // 3. 构建提示词，使用数据库中的 proposal 字段作为待解析文本
+    // 4. 构建提示词，使用数据库中的 proposal 字段作为待解析文本
     const prompt = await useParseTextPrompt({
       text: _touristPlan.proposal,
     });
 
-    // 4. 创建 LLM 实例并配置结构化输出
+    // 5. 创建 LLM 实例并配置结构化输出
     const chat = new ChatOpenAI({
       model,
       configuration: {
@@ -215,20 +218,50 @@ export class TouristPlanService {
       },
     });
 
-    const structuredLlm = chat.withStructuredOutput(ITINERARY_SCHEMA, {
+    const structuredLlm = chat.withStructuredOutput(TOURIST_PLAN_SCHEMA, {
       method: 'functionCalling',
       name: 'parseResult',
     });
 
-    // 5. 调用大模型获取结构化结果
+    // 6. 调用大模型获取结构化结果
     const result = await structuredLlm.invoke(prompt);
 
-    // 6. 将解析结果存入数据库
-    await this.touristPlanRepository.update(id, {
-      itinerary: result,
+    // 7. 将解析结果拆分为行程明细项，写入新表
+    const departureDate = dayjs(_touristPlan.depatureAt).startOf('day');
+
+    const items = result.itineraries.map((item, index) => {
+      // 根据行程开始时间推算第几天（相对于出发日期）
+      const itemDate = dayjs(item.startAt).startOf('day');
+      const dayNumber = Math.max(1, itemDate.diff(departureDate, 'day') + 1);
+
+      return {
+        name: item.name,
+        description: item.description,
+        tip: item.tip,
+        startAt: item.startAt,
+        duration: item.duration,
+        dayNumber,
+        sortOrder: index,
+      };
     });
 
-    // 7. 返回完整的出行计划数据
+    // 按 dayNumber 分组后重新分配 sortOrder
+    const grouped = new Map<number, typeof items>();
+    for (const item of items) {
+      const group = grouped.get(item.dayNumber) ?? [];
+      group.push(item);
+      grouped.set(item.dayNumber, group);
+    }
+
+    const reordered = Array.from(grouped.entries())
+      .sort(([a], [b]) => a - b)
+      .flatMap(([, groupItems]) =>
+        groupItems.map((item, idx) => ({ ...item, sortOrder: idx })),
+      );
+
+    await this.itineraryService.batchCreate(id, reordered);
+
+    // 8. 返回完整的出行计划数据
     return await this.touristPlan(id);
   }
 
