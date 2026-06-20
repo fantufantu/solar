@@ -12,7 +12,7 @@ export const TOURIST_PLAN_SCHEMA = z.object({
 @Entity({ comment: '出行方案', name: 'tourist_plan' })
 export class TouristPlan extends TimeStamped {
   @Field(() => String, {
-    description: '出行方案`code`',
+    description: '出行方案`id`',
   })
   @PrimaryGeneratedColumn('uuid', {
     comment: '出行方案`id`',
