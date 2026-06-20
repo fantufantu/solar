@@ -78,6 +78,18 @@ export class TouristPlanItineraryService {
   }
 
   /**
+   * 批量根据出行方案`id`查询行程明细项
+   */
+  async findByTouristPlanIds(
+    touristPlanIds: readonly string[],
+  ): Promise<TouristPlanItinerary[]> {
+    return await this.itineraryRepository.find({
+      where: touristPlanIds.map((id) => ({ touristPlanId: id })),
+      order: { dayFrom: 'ASC', sortOrder: 'ASC' },
+    });
+  }
+
+  /**
    * 批量保存行程明细项（用于从解析结果初始化）
    */
   async batchCreate(

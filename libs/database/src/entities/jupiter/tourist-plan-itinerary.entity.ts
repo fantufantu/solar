@@ -2,12 +2,9 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 import {
   Column,
   Entity,
-  JoinColumn,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { TimeStamped } from '../any-use/time-stamped.entity';
-import { TouristPlan } from './tourist-plan.entity';
 import { z } from 'zod';
 
 export const ITINERARY_SCHEMA = z.object({
@@ -38,12 +35,6 @@ export class TouristPlanItinerary
     comment: '所属出行方案`id`',
   })
   touristPlanId!: string;
-
-  @ManyToOne(() => TouristPlan, (plan) => plan.itineraries, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn({ name: 'tourist_plan_id' })
-  touristPlan?: TouristPlan;
 
   @Field(() => Int, { description: '行程开始第几天' })
   @Column({ name: 'day_from', type: 'int', comment: '行程开始第几天' })

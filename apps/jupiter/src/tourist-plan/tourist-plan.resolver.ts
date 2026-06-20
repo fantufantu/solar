@@ -20,14 +20,12 @@ import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { FilterArgs } from 'utils/decorators/filter.decorator';
 import { FilterTouristPlansInput } from './dto/filter-tourist-plans.input';
 import { TouristPlanLoader } from './tourist-plan.loader';
-import { TouristPlanItineraryService } from '../tourist-plan-itinerary/tourist-plan-itinerary.service';
 
 @Resolver(() => TouristPlan)
 export class TouristPlanResolver {
   constructor(
     private readonly touristPlanService: TouristPlanService,
     private readonly touristPlanLoader: TouristPlanLoader,
-    private readonly itineraryService: TouristPlanItineraryService,
   ) {}
 
   @Mutation(() => TouristPlan, { description: '创建出行计划' })
@@ -92,6 +90,6 @@ export class TouristPlanResolver {
   async itineraries(
     @Parent() touristPlan: TouristPlan,
   ): Promise<TouristPlanItinerary[]> {
-    return await this.itineraryService.findByTouristPlanId(touristPlan.id);
+    return this.touristPlanLoader.itineraries.load(touristPlan.id);
   }
 }

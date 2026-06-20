@@ -1,7 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { TimeStamped } from '../any-use/time-stamped.entity';
-import { TouristPlanItinerary, ITINERARY_SCHEMA } from './tourist-plan-itinerary.entity';
+import { ITINERARY_SCHEMA } from './tourist-plan-itinerary.entity';
 import { z } from 'zod';
 
 export const TOURIST_PLAN_SCHEMA = z.object({
@@ -69,11 +69,6 @@ export class TouristPlan extends TimeStamped {
     nullable: true,
   })
   proposal: string | null = null;
-
-  @OneToMany(() => TouristPlanItinerary, (item) => item.touristPlan, {
-    cascade: true,
-  })
-  itineraries?: TouristPlanItinerary[];
 
   @Field(() => String, {
     description: '出行方案归属方',
