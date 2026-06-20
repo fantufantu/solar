@@ -36,7 +36,7 @@ export class TouristPlanItineraryResolver {
     @Args('touristPlanId') touristPlanId: string,
     @Args('input') input: ReorderTouristPlanItineraryInput,
   ): Promise<TouristPlanItinerary[]> {
-    return this.itineraryService.reorder(touristPlanId, input.itemIds);
+    return this.itineraryService.reorder(touristPlanId, input.ids);
   }
 
   @Query(() => [TouristPlanItinerary], {

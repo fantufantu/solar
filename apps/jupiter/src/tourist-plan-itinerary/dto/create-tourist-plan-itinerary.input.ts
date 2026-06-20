@@ -4,6 +4,6 @@ import { TouristPlanItinerary } from '@/libs/database/entities/jupiter/tourist-p
 @InputType()
 export class CreateTouristPlanItineraryInput extends PickType(
   TouristPlanItinerary,
-  ['touristPlanId', 'dayNumber', 'sortOrder', 'name', 'description', 'tip', 'startAt', 'duration'],
+  ['touristPlanId', 'dayFrom', 'sortOrder', 'name', 'description', 'tip', 'duration'],
   InputType,
 ) {}

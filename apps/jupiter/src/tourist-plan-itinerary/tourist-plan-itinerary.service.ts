@@ -51,17 +51,17 @@ export class TouristPlanItineraryService {
    */
   async reorder(
     touristPlanId: string,
-    itemIds: string[],
+    ids: string[],
   ): Promise<TouristPlanItinerary[]> {
     await Promise.all(
-      itemIds.map((itemId, index) =>
+      ids.map((itemId, index) =>
         this.itineraryRepository.update(itemId, { sortOrder: index }),
       ),
     );
 
     return await this.itineraryRepository.find({
       where: { touristPlanId },
-      order: { dayNumber: 'ASC', sortOrder: 'ASC' },
+      order: { dayFrom: 'ASC', sortOrder: 'ASC' },
     });
   }
 
@@ -73,7 +73,7 @@ export class TouristPlanItineraryService {
   ): Promise<TouristPlanItinerary[]> {
     return await this.itineraryRepository.find({
       where: { touristPlanId },
-      order: { dayNumber: 'ASC', sortOrder: 'ASC' },
+      order: { dayFrom: 'ASC', sortOrder: 'ASC' },
     });
   }
 
@@ -83,12 +83,11 @@ export class TouristPlanItineraryService {
   async batchCreate(
     touristPlanId: string,
     items: Array<{
-      dayNumber: number;
+      dayFrom: number;
       sortOrder: number;
       name: string;
       description: string;
       tip: string;
-      startAt: number;
       duration: number;
     }>,
   ): Promise<void> {

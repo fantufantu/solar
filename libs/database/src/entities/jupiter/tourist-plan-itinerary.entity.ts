@@ -14,7 +14,7 @@ export const ITINERARY_SCHEMA = z.object({
   name: z.string().describe('行程名称'),
   description: z.string().describe('行程描述'),
   tip: z.string().describe('行程提示'),
-  startAt: z.number().describe('行程开始时间；Unix 时间戳，单位为毫秒'),
+  dayFrom: z.number().describe('行程开始第几天，相对于出发日期'),
   duration: z
     .number()
     .describe('行程时长，建议的景点停留时间；Unix 时间戳，单位为毫秒'),
@@ -45,9 +45,9 @@ export class TouristPlanItinerary
   @JoinColumn({ name: 'tourist_plan_id' })
   touristPlan?: TouristPlan;
 
-  @Field(() => Int, { description: '第几天' })
-  @Column({ name: 'day_number', type: 'int', comment: '第几天' })
-  dayNumber!: number;
+  @Field(() => Int, { description: '行程开始第几天' })
+  @Column({ name: 'day_from', type: 'int', comment: '行程开始第几天' })
+  dayFrom!: number;
 
   @Field(() => Int, { description: '当天排序' })
   @Column({ name: 'sort_order', type: 'int', comment: '当天排序' })
@@ -69,16 +69,6 @@ export class TouristPlanItinerary
   @Field(() => String, { description: '行程提示' })
   @Column({ name: 'tip', type: 'text', comment: '行程提示' })
   tip!: string;
-
-  @Field(() => Number, {
-    description: '行程开始时间（Unix 时间戳，单位为毫秒）',
-  })
-  @Column({
-    name: 'start_at',
-    type: 'bigint',
-    comment: '行程开始时间（Unix 时间戳，单位为毫秒）',
-  })
-  startAt!: number;
 
   @Field(() => Int, { description: '建议停留时长（Unix 时间戳，单位为毫秒）' })
   @Column({

@@ -227,30 +227,21 @@ export class TouristPlanService {
     const result = await structuredLlm.invoke(prompt);
 
     // 7. 将解析结果拆分为行程明细项，写入新表
-    const departureDate = dayjs(_touristPlan.depatureAt).startOf('day');
+    const items = result.itineraries.map((item, index) => ({
+      name: item.name,
+      description: item.description,
+      tip: item.tip,
+      dayFrom: item.dayFrom,
+      duration: item.duration,
+      sortOrder: index,
+    }));
 
-    const items = result.itineraries.map((item, index) => {
-      // 根据行程开始时间推算第几天（相对于出发日期）
-      const itemDate = dayjs(item.startAt).startOf('day');
-      const dayNumber = Math.max(1, itemDate.diff(departureDate, 'day') + 1);
-
-      return {
-        name: item.name,
-        description: item.description,
-        tip: item.tip,
-        startAt: item.startAt,
-        duration: item.duration,
-        dayNumber,
-        sortOrder: index,
-      };
-    });
-
-    // 按 dayNumber 分组后重新分配 sortOrder
+    // 按 dayFrom 分组后重新分配 sortOrder
     const grouped = new Map<number, typeof items>();
     for (const item of items) {
-      const group = grouped.get(item.dayNumber) ?? [];
+      const group = grouped.get(item.dayFrom) ?? [];
       group.push(item);
-      grouped.set(item.dayNumber, group);
+      grouped.set(item.dayFrom, group);
     }
 
     const reordered = Array.from(grouped.entries())
