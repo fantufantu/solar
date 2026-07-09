@@ -268,6 +268,17 @@ export class TouristPlanService {
   }
 
   /**
+   * 绑定匿名出行计划到当前用户
+   */
+  async bindTouristPlans(belongToId: string, username: string) {
+    const { affected } = await this.touristPlanRepository.update(
+      { belongToId },
+      { belongToId: username },
+    );
+    return (affected ?? 0) > 0;
+  }
+
+  /**
    * 查询出行计划
    */
   async touristPlan(id: string) {
