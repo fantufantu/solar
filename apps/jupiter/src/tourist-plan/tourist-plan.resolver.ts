@@ -15,10 +15,13 @@ import { CreateTouristPlanInput } from './dto/create-tourist-plan.input';
 import { Pagination } from 'assets/dto/pagination.input';
 import { PaginatedTouristPlans } from './dto/paginated-tourist-plans.object';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
-import { UseInterceptors } from '@nestjs/common';
+import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { FilterArgs } from 'utils/decorators/filter.decorator';
 import { FilterTouristPlansInput } from './dto/filter-tourist-plans.input';
+import { JwtAuthGuard } from '@/libs/passport/guards';
+import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
+import { User } from '@/libs/database/entities/mercury/user.entity';
 import { TouristPlanLoader } from './tourist-plan.loader';
 
 @Resolver(() => TouristPlan)
@@ -33,6 +36,15 @@ export class TouristPlanResolver {
     @Args('input') input: CreateTouristPlanInput,
   ): Promise<TouristPlan> {
     return this.touristPlanService.create(input);
+  }
+
+  @Mutation(() => Boolean, { description: '绑定匿名出行计划到当前用户' })
+  @UseGuards(JwtAuthGuard)
+  async bindTouristPlans(
+    @Args('belongToId') belongToId: string,
+    @WhoAmI() user: User,
+  ): Promise<boolean> {
+    return this.touristPlanService.bindTouristPlans(belongToId, user.username);
   }
 
   @Mutation(() => TouristPlan, { description: '解析出行计划为结构化行程数据' })
