@@ -21,7 +21,7 @@ import { COMPLETED_MESSAGE_EVENT } from 'utils/sse.util';
 import { STATUS_CODE } from 'constants/sse.constant';
 import { OPENAI_PROPERTY_TOKEN } from 'constants/configuration.constant';
 import { TouristPlanItineraryService } from '../tourist-plan-itinerary/tourist-plan-itinerary.service';
-
+import { MercuryClientService } from '@/libs/mercury-client';
 @Injectable()
 export class TouristPlanService {
   constructor(
@@ -32,6 +32,7 @@ export class TouristPlanService {
     private readonly cityService: CityService,
     private readonly attractionService: AttractionService,
     private readonly itineraryService: TouristPlanItineraryService,
+    private readonly mercuryClient: MercuryClientService,
   ) {}
 
   /**
@@ -271,6 +272,14 @@ export class TouristPlanService {
    * 绑定匿名出行计划到当前用户
    */
   async bindTouristPlans(belongToId: string, username: string) {
+    // 检查 belongToId 是否已在用户表中，若存在则说明已绑定过真实用户
+    const existingUser = await this.mercuryClient.getUser({
+      username: belongToId,
+    });
+    if (existingUser) {
+      throw new BadRequestException('该出行计划已绑定，不可重复绑定');
+    }
+
     const { affected } = await this.touristPlanRepository.update(
       { belongToId },
       { belongToId: username },
