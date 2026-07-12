@@ -1,10 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
-import { Between, Repository } from 'typeorm';
+import { Between, In, Repository } from 'typeorm';
 import dayjs from 'dayjs';
 import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entity';
 import { MercuryClientService } from '@/libs/mercury-client';
+import { Membership } from '@/libs/database/entities/jupiter/membership.entity';
+import { isVoid } from '@aiszlab/relax';
+import { RequiredIn } from '@aiszlab/relax/types';
+import { UserMembership } from './dto/user-membership.object';
 
 @Injectable()
 export class UserService {
@@ -36,21 +40,45 @@ export class UserService {
   }
 
   /**
+   * 获取用户当前总额度（来自会员等级，免费用户默认为 3）
+   */
+  async membership(userId?: number): Promise<UserMembership> {
+    const user = !!isVoid(userId)
+      ? await this.userRepository.findOne({
+          where: { id: userId },
+          relations: ['membership'],
+        })
+      : null;
+
+    return {
+      name: user?.membership?.name ?? '免费用户',
+      quota: user?.membership?.quota ?? 3,
+    };
+  }
+
+  /**
    * 检查用户今日是否已达配额上限
    */
   async isQuotaOverflow(belongToId: string) {
-    const userId = (
-      await this.mercuryClient.getUser({
-        username: belongToId,
-      })
-    )?.id;
-
-    const user = await this.userRepository.findOne({
-      where: { id: userId },
-      relations: ['membership'],
+    const _user = await this.mercuryClient.getUser({
+      username: belongToId,
     });
 
-    const quota = user?.membership?.quota ?? 3;
+    const _quota = (await this.membership(_user?.id)).quota;
+    const _usedQuota = await this.usedQuota(belongToId);
+
+    if (_usedQuota >= _quota) {
+      throw new BadRequestException(
+        `今日出行计划创建次数已达上限（${_quota}次），请明日再试`,
+      );
+    }
+  }
+
+  /**
+   * 批量获取用户今日已创建的出行计划总数
+   * 用户今日已使用额度
+   */
+  async usedQuota(belongToId: string): Promise<number> {
     const todayStart = dayjs().startOf('day').toDate();
     const todayEnd = dayjs().endOf('day').toDate();
 
@@ -58,11 +86,6 @@ export class UserService {
       belongToId,
       createdAt: Between(todayStart, todayEnd),
     });
-
-    if (count >= quota) {
-      throw new BadRequestException(
-        `今日出行计划创建次数已达上限（${quota}次），请明日再试`,
-      );
-    }
+    return count;
   }
 }

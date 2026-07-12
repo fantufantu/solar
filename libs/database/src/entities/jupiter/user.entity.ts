@@ -31,10 +31,6 @@ export class User extends OmitType(
   })
   membershipId: number | null = null;
 
-  @Field(() => Membership, {
-    nullable: true,
-    description: '会员等级',
-  })
   @ManyToOne(() => Membership, {
     nullable: true,
   })

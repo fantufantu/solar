@@ -29,6 +29,20 @@ export class MercuryClientService {
   }
 
   /**
+   * 批量获取用户信息
+   */
+  async getUsers(ids: number[]) {
+    return await lastValueFrom<User[]>(
+      this.client.send(
+        {
+          cmd: COMMAND_TOKENS.GET_USERS,
+        },
+        ids,
+      ),
+    );
+  }
+
+  /**
    * 鉴权
    */
   isAuthorized(who: number, authorizationPoint: AuthorizationPoint) {

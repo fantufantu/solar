@@ -12,4 +12,9 @@ export class UserController {
   async user({ id, username }: GetUserBy) {
     return await this.userService.who({ where: { id, username } });
   }
+
+  @MessagePattern({ cmd: COMMAND_TOKENS.GET_USERS })
+  async users(ids: number[]) {
+    return await this.userService.getUsersByIds(ids);
+  }
 }

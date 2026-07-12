@@ -22,6 +22,7 @@ export const COMMAND_TOKENS = {
   GET_CONFIGURATION: 'configuration.get',
   GET_CONFIGURATIONS: 'configurations.get',
   GET_USER: 'user.get',
+  GET_USERS: 'user.get_users',
   AUTHORIZE: 'role.authorize',
   IS_LOGGED_IN: 'authentication.logged-in',
 } as const;

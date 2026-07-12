@@ -5,10 +5,10 @@ export class LoginInput {
   @Field(() => String, {
     description: '用户名/邮箱',
   })
-  who: string;
+  who!: string;
 
   @Field(() => String, {
     description: '密码',
   })
-  password: string;
+  password!: string;
 }
