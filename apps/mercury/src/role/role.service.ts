@@ -124,7 +124,7 @@ export class RoleService {
    * 2. 识别角色是否包含对应权限点
    */
   async isAuthorized(
-    who: number,
+    who: string,
     authorizationPoint: AuthorizationPoint,
   ): Promise<boolean> {
     const roleCodes = await this.userService.roleCodes(who);

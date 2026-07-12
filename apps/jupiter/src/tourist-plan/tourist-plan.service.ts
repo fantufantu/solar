@@ -11,7 +11,10 @@ import { UserService } from '../user/user.service';
 import { CityService } from '../city/city.service';
 import { AttractionService } from '../attraction/attraction.service';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TouristPlan, TOURIST_PLAN_SCHEMA } from '@/libs/database/entities/jupiter/tourist-plan.entity';
+import {
+  TouristPlan,
+  TOURIST_PLAN_SCHEMA,
+} from '@/libs/database/entities/jupiter/tourist-plan.entity';
 import { Repository } from 'typeorm';
 import { Query } from 'typings/controller';
 import { FilterTouristPlansInput } from './dto/filter-tourist-plans.input';
@@ -183,8 +186,7 @@ export class TouristPlanService {
     if (!_touristPlan?.proposal) return _touristPlan;
 
     // 2. 检查是否已有行程明细数据
-    const existingItems =
-      await this.itineraryService.findByTouristPlanId(id);
+    const existingItems = await this.itineraryService.findByTouristPlanId(id);
     if (existingItems.length > 0) return _touristPlan;
 
     // 3. 获取 LLM 配置
@@ -271,18 +273,15 @@ export class TouristPlanService {
   /**
    * 绑定匿名出行计划到当前用户
    */
-  async bindTouristPlans(belongToId: string, username: string) {
-    // 检查 belongToId 是否已在用户表中，若存在则说明已绑定过真实用户
-    const existingUser = await this.mercuryClient.getUser({
-      username: belongToId,
-    });
+  async bindTouristPlans(belongToId: string, userId: string) {
+    const existingUser = await this.mercuryClient.getUser({ id: belongToId });
     if (existingUser) {
       throw new BadRequestException('该出行计划已绑定，不可重复绑定');
     }
 
     const { affected } = await this.touristPlanRepository.update(
       { belongToId },
-      { belongToId: username },
+      { belongToId: userId },
     );
     return (affected ?? 0) > 0;
   }

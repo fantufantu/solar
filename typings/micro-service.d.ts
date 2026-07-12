@@ -43,6 +43,5 @@ export type GetConfigurationBy =
  * 获取用户信息入参
  */
 export interface GetUserBy {
-  id?: number;
-  username?: string;
+  id?: string;
 }

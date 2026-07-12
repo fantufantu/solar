@@ -13,8 +13,8 @@ export class CreateSharingInput {
   })
   targetType: TargetType;
 
-  @Field(() => Int, {
+  @Field(() => String, {
     description: '共享给指定用户',
   })
-  sharedById: number;
+  sharedById!: string;
 }

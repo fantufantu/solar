@@ -8,7 +8,7 @@ export class AuthenticationController {
   constructor(private readonly authenticationService: AuthenticationService) {}
 
   @MessagePattern({ cmd: COMMAND_TOKENS.IS_LOGGED_IN })
-  async isLoggedIn(userId: number) {
+  async isLoggedIn(userId: string) {
     return await this.authenticationService.isLoggedIn(userId);
   }
 }

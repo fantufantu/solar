@@ -44,7 +44,7 @@ export class TouristPlanResolver {
     @Args('belongToId') belongToId: string,
     @WhoAmI() user: User,
   ): Promise<boolean> {
-    return this.touristPlanService.bindTouristPlans(belongToId, user.username);
+    return this.touristPlanService.bindTouristPlans(belongToId, user.id);
   }
 
   @Mutation(() => TouristPlan, { description: '解析出行计划为结构化行程数据' })
@@ -90,9 +90,7 @@ export class TouristPlanResolver {
       )
     )
       .values()
-      .filter(
-        (item): item is Attraction => !!item && !(item instanceof Error),
-      )
+      .filter((item): item is Attraction => !!item && !(item instanceof Error))
       .toArray();
   }
 

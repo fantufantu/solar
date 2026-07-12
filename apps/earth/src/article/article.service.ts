@@ -25,7 +25,7 @@ export class ArticleService {
    * @description
    * 创建文章
    */
-  async create(input: CreateArticleInput, createdById: number) {
+  async create(input: CreateArticleInput, createdById: string) {
     const { categoryCodes, ..._article } = input;
 
     const article = await this.articleRepository.save(
@@ -56,7 +56,7 @@ export class ArticleService {
    * @param updateBy 更新文章信息
    * @param updatedById 更新者id
    */
-  async update(id: number, updateBy: UpdateArticleInput, updatedById: number) {
+  async update(id: number, updateBy: UpdateArticleInput, updatedById: string) {
     const { categoryCodes, ...article } = updateBy;
 
     // 更新文章
@@ -137,7 +137,7 @@ export class ArticleService {
    * @param id 文章id
    * @param deleteById 删除者id
    */
-  async remove(id: number, deleteById: number) {
+  async remove(id: number, deleteById: string) {
     const _article = this.articleRepository.create();
     _article.deletedById = deleteById;
 
@@ -160,7 +160,7 @@ export class ArticleService {
    */
   async articleContributions(
     { from, to }: FilterArticleContributionsInput,
-    who: number,
+    who: string,
   ) {
     // 性能考虑：不允许超过1年时间查询
     if (dayjs(from).isBefore(dayjs(to).subtract(1, 'years'))) {

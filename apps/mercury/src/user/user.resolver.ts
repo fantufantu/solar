@@ -1,7 +1,6 @@
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import {
   Args,
-  Int,
   Mutation,
   Parent,
   Query,
@@ -100,7 +99,7 @@ export class UserResolver {
   }
 
   @ResolveReference()
-  async user(reference: { __typename: string; id: number }) {
+  async user(reference: { __typename: string; id: string }) {
     return this.userService.who({ where: { id: reference.id } });
   }
 
@@ -116,7 +115,7 @@ export class UserResolver {
     nullable: true,
   })
   @UseGuards(new JwtAuthGuard(true))
-  whoAreYou(@Args('id', { type: () => Int }) id: number) {
+  whoAreYou(@Args('id', { type: () => String }) id: string) {
     return this.userService.who({ where: { id } });
   }
 }

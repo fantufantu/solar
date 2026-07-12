@@ -1,15 +1,23 @@
 import { BadRequestException } from '@nestjs/common';
 import { Directive, Field, ObjectType } from '@nestjs/graphql';
-import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { randomUUID } from 'crypto';
 import { hashSync } from 'bcrypt';
 import { IsEmail, MaxLength, MinLength, isURL } from 'class-validator';
-import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
+import { TimeStamped } from '../any-use/time-stamped.entity';
 
 @ObjectType()
 @Directive('@key(fields: "id")')
 @Entity()
-export class User extends IdentifiedTimeStamped {
+export class User extends TimeStamped {
+  @Field(() => String, {
+    description: 'id',
+  })
+  @PrimaryGeneratedColumn('uuid', {
+    comment: 'id',
+    name: 'id',
+  })
+  id!: string;
   @Field(() => String, {
     description: '用户名',
   })

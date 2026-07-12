@@ -13,8 +13,8 @@ export class RemoveSharingInput {
   })
   targetId: number;
 
-  @Field(() => Int, {
+  @Field(() => String, {
     description: '分享id',
   })
-  sharedById?: number;
+  sharedById?: string;
 }

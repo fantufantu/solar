@@ -21,7 +21,7 @@ export class TransactionService {
    * @author murukal
    * @description 创建交易
    */
-  create(input: CreateTransactionInput, createdById: number) {
+  create(input: CreateTransactionInput, createdById: string) {
     return this.transactionRepository.save(
       this.transactionRepository.create({
         ...input,

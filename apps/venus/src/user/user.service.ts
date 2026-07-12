@@ -15,7 +15,7 @@ export class UserService {
    * @author murukal
    * @description 根据`id`查询用户信息
    */
-  async user(id: number) {
+  async user(id: string) {
     return await this.userRepository.findOne({
       where: { id },
       select: ['defaultBillingId'],
@@ -26,7 +26,7 @@ export class UserService {
    * @author murukal
    * @description 设置默认账本
    */
-  async updateDefaultBilling(input: UpdateDefaultBillingInput, userId: number) {
+  async updateDefaultBilling(input: UpdateDefaultBillingInput, userId: string) {
     // 处理默认账本信息
     // 取消默认账本，账本 id = null
     const defaultBillingId = input.isDefault ? input.id : null;

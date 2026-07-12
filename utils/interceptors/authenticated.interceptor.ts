@@ -17,7 +17,7 @@ export class AuthenticatedInterceptor implements NestInterceptor {
 
   intercept(
     _context: ExecutionContext,
-    next: CallHandler<[authenticated: string, userId: number]>,
+    next: CallHandler<[authenticated: string, userId: string]>,
   ) {
     return next.handle().pipe(
       map(([authenticated, userId]) => {

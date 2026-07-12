@@ -176,7 +176,7 @@ export class UserService {
    * @author murukal
    * @description 根据用户`id`批量查询用户信息
    */
-  async getUsersByIds(ids: number[]) {
+  async getUsersByIds(ids: string[]) {
     return await this.userRepository.findBy({
       id: In(ids),
     });
@@ -186,7 +186,7 @@ export class UserService {
    * @author murukal
    * @description 更新用户信息
    */
-  async updateUser(id: number, input: UpdateUserInput) {
+  async updateUser(id: string, input: UpdateUserInput) {
     return !!(
       await this.userRepository.update(id, this.userRepository.create(input))
     ).affected;
@@ -243,7 +243,7 @@ export class UserService {
   /**
    * 获取指定用户对应的角色`Code`列表
    */
-  async roleCodes(who: number) {
+  async roleCodes(who: string) {
     return new Set(
       (
         await this.roleWithUserRepository
@@ -262,7 +262,7 @@ export class UserService {
    * 2. 没有任何角色时，直接按空返回
    * 3. 根据角色获取角色关联的权限资源
    */
-  async authorizations({ who }: { who: number }) {
+  async authorizations({ who }: { who: string }) {
     const roleCodes = await this.roleCodes(who);
     if (roleCodes.size === 0) {
       return [];

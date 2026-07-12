@@ -37,7 +37,7 @@ export class CacheService {
    * 记录当前用户是否登录
    * 有效期7天
    */
-  setAuthenticated(userId: number) {
+  setAuthenticated(userId: string) {
     return this.cacheManager.set(
       toCacheKey(CACHE_TOKEN.AUTHENTICATED, userId),
       true,
@@ -49,7 +49,7 @@ export class CacheService {
    * @description
    * 获取当前用户是否登录
    */
-  getAuthenticated(userId: number) {
+  getAuthenticated(userId: string) {
     return this.cacheManager.get<isLoggedIn>(
       toCacheKey(CACHE_TOKEN.AUTHENTICATED, userId),
     );
@@ -59,7 +59,7 @@ export class CacheService {
    * @description
    * 删除当前用户登录缓存
    */
-  removeAuthenticated(userId: number) {
+  removeAuthenticated(userId: string) {
     return this.cacheManager.del(toCacheKey(CACHE_TOKEN.AUTHENTICATED, userId));
   }
 }

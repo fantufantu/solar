@@ -8,8 +8,8 @@ export class SharingLoader {
    * @description
    * 根据用户id获取用户信息
    */
-  public readonly getUserById = new DataLoader<number, User>(
-    async (_userIds: number[]) => {
+  public readonly getUserById = new DataLoader<string, User>(
+    async (_userIds: readonly string[]) => {
       return [];
     },
   );

@@ -59,7 +59,7 @@ export class CityService {
   /**
    * 创建城市
    */
-  async create(input: CreateCityInput, createdById: number) {
+  async create(input: CreateCityInput, createdById: string) {
     return !!(
       await this.cityRepository
         .createQueryBuilder()
@@ -72,7 +72,7 @@ export class CityService {
   /**
    * 更新城市
    */
-  async update(code: string, input: UpdateCityInput, updatedById: number) {
+  async update(code: string, input: UpdateCityInput, updatedById: string) {
     return !!(
       await this.cityRepository
         .createQueryBuilder()

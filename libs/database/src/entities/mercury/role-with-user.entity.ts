@@ -22,8 +22,10 @@ export class RoleWithUser extends TimeStamped {
   @PrimaryColumn({
     name: 'user_id',
     comment: '用户`id`',
+    type: 'varchar',
+    length: 36,
   })
-  userId!: number;
+  userId!: string;
 
   @ManyToOne(() => User)
   @JoinColumn({ referencedColumnName: 'id', name: 'user_id' })

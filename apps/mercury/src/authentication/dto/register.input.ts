@@ -22,5 +22,5 @@ export class RegisterInput extends PickType(
   @Field(() => String, {
     description: '验证码',
   })
-  captcha: string;
+  captcha!: string;
 }

@@ -1,4 +1,4 @@
-import { Directive, Field, Int, ObjectType, OmitType } from '@nestjs/graphql';
+import { Directive, Field, ObjectType, OmitType } from '@nestjs/graphql';
 import { Entity, PrimaryColumn } from 'typeorm';
 import { TimeStamped } from '../any-use/time-stamped.entity';
 
@@ -10,11 +10,13 @@ export class User extends OmitType(
   ['createdAt', 'updatedAt'],
   ObjectType,
 ) {
-  @Field(() => Int, {
+  @Field(() => String, {
     description: '用户`id`',
   })
   @PrimaryColumn({
     comment: '用户`id`',
+    type: 'varchar',
+    length: 36,
   })
-  id: number;
+  id!: string;
 }

@@ -22,7 +22,7 @@ export class ResumeTemplateService {
   /**
    * @description 创建简历模板
    */
-  async create(input: CreateResumeTemplateInput, who: number) {
+  async create(input: CreateResumeTemplateInput, who: string) {
     return await this.resumeTemplateRepository.save(
       this.resumeTemplateRepository.create({
         ...input,
@@ -34,7 +34,7 @@ export class ResumeTemplateService {
   /**
    * @description 更新简历模板
    */
-  async update(code: string, input: UpdateResumeTemplateInput, who: number) {
+  async update(code: string, input: UpdateResumeTemplateInput, who: string) {
     return !!(await this.resumeTemplateRepository.save(
       this.resumeTemplateRepository.create({
         code,
@@ -47,7 +47,7 @@ export class ResumeTemplateService {
   /**
    * @description 删除简历模板
    */
-  async remove(code: string, deletedById: number) {
+  async remove(code: string, deletedById: string) {
     const _resumeTemplate = this.resumeTemplateRepository.create();
     _resumeTemplate.deletedById = deletedById;
 
@@ -100,7 +100,7 @@ export class ResumeTemplateService {
     who,
   }: {
     pagination: Pagination;
-    who: number;
+    who: string;
   }): Promise<[ResumeTemplate[], number]> {
     const _starredResumeTemplateCodes =
       (

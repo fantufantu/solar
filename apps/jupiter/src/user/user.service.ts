@@ -1,13 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
-import { Between, In, Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import dayjs from 'dayjs';
 import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entity';
 import { MercuryClientService } from '@/libs/mercury-client';
-import { Membership } from '@/libs/database/entities/jupiter/membership.entity';
 import { isVoid } from '@aiszlab/relax';
-import { RequiredIn } from '@aiszlab/relax/types';
 import { UserMembership } from './dto/user-membership.object';
 
 @Injectable()
@@ -23,7 +21,7 @@ export class UserService {
   /**
    * 根据`id`查询用户信息
    */
-  async user(id: number) {
+  async user(id: string) {
     return await this.userRepository.findOne({
       where: { id },
     });
@@ -32,7 +30,7 @@ export class UserService {
   /**
    * 升级用户会员等级
    */
-  async upgradeMembership(userId: number, membershipId: number) {
+  async upgradeMembership(userId: string, membershipId: number) {
     const { affected } = await this.userRepository.update(userId, {
       membershipId,
     });
@@ -42,8 +40,8 @@ export class UserService {
   /**
    * 获取用户当前总额度（来自会员等级，免费用户默认为 3）
    */
-  async membership(userId?: number): Promise<UserMembership> {
-    const user = !!isVoid(userId)
+  async membership(userId?: string): Promise<UserMembership> {
+    const user = !isVoid(userId)
       ? await this.userRepository.findOne({
           where: { id: userId },
           relations: ['membership'],
@@ -60,10 +58,7 @@ export class UserService {
    * 检查用户今日是否已达配额上限
    */
   async isQuotaOverflow(belongToId: string) {
-    const _user = await this.mercuryClient.getUser({
-      username: belongToId,
-    });
-
+    const _user = await this.mercuryClient.getUser({ id: belongToId });
     const _quota = (await this.membership(_user?.id)).quota;
     const _usedQuota = await this.usedQuota(belongToId);
 

@@ -28,7 +28,7 @@ export class UserResolver {
   }
 
   @ResolveReference()
-  user(reference: { __typename: string; id: number }) {
+  user(reference: { __typename: string; id: string }) {
     return this.userService.user(reference.id);
   }
 }

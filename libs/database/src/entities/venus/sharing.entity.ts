@@ -34,11 +34,13 @@ export class Sharing {
   })
   targetId!: number;
 
-  @Field(() => Int, {
+  @Field(() => String, {
     description: '共享人员id',
   })
   @PrimaryColumn({
     name: 'shared_by_id',
+    type: 'varchar',
+    length: 36,
   })
-  sharedById!: number;
+  sharedById!: string;
 }

@@ -31,7 +31,7 @@ export class MercuryClientService {
   /**
    * 批量获取用户信息
    */
-  async getUsers(ids: number[]) {
+  async getUsers(ids: string[]) {
     return await lastValueFrom<User[]>(
       this.client.send(
         {
@@ -45,7 +45,7 @@ export class MercuryClientService {
   /**
    * 鉴权
    */
-  isAuthorized(who: number, authorizationPoint: AuthorizationPoint) {
+  isAuthorized(who: string, authorizationPoint: AuthorizationPoint) {
     return lastValueFrom(
       this.client.send<boolean>(
         {
@@ -62,7 +62,7 @@ export class MercuryClientService {
   /**
    * 当前用户是否在登录有效期
    */
-  async isLoggedIn(userId: number) {
+  async isLoggedIn(userId: string) {
     return await lastValueFrom<boolean>(
       this.client.send(
         {

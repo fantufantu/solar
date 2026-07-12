@@ -121,7 +121,7 @@ export class AuthenticationService {
    * 当前用户是否登录中
    * 使用缓存校验，如果用户强制登出后，会从缓存中移除
    */
-  async isLoggedIn(userId: number) {
+  async isLoggedIn(userId: string) {
     return !!(await this.cacheService
       .getAuthenticated(userId)
       .catch(() => false));
@@ -159,7 +159,7 @@ export class AuthenticationService {
    * 注销
    * 移除缓存，下次 `jwt.strategy` 鉴权，判断用户逐出，直接返回 401
    */
-  async logout(userId: number) {
+  async logout(userId: string) {
     return await this.cacheService
       .removeAuthenticated(userId)
       .then(() => true)

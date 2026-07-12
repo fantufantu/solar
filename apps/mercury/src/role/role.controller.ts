@@ -13,7 +13,7 @@ export class RoleController {
     who,
     authorizationPoint,
   }: {
-    who: number;
+    who: string;
     authorizationPoint: AuthorizationPoint;
   }) {
     return await this.roleService.isAuthorized(who, authorizationPoint);

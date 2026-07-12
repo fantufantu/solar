@@ -9,7 +9,7 @@ export class PassportService {
    * @description
    * jwt加签
    */
-  sign(id: number) {
+  sign(id: string) {
     return this.jwtService.sign({
       id,
     });

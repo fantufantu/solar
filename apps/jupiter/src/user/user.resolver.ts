@@ -17,7 +17,7 @@ export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @ResolveReference()
-  user(reference: { __typename: string; id: number }) {
+  user(reference: { __typename: string; id: string }) {
     return this.userService.user(reference.id);
   }
 
@@ -32,7 +32,7 @@ export class UserResolver {
     description: '用户已使用额度',
   })
   async usedQuota(@Parent() user: User): Promise<number> {
-    return this.userService.usedQuota(user.id.toString());
+    return this.userService.usedQuota(user.id);
   }
 
   @Mutation(() => Boolean, { description: '升级用户会员等级' })

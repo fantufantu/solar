@@ -13,7 +13,7 @@ export class Tracked extends Authored {
   /**
    * 删除当前实例
    */
-  set deletedById(deleteById: number) {
+  set deletedById(deleteById: string) {
     this.deletedAt = new Date();
     this.updatedById = deleteById;
   }

@@ -23,7 +23,7 @@ export class BillingService {
    * @author murukal
    * @description 创建账本
    */
-  create(input: CreateBillingInput, createdById: number) {
+  create(input: CreateBillingInput, createdById: string) {
     return this.billingRepository.save(
       this.billingRepository.create({
         ...input,
@@ -36,7 +36,7 @@ export class BillingService {
    * @author murukal
    * @description 查询单个账本
    */
-  billing(id: number, userId: number) {
+  billing(id: number, userId: string) {
     return this.billingRepository
       .createQueryBuilder('billing')
       .leftJoinAndSelect(
@@ -72,7 +72,7 @@ export class BillingService {
    * @author murukal
    * @description 删除账本信息
    */
-  async remove(id: number, userId: number) {
+  async remove(id: number, userId: string) {
     const billing = await this.billingRepository.findOneBy({
       id,
     });
@@ -110,7 +110,7 @@ export class BillingService {
     who,
   }: {
     ids?: number[];
-    who?: number;
+    who?: string;
   }): Promise<Billing[]> {
     const qb = this.billingRepository
       .createQueryBuilder('billing')

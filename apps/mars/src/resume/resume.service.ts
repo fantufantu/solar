@@ -25,7 +25,7 @@ export class ResumeService {
   /**
    * @description 新建简历
    */
-  async create(input: CreateResumeInput, who: number) {
+  async create(input: CreateResumeInput, who: string) {
     return await this.resumeRepository.save(
       this.resumeRepository.create({
         ...input,
@@ -37,7 +37,7 @@ export class ResumeService {
   /**
    * @description 更新简历
    */
-  async update(id: string, input: UpdateResumeInput, who: number) {
+  async update(id: string, input: UpdateResumeInput, who: string) {
     return (
       ((
         await this.resumeRepository.update(id, {
@@ -55,7 +55,7 @@ export class ResumeService {
    * @param who
    * @param permanently 永久删除
    */
-  async remove(id: string, who: number, permanently: boolean) {
+  async remove(id: string, who: string, permanently: boolean) {
     const _resume = this.resumeRepository.create();
     _resume.deletedById = who;
 
@@ -72,7 +72,7 @@ export class ResumeService {
    * 简历详情
    * @description 用户只能查看自己的简历
    */
-  async resume(id: string, who: number) {
+  async resume(id: string, who: string) {
     const _resume = await this.resumeRepository.findOneBy({
       id,
     });
@@ -119,7 +119,7 @@ export class ResumeService {
   /**
    * @description 最近30天删除的简历列表
    */
-  async deletedResumes(who: number, { limit, page }: Pagination) {
+  async deletedResumes(who: string, { limit, page }: Pagination) {
     const _qb = this.resumeRepository
       .createQueryBuilder('resume')
       .skip((page - 1) * limit)

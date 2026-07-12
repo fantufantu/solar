@@ -3,11 +3,11 @@ import { CreateRoleInput } from './create-role.input';
 
 @InputType()
 export class UpdateRoleInput extends PartialType(CreateRoleInput) {
-  @Field(() => [Int], {
+  @Field(() => [String], {
     description: '角色关联的用户id',
     nullable: true,
   })
-  userIds?: number[];
+  userIds?: string[];
 
   @Field(() => [Int], {
     description: '角色关联的权限id',

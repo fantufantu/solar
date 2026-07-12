@@ -13,7 +13,7 @@ export class UserService {
   /**
    * @description 收藏简历模板
    */
-  async starResumeTemplate(code: string, who: number) {
+  async starResumeTemplate(code: string, who: string) {
     const _user =
       (await this.userRepository.findOneBy({ id: who })) ??
       this.userRepository.create({
@@ -34,7 +34,7 @@ export class UserService {
   /**
    * @description 取消收藏简历模板
    */
-  async unstarResumeTemplate(code: string, who: number) {
+  async unstarResumeTemplate(code: string, who: string) {
     const _user =
       (await this.userRepository.findOneBy({ id: who })) ??
       this.userRepository.create({
@@ -55,7 +55,7 @@ export class UserService {
   /**
    * 根据`id`查询用户信息
    */
-  async user(id: number) {
+  async user(id: string) {
     return await this.userRepository.findOne({
       where: { id },
       select: ['starredResumeTemplateCodes'],

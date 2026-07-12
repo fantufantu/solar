@@ -30,7 +30,7 @@ export class AuthorizationService {
    * 支持管理员在系统中创建权限，创建后支持资源操作的访问控制
    * 注意：已经创建的权限点无法重复创建
    */
-  async create(input: CreateAuthorizationInput, who: number) {
+  async create(input: CreateAuthorizationInput, who: string) {
     const isCreated = await this.authorizationRepository.existsBy({
       resourceCode: input.resourceCode,
       actionCode: input.actionCode,
@@ -53,7 +53,7 @@ export class AuthorizationService {
    * 支持禁用权限点，一旦禁用后，相关资源不在支持访问
    * 需要重新启用权限点时，仅支持重新创建
    */
-  async remove(id: number, who: number) {
+  async remove(id: number, who: string) {
     const authorization = await this.authorizationRepository.findOneBy({ id });
 
     if (!authorization) {

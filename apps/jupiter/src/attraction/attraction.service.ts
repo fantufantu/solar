@@ -68,7 +68,7 @@ export class AttractionService {
   /**
    * 创建景点
    */
-  async create(input: CreateAttractionInput, createdById: number) {
+  async create(input: CreateAttractionInput, createdById: string) {
     return !!(
       await this.attractionRepository
         .createQueryBuilder()
@@ -84,7 +84,7 @@ export class AttractionService {
   async update(
     code: string,
     input: UpdateAttractionInput,
-    updatedById: number,
+    updatedById: string,
   ) {
     return !!(
       await this.attractionRepository
