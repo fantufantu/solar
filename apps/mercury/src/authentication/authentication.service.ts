@@ -22,7 +22,6 @@ export class AuthenticationService {
   ) {}
 
   /**
-   * @description
    * 登录
    */
   async login(input: LoginInput) {
@@ -48,7 +47,6 @@ export class AuthenticationService {
   }
 
   /**
-   * @description
    * 验证用户名/密码
    */
   async getValidUser(input: LoginInput) {
@@ -102,10 +100,17 @@ export class AuthenticationService {
   }
 
   /**
-   * @description
    * 利用RSA公钥私钥解密前端传输过来的密文密码
+   * 如果传入的不是加密过的密文（明文密码），则直接返回原文
    */
   private decryptByRsaPrivateKey(encoding: string, privateKey: string): string {
+    // 预检查：判断是否为 RSA 加密过的密文
+    // RSA 加密输出长度等于密钥长度（2048位→256字节，base64编码后约344字符）
+    // 明文密码 base64 解码后远小于 256 字节，据此区分
+    if (!this.isEncryptedByRsa(encoding)) {
+      return encoding;
+    }
+
     try {
       return privateDecrypt(
         { key: privateKey, padding: constants.RSA_PKCS1_PADDING },
@@ -117,7 +122,22 @@ export class AuthenticationService {
   }
 
   /**
-   * @description
+   * 判断字符串是否为 RSA 加密后的 base64 密文
+   * 检查依据：有效的 base64 格式 + 解码后长度匹配 RSA 密钥长度
+   */
+  private isEncryptedByRsa(input: string): boolean {
+    // 必须是有效的 base64 格式
+    if (!/^[A-Za-z0-9+/]*={0,2}$/.test(input)) {
+      return false;
+    }
+
+    // 解码后长度应 >= 256 字节（RSA 2048位密钥的最小输出）
+    // 明文密码（即便 base64 合法）解码后通常只有几十字节
+    const decodedLength = Buffer.from(input, 'base64').length;
+    return decodedLength >= 256;
+  }
+
+  /**
    * 当前用户是否登录中
    * 使用缓存校验，如果用户强制登出后，会从缓存中移除
    */
@@ -128,7 +148,6 @@ export class AuthenticationService {
   }
 
   /**
-   * @description
    * 修改密码
    */
   async changePassword({ captcha, password, who }: ChangePasswordInput) {
@@ -155,7 +174,6 @@ export class AuthenticationService {
   }
 
   /**
-   * @description
    * 注销
    * 移除缓存，下次 `jwt.strategy` 鉴权，判断用户逐出，直接返回 401
    */
