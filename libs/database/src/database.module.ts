@@ -47,6 +47,7 @@ export class DatabaseModule {
               database,
               password,
               username: 'fantu',
+              charset: 'utf8mb4',
               autoLoadEntities: true,
               // 应用启动不需要同步数据库结构
               synchronize,
