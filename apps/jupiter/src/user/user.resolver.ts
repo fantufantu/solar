@@ -11,10 +11,16 @@ import { UserService } from './user.service';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
 import { UpgradeMembershipInput } from './dto/upgrade-membership.input';
 import { UserMembership } from './dto/user-membership.object';
+import { TouristPlanService } from '../tourist-plan/tourist-plan.service';
+import { forwardRef, Inject } from '@nestjs/common';
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    @Inject(forwardRef(() => TouristPlanService))
+    private readonly touristPlanService: TouristPlanService,
+  ) {}
 
   @ResolveReference()
   user(reference: { __typename: string; id: string }) {
@@ -32,7 +38,7 @@ export class UserResolver {
     description: '用户已使用额度',
   })
   async usedQuota(@Parent() user: User): Promise<number> {
-    return this.userService.usedQuota(user.id);
+    return this.touristPlanService.countTodayByBelongToId(user.id);
   }
 
   @Mutation(() => Boolean, { description: '升级用户会员等级' })

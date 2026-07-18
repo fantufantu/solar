@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TouristPlanService } from './tourist-plan.service';
 import { TouristPlanController } from './tourist-plan.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -14,15 +14,12 @@ import { AttractionModule } from '../attraction/attraction.module';
   imports: [
     TypeOrmModule.forFeature([TouristPlan]),
     TouristPlanItineraryModule,
-    UserModule,
+    forwardRef(() => UserModule),
     CityModule,
     AttractionModule,
   ],
   controllers: [TouristPlanController],
-  providers: [
-    TouristPlanService,
-    TouristPlanResolver,
-    TouristPlanLoader,
-  ],
+  providers: [TouristPlanService, TouristPlanResolver, TouristPlanLoader],
+  exports: [TouristPlanService],
 })
 export class TouristPlanModule {}

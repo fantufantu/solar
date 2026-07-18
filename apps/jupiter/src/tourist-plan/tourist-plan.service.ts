@@ -1,4 +1,10 @@
-import { BadRequestException, Injectable, MessageEvent } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+  MessageEvent,
+} from '@nestjs/common';
 import { endWith, map, Observable, shareReplay } from 'rxjs';
 import { ChatOpenAI } from '@langchain/openai';
 import { PlutoClientService } from '@/libs/pluto-client';
@@ -15,7 +21,7 @@ import {
   TouristPlan,
   TOURIST_PLAN_SCHEMA,
 } from '@/libs/database/entities/jupiter/tourist-plan.entity';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { Query } from 'typings/controller';
 import { FilterTouristPlansInput } from './dto/filter-tourist-plans.input';
 import dayjs from 'dayjs';
@@ -25,12 +31,14 @@ import { STATUS_CODE } from 'constants/sse.constant';
 import { OPENAI_PROPERTY_TOKEN } from 'constants/configuration.constant';
 import { TouristPlanItineraryService } from '../tourist-plan-itinerary/tourist-plan-itinerary.service';
 import { MercuryClientService } from '@/libs/mercury-client';
+
 @Injectable()
 export class TouristPlanService {
   constructor(
     private readonly plutoClient: PlutoClientService,
     @InjectRepository(TouristPlan)
     private readonly touristPlanRepository: Repository<TouristPlan>,
+    @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
     private readonly cityService: CityService,
     private readonly attractionService: AttractionService,
@@ -284,6 +292,20 @@ export class TouristPlanService {
       { belongToId: userId },
     );
     return (affected ?? 0) > 0;
+  }
+
+  /**
+   * 查询指定 belongToId 当日已创建出行计划个数
+   */
+  async countTodayByBelongToId(belongToId: string): Promise<number> {
+    const todayStart = dayjs().startOf('day').toDate();
+    const todayEnd = dayjs().endOf('day').toDate();
+
+    const count = await this.touristPlanRepository.countBy({
+      belongToId,
+      createdAt: Between(todayStart, todayEnd),
+    });
+    return count;
   }
 
   /**

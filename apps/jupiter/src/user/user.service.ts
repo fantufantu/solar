@@ -1,21 +1,25 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
-import { Between, Repository } from 'typeorm';
-import dayjs from 'dayjs';
-import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entity';
+import { Repository } from 'typeorm';
 import { MercuryClientService } from '@/libs/mercury-client';
 import { isVoid } from '@aiszlab/relax';
 import { UserMembership } from './dto/user-membership.object';
+import { TouristPlanService } from '../tourist-plan/tourist-plan.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(TouristPlan)
-    private readonly touristPlanRepository: Repository<TouristPlan>,
     private readonly mercuryClient: MercuryClientService,
+    @Inject(forwardRef(() => TouristPlanService))
+    private readonly touristPlanService: TouristPlanService,
   ) {}
 
   /**
@@ -60,27 +64,13 @@ export class UserService {
   async isQuotaOverflow(belongToId: string) {
     const _user = await this.mercuryClient.getUser({ id: belongToId });
     const _quota = (await this.membership(_user?.id)).quota;
-    const _usedQuota = await this.usedQuota(belongToId);
+    const _usedQuota =
+      await this.touristPlanService.countTodayByBelongToId(belongToId);
 
     if (_usedQuota >= _quota) {
       throw new BadRequestException(
         `今日出行计划创建次数已达上限（${_quota}次），请明日再试`,
       );
     }
-  }
-
-  /**
-   * 批量获取用户今日已创建的出行计划总数
-   * 用户今日已使用额度
-   */
-  async usedQuota(belongToId: string): Promise<number> {
-    const todayStart = dayjs().startOf('day').toDate();
-    const todayEnd = dayjs().endOf('day').toDate();
-
-    const count = await this.touristPlanRepository.countBy({
-      belongToId,
-      createdAt: Between(todayStart, todayEnd),
-    });
-    return count;
   }
 }

@@ -1,4 +1,12 @@
-import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Int,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { CityService } from './city.service';
 import { CityLoader } from './city.loader';
@@ -25,7 +33,8 @@ export class CityResolver {
   @Query(() => PaginatedCities, { description: '分页查询城市' })
   @UseInterceptors(PaginatedInterceptor)
   cities(
-    @PaginationArgs() pagination: Pagination,
+    @PaginationArgs()
+    pagination: Pagination,
     @FilterArgs({
       type: () => FilterCitiesInput,
     })

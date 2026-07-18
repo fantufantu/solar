@@ -1,6 +1,7 @@
 import { TouristPlanService } from './tourist-plan.service';
 import {
   Args,
+  Int,
   Mutation,
   Parent,
   Query,
@@ -68,6 +69,15 @@ export class TouristPlanResolver {
     @PaginationArgs() pagination: Pagination,
   ) {
     return this.touristPlanService.touristPlans({ filter, pagination });
+  }
+
+  @Query(() => Int, {
+    description: '查询指定`belongToId`当日已创建出行计划个数',
+  })
+  countTouristPlansToday(
+    @Args('belongToId') belongToId: string,
+  ): Promise<number> {
+    return this.touristPlanService.countTodayByBelongToId(belongToId);
   }
 
   @ResolveField('cities', () => [City], {
