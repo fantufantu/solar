@@ -48,6 +48,11 @@ export class TouristPlanResolver {
     return this.touristPlanService.bindTouristPlans(belongToId, user.id);
   }
 
+  @Mutation(() => Boolean, { description: '删除出行计划' })
+  deleteTouristPlan(@Args('id') id: string): Promise<boolean> {
+    return this.touristPlanService.remove(id);
+  }
+
   @Mutation(() => TouristPlan, { description: '解析出行计划为结构化行程数据' })
   parseTouristPlan(@Args('id') id: string): Promise<TouristPlan> {
     return this.touristPlanService.parseTouristPlan(id);

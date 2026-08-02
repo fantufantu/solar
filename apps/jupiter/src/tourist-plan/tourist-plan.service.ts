@@ -21,7 +21,7 @@ import {
   TouristPlan,
   TOURIST_PLAN_SCHEMA,
 } from '@/libs/database/entities/jupiter/tourist-plan.entity';
-import { Between, Repository } from 'typeorm';
+import { Between, IsNull, Repository } from 'typeorm';
 import { Query } from 'typings/controller';
 import { FilterTouristPlansInput } from './dto/filter-tourist-plans.input';
 import dayjs from 'dayjs';
@@ -115,11 +115,12 @@ export class TouristPlanService {
     filter,
   }: Query<FilterTouristPlansInput>) {
     const qb = this.touristPlanRepository
-      .createQueryBuilder()
+      .createQueryBuilder('tourist_plan')
       .where('1 = 1')
       .andWhere('belong_to_id = :belongToId', {
         belongToId: filter?.belongToId,
-      });
+      })
+      .andWhere('tourist_plan.deleted_at IS NULL');
 
     return await qb
       .skip((page - 1) * limit)
@@ -288,7 +289,7 @@ export class TouristPlanService {
     }
 
     const { affected } = await this.touristPlanRepository.update(
-      { belongToId },
+      { belongToId, deletedAt: IsNull() },
       { belongToId: userId },
     );
     return (affected ?? 0) > 0;
@@ -306,6 +307,14 @@ export class TouristPlanService {
       createdAt: Between(todayStart, todayEnd),
     });
     return count;
+  }
+
+  /**
+   * 删除出行计划（软删除）
+   */
+  async remove(id: string): Promise<boolean> {
+    const { affected } = await this.touristPlanRepository.softDelete(id);
+    return (affected ?? 0) > 0;
   }
 
   /**

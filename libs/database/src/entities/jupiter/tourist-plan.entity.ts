@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { TimeStamped } from '../any-use/time-stamped.entity';
 import { ITINERARY_SCHEMA } from './tourist-plan-itinerary.entity';
 import { z } from 'zod';
@@ -81,4 +81,10 @@ export class TouristPlan extends TimeStamped {
     nullable: false,
   })
   belongToId!: string;
+
+  @DeleteDateColumn({
+    name: 'deleted_at',
+    comment: '删除时间',
+  })
+  deletedAt: Date | null = null;
 }
