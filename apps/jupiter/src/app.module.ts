@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TouristPlanModule } from './tourist-plan/tourist-plan.module';
 import { TouristPlanItineraryModule } from './tourist-plan-itinerary/tourist-plan-itinerary.module';
 import { MembershipModule } from './membership/membership.module';
-import { CityModule } from './city/city.module';
+import { DistrictModule } from './district/district.module';
 import { AttractionModule } from './attraction/attraction.module';
 import { PlutoClientModule } from '@/libs/pluto-client';
 import { MercuryClientModule } from '@/libs/mercury-client';
@@ -52,8 +52,8 @@ import { PassportModule } from '@/libs/passport';
     // 会员等级模块
     MembershipModule,
 
-    // 城市模块
-    CityModule,
+    // 行政区模块
+    DistrictModule,
 
     // 景区模块
     AttractionModule,

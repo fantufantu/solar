@@ -14,7 +14,7 @@ import { useProposalPrompt } from './prompts/proposal.prompt';
 import { useParseTextPrompt } from './prompts/parse-text.prompt';
 import { CreateTouristPlanInput } from './dto/create-tourist-plan.input';
 import { UserService } from '../user/user.service';
-import { CityService } from '../city/city.service';
+import { DistrictService } from '../district/district.service';
 import { AttractionService } from '../attraction/attraction.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
@@ -40,7 +40,7 @@ export class TouristPlanService {
     private readonly touristPlanRepository: Repository<TouristPlan>,
     @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
-    private readonly cityService: CityService,
+    private readonly districtService: DistrictService,
     private readonly attractionService: AttractionService,
     private readonly itineraryService: TouristPlanItineraryService,
     private readonly mercuryClient: MercuryClientService,
@@ -138,10 +138,10 @@ export class TouristPlanService {
       return _touristPlan.proposal;
     }
 
-    const [cityNames = [], attractionNames = []] = await Promise.all([
-      this.cityService
-        .citiesByCodes(_touristPlan.cityCodes)
-        .then((cities) => cities.map((city) => city.name))
+    const [districtNames = [], attractionNames = []] = await Promise.all([
+      this.districtService
+        .districtsByCodes(_touristPlan.districtCodes)
+        .then((districts) => districts.map((district) => district.name))
         .catch(() => void 0),
       this.attractionService
         .attractionsByCodes(_touristPlan.attractionCodes)
@@ -168,7 +168,7 @@ export class TouristPlanService {
         },
       ]),
       useProposalPrompt({
-        cities: cityNames.join(','),
+        districts: districtNames.join(','),
         depatureAt: dayjs(_touristPlan.depatureAt).format('YYYY-MM-DD'),
         duration: _touristPlan.duration,
         attractions: attractionNames.join(','),

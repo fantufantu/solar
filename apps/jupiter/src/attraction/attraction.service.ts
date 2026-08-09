@@ -19,14 +19,14 @@ export class AttractionService {
    */
   async attractions({
     pagination: { limit, page } = { limit: 10, page: 1 },
-    filter: { keyword, cityCode } = {},
+    filter: { keyword, districtCode } = {},
   }: Query<FilterAttractionsInput>) {
     const _queryBuilder = this.attractionRepository
       .createQueryBuilder()
       .where('1 = 1');
 
-    if (cityCode) {
-      _queryBuilder.andWhere('city_code = :cityCode', { cityCode });
+    if (districtCode) {
+      _queryBuilder.andWhere('district_code = :districtCode', { districtCode });
     }
 
     if (keyword) {

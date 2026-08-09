@@ -12,7 +12,10 @@ export const useParseTextPrompt = (input: UseParseTextPromptInput) => {
 
   const template = ChatPromptTemplate.fromMessages([
     ['system', systemMessage],
-    ['human', '请解析以下文本，严格按照指定的 JSON Schema 格式输出：\n\n{text}'],
+    [
+      'human',
+      '请解析以下文本，严格按照指定的 JSON Schema 格式输出：\n\n{text}',
+    ],
   ]);
 
   return template.invoke(input);

@@ -13,14 +13,14 @@ export class Attraction extends Authored {
   @Column({ type: 'varchar', length: 40, comment: '景区名称' })
   name!: string;
 
-  @Field(() => String, { description: '目的地城市`code`' })
+  @Field(() => String, { description: '目的地行政区`code`' })
   @Column({
-    name: 'city_code',
+    name: 'district_code',
     type: 'varchar',
     length: 40,
-    comment: '目的地城市`code`',
+    comment: '目的地行政区`code`',
   })
-  cityCode!: string;
+  districtCode!: string;
 
   @Field(() => String, { description: '景点代表图' })
   @Column({

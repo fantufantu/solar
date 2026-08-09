@@ -1,27 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
-import { City } from '@/libs/database/entities/jupiter/city.entity';
-import { CityService } from '../city/city.service';
+import { District } from '@/libs/database/entities/jupiter/district.entity';
+import { DistrictService } from '../district/district.service';
 import { toArray } from '@aiszlab/relax';
 
 @Injectable()
 export class AttractionLoader {
-  constructor(private readonly cityService: CityService) {}
+  constructor(private readonly districtService: DistrictService) {}
 
   /**
    * @description
-   * 根据城市`code`批量获取城市信息，避免 N+1 查询问题
+   * 根据行政区`code`批量获取行政区信息，避免 N+1 查询问题
    */
-  public readonly cities = new DataLoader<string, City | null>(
+  public readonly districts = new DataLoader<string, District | null>(
     async (codes: readonly string[]) => {
-      const cities = new Map(
-        (await this.cityService.citiesByCodes(toArray(codes))).map((city) => [
-          city.code,
-          city,
-        ]),
+      const districts = new Map(
+        (await this.districtService.districtsByCodes(toArray(codes))).map(
+          (district) => [district.code, district],
+        ),
       );
 
-      return codes.map((code) => cities.get(code) ?? null);
+      return codes.map((code) => districts.get(code) ?? null);
     },
     {
       cache: false,

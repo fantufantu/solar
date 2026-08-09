@@ -7,7 +7,7 @@ import { TouristPlanResolver } from './tourist-plan.resolver';
 import { TouristPlanLoader } from './tourist-plan.loader';
 import { TouristPlanItineraryModule } from '../tourist-plan-itinerary/tourist-plan-itinerary.module';
 import { UserModule } from '../user/user.module';
-import { CityModule } from '../city/city.module';
+import { DistrictModule } from '../district/district.module';
 import { AttractionModule } from '../attraction/attraction.module';
 
 @Module({
@@ -15,7 +15,7 @@ import { AttractionModule } from '../attraction/attraction.module';
     TypeOrmModule.forFeature([TouristPlan]),
     TouristPlanItineraryModule,
     forwardRef(() => UserModule),
-    CityModule,
+    DistrictModule,
     AttractionModule,
   ],
   controllers: [TouristPlanController],

@@ -10,7 +10,7 @@ import {
 } from '@nestjs/graphql';
 import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entity';
 import { TouristPlanItinerary } from '@/libs/database/entities/jupiter/tourist-plan-itinerary.entity';
-import { City } from '@/libs/database/entities/jupiter/city.entity';
+import { District } from '@/libs/database/entities/jupiter/district.entity';
 import { Attraction } from '@/libs/database/entities/jupiter/attraction.entity';
 import { CreateTouristPlanInput } from './dto/create-tourist-plan.input';
 import { Pagination } from 'assets/dto/pagination.input';
@@ -85,13 +85,15 @@ export class TouristPlanResolver {
     return this.touristPlanService.countTodayByBelongToId(belongToId);
   }
 
-  @ResolveField('cities', () => [City], {
-    description: '出行目的地城市列表',
+  @ResolveField('districts', () => [District], {
+    description: '出行目的地行政区列表',
   })
-  async cities(@Parent() touristPlan: TouristPlan): Promise<City[]> {
-    return (await this.touristPlanLoader.cities.loadMany(touristPlan.cityCodes))
+  async districts(@Parent() touristPlan: TouristPlan): Promise<District[]> {
+    return (
+      await this.touristPlanLoader.districts.loadMany(touristPlan.districtCodes)
+    )
       .values()
-      .filter((item): item is City => !!item && !(item instanceof Error))
+      .filter((item): item is District => !!item && !(item instanceof Error))
       .toArray();
   }
 

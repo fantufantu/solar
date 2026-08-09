@@ -1,5 +1,10 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { TimeStamped } from '../any-use/time-stamped.entity';
 import { ITINERARY_SCHEMA } from './tourist-plan-itinerary.entity';
 import { z } from 'zod';
@@ -21,14 +26,14 @@ export class TouristPlan extends TimeStamped {
   id!: string;
 
   @Field(() => [String], {
-    description: '出行目的地城市`code`列表',
+    description: '出行目的地行政区`code`列表',
   })
   @Column({
-    name: 'city_codes',
+    name: 'district_codes',
     type: 'json',
-    comment: '出行目的地城市`code`列表',
+    comment: '出行目的地行政区`code`列表',
   })
-  cityCodes!: string[];
+  districtCodes!: string[];
 
   @Field(() => Date, {
     description: '出发日期',

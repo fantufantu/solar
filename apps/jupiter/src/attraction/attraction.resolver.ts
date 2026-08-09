@@ -10,7 +10,7 @@ import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { AttractionService } from './attraction.service';
 import { AttractionLoader } from './attraction.loader';
 import { Attraction } from '@/libs/database/entities/jupiter/attraction.entity';
-import { City } from '@/libs/database/entities/jupiter/city.entity';
+import { District } from '@/libs/database/entities/jupiter/district.entity';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
@@ -85,9 +85,9 @@ export class AttractionResolver {
     return this.attractionService.delete(code);
   }
 
-  @ResolveField('city', () => City, { description: '所属城市' })
-  city(@Parent() attraction: Attraction) {
-    return this.attractionLoader.cities.load(attraction.cityCode);
+  @ResolveField('district', () => District, { description: '所属行政区' })
+  district(@Parent() attraction: Attraction) {
+    return this.attractionLoader.districts.load(attraction.districtCode);
   }
 
   @ResolveField('createdBy', () => User, { description: '创建人' })

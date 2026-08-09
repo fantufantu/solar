@@ -1,7 +1,7 @@
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 
 interface UsingProposalPrompt {
-  cities: string;
+  districts: string;
   depatureAt: string;
   duration: number;
   attractions: string;
@@ -10,7 +10,7 @@ interface UsingProposalPrompt {
 export const useProposalPrompt = (input: UsingProposalPrompt) => {
   const template = ChatPromptTemplate.fromMessages([
     ChatPromptTemplate.fromTemplate(
-      '为我规划一个前往{cities}的计划，于{depatureAt}出发，为期{duration}天，前往景点列表为{attractions}',
+      '为我规划一个前往{districts}的计划，于{depatureAt}出发，为期{duration}天，前往景点列表为{attractions}',
     ),
   ]);
 
