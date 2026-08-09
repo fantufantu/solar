@@ -34,6 +34,7 @@ export class DistrictService {
     }
 
     return await _queryBuilder
+      .andWhere('deletedAt IS NULL')
       .skip((page - 1) * limit)
       .take(limit)
       .getManyAndCount();
@@ -53,13 +54,35 @@ export class DistrictService {
     return await this.districtRepository
       .createQueryBuilder()
       .where('code IN (:...codes)', { codes })
+      .andWhere('deletedAt IS NULL')
       .getMany();
   }
 
   /**
    * 创建行政区
+   *
+   * 如果存在相同 code 的已删除记录，则恢复并更新数据
    */
   async create(input: CreateDistrictInput, createdById: string) {
+    const existing = await this.districtRepository.findOne({
+      where: { code: input.code },
+      withDeleted: true,
+    });
+
+    if (existing) {
+      // 已存在且未删除 → 创建失败
+      if (!existing.deletedAt) return false;
+
+      // 已删除 → 恢复并更新
+      await this.districtRepository.recover(existing);
+      await this.districtRepository.update(
+        { code: input.code },
+        this.districtRepository.create({ ...input, updatedById: createdById }),
+      );
+      return true;
+    }
+
+    // 不存在 → 新建
     return !!(
       await this.districtRepository
         .createQueryBuilder()
@@ -80,5 +103,17 @@ export class DistrictService {
         .where({ code })
         .execute()
     ).affected;
+  }
+
+  /**
+   * 删除行政区（软删除）
+   */
+  async delete(code: string, deletedById: string) {
+    const district = await this.districtRepository.findOneBy({ code });
+    if (!district) return false;
+
+    district.deletedById = deletedById;
+    await this.districtRepository.save(district);
+    return true;
   }
 }

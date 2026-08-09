@@ -1,6 +1,6 @@
 import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { Authored } from '../any-use/authored.entity';
+import { Tracked } from '../any-use/tracked.entity';
 
 export enum DistrictLevel {
   CITY = 'city',
@@ -14,7 +14,7 @@ registerEnumType(DistrictLevel, {
 
 @ObjectType()
 @Entity({ comment: '行政区', name: 'district' })
-export class District extends Authored {
+export class District extends Tracked {
   @Field(() => String, { description: '行政区`code`' })
   @PrimaryColumn({ type: 'varchar', length: 40, comment: '行政区`code`' })
   code!: string;

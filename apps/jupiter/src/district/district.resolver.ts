@@ -75,6 +75,18 @@ export class DistrictResolver {
     return this.districtService.update(code, input, whoAmI.id);
   }
 
+  @Mutation(() => Boolean, { description: '删除行政区（软删除）' })
+  @UseGuards(JwtAuthGuard)
+  async deleteDistrict(
+    @Args('code', {
+      type: () => String,
+    })
+    code: string,
+    @WhoAmI() whoAmI: User,
+  ) {
+    return this.districtService.delete(code, whoAmI.id);
+  }
+
   @ResolveField('createdBy', () => User, { description: '创建人' })
   getCreatedBy(@Parent() district: District) {
     return { __typename: User.name, id: district.createdById };
