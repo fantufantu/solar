@@ -1,13 +1,16 @@
+import type { ValueOf } from '@aiszlab/relax/types';
 import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
 import { Tracked } from '../any-use/tracked.entity';
 
-export enum DistrictLevel {
-  CITY = 'city',
-  PROVINCE = 'province',
-}
+export const DISTRICT_LEVEL = {
+  CITY: 'city',
+  PROVINCE: 'province',
+} as const;
 
-registerEnumType(DistrictLevel, {
+export type DistrictLevel = ValueOf<typeof DISTRICT_LEVEL>;
+
+registerEnumType(DISTRICT_LEVEL, {
   name: 'DistrictLevel',
   description: '行政区级别',
 });
@@ -23,7 +26,7 @@ export class District extends Tracked {
   @Column({ type: 'varchar', length: 40, comment: '行政区名称' })
   name!: string;
 
-  @Field(() => DistrictLevel, { description: '行政区级别' })
+  @Field(() => DISTRICT_LEVEL, { description: '行政区级别' })
   @Column({ type: 'varchar', length: 20, comment: '行政区级别' })
   level!: DistrictLevel;
 
