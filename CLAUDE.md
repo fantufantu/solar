@@ -92,6 +92,8 @@ Entities in `libs/database/src/entities/` follow this hierarchy from `any-use/`:
 
 All entity classes carry both TypeORM and GraphQL decorators. The `@ObjectType` decorator on base classes means subclasses inherit GraphQL fields automatically. **创建数据库实体时不需要单独写 SQL 文件**，表结构通过 TypeORM 装饰器定义，数据库同步由运维侧管理（项目内 `synchronize: false`）。
 
+**铁律：数据库列名必须使用 snake_case（全小写+下划线）**。TypeORM 默认以属性名作为列名，因此所有 `@Column`、`@JoinColumn` 等装饰器必须显式指定 `name` 为 snake_case 格式。例如属性 `parentCode` → 列名 `parent_code`。这包括但不限于 `@Column`、`@JoinColumn`、`@JoinTable`、`@PrimaryColumn`。
+
 ### Microservice client pattern
 Each client library (pluto-client, mercury-client) is a `@Global()` module that:
 1. Creates a `ClientProxy` via `ClientProxyFactory.create({ transport: Transport.TCP, options: { port: <PORT> } })`
