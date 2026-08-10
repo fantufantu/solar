@@ -101,4 +101,20 @@ export class DistrictResolver {
   attractionCount(@Parent() district: District) {
     return this.districtLoader.attractionCount.load(district.code);
   }
+
+  @ResolveField('parent', () => District, {
+    nullable: true,
+    description: '父级行政区',
+  })
+  parent(@Parent() district: District) {
+    if (!district.parentCode) return null;
+    return this.districtService.district(district.parentCode);
+  }
+
+  @ResolveField('children', () => [District], {
+    description: '子级行政区列表',
+  })
+  children(@Parent() district: District) {
+    return this.districtLoader.children.load(district.code);
+  }
 }

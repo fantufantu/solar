@@ -121,5 +121,8 @@ Jupiter uses LangChain with OpenAI-compatible APIs for AI-powered trip planning:
 - `chat.withStructuredOutput(schema, { method: 'functionCalling' })` produces typed JSON output via Zod schemas
 - SSE streaming uses RxJS `Observable<MessageEvent>` with `map`, `endWith`, `shareReplay`
 
+### Coding style
+- **分组/聚合优先用 `for...of`**，不用 `reduce`。`for...of` 可读性更好，且避免 `reduce` 里重复 `Map.get` 的问题。
+
 ### Utility library
 The project uses `@aiszlab/relax` for shared utilities: `ValueOf` type (extracts union of values from a const object), `PartialTuple`, `isString`. Constants files use `ValueOf<typeof CONST>` to create narrow string literal unions from `as const` objects.

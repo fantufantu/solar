@@ -1,5 +1,5 @@
 import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
 import { Tracked } from '../any-use/tracked.entity';
 
 export enum DistrictLevel {
@@ -30,4 +30,17 @@ export class District extends Tracked {
   @Field(() => String, { description: '行政区代表图' })
   @Column({ type: 'varchar', length: 128, comment: '行政区代表图' })
   image!: string;
+
+  @Field(() => String, { nullable: true, description: '父级行政区`code`' })
+  @Column({ type: 'varchar', length: 40, nullable: true, comment: '父级行政区`code`' })
+  parentCode?: string;
+
+  @Field(() => District, { nullable: true, description: '父级行政区' })
+  @ManyToOne(() => District, (district) => district.children, { nullable: true })
+  @JoinColumn({ referencedColumnName: 'code', name: 'parentCode' })
+  parent?: District;
+
+  @Field(() => [District], { description: '子级行政区列表' })
+  @OneToMany(() => District, (district) => district.parent)
+  children!: District[];
 }
