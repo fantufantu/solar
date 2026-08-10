@@ -21,7 +21,7 @@ export class DistrictService {
     pagination: { limit, page } = { limit: 10, page: 1 },
     filter: { keyword } = {},
   }: Query<FilterDistrictsInput>) {
-    const _queryBuilder = this.districtRepository.createQueryBuilder();
+    const _queryBuilder = this.districtRepository.createQueryBuilder('district');
 
     if (keyword) {
       _queryBuilder
@@ -34,7 +34,7 @@ export class DistrictService {
     }
 
     return await _queryBuilder
-      .andWhere('deletedAt IS NULL')
+      .andWhere('district.deletedAt IS NULL')
       .skip((page - 1) * limit)
       .take(limit)
       .getManyAndCount();
@@ -52,9 +52,9 @@ export class DistrictService {
    */
   async districtsByCodes(codes: string[]): Promise<District[]> {
     return await this.districtRepository
-      .createQueryBuilder()
+      .createQueryBuilder('district')
       .where('code IN (:...codes)', { codes })
-      .andWhere('deletedAt IS NULL')
+      .andWhere('district.deletedAt IS NULL')
       .getMany();
   }
 
