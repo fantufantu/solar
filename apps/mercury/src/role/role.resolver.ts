@@ -16,7 +16,7 @@ import { Authorization } from 'utils/decorators/authorization.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import {
   Authorization as AuthorizationEntity,
-  AuthorizationActionCode,
+  AUTHORIZATION_ACTION_CODE,
 } from '@/libs/database/entities/mercury/authorization.entity';
 import { UseInterceptors } from '@nestjs/common';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
@@ -31,7 +31,7 @@ export class RoleResolver {
   })
   @Authorization({
     resource: Role.name,
-    action: AuthorizationActionCode.Create,
+    action: AUTHORIZATION_ACTION_CODE.CREATE,
   })
   createRole(@Args('input') input: CreateRoleInput) {
     return this.roleService.create(input);
@@ -43,7 +43,7 @@ export class RoleResolver {
   @UseInterceptors(PaginatedInterceptor)
   @Authorization({
     resource: Role.name,
-    action: AuthorizationActionCode.Read,
+    action: AUTHORIZATION_ACTION_CODE.READ,
   })
   paginateRoles(@PaginationArgs() pagination: Pagination) {
     return this.roleService.paginate({
@@ -54,7 +54,7 @@ export class RoleResolver {
   @Query(() => Role, { description: '查询单个角色' })
   @Authorization({
     resource: Role.name,
-    action: AuthorizationActionCode.Read,
+    action: AUTHORIZATION_ACTION_CODE.READ,
   })
   role(@Args('code', { type: () => String }) code: string) {
     return this.roleService.role(code);
@@ -65,7 +65,7 @@ export class RoleResolver {
   })
   @Authorization({
     resource: Role.name,
-    action: AuthorizationActionCode.Update,
+    action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   updateRole(
     @Args('code', { type: () => String }) code: string,
@@ -79,7 +79,7 @@ export class RoleResolver {
   })
   @Authorization({
     resource: Role.name,
-    action: AuthorizationActionCode.Delete,
+    action: AUTHORIZATION_ACTION_CODE.DELETE,
   })
   removeRole(@Args('code', { type: () => String }) code: string) {
     return this.roleService.remove(code);
@@ -98,7 +98,7 @@ export class RoleResolver {
   })
   @Authorization({
     resource: Role.name,
-    action: AuthorizationActionCode.Update,
+    action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   assignAuthorizations(
     @Args('input', { type: () => AssignAuthorizationsInput })

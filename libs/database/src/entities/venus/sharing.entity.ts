@@ -1,13 +1,16 @@
+import type { ValueOf } from '@aiszlab/relax/types';
 import { ObjectType, Field, Int, registerEnumType } from '@nestjs/graphql';
 import { GRAPHQL_ENUM_TOKEN } from 'constants/common.constant';
 import { Entity, PrimaryColumn, Unique } from 'typeorm';
 
-export enum TargetType {
-  Billing = 'billing',
-  Transaction = 'transaction',
-}
+export const TARGET_TYPE = {
+  BILLING: 'billing',
+  TRANSACTION: 'transaction',
+} as const;
 
-registerEnumType(TargetType, {
+export type TargetType = ValueOf<typeof TARGET_TYPE>;
+
+registerEnumType(TARGET_TYPE, {
   name: GRAPHQL_ENUM_TOKEN.SHARING_TARGET_TYPE,
   description: '共享对象类型',
 });
@@ -16,12 +19,12 @@ registerEnumType(TargetType, {
 @Unique(['targetType', 'targetId', 'sharedById'])
 @Entity()
 export class Sharing {
-  @Field(() => TargetType, {
+  @Field(() => TARGET_TYPE, {
     description: '共享对象类型',
   })
   @PrimaryColumn({
     type: 'enum',
-    enum: TargetType,
+    enum: TARGET_TYPE,
     name: 'target_type',
   })
   targetType!: TargetType;

@@ -126,6 +126,7 @@
       "^@/libs/pluto-client(|/.*)$": "<rootDir>/libs/pluto-client/src/$1",
       "^@/libs/cache(|/.*)$": "<rootDir>/libs/cache/src/$1",
       "^assets/(.*)$": "<rootDir>/assets/$1",
+      "^constants/(.*)$": "<rootDir>/constants/$1",
       "^utils/(.*)$": "<rootDir>/utils/$1"
     }
   }

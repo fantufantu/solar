@@ -1,9 +1,12 @@
-import { LimitDuration } from 'assets/entities/limit-duration.billing.enum';
+import {
+  LIMIT_DURATION,
+  LimitDuration,
+} from 'assets/entities/limit-duration.billing.enum';
 import { InputType, Field, Float } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateBillingLimitationInput {
-  @Field(() => LimitDuration, {
+  @Field(() => LIMIT_DURATION, {
     description: '限制时间段',
   })
   limitDuration: LimitDuration;

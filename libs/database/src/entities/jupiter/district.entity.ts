@@ -1,6 +1,14 @@
 import type { ValueOf } from '@aiszlab/relax/types';
 import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import { GRAPHQL_ENUM_TOKEN } from 'constants/common.constant';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryColumn,
+} from 'typeorm';
 import { Tracked } from '../any-use/tracked.entity';
 
 export const DISTRICT_LEVEL = {
@@ -11,7 +19,7 @@ export const DISTRICT_LEVEL = {
 export type DistrictLevel = ValueOf<typeof DISTRICT_LEVEL>;
 
 registerEnumType(DISTRICT_LEVEL, {
-  name: 'DistrictLevel',
+  name: GRAPHQL_ENUM_TOKEN.DISTRICT_LEVEL,
   description: '行政区级别',
 });
 
@@ -35,11 +43,19 @@ export class District extends Tracked {
   image!: string;
 
   @Field(() => String, { nullable: true, description: '父级行政区`code`' })
-  @Column({ type: 'varchar', length: 40, name: 'parent_code', nullable: true, comment: '父级行政区`code`' })
+  @Column({
+    type: 'varchar',
+    length: 40,
+    name: 'parent_code',
+    nullable: true,
+    comment: '父级行政区`code`',
+  })
   parentCode?: string;
 
   @Field(() => District, { nullable: true, description: '父级行政区' })
-  @ManyToOne(() => District, (district) => district.children, { nullable: true })
+  @ManyToOne(() => District, (district) => district.children, {
+    nullable: true,
+  })
   @JoinColumn({ referencedColumnName: 'code', name: 'parent_code' })
   parent?: District;
 

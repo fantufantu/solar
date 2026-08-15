@@ -1,3 +1,4 @@
+import type { ValueOf } from '@aiszlab/relax/types';
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Column, Entity } from 'typeorm';
 import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
@@ -9,22 +10,28 @@ import { SYSTEM_WILDCARD } from 'constants/common.constant';
  * 分：增、查、改、删、`All`
  * `All` 比较特殊，表示拥有对整个资源的操作权限
  */
-export enum AuthorizationActionCode {
-  Create = 'create',
-  Read = 'read',
-  Update = 'update',
-  Delete = 'delete',
-  All = 'all',
-}
+export const AUTHORIZATION_ACTION_CODE = {
+  CREATE: 'create',
+  READ: 'read',
+  UPDATE: 'update',
+  DELETE: 'delete',
+  ALL: 'all',
+} as const;
+
+export type AuthorizationActionCode = ValueOf<typeof AUTHORIZATION_ACTION_CODE>;
 
 /**
  * 权限-资源
  */
-export enum AuthorizationResourceCode {
-  All = 'all',
-}
+export const AUTHORIZATION_RESOURCE_CODE = {
+  ALL: 'all',
+} as const;
 
-registerEnumType(AuthorizationActionCode, {
+export type AuthorizationResourceCode = ValueOf<
+  typeof AUTHORIZATION_RESOURCE_CODE
+>;
+
+registerEnumType(AUTHORIZATION_ACTION_CODE, {
   name: GRAPHQL_ENUM_TOKEN.AUTHORIZATION_ACTION_CODE,
   description: '权限操作code',
 });
@@ -47,12 +54,12 @@ export class Authorization extends IdentifiedTracked {
   })
   resourceCode!: string;
 
-  @Field(() => AuthorizationActionCode, {
+  @Field(() => AUTHORIZATION_ACTION_CODE, {
     description: '操作`code`',
   })
   @Column({
     type: 'enum',
-    enum: AuthorizationActionCode,
+    enum: AUTHORIZATION_ACTION_CODE,
     name: 'action_code',
     comment: '操作`code`',
   })

@@ -4,8 +4,8 @@ import { EntityManager, type Repository } from 'typeorm';
 import { Role } from '@/libs/database/entities/mercury/role.entity';
 import {
   Authorization,
-  AuthorizationActionCode,
-  AuthorizationResourceCode,
+  AUTHORIZATION_ACTION_CODE,
+  AUTHORIZATION_RESOURCE_CODE,
 } from '@/libs/database/entities/mercury/authorization.entity';
 import type { CreateRoleInput } from './dto/create-role.input';
 import type { UpdateRoleInput } from './dto/update-role.input';
@@ -141,11 +141,11 @@ export class RoleService {
       .andWhere('authorization.resourceCode IN (:...resourceCodes)', {
         resourceCodes: [
           authorizationPoint.resource,
-          AuthorizationResourceCode.All,
+          AUTHORIZATION_RESOURCE_CODE.ALL,
         ],
       })
       .andWhere('authorization.actionCode IN (:...actionCodes)', {
-        actionCodes: [authorizationPoint.action, AuthorizationActionCode.All],
+        actionCodes: [authorizationPoint.action, AUTHORIZATION_ACTION_CODE.ALL],
       });
 
     return (await qb.getCount()) > 0;

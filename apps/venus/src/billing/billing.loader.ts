@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
 import {
   Sharing,
-  TargetType,
+  TARGET_TYPE,
 } from '@/libs/database/entities/venus/sharing.entity';
 import { SharingService } from '../sharing/sharing.service';
 import { toArray } from '@aiszlab/relax';
@@ -19,7 +19,7 @@ export class BillingLoader {
     async (billingIds: readonly number[]) => {
       // 查询分享列表
       const sharings = await this.sharingService.sharings({
-        targetType: TargetType.Billing,
+        targetType: TARGET_TYPE.BILLING,
         targetIds: toArray(billingIds),
       });
 

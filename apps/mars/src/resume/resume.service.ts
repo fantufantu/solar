@@ -10,7 +10,7 @@ import { Resume } from '@/libs/database/entities/mars/resume.entity';
 import { Brackets, Repository } from 'typeorm';
 import { MercuryClientService } from '@/libs/mercury-client';
 import { Pagination } from 'assets/dto/pagination.input';
-import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
+import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
 import dayjs from 'dayjs';
 import { ResumesWhere } from './dto/resumes';
 
@@ -94,7 +94,7 @@ export class ResumeService {
   async resumes({ who }: ResumesWhere, pagination: Pagination) {
     const isResumeAdmin = await this.mercuryClientService.isAuthorized(who, {
       resource: Resume.name,
-      action: AuthorizationActionCode.All,
+      action: AUTHORIZATION_ACTION_CODE.ALL,
     });
 
     const qb = this.resumeRepository

@@ -1,6 +1,9 @@
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { Column, DeleteDateColumn, Entity } from 'typeorm';
-import { LimitDuration } from 'assets/entities/limit-duration.billing.enum';
+import {
+  LIMIT_DURATION,
+  LimitDuration,
+} from 'assets/entities/limit-duration.billing.enum';
 import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
 
 @ObjectType()
@@ -14,13 +17,13 @@ export class Billing extends IdentifiedTracked {
   })
   name!: string;
 
-  @Field(() => LimitDuration, {
+  @Field(() => LIMIT_DURATION, {
     description: '限制时间段',
     nullable: true,
   })
   @Column({
     type: 'enum',
-    enum: LimitDuration,
+    enum: LIMIT_DURATION,
     nullable: true,
     name: 'limit_duration',
     comment: '限制时间段',

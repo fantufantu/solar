@@ -1,5 +1,6 @@
 import type { ValueOf } from '@aiszlab/relax/types';
 import { Field, InputType, registerEnumType } from '@nestjs/graphql';
+import { GRAPHQL_ENUM_TOKEN } from 'constants/common.constant';
 import {
   ArrayNotEmpty,
   ArrayUnique,
@@ -16,15 +17,15 @@ import {
 } from '@/libs/database/entities/jupiter/district.entity';
 
 export const DISTRICT_SYNC_ACTION = {
-  CREATE: 'CREATE',
-  UPDATE: 'UPDATE',
-  DELETE: 'DELETE',
+  CREATE: 'create',
+  UPDATE: 'update',
+  DELETE: 'delete',
 } as const;
 
 export type DistrictSyncAction = ValueOf<typeof DISTRICT_SYNC_ACTION>;
 
 registerEnumType(DISTRICT_SYNC_ACTION, {
-  name: 'DistrictSyncAction',
+  name: GRAPHQL_ENUM_TOKEN.DISTRICT_SYNC_ACTION,
   description: '行政区同步操作类型',
 });
 
