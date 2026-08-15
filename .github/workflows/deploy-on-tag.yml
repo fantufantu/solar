@@ -1,0 +1,57 @@
+name: Deploy on tag
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Update the remote repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+
+    steps:
+      - name: Configure SSH
+        env:
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Pull changes and install dependencies
+        run: |
+          set -euo pipefail
+          ssh_port="${SSH_PORT:-22}"
+          printf -v quoted_deploy_path '%q' "$DEPLOY_PATH"
+
+          ssh \
+            -i ~/.ssh/deploy_key \
+            -p "$ssh_port" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$SSH_USERNAME@$SSH_HOST" \
+            "bash -se -- $quoted_deploy_path" <<'REMOTE_SCRIPT'
+          set -euo pipefail
+          cd -- "$1"
+          git pull --ff-only
+          pnpm i
+          pnpm deploy:pm2
+          REMOTE_SCRIPT

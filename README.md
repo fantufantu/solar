@@ -45,3 +45,24 @@ npm i -g pm2
 ```
 apt install -y nginx
 ```
+
+### Tag 自动部署
+
+推送任意 Git tag 后，GitHub Actions 会通过 SSH 进入服务器，在部署目录依次执行
+`git pull --ff-only`、`pnpm i` 和 `pnpm deploy:pm2`。
+
+`deploy:pm2` 不使用并行的 `pm2 restart all`，而是按照
+Pluto → Mercury → Venus → Earth → Mars → Jupiter → Halley 的依赖顺序逐个启动。
+每个应用的端口开始接受连接后才会启动下一个应用；默认等待 60 秒，超时会输出对应应用最近
+50 行 PM2 日志并终止部署。可以通过服务器上的 `PM2_START_TIMEOUT_SECONDS` 环境变量调整等待时间。
+
+需要在仓库的 Actions secrets 中配置：
+
+| Secret | 说明 |
+| --- | --- |
+| `SSH_HOST` | 远程服务器地址 |
+| `SSH_PORT` | SSH 端口；留空时使用 `22` |
+| `SSH_USERNAME` | SSH 登录用户名 |
+| `SSH_PRIVATE_KEY` | 用于登录的私钥原文 |
+| `SSH_KNOWN_HOSTS` | 服务器的 `known_hosts` 条目，可通过 `ssh-keyscan -H <host>` 获取并核对指纹 |
+| `DEPLOY_PATH` | 远程服务器上的仓库绝对路径 |
