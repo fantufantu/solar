@@ -22,6 +22,7 @@ import { PaginatedDistricts } from './dto/paginated-districts.object';
 import { FilterDistrictsInput } from './dto/filter-districts.input';
 import { UpdateDistrictInput } from './dto/update-district.input';
 import { CreateDistrictInput } from './dto/create-district.input';
+import { SyncDistrictsInput } from './dto/sync-districts.input';
 
 @Resolver(() => District)
 export class DistrictResolver {
@@ -85,6 +86,15 @@ export class DistrictResolver {
     @WhoAmI() whoAmI: User,
   ) {
     return this.districtService.delete(code, whoAmI.id);
+  }
+
+  @Mutation(() => Boolean, { description: '批量同步行政区' })
+  @UseGuards(JwtAuthGuard)
+  async syncDistricts(
+    @Args('input') input: SyncDistrictsInput,
+    @WhoAmI() whoAmI: User,
+  ) {
+    return this.districtService.sync(input, whoAmI.id);
   }
 
   @ResolveField('createdBy', () => User, { description: '创建人' })

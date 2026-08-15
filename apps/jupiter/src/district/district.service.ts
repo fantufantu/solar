@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { District } from '@/libs/database/entities/jupiter/district.entity';
@@ -6,6 +11,10 @@ import { Query } from 'typings/controller';
 import { FilterDistrictsInput } from './dto/filter-districts.input';
 import { UpdateDistrictInput } from './dto/update-district.input';
 import { CreateDistrictInput } from './dto/create-district.input';
+import {
+  DISTRICT_SYNC_ACTION,
+  SyncDistrictsInput,
+} from './dto/sync-districts.input';
 
 @Injectable()
 export class DistrictService {
@@ -21,7 +30,8 @@ export class DistrictService {
     pagination: { limit, page } = { limit: 10, page: 1 },
     filter: { keyword } = {},
   }: Query<FilterDistrictsInput>) {
-    const _queryBuilder = this.districtRepository.createQueryBuilder('district');
+    const _queryBuilder =
+      this.districtRepository.createQueryBuilder('district');
 
     if (keyword) {
       _queryBuilder
@@ -71,14 +81,16 @@ export class DistrictService {
 
     if (existing) {
       // 已存在且未删除 → 创建失败
-      if (!existing.deletedAt) return false;
+      if (!existing.deletedAt) {
+        throw new ConflictException(`District ${input.code} already exists`);
+      }
 
       // 已删除 → 恢复并更新
+      Object.assign(existing, input, {
+        updatedById: createdById,
+      });
       await this.districtRepository.recover(existing);
-      await this.districtRepository.update(
-        { code: input.code },
-        this.districtRepository.create({ ...input, updatedById: createdById }),
-      );
+      await this.districtRepository.save(existing);
       return true;
     }
 
@@ -96,13 +108,12 @@ export class DistrictService {
    * 更新行政区
    */
   async update(code: string, input: UpdateDistrictInput, updatedById: string) {
-    return !!(
-      await this.districtRepository
-        .createQueryBuilder()
-        .update(this.districtRepository.create({ ...input, updatedById }))
-        .where({ code })
-        .execute()
-    ).affected;
+    const district = await this.districtRepository.findOneBy({ code });
+    if (!district) throw new NotFoundException(`District ${code} not found`);
+
+    Object.assign(district, input, { updatedById });
+    await this.districtRepository.save(district);
+    return true;
   }
 
   /**
@@ -110,10 +121,46 @@ export class DistrictService {
    */
   async delete(code: string, deletedById: string) {
     const district = await this.districtRepository.findOneBy({ code });
-    if (!district) return false;
+    if (!district) throw new NotFoundException(`District ${code} not found`);
 
     district.deletedById = deletedById;
-    await this.districtRepository.save(district);
+    await this.districtRepository.softRemove(district);
+    return true;
+  }
+
+  /** 批量同步行政区。 */
+  async sync({ items }: SyncDistrictsInput, userId: string) {
+    if (!items.length)
+      throw new BadRequestException('District sync list is empty');
+
+    const codes = new Set<string>();
+    for (const item of items) {
+      if (codes.has(item.code)) {
+        throw new BadRequestException(
+          `Duplicate or conflicting operations for district ${item.code}`,
+        );
+      }
+      codes.add(item.code);
+    }
+
+    for (const item of items) {
+      const { action, code, ...fields } = item;
+      switch (action) {
+        case DISTRICT_SYNC_ACTION.CREATE:
+          await this.create({ code, ...fields } as CreateDistrictInput, userId);
+          break;
+        case DISTRICT_SYNC_ACTION.UPDATE:
+          await this.update(code, fields, userId);
+          break;
+        case DISTRICT_SYNC_ACTION.DELETE:
+          await this.delete(code, userId);
+          break;
+        default:
+          throw new BadRequestException(
+            `Unsupported district sync action: ${action}`,
+          );
+      }
+    }
     return true;
   }
 }
