@@ -18,11 +18,6 @@ export const DISTRICT_LEVEL = {
 
 export type DistrictLevel = ValueOf<typeof DISTRICT_LEVEL>;
 
-registerEnumType(DISTRICT_LEVEL, {
-  name: GRAPHQL_ENUM_TOKEN.DISTRICT_LEVEL,
-  description: '行政区级别',
-});
-
 @ObjectType()
 @Entity({ comment: '行政区', name: 'district' })
 export class District extends Tracked {
@@ -34,7 +29,7 @@ export class District extends Tracked {
   @Column({ type: 'varchar', length: 40, comment: '行政区名称' })
   name!: string;
 
-  @Field(() => DISTRICT_LEVEL, { description: '行政区级别' })
+  @Field(() => String, { description: '行政区级别' })
   @Column({ type: 'varchar', length: 20, comment: '行政区级别' })
   level!: DistrictLevel;
 
