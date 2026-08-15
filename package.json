@@ -102,7 +102,13 @@
     "rootDir": ".",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
+      "^.+\\.(t|j)s$": [
+        "ts-jest",
+        {
+          "isolatedModules": true,
+          "diagnostics": false
+        }
+      ]
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
@@ -118,7 +124,9 @@
       "^@/libs/database(|/.*)$": "<rootDir>/libs/database/src/$1",
       "^@/libs/mercury-client(|/.*)$": "<rootDir>/libs/mercury-client/src/$1",
       "^@/libs/pluto-client(|/.*)$": "<rootDir>/libs/pluto-client/src/$1",
-      "^@/libs/cache(|/.*)$": "<rootDir>/libs/cache/src/$1"
+      "^@/libs/cache(|/.*)$": "<rootDir>/libs/cache/src/$1",
+      "^assets/(.*)$": "<rootDir>/assets/$1",
+      "^utils/(.*)$": "<rootDir>/utils/$1"
     }
   }
 }
