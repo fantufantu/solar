@@ -35,7 +35,7 @@ export class SyncDistrictInput {
   @IsEnum(DISTRICT_SYNC_ACTION)
   action!: DistrictSyncAction;
 
-  @Field(() => String, { description: '行政区 code' })
+  @Field(() => String, { description: '行政区`code`' })
   @IsString()
   @IsNotEmpty()
   code!: string;
@@ -43,16 +43,16 @@ export class SyncDistrictInput {
   @Field(() => String, { nullable: true, description: '行政区名称' })
   @ValidateIf(
     (input: SyncDistrictInput) =>
-      input.action === DISTRICT_SYNC_ACTION.CREATE || input.name !== undefined,
+      input.action === DISTRICT_SYNC_ACTION.CREATE || input.name !== void 0,
   )
   @IsString()
   @IsNotEmpty()
   name?: string;
 
-  @Field(() => DISTRICT_LEVEL, { nullable: true, description: '行政区级别' })
+  @Field(() => String, { nullable: true, description: '行政区级别' })
   @ValidateIf(
     (input: SyncDistrictInput) =>
-      input.action === DISTRICT_SYNC_ACTION.CREATE || input.level !== undefined,
+      input.action === DISTRICT_SYNC_ACTION.CREATE || input.level !== void 0,
   )
   @IsEnum(DISTRICT_LEVEL)
   level?: DistrictLevel;
@@ -60,13 +60,13 @@ export class SyncDistrictInput {
   @Field(() => String, { nullable: true, description: '行政区代表图' })
   @ValidateIf(
     (input: SyncDistrictInput) =>
-      input.action === DISTRICT_SYNC_ACTION.CREATE || input.image !== undefined,
+      input.action === DISTRICT_SYNC_ACTION.CREATE || input.image !== void 0,
   )
   @IsString()
   @IsNotEmpty()
   image?: string;
 
-  @Field(() => String, { nullable: true, description: '父级行政区 code' })
+  @Field(() => String, { nullable: true, description: '父级行政区`code`' })
   @IsOptional()
   @IsString()
   parentCode?: string;
