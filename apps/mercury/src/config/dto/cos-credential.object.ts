@@ -3,9 +3,9 @@ import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { GRAPHQL_ENUM_TOKEN } from 'constants/common.constant';
 
 export const BUCKET_NAME = {
-  FANTU: 'fantu',
-  KNOWTHY: 'knowthy',
-  CABIN_CAB: 'cabin-cab',
+  fantu: 'fantu',
+  knowthy: 'knowthy',
+  'cabin-cab': 'cabin-cab',
 } as const;
 
 export type BucketName = ValueOf<typeof BUCKET_NAME>;

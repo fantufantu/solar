@@ -16,7 +16,7 @@ export class DictionaryResolver {
   @Mutation(() => Dictionary, { description: '创建字典' })
   @Authorization({
     resource: Dictionary.name,
-    action: AUTHORIZATION_ACTION_CODE.CREATE,
+    action: AUTHORIZATION_ACTION_CODE.create,
   })
   createDictionary(@Args('input') input: CreateDictionaryInput) {
     return this.dictionaryService.create(input);
@@ -28,7 +28,7 @@ export class DictionaryResolver {
   })
   @Authorization({
     resource: Dictionary.name,
-    action: AUTHORIZATION_ACTION_CODE.READ,
+    action: AUTHORIZATION_ACTION_CODE.read,
   })
   dictionaries(@PaginationArgs() pagination: Pagination) {
     return this.dictionaryService.getDictionaries({
@@ -39,7 +39,7 @@ export class DictionaryResolver {
   @Query(() => Dictionary, { name: 'dictionary', description: '查询单个字典' })
   @Authorization({
     resource: Dictionary.name,
-    action: AUTHORIZATION_ACTION_CODE.READ,
+    action: AUTHORIZATION_ACTION_CODE.read,
   })
   dictionay(@Args('code', { type: () => String }) code: string) {
     return this.dictionaryService.dictionay(code);
@@ -48,7 +48,7 @@ export class DictionaryResolver {
   @Mutation(() => Boolean, { description: '更新字典' })
   @Authorization({
     resource: Dictionary.name,
-    action: AUTHORIZATION_ACTION_CODE.UPDATE,
+    action: AUTHORIZATION_ACTION_CODE.update,
   })
   updateDictionary(
     @Args('id', { type: () => Int }) id: number,
@@ -60,7 +60,7 @@ export class DictionaryResolver {
   @Mutation(() => Boolean, { description: '删除字典' })
   @Authorization({
     resource: Dictionary.name,
-    action: AUTHORIZATION_ACTION_CODE.DELETE,
+    action: AUTHORIZATION_ACTION_CODE.delete,
   })
   removeDictionary(@Args('id', { type: () => Int }) id: number) {
     return this.dictionaryService.remove(id);

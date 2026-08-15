@@ -60,7 +60,7 @@ function harness(initial: Partial<Stored>[] = []) {
 }
 
 const create = (code: string) => ({
-  action: DISTRICT_SYNC_ACTION.CREATE,
+  action: DISTRICT_SYNC_ACTION.create,
   code,
   name: code,
   level: 'city' as const,
@@ -77,8 +77,8 @@ describe('DistrictService sync', () => {
       {
         items: [
           create('create'),
-          { action: DISTRICT_SYNC_ACTION.UPDATE, code: 'update', name: 'new' },
-          { action: DISTRICT_SYNC_ACTION.DELETE, code: 'delete' },
+          { action: DISTRICT_SYNC_ACTION.update, code: 'update', name: 'new' },
+          { action: DISTRICT_SYNC_ACTION.delete, code: 'delete' },
         ],
       },
       'user-1',
@@ -102,7 +102,7 @@ describe('DistrictService sync', () => {
     });
   });
 
-  it.each([DISTRICT_SYNC_ACTION.UPDATE, DISTRICT_SYNC_ACTION.DELETE])(
+  it.each([DISTRICT_SYNC_ACTION.update, DISTRICT_SYNC_ACTION.delete])(
     'rejects %s for a missing district',
     async (action) => {
       const h = harness();
@@ -126,7 +126,7 @@ describe('DistrictService sync', () => {
         {
           items: [
             create('1'),
-            { action: DISTRICT_SYNC_ACTION.DELETE, code: '1' },
+            { action: DISTRICT_SYNC_ACTION.delete, code: '1' },
           ],
         },
         'user',

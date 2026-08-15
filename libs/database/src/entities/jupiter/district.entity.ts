@@ -12,8 +12,8 @@ import {
 import { Tracked } from '../any-use/tracked.entity';
 
 export const DISTRICT_LEVEL = {
-  CITY: 'city',
-  PROVINCE: 'province',
+  city: 'city',
+  province: 'province',
 } as const;
 
 export type DistrictLevel = ValueOf<typeof DISTRICT_LEVEL>;
