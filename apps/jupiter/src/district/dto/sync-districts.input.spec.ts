@@ -25,18 +25,18 @@ describe('SyncDistrictsInput', () => {
     expect(await validate(input)).not.toHaveLength(0);
 
     input.items = [
-      item({ action: DISTRICT_SYNC_ACTION.delete, code: '1' }),
-      item({ action: DISTRICT_SYNC_ACTION.update, code: '1' }),
+      item({ action: DISTRICT_SYNC_ACTION.DELETE, code: '1' }),
+      item({ action: DISTRICT_SYNC_ACTION.UPDATE, code: '1' }),
     ];
     expect(await validate(input)).not.toHaveLength(0);
   });
 
   it('requires create fields but permits a code-only delete', async () => {
     expect(
-      await validate(item({ action: DISTRICT_SYNC_ACTION.create, code: '1' })),
+      await validate(item({ action: DISTRICT_SYNC_ACTION.CREATE, code: '1' })),
     ).not.toHaveLength(0);
     expect(
-      await validate(item({ action: DISTRICT_SYNC_ACTION.delete, code: '1' })),
+      await validate(item({ action: DISTRICT_SYNC_ACTION.DELETE, code: '1' })),
     ).toHaveLength(0);
   });
 

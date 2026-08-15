@@ -146,13 +146,13 @@ export class DistrictService {
     for (const item of items) {
       const { action, code, ...fields } = item;
       switch (action) {
-        case DISTRICT_SYNC_ACTION.create:
+        case DISTRICT_SYNC_ACTION.CREATE:
           await this.create({ code, ...fields } as CreateDistrictInput, userId);
           break;
-        case DISTRICT_SYNC_ACTION.update:
+        case DISTRICT_SYNC_ACTION.UPDATE:
           await this.update(code, fields, userId);
           break;
-        case DISTRICT_SYNC_ACTION.delete:
+        case DISTRICT_SYNC_ACTION.DELETE:
           await this.delete(code, userId);
           break;
         default:

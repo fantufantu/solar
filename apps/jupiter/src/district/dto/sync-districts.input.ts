@@ -17,9 +17,9 @@ import {
 } from '@/libs/database/entities/jupiter/district.entity';
 
 export const DISTRICT_SYNC_ACTION = {
-  create: 'create',
-  update: 'update',
-  delete: 'delete',
+  CREATE: 'create',
+  UPDATE: 'update',
+  DELETE: 'delete',
 } as const;
 
 export type DistrictSyncAction = ValueOf<typeof DISTRICT_SYNC_ACTION>;
@@ -43,7 +43,7 @@ export class SyncDistrictInput {
   @Field(() => String, { nullable: true, description: '行政区名称' })
   @ValidateIf(
     (input: SyncDistrictInput) =>
-      input.action === DISTRICT_SYNC_ACTION.create || input.name !== undefined,
+      input.action === DISTRICT_SYNC_ACTION.CREATE || input.name !== undefined,
   )
   @IsString()
   @IsNotEmpty()
@@ -52,7 +52,7 @@ export class SyncDistrictInput {
   @Field(() => DISTRICT_LEVEL, { nullable: true, description: '行政区级别' })
   @ValidateIf(
     (input: SyncDistrictInput) =>
-      input.action === DISTRICT_SYNC_ACTION.create || input.level !== undefined,
+      input.action === DISTRICT_SYNC_ACTION.CREATE || input.level !== undefined,
   )
   @IsEnum(DISTRICT_LEVEL)
   level?: DistrictLevel;
@@ -60,7 +60,7 @@ export class SyncDistrictInput {
   @Field(() => String, { nullable: true, description: '行政区代表图' })
   @ValidateIf(
     (input: SyncDistrictInput) =>
-      input.action === DISTRICT_SYNC_ACTION.create || input.image !== undefined,
+      input.action === DISTRICT_SYNC_ACTION.CREATE || input.image !== undefined,
   )
   @IsString()
   @IsNotEmpty()

@@ -141,11 +141,11 @@ export class RoleService {
       .andWhere('authorization.resourceCode IN (:...resourceCodes)', {
         resourceCodes: [
           authorizationPoint.resource,
-          AUTHORIZATION_RESOURCE_CODE.all,
+          AUTHORIZATION_RESOURCE_CODE.ALL,
         ],
       })
       .andWhere('authorization.actionCode IN (:...actionCodes)', {
-        actionCodes: [authorizationPoint.action, AUTHORIZATION_ACTION_CODE.all],
+        actionCodes: [authorizationPoint.action, AUTHORIZATION_ACTION_CODE.ALL],
       });
 
     return (await qb.getCount()) > 0;

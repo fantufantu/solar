@@ -4,8 +4,8 @@ import { GRAPHQL_ENUM_TOKEN } from 'constants/common.constant';
 import { Entity, PrimaryColumn, Unique } from 'typeorm';
 
 export const TARGET_TYPE = {
-  billing: 'billing',
-  transaction: 'transaction',
+  BILLING: 'billing',
+  TRANSACTION: 'transaction',
 } as const;
 
 export type TargetType = ValueOf<typeof TARGET_TYPE>;

@@ -11,11 +11,11 @@ import { SYSTEM_WILDCARD } from 'constants/common.constant';
  * `All` 比较特殊，表示拥有对整个资源的操作权限
  */
 export const AUTHORIZATION_ACTION_CODE = {
-  create: 'create',
-  read: 'read',
-  update: 'update',
-  delete: 'delete',
-  all: 'all',
+  CREATE: 'create',
+  READ: 'read',
+  UPDATE: 'update',
+  DELETE: 'delete',
+  ALL: 'all',
 } as const;
 
 export type AuthorizationActionCode = ValueOf<typeof AUTHORIZATION_ACTION_CODE>;
@@ -24,7 +24,7 @@ export type AuthorizationActionCode = ValueOf<typeof AUTHORIZATION_ACTION_CODE>;
  * 权限-资源
  */
 export const AUTHORIZATION_RESOURCE_CODE = {
-  all: 'all',
+  ALL: 'all',
 } as const;
 
 export type AuthorizationResourceCode = ValueOf<

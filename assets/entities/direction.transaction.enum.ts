@@ -6,8 +6,8 @@ import { GRAPHQL_ENUM_TOKEN } from 'constants/common.constant';
  * 交易方向
  */
 export const DIRECTION = {
-  in: 'in',
-  out: 'out',
+  IN: 'in',
+  OUT: 'out',
 } as const;
 
 export type Direction = ValueOf<typeof DIRECTION>;

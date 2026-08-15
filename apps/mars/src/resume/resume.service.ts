@@ -94,7 +94,7 @@ export class ResumeService {
   async resumes({ who }: ResumesWhere, pagination: Pagination) {
     const isResumeAdmin = await this.mercuryClientService.isAuthorized(who, {
       resource: Resume.name,
-      action: AUTHORIZATION_ACTION_CODE.all,
+      action: AUTHORIZATION_ACTION_CODE.ALL,
     });
 
     const qb = this.resumeRepository
