@@ -31,7 +31,7 @@ export class RoleResolver {
   })
   @Authorization({
     resource: Role.name,
-    action: AUTHORIZATION_ACTION_CODE.create,
+    action: AUTHORIZATION_ACTION_CODE.CREATE,
   })
   createRole(@Args('input') input: CreateRoleInput) {
     return this.roleService.create(input);
@@ -43,7 +43,7 @@ export class RoleResolver {
   @UseInterceptors(PaginatedInterceptor)
   @Authorization({
     resource: Role.name,
-    action: AUTHORIZATION_ACTION_CODE.read,
+    action: AUTHORIZATION_ACTION_CODE.READ,
   })
   paginateRoles(@PaginationArgs() pagination: Pagination) {
     return this.roleService.paginate({
@@ -54,7 +54,7 @@ export class RoleResolver {
   @Query(() => Role, { description: '查询单个角色' })
   @Authorization({
     resource: Role.name,
-    action: AUTHORIZATION_ACTION_CODE.read,
+    action: AUTHORIZATION_ACTION_CODE.READ,
   })
   role(@Args('code', { type: () => String }) code: string) {
     return this.roleService.role(code);
@@ -65,7 +65,7 @@ export class RoleResolver {
   })
   @Authorization({
     resource: Role.name,
-    action: AUTHORIZATION_ACTION_CODE.update,
+    action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   updateRole(
     @Args('code', { type: () => String }) code: string,
@@ -79,7 +79,7 @@ export class RoleResolver {
   })
   @Authorization({
     resource: Role.name,
-    action: AUTHORIZATION_ACTION_CODE.delete,
+    action: AUTHORIZATION_ACTION_CODE.DELETE,
   })
   removeRole(@Args('code', { type: () => String }) code: string) {
     return this.roleService.remove(code);
@@ -98,7 +98,7 @@ export class RoleResolver {
   })
   @Authorization({
     resource: Role.name,
-    action: AUTHORIZATION_ACTION_CODE.update,
+    action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   assignAuthorizations(
     @Args('input', { type: () => AssignAuthorizationsInput })
