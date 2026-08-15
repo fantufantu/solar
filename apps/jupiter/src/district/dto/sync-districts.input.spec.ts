@@ -10,6 +10,14 @@ const item = (values: Partial<SyncDistrictInput>) =>
   Object.assign(new SyncDistrictInput(), values);
 
 describe('SyncDistrictsInput', () => {
+  it('uses lowercase values for district sync actions', () => {
+    expect(Object.values(DISTRICT_SYNC_ACTION)).toEqual([
+      'create',
+      'update',
+      'delete',
+    ]);
+  });
+
   it('rejects an empty list and duplicate codes', async () => {
     const input = Object.assign(new SyncDistrictsInput(), {
       items: [] as SyncDistrictInput[],
@@ -30,5 +38,14 @@ describe('SyncDistrictsInput', () => {
     expect(
       await validate(item({ action: DISTRICT_SYNC_ACTION.DELETE, code: '1' })),
     ).toHaveLength(0);
+  });
+
+  it('rejects actions outside the district sync action enum', async () => {
+    const input = item({
+      action: 'UPSERT' as never,
+      code: '1',
+    });
+
+    expect(await validate(input)).not.toHaveLength(0);
   });
 });

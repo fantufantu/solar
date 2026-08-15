@@ -7,7 +7,7 @@ import { CreateDictionaryEnumInput } from './dto/create-dictionary-enum.input';
 import { UpdateDictionaryEnumInput } from './dto/update-dictionary-enum.input';
 import { Authorization } from 'utils/decorators/authorization.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
-import { AuthorizationActionCode } from '@/libs/database/entities/mercury/authorization.entity';
+import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver()
 export class DictionaryEnumResolver {
@@ -18,7 +18,7 @@ export class DictionaryEnumResolver {
   })
   @Authorization({
     resource: DictionaryEnum.name,
-    action: AuthorizationActionCode.Create,
+    action: AUTHORIZATION_ACTION_CODE.CREATE,
   })
   createDictionaryEnum(
     @Args('input')
@@ -32,7 +32,7 @@ export class DictionaryEnumResolver {
   })
   @Authorization({
     resource: DictionaryEnum.name,
-    action: AuthorizationActionCode.Read,
+    action: AUTHORIZATION_ACTION_CODE.READ,
   })
   dictionaryEnums(@PaginationArgs() pagination: Pagination) {
     return this.dictionaryEnumService.dictionaryEnums({
@@ -45,7 +45,7 @@ export class DictionaryEnumResolver {
   })
   @Authorization({
     resource: DictionaryEnum.name,
-    action: AuthorizationActionCode.Read,
+    action: AUTHORIZATION_ACTION_CODE.READ,
   })
   dictionaryEnum(@Args('id', { type: () => Int }) id: number) {
     return this.dictionaryEnumService.dictionaryEnum(id);
@@ -56,7 +56,7 @@ export class DictionaryEnumResolver {
   })
   @Authorization({
     resource: DictionaryEnum.name,
-    action: AuthorizationActionCode.Update,
+    action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   updateDictionaryEnum(
     @Args('id', { type: () => Int }) id: number,
@@ -71,7 +71,7 @@ export class DictionaryEnumResolver {
   })
   @Authorization({
     resource: DictionaryEnum.name,
-    action: AuthorizationActionCode.Delete,
+    action: AUTHORIZATION_ACTION_CODE.DELETE,
   })
   removeDictionaryEnum(@Args('id', { type: () => Int }) id: number) {
     return this.dictionaryEnumService.remove(id);

@@ -1,9 +1,12 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { TargetType } from '@/libs/database/entities/venus/sharing.entity';
+import {
+  TARGET_TYPE,
+  TargetType,
+} from '@/libs/database/entities/venus/sharing.entity';
 
 @InputType()
 export class RemoveSharingInput {
-  @Field(() => TargetType, {
+  @Field(() => TARGET_TYPE, {
     description: '目标类型',
   })
   targetType: TargetType;

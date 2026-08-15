@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, In, Repository } from 'typeorm';
 import {
   Sharing,
-  TargetType,
+  TARGET_TYPE,
 } from '@/libs/database/entities/venus/sharing.entity';
 import { SharingService } from '../sharing/sharing.service';
 import { CreateBillingInput } from './dto/create-billing.input';
@@ -44,7 +44,7 @@ export class BillingService {
         'sharing',
         'sharing.targetType = :targetType AND sharing.targetId = billing.id',
         {
-          targetType: TargetType.Billing,
+          targetType: TARGET_TYPE.BILLING,
         },
       )
       .whereInIds(id)
@@ -88,7 +88,7 @@ export class BillingService {
     // 非账本创建人，仅删除当前账本的被分享条目即可
     const isSharingRemoved = await this.sharingService.remove({
       targetId: id,
-      targetType: TargetType.Billing,
+      targetType: TARGET_TYPE.BILLING,
       sharedById: isMine ? undefined : userId,
     });
 
@@ -123,7 +123,7 @@ export class BillingService {
         'sharing',
         'sharing.targetType = :targetType AND sharing.targetId = billing.id',
         {
-          targetType: TargetType.Billing,
+          targetType: TARGET_TYPE.BILLING,
         },
       ).andWhere(
         new Brackets((qb) => {

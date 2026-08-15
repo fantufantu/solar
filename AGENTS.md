@@ -128,3 +128,9 @@ Jupiter uses LangChain with OpenAI-compatible APIs for AI-powered trip planning:
 
 ### Utility library
 The project uses `@aiszlab/relax` for shared utilities: `ValueOf` type (extracts union of values from a const object), `PartialTuple`, `isString`. Constants files use `ValueOf<typeof CONST>` to create narrow string literal unions from `as const` objects.
+
+### Enum style
+- **不要使用 TypeScript `enum`**。所有有限值集合统一声明为 `UPPER_SNAKE_CASE` 的 `as const` 对象，对象键使用 `UPPER_SNAKE_CASE`；字符串值默认使用小写格式，并保持对外接口或持久化层所需的稳定值。只有外部协议明确要求时才使用大写值。
+- 使用 `ValueOf<typeof CONSTANT>` 导出对应的 `PascalCase` 联合类型；仅用作类型的 `ValueOf` 必须通过 `import type` 引入。
+- GraphQL `registerEnumType`、`@Field`，TypeORM `enum` 选项以及 `@IsEnum` 等需要运行时值的场景，必须传入常量对象而不是联合类型。
+- 业务代码比较或赋值枚举值时必须通过常量成员（例如 `DISTRICT_LEVEL.CITY`），不要散落字符串字面量。

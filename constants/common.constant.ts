@@ -70,6 +70,10 @@ export const GRAPHQL_ENUM_TOKEN = {
   SHARING_TARGET_TYPE: 'SharingTargetType',
   BILLING_LIMIT_DURATION: 'BillingLimitDuration',
 
+  // jupiter
+  DISTRICT_LEVEL: 'DistrictLevel',
+  DISTRICT_SYNC_ACTION: 'DistrictSyncAction',
+
   // cos
   BUCKET_NAME: 'BucketName',
 } as const;

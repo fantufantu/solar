@@ -1,7 +1,10 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, Entity } from 'typeorm';
 import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
-import { Direction } from 'assets/entities/direction.transaction.enum';
+import {
+  DIRECTION,
+  Direction,
+} from 'assets/entities/direction.transaction.enum';
 
 @ObjectType('TransactionCategory')
 @Entity()
@@ -14,12 +17,12 @@ export class Category extends IdentifiedTimeStamped {
   })
   name!: string;
 
-  @Field(() => Direction, {
+  @Field(() => DIRECTION, {
     description: '交易方向',
   })
   @Column({
     type: 'enum',
-    enum: Direction,
+    enum: DIRECTION,
     comment: '交易方向',
   })
   direction!: Direction;
