@@ -20,21 +20,21 @@ export class ConfigService {
    */
   buckets = new Map([
     [
-      BUCKET_NAME.FANTU,
+      BUCKET_NAME.fantu,
       {
         bucket: TENCENT_CLOUD_CONFIGURATION.FANTU_BUCKET,
         region: TENCENT_CLOUD_CONFIGURATION.FANTU_BUCKET_REGION,
       },
     ],
     [
-      BUCKET_NAME.KNOWTHY,
+      BUCKET_NAME.knowthy,
       {
         bucket: TENCENT_CLOUD_CONFIGURATION.KNOWTHY_BUCKET,
         region: TENCENT_CLOUD_CONFIGURATION.KNOWTHY_BUCKET_REGION,
       },
     ],
     [
-      BUCKET_NAME.CABIN_CAB,
+      BUCKET_NAME['cabin-cab'],
       {
         bucket: TENCENT_CLOUD_CONFIGURATION.CABIN_CAB_BUCKET,
         region: TENCENT_CLOUD_CONFIGURATION.CABIN_CAB_BUCKET_REGION,

@@ -6,10 +6,10 @@ import { GRAPHQL_ENUM_TOKEN } from 'constants/common.constant';
  * 限制时间段
  */
 export const LIMIT_DURATION = {
-  DAY: 'day',
-  WEEK: 'week',
-  MONTH: 'month',
-  YEAR: 'year',
+  day: 'day',
+  week: 'week',
+  month: 'month',
+  year: 'year',
 } as const;
 
 export type LimitDuration = ValueOf<typeof LIMIT_DURATION>;

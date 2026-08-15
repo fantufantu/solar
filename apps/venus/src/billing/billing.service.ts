@@ -44,7 +44,7 @@ export class BillingService {
         'sharing',
         'sharing.targetType = :targetType AND sharing.targetId = billing.id',
         {
-          targetType: TARGET_TYPE.BILLING,
+          targetType: TARGET_TYPE.billing,
         },
       )
       .whereInIds(id)
@@ -88,7 +88,7 @@ export class BillingService {
     // 非账本创建人，仅删除当前账本的被分享条目即可
     const isSharingRemoved = await this.sharingService.remove({
       targetId: id,
-      targetType: TARGET_TYPE.BILLING,
+      targetType: TARGET_TYPE.billing,
       sharedById: isMine ? undefined : userId,
     });
 
@@ -123,7 +123,7 @@ export class BillingService {
         'sharing',
         'sharing.targetType = :targetType AND sharing.targetId = billing.id',
         {
-          targetType: TARGET_TYPE.BILLING,
+          targetType: TARGET_TYPE.billing,
         },
       ).andWhere(
         new Brackets((qb) => {

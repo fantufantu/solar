@@ -19,7 +19,7 @@ export class BillingLoader {
     async (billingIds: readonly number[]) => {
       // 查询分享列表
       const sharings = await this.sharingService.sharings({
-        targetType: TARGET_TYPE.BILLING,
+        targetType: TARGET_TYPE.billing,
         targetIds: toArray(billingIds),
       });
 

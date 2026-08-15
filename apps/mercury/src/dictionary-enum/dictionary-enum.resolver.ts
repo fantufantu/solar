@@ -18,7 +18,7 @@ export class DictionaryEnumResolver {
   })
   @Authorization({
     resource: DictionaryEnum.name,
-    action: AUTHORIZATION_ACTION_CODE.CREATE,
+    action: AUTHORIZATION_ACTION_CODE.create,
   })
   createDictionaryEnum(
     @Args('input')
@@ -32,7 +32,7 @@ export class DictionaryEnumResolver {
   })
   @Authorization({
     resource: DictionaryEnum.name,
-    action: AUTHORIZATION_ACTION_CODE.READ,
+    action: AUTHORIZATION_ACTION_CODE.read,
   })
   dictionaryEnums(@PaginationArgs() pagination: Pagination) {
     return this.dictionaryEnumService.dictionaryEnums({
@@ -45,7 +45,7 @@ export class DictionaryEnumResolver {
   })
   @Authorization({
     resource: DictionaryEnum.name,
-    action: AUTHORIZATION_ACTION_CODE.READ,
+    action: AUTHORIZATION_ACTION_CODE.read,
   })
   dictionaryEnum(@Args('id', { type: () => Int }) id: number) {
     return this.dictionaryEnumService.dictionaryEnum(id);
@@ -56,7 +56,7 @@ export class DictionaryEnumResolver {
   })
   @Authorization({
     resource: DictionaryEnum.name,
-    action: AUTHORIZATION_ACTION_CODE.UPDATE,
+    action: AUTHORIZATION_ACTION_CODE.update,
   })
   updateDictionaryEnum(
     @Args('id', { type: () => Int }) id: number,
@@ -71,7 +71,7 @@ export class DictionaryEnumResolver {
   })
   @Authorization({
     resource: DictionaryEnum.name,
-    action: AUTHORIZATION_ACTION_CODE.DELETE,
+    action: AUTHORIZATION_ACTION_CODE.delete,
   })
   removeDictionaryEnum(@Args('id', { type: () => Int }) id: number) {
     return this.dictionaryEnumService.remove(id);
