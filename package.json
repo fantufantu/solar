@@ -26,7 +26,8 @@
     "start:earth": "nest start earth",
     "start:mars": "nest start mars",
     "start:jupiter": "nest start jupiter",
-    "start:halley": "nest start halley"
+    "start:halley": "nest start halley",
+    "deploy:pm2": "bash scripts/deploy-pm2.sh"
   },
   "dependencies": {
     "@aiszlab/relax": "2.0.8-beta.4",
