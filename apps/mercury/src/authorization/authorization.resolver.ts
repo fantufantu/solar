@@ -1,8 +1,7 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthorizationService } from './authorization.service';
 import { PaginatedAuthorizations } from './dto/paginated-authorizations.object';
-import { UseGuards, UseInterceptors } from '@nestjs/common';
-import { JwtAuthGuard } from '@/libs/passport/guards';
+import { UseInterceptors } from '@nestjs/common';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { CreateAuthorizationInput } from './dto/create-authorization.input';
@@ -10,6 +9,8 @@ import { Authorization } from '@/libs/database/entities/mercury/authorization.en
 import { Pagination } from 'assets/dto/pagination.input';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
+import { Authorization as RequireAuthorization } from 'utils/decorators/authorization.decorator';
+import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver()
 export class AuthorizationResolver {
@@ -25,9 +26,12 @@ export class AuthorizationResolver {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Mutation(() => Authorization, {
     description: '创建权限点',
+  })
+  @RequireAuthorization({
+    resource: Authorization.name,
+    action: AUTHORIZATION_ACTION_CODE.CREATE,
   })
   createAuthorization(
     @Args('input') input: CreateAuthorizationInput,
@@ -36,9 +40,12 @@ export class AuthorizationResolver {
     return this.authorizationService.create(input, who.id);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Mutation(() => Boolean, {
     description: '删除权限点',
+  })
+  @RequireAuthorization({
+    resource: Authorization.name,
+    action: AUTHORIZATION_ACTION_CODE.DELETE,
   })
   removeAuthorization(
     @Args('id', { type: () => Int }) id: number,

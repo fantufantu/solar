@@ -1,7 +1,5 @@
 import {
-  Args,
   Int,
-  Mutation,
   Parent,
   ResolveField,
   Resolver,
@@ -9,7 +7,6 @@ import {
 } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
-import { UpgradeMembershipInput } from './dto/upgrade-membership.input';
 import { UserMembership } from './dto/user-membership.object';
 import { TouristPlanService } from '../tourist-plan/tourist-plan.service';
 import { forwardRef, Inject } from '@nestjs/common';
@@ -39,10 +36,5 @@ export class UserResolver {
   })
   async usedQuota(@Parent() user: User): Promise<number> {
     return this.touristPlanService.countTodayByBelongToId(user.id);
-  }
-
-  @Mutation(() => Boolean, { description: '升级用户会员等级' })
-  upgradeMembership(@Args('input') input: UpgradeMembershipInput) {
-    return this.userService.upgradeMembership(input.userId, input.membershipId);
   }
 }

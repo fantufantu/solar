@@ -2,15 +2,16 @@ import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CategoryService } from './category.service';
 import { Category } from '@/libs/database/entities/earth/category.entity';
 import { PaginatedCategories } from './dto/paginated-categories.object';
-import { UseGuards, UseInterceptors } from '@nestjs/common';
+import { UseInterceptors } from '@nestjs/common';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { Pagination } from 'assets/dto/pagination.input';
 import { FilterArticleCategoriesInput } from './dto/filter-categories.input';
 import { CreateArticleCategoryInput } from './dto/create-category.input';
 import { UpdateArticleCategoryInput } from './dto/update-category.input';
-import { JwtAuthGuard } from '@/libs/passport/guards';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { FilterArgs } from 'utils/decorators/filter.decorator';
+import { Authorization } from 'utils/decorators/authorization.decorator';
+import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver(() => Category)
 export class CategoryResolver {
@@ -36,7 +37,10 @@ export class CategoryResolver {
   @Mutation(() => Category, {
     description: '创建文章分类',
   })
-  @UseGuards(JwtAuthGuard)
+  @Authorization({
+    resource: Category.name,
+    action: AUTHORIZATION_ACTION_CODE.CREATE,
+  })
   async createArticleCategory(
     @Args('input') input: CreateArticleCategoryInput,
   ) {
@@ -46,7 +50,10 @@ export class CategoryResolver {
   @Mutation(() => Boolean, {
     description: '更新文章分类',
   })
-  @UseGuards(JwtAuthGuard)
+  @Authorization({
+    resource: Category.name,
+    action: AUTHORIZATION_ACTION_CODE.UPDATE,
+  })
   async updateArticleCategory(
     @Args('id', {
       type: () => Int,
@@ -60,7 +67,10 @@ export class CategoryResolver {
   @Mutation(() => Boolean, {
     description: '删除文章分类',
   })
-  @UseGuards(JwtAuthGuard)
+  @Authorization({
+    resource: Category.name,
+    action: AUTHORIZATION_ACTION_CODE.DELETE,
+  })
   async removeArticleCategory(
     @Args('code', {
       type: () => String,

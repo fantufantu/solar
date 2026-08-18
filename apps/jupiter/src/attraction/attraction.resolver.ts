@@ -6,13 +6,12 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { UseGuards, UseInterceptors } from '@nestjs/common';
+import { UseInterceptors } from '@nestjs/common';
 import { AttractionService } from './attraction.service';
 import { AttractionLoader } from './attraction.loader';
 import { Attraction } from '@/libs/database/entities/jupiter/attraction.entity';
 import { District } from '@/libs/database/entities/jupiter/district.entity';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
-import { JwtAuthGuard } from '@/libs/passport/guards';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
@@ -22,6 +21,8 @@ import { PaginatedAttractions } from './dto/paginated-attractions.object';
 import { FilterAttractionsInput } from './dto/filter-attractions.input';
 import { UpdateAttractionInput } from './dto/update-attraction.input';
 import { CreateAttractionInput } from './dto/create-attraction.input';
+import { Authorization } from 'utils/decorators/authorization.decorator';
+import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver(() => Attraction)
 export class AttractionResolver {
@@ -53,7 +54,10 @@ export class AttractionResolver {
   }
 
   @Mutation(() => Boolean, { description: '创建景点' })
-  @UseGuards(JwtAuthGuard)
+  @Authorization({
+    resource: Attraction.name,
+    action: AUTHORIZATION_ACTION_CODE.CREATE,
+  })
   async createAttraction(
     @Args('input') input: CreateAttractionInput,
     @WhoAmI() whoAmI: User,
@@ -62,7 +66,10 @@ export class AttractionResolver {
   }
 
   @Mutation(() => Boolean, { description: '更新景点' })
-  @UseGuards(JwtAuthGuard)
+  @Authorization({
+    resource: Attraction.name,
+    action: AUTHORIZATION_ACTION_CODE.UPDATE,
+  })
   async updateAttraction(
     @Args('code', {
       type: () => String,
@@ -75,7 +82,10 @@ export class AttractionResolver {
   }
 
   @Mutation(() => Boolean, { description: '硬删除景点' })
-  @UseGuards(JwtAuthGuard)
+  @Authorization({
+    resource: Attraction.name,
+    action: AUTHORIZATION_ACTION_CODE.DELETE,
+  })
   async deleteAttraction(
     @Args('code', {
       type: () => String,

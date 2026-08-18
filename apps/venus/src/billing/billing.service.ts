@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Brackets, In, Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 import {
   Sharing,
   TARGET_TYPE,
@@ -61,7 +61,8 @@ export class BillingService {
    * @author murukal
    * @description 更新账本信息
    */
-  update(id: number, input: UpdateBillingInput) {
+  async update(id: number, input: UpdateBillingInput, userId: string) {
+    await this.assertOwnership(id, userId);
     return this.billingRepository.update(
       id,
       this.billingRepository.create(input),
@@ -81,18 +82,15 @@ export class BillingService {
       return true;
     }
 
-    const isMine = billing.createdById === userId;
+    if (billing.createdById !== userId) {
+      throw new ForbiddenException('您没有权限操作该账本！');
+    }
 
     // 删除分享
-    // 账本创建人，删除当前账本的全部分享 -> 删除账本
-    // 非账本创建人，仅删除当前账本的被分享条目即可
     const isSharingRemoved = await this.sharingService.remove({
       targetId: id,
       targetType: TARGET_TYPE.BILLING,
-      sharedById: isMine ? undefined : userId,
     });
-
-    if (!isMine) return isSharingRemoved;
 
     // 分享删除成功执行删除账本
     return (
@@ -146,7 +144,20 @@ export class BillingService {
    * @author murukal
    * @description 更新账本限额
    */
-  async updateLimitation(id: number, input: UpdateBillingLimitationInput) {
+  async updateLimitation(
+    id: number,
+    input: UpdateBillingLimitationInput,
+    userId: string,
+  ) {
+    await this.assertOwnership(id, userId);
     return ((await this.billingRepository.update(id, input)).affected ?? 0) > 0;
+  }
+
+  private async assertOwnership(id: number, userId: string) {
+    const billing = await this.billingRepository.findOneBy({ id });
+
+    if (billing && billing.createdById !== userId) {
+      throw new ForbiddenException('您没有权限操作该账本！');
+    }
   }
 }

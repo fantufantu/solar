@@ -23,6 +23,8 @@ import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 import { AssignRolesInput } from './dto/assign-roles.input';
 import { toArray } from '@aiszlab/relax';
+import { Authorization as RequireAuthorization } from 'utils/decorators/authorization.decorator';
+import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -95,7 +97,10 @@ export class UserResolver {
   sendChangePasswordCaptcha(
     @Args({ name: 'to', type: () => String }) to: string,
   ) {
-    return this.userService.sendCaptcha(to, CACHE_TOKEN.CHANGE_PASSWORD_CAPTCHA);
+    return this.userService.sendCaptcha(
+      to,
+      CACHE_TOKEN.CHANGE_PASSWORD_CAPTCHA,
+    );
   }
 
   @ResolveReference()
@@ -105,6 +110,10 @@ export class UserResolver {
 
   @Mutation(() => Boolean, {
     description: '分配角色',
+  })
+  @RequireAuthorization({
+    resource: User.name,
+    action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   assignRoles(@Args('input') input: AssignRolesInput) {
     return this.userService.assignRoles(input);
