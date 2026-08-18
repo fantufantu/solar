@@ -7,12 +7,11 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { UseGuards, UseInterceptors } from '@nestjs/common';
+import { UseInterceptors } from '@nestjs/common';
 import { DistrictService } from './district.service';
 import { DistrictLoader } from './district.loader';
 import { District } from '@/libs/database/entities/jupiter/district.entity';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
-import { JwtAuthGuard } from '@/libs/passport/guards';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
@@ -23,6 +22,8 @@ import { FilterDistrictsInput } from './dto/filter-districts.input';
 import { UpdateDistrictInput } from './dto/update-district.input';
 import { CreateDistrictInput } from './dto/create-district.input';
 import { SyncDistrictsInput } from './dto/sync-districts.input';
+import { Authorization } from 'utils/decorators/authorization.decorator';
+import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver(() => District)
 export class DistrictResolver {
@@ -55,7 +56,10 @@ export class DistrictResolver {
   }
 
   @Mutation(() => Boolean, { description: '创建行政区' })
-  @UseGuards(JwtAuthGuard)
+  @Authorization({
+    resource: District.name,
+    action: AUTHORIZATION_ACTION_CODE.CREATE,
+  })
   async createDistrict(
     @Args('input') input: CreateDistrictInput,
     @WhoAmI() whoAmI: User,
@@ -64,7 +68,10 @@ export class DistrictResolver {
   }
 
   @Mutation(() => Boolean, { description: '更新行政区' })
-  @UseGuards(JwtAuthGuard)
+  @Authorization({
+    resource: District.name,
+    action: AUTHORIZATION_ACTION_CODE.UPDATE,
+  })
   async updateDistrict(
     @Args('code', {
       type: () => String,
@@ -77,7 +84,10 @@ export class DistrictResolver {
   }
 
   @Mutation(() => Boolean, { description: '删除行政区（软删除）' })
-  @UseGuards(JwtAuthGuard)
+  @Authorization({
+    resource: District.name,
+    action: AUTHORIZATION_ACTION_CODE.DELETE,
+  })
   async deleteDistrict(
     @Args('code', {
       type: () => String,
@@ -89,7 +99,10 @@ export class DistrictResolver {
   }
 
   @Mutation(() => Boolean, { description: '批量同步行政区' })
-  @UseGuards(JwtAuthGuard)
+  @Authorization({
+    resource: District.name,
+    action: AUTHORIZATION_ACTION_CODE.UPDATE,
+  })
   async syncDistricts(
     @Args('input') input: SyncDistrictsInput,
     @WhoAmI() whoAmI: User,

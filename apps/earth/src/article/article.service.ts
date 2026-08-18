@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { CreateArticleInput } from './dto/create-article.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from '@/libs/database/entities/earth/article.entity';
@@ -57,6 +61,7 @@ export class ArticleService {
    * @param updatedById 更新者id
    */
   async update(id: number, updateBy: UpdateArticleInput, updatedById: string) {
+    await this.assertOwnership(id, updatedById);
     const { categoryCodes, ...article } = updateBy;
 
     // 更新文章
@@ -138,6 +143,7 @@ export class ArticleService {
    * @param deleteById 删除者id
    */
   async remove(id: number, deleteById: string) {
+    await this.assertOwnership(id, deleteById);
     const _article = this.articleRepository.create();
     _article.deletedById = deleteById;
 
@@ -152,6 +158,18 @@ export class ArticleService {
    */
   async getArticleById(id: number) {
     return await this.articleRepository.findOneBy({ id });
+  }
+
+  private async assertOwnership(id: number, userId: string) {
+    const article = await this.articleRepository.findOneBy({ id });
+
+    if (!article) {
+      throw new BadRequestException('文章不存在！');
+    }
+
+    if (article.createdById !== userId) {
+      throw new ForbiddenException('您没有权限操作该文章！');
+    }
   }
 
   /**

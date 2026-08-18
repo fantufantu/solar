@@ -69,8 +69,9 @@ export class BillingResolver {
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
     @Args('input')
     input: UpdateBillingInput,
+    @WhoAmI() whoAmI: User,
   ) {
-    return this.billingService.update(id, input);
+    return this.billingService.update(id, input, whoAmI.id);
   }
 
   @Mutation(() => Boolean, {
@@ -92,8 +93,9 @@ export class BillingResolver {
     @Args('id', { type: () => Int, description: '账本id' }) id: number,
     @Args('input')
     input: UpdateBillingLimitationInput,
+    @WhoAmI() whoAmI: User,
   ) {
-    return this.billingService.updateLimitation(id, input);
+    return this.billingService.updateLimitation(id, input, whoAmI.id);
   }
 
   @ResolveField(() => [Sharing], {

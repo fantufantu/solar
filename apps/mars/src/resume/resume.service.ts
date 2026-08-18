@@ -38,6 +38,7 @@ export class ResumeService {
    * @description 更新简历
    */
   async update(id: string, input: UpdateResumeInput, who: string) {
+    await this.assertOwnership(id, who);
     return (
       ((
         await this.resumeRepository.update(id, {
@@ -56,6 +57,7 @@ export class ResumeService {
    * @param permanently 永久删除
    */
   async remove(id: string, who: string, permanently: boolean) {
+    await this.assertOwnership(id, who);
     const _resume = this.resumeRepository.create();
     _resume.deletedById = who;
 
@@ -73,19 +75,21 @@ export class ResumeService {
    * @description 用户只能查看自己的简历
    */
   async resume(id: string, who: string) {
-    const _resume = await this.resumeRepository.findOneBy({
-      id,
-    });
+    return this.assertOwnership(id, who);
+  }
 
-    if (!_resume) {
+  private async assertOwnership(id: string, who: string) {
+    const resume = await this.resumeRepository.findOneBy({ id });
+
+    if (!resume) {
       throw new BadRequestException('简历不存在！');
     }
 
-    if (_resume.createdById !== who) {
-      throw new ForbiddenException('您没有权限查看该简历！');
+    if (resume.createdById !== who) {
+      throw new ForbiddenException('您没有权限操作该简历！');
     }
 
-    return _resume;
+    return resume;
   }
 
   /**

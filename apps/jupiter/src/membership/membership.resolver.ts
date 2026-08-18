@@ -1,6 +1,8 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MembershipService } from './membership.service';
 import { Membership } from '@/libs/database/entities/jupiter/membership.entity';
+import { Authorization } from 'utils/decorators/authorization.decorator';
+import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver(() => Membership)
 export class MembershipResolver {
@@ -11,12 +13,19 @@ export class MembershipResolver {
     return this.membershipService.findAll();
   }
 
-  @Query(() => Membership, { nullable: true, description: '根据ID获取会员等级' })
+  @Query(() => Membership, {
+    nullable: true,
+    description: '根据ID获取会员等级',
+  })
   membership(@Args('id', { type: () => Int }) id: number) {
     return this.membershipService.findOne(id);
   }
 
   @Mutation(() => Membership, { description: '创建会员等级' })
+  @Authorization({
+    resource: Membership.name,
+    action: AUTHORIZATION_ACTION_CODE.CREATE,
+  })
   createMembership(
     @Args('name') name: string,
     @Args('quota', { type: () => Int }) quota: number,
@@ -26,6 +35,10 @@ export class MembershipResolver {
   }
 
   @Mutation(() => Membership, { description: '更新会员等级' })
+  @Authorization({
+    resource: Membership.name,
+    action: AUTHORIZATION_ACTION_CODE.UPDATE,
+  })
   updateMembership(
     @Args('id', { type: () => Int }) id: number,
     @Args('name', { nullable: true }) name?: string,
@@ -36,6 +49,10 @@ export class MembershipResolver {
   }
 
   @Mutation(() => Boolean, { description: '删除会员等级' })
+  @Authorization({
+    resource: Membership.name,
+    action: AUTHORIZATION_ACTION_CODE.DELETE,
+  })
   removeMembership(@Args('id', { type: () => Int }) id: number) {
     return this.membershipService.remove(id);
   }
