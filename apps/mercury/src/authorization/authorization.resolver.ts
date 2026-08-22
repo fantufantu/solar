@@ -10,7 +10,10 @@ import { Pagination } from 'assets/dto/pagination.input';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { Authorization as RequireAuthorization } from 'utils/decorators/authorization.decorator';
-import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
+import {
+  AUTHORIZATION_ACTION_CODE,
+  AUTHORIZATION_RESOURCE_CODE,
+} from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver()
 export class AuthorizationResolver {
@@ -30,7 +33,7 @@ export class AuthorizationResolver {
     description: '创建权限点',
   })
   @RequireAuthorization({
-    resource: Authorization.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.AUTHORIZATION,
     action: AUTHORIZATION_ACTION_CODE.CREATE,
   })
   createAuthorization(
@@ -44,7 +47,7 @@ export class AuthorizationResolver {
     description: '删除权限点',
   })
   @RequireAuthorization({
-    resource: Authorization.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.AUTHORIZATION,
     action: AUTHORIZATION_ACTION_CODE.DELETE,
   })
   removeAuthorization(

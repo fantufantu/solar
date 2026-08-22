@@ -22,7 +22,10 @@ import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { ResumeTemplateLoader } from './resume-template.loader';
 import { RecommendedResumeTemplatesArgs } from './dto/recommended-resume-templates.args';
 import { Authorization } from 'utils/decorators/authorization.decorator';
-import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
+import {
+  AUTHORIZATION_ACTION_CODE,
+  AUTHORIZATION_RESOURCE_CODE,
+} from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver(() => ResumeTemplate)
 export class ResumeTemplateResolver {
@@ -32,7 +35,7 @@ export class ResumeTemplateResolver {
   ) {}
 
   @Authorization({
-    resource: ResumeTemplate.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.RESUME_TEMPLATE,
     action: AUTHORIZATION_ACTION_CODE.CREATE,
   })
   @Mutation(() => ResumeTemplate, { description: '创建简历模板' })
@@ -45,7 +48,7 @@ export class ResumeTemplateResolver {
   }
 
   @Authorization({
-    resource: ResumeTemplate.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.RESUME_TEMPLATE,
     action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   @Mutation(() => Boolean, { description: '更新简历模板' })
@@ -59,7 +62,7 @@ export class ResumeTemplateResolver {
   }
 
   @Authorization({
-    resource: ResumeTemplate.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.RESUME_TEMPLATE,
     action: AUTHORIZATION_ACTION_CODE.DELETE,
   })
   @Mutation(() => Boolean, { description: '删除简历模板' })

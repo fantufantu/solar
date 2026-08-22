@@ -22,9 +22,29 @@ export type AuthorizationActionCode = ValueOf<typeof AUTHORIZATION_ACTION_CODE>;
 
 /**
  * 权限-资源
+ * `ALL` 比较特殊，表示拥有对所有资源的操作权限
  */
 export const AUTHORIZATION_RESOURCE_CODE = {
   ALL: 'all',
+
+  // mercury
+  AUTHORIZATION: 'Authorization',
+  ROLE: 'Role',
+  USER: 'User',
+  DICTIONARY: 'Dictionary',
+  DICTIONARY_ENUM: 'DictionaryEnum',
+
+  // jupiter
+  ATTRACTION: 'Attraction',
+  MEMBERSHIP: 'Membership',
+  DISTRICT: 'District',
+
+  // earth
+  CATEGORY: 'Category',
+
+  // mars
+  RESUME: 'Resume',
+  RESUME_TEMPLATE: 'ResumeTemplate',
 } as const;
 
 export type AuthorizationResourceCode = ValueOf<
@@ -36,6 +56,11 @@ registerEnumType(AUTHORIZATION_ACTION_CODE, {
   description: '权限操作code',
 });
 
+registerEnumType(AUTHORIZATION_RESOURCE_CODE, {
+  name: GRAPHQL_ENUM_TOKEN.AUTHORIZATION_RESOURCE_CODE,
+  description: '权限资源code',
+});
+
 @Entity({
   name: 'authorization',
 })
@@ -43,7 +68,7 @@ registerEnumType(AUTHORIZATION_ACTION_CODE, {
   description: '权限',
 })
 export class Authorization extends IdentifiedTracked {
-  @Field(() => String, {
+  @Field(() => AUTHORIZATION_RESOURCE_CODE, {
     description: '资源`code`',
   })
   @Column({
@@ -52,7 +77,7 @@ export class Authorization extends IdentifiedTracked {
     type: 'varchar',
     length: 40,
   })
-  resourceCode!: string;
+  resourceCode!: AuthorizationResourceCode;
 
   @Field(() => AUTHORIZATION_ACTION_CODE, {
     description: '操作`code`',

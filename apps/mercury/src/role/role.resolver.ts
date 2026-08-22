@@ -17,6 +17,7 @@ import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import {
   Authorization as AuthorizationEntity,
   AUTHORIZATION_ACTION_CODE,
+  AUTHORIZATION_RESOURCE_CODE,
 } from '@/libs/database/entities/mercury/authorization.entity';
 import { UseInterceptors } from '@nestjs/common';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
@@ -30,7 +31,7 @@ export class RoleResolver {
     description: '创建角色',
   })
   @Authorization({
-    resource: Role.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.ROLE,
     action: AUTHORIZATION_ACTION_CODE.CREATE,
   })
   createRole(@Args('input') input: CreateRoleInput) {
@@ -42,7 +43,7 @@ export class RoleResolver {
   })
   @UseInterceptors(PaginatedInterceptor)
   @Authorization({
-    resource: Role.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.ROLE,
     action: AUTHORIZATION_ACTION_CODE.READ,
   })
   paginateRoles(@PaginationArgs() pagination: Pagination) {
@@ -53,7 +54,7 @@ export class RoleResolver {
 
   @Query(() => Role, { description: '查询单个角色' })
   @Authorization({
-    resource: Role.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.ROLE,
     action: AUTHORIZATION_ACTION_CODE.READ,
   })
   role(@Args('code', { type: () => String }) code: string) {
@@ -64,7 +65,7 @@ export class RoleResolver {
     description: '更新角色',
   })
   @Authorization({
-    resource: Role.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.ROLE,
     action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   updateRole(
@@ -78,7 +79,7 @@ export class RoleResolver {
     description: '删除角色',
   })
   @Authorization({
-    resource: Role.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.ROLE,
     action: AUTHORIZATION_ACTION_CODE.DELETE,
   })
   removeRole(@Args('code', { type: () => String }) code: string) {
@@ -97,7 +98,7 @@ export class RoleResolver {
     description: '角色分配权限',
   })
   @Authorization({
-    resource: Role.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.ROLE,
     action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   assignAuthorizations(

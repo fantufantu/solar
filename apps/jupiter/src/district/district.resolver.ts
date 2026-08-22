@@ -23,7 +23,10 @@ import { UpdateDistrictInput } from './dto/update-district.input';
 import { CreateDistrictInput } from './dto/create-district.input';
 import { SyncDistrictsInput } from './dto/sync-districts.input';
 import { Authorization } from 'utils/decorators/authorization.decorator';
-import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
+import {
+  AUTHORIZATION_ACTION_CODE,
+  AUTHORIZATION_RESOURCE_CODE,
+} from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver(() => District)
 export class DistrictResolver {
@@ -57,7 +60,7 @@ export class DistrictResolver {
 
   @Mutation(() => Boolean, { description: '创建行政区' })
   @Authorization({
-    resource: District.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.DISTRICT,
     action: AUTHORIZATION_ACTION_CODE.CREATE,
   })
   async createDistrict(
@@ -69,7 +72,7 @@ export class DistrictResolver {
 
   @Mutation(() => Boolean, { description: '更新行政区' })
   @Authorization({
-    resource: District.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.DISTRICT,
     action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   async updateDistrict(
@@ -85,7 +88,7 @@ export class DistrictResolver {
 
   @Mutation(() => Boolean, { description: '删除行政区（软删除）' })
   @Authorization({
-    resource: District.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.DISTRICT,
     action: AUTHORIZATION_ACTION_CODE.DELETE,
   })
   async deleteDistrict(
@@ -100,7 +103,7 @@ export class DistrictResolver {
 
   @Mutation(() => Boolean, { description: '批量同步行政区' })
   @Authorization({
-    resource: District.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.DISTRICT,
     action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   async syncDistricts(

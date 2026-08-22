@@ -7,7 +7,10 @@ import { CreateDictionaryEnumInput } from './dto/create-dictionary-enum.input';
 import { UpdateDictionaryEnumInput } from './dto/update-dictionary-enum.input';
 import { Authorization } from 'utils/decorators/authorization.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
-import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
+import {
+  AUTHORIZATION_ACTION_CODE,
+  AUTHORIZATION_RESOURCE_CODE,
+} from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver()
 export class DictionaryEnumResolver {
@@ -17,7 +20,7 @@ export class DictionaryEnumResolver {
     description: '创建字典枚举',
   })
   @Authorization({
-    resource: DictionaryEnum.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.DICTIONARY_ENUM,
     action: AUTHORIZATION_ACTION_CODE.CREATE,
   })
   createDictionaryEnum(
@@ -31,7 +34,7 @@ export class DictionaryEnumResolver {
     description: '分页查询字典枚举',
   })
   @Authorization({
-    resource: DictionaryEnum.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.DICTIONARY_ENUM,
     action: AUTHORIZATION_ACTION_CODE.READ,
   })
   dictionaryEnums(@PaginationArgs() pagination: Pagination) {
@@ -44,7 +47,7 @@ export class DictionaryEnumResolver {
     description: '查询单个字典枚举',
   })
   @Authorization({
-    resource: DictionaryEnum.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.DICTIONARY_ENUM,
     action: AUTHORIZATION_ACTION_CODE.READ,
   })
   dictionaryEnum(@Args('id', { type: () => Int }) id: number) {
@@ -55,7 +58,7 @@ export class DictionaryEnumResolver {
     description: '更新字典枚举',
   })
   @Authorization({
-    resource: DictionaryEnum.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.DICTIONARY_ENUM,
     action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   updateDictionaryEnum(
@@ -70,7 +73,7 @@ export class DictionaryEnumResolver {
     description: '删除字典枚举',
   })
   @Authorization({
-    resource: DictionaryEnum.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.DICTIONARY_ENUM,
     action: AUTHORIZATION_ACTION_CODE.DELETE,
   })
   removeDictionaryEnum(@Args('id', { type: () => Int }) id: number) {

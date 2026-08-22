@@ -24,7 +24,10 @@ import { Authorization } from '@/libs/database/entities/mercury/authorization.en
 import { AssignRolesInput } from './dto/assign-roles.input';
 import { toArray } from '@aiszlab/relax';
 import { Authorization as RequireAuthorization } from 'utils/decorators/authorization.decorator';
-import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
+import {
+  AUTHORIZATION_ACTION_CODE,
+  AUTHORIZATION_RESOURCE_CODE,
+} from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -112,7 +115,7 @@ export class UserResolver {
     description: '分配角色',
   })
   @RequireAuthorization({
-    resource: User.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.USER,
     action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   assignRoles(@Args('input') input: AssignRolesInput) {

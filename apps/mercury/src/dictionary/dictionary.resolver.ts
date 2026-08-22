@@ -7,7 +7,10 @@ import { CreateDictionaryInput } from './dto/create-dictionary.input';
 import { UpdateDictionaryInput } from './dto/update-dictionary.input';
 import { Authorization } from 'utils/decorators/authorization.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
-import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
+import {
+  AUTHORIZATION_ACTION_CODE,
+  AUTHORIZATION_RESOURCE_CODE,
+} from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver()
 export class DictionaryResolver {
@@ -15,7 +18,7 @@ export class DictionaryResolver {
 
   @Mutation(() => Dictionary, { description: '创建字典' })
   @Authorization({
-    resource: Dictionary.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.DICTIONARY,
     action: AUTHORIZATION_ACTION_CODE.CREATE,
   })
   createDictionary(@Args('input') input: CreateDictionaryInput) {
@@ -27,7 +30,7 @@ export class DictionaryResolver {
     description: '分页查询字典',
   })
   @Authorization({
-    resource: Dictionary.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.DICTIONARY,
     action: AUTHORIZATION_ACTION_CODE.READ,
   })
   dictionaries(@PaginationArgs() pagination: Pagination) {
@@ -38,7 +41,7 @@ export class DictionaryResolver {
 
   @Query(() => Dictionary, { name: 'dictionary', description: '查询单个字典' })
   @Authorization({
-    resource: Dictionary.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.DICTIONARY,
     action: AUTHORIZATION_ACTION_CODE.READ,
   })
   dictionay(@Args('code', { type: () => String }) code: string) {
@@ -47,7 +50,7 @@ export class DictionaryResolver {
 
   @Mutation(() => Boolean, { description: '更新字典' })
   @Authorization({
-    resource: Dictionary.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.DICTIONARY,
     action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   updateDictionary(
@@ -59,7 +62,7 @@ export class DictionaryResolver {
 
   @Mutation(() => Boolean, { description: '删除字典' })
   @Authorization({
-    resource: Dictionary.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.DICTIONARY,
     action: AUTHORIZATION_ACTION_CODE.DELETE,
   })
   removeDictionary(@Args('id', { type: () => Int }) id: number) {

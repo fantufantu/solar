@@ -11,7 +11,10 @@ import { UpdateArticleCategoryInput } from './dto/update-category.input';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { FilterArgs } from 'utils/decorators/filter.decorator';
 import { Authorization } from 'utils/decorators/authorization.decorator';
-import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
+import {
+  AUTHORIZATION_ACTION_CODE,
+  AUTHORIZATION_RESOURCE_CODE,
+} from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver(() => Category)
 export class CategoryResolver {
@@ -38,7 +41,7 @@ export class CategoryResolver {
     description: '创建文章分类',
   })
   @Authorization({
-    resource: Category.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.CATEGORY,
     action: AUTHORIZATION_ACTION_CODE.CREATE,
   })
   async createArticleCategory(
@@ -51,7 +54,7 @@ export class CategoryResolver {
     description: '更新文章分类',
   })
   @Authorization({
-    resource: Category.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.CATEGORY,
     action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   async updateArticleCategory(
@@ -68,7 +71,7 @@ export class CategoryResolver {
     description: '删除文章分类',
   })
   @Authorization({
-    resource: Category.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.CATEGORY,
     action: AUTHORIZATION_ACTION_CODE.DELETE,
   })
   async removeArticleCategory(

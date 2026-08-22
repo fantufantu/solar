@@ -22,7 +22,10 @@ import { FilterAttractionsInput } from './dto/filter-attractions.input';
 import { UpdateAttractionInput } from './dto/update-attraction.input';
 import { CreateAttractionInput } from './dto/create-attraction.input';
 import { Authorization } from 'utils/decorators/authorization.decorator';
-import { AUTHORIZATION_ACTION_CODE } from '@/libs/database/entities/mercury/authorization.entity';
+import {
+  AUTHORIZATION_ACTION_CODE,
+  AUTHORIZATION_RESOURCE_CODE,
+} from '@/libs/database/entities/mercury/authorization.entity';
 
 @Resolver(() => Attraction)
 export class AttractionResolver {
@@ -55,7 +58,7 @@ export class AttractionResolver {
 
   @Mutation(() => Boolean, { description: '创建景点' })
   @Authorization({
-    resource: Attraction.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.ATTRACTION,
     action: AUTHORIZATION_ACTION_CODE.CREATE,
   })
   async createAttraction(
@@ -67,7 +70,7 @@ export class AttractionResolver {
 
   @Mutation(() => Boolean, { description: '更新景点' })
   @Authorization({
-    resource: Attraction.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.ATTRACTION,
     action: AUTHORIZATION_ACTION_CODE.UPDATE,
   })
   async updateAttraction(
@@ -83,7 +86,7 @@ export class AttractionResolver {
 
   @Mutation(() => Boolean, { description: '硬删除景点' })
   @Authorization({
-    resource: Attraction.name,
+    resource: AUTHORIZATION_RESOURCE_CODE.ATTRACTION,
     action: AUTHORIZATION_ACTION_CODE.DELETE,
   })
   async deleteAttraction(
