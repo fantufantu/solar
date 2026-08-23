@@ -147,9 +147,11 @@ export class DistrictService {
       where: { code: In([...codes]) },
       withDeleted: true,
     });
+
     const existingByCode = new Map(
       existingDistricts.map((district) => [district.code, district]),
     );
+
     const districtsToUpsert: District[] = [];
     const codesToDelete: string[] = [];
 
@@ -161,6 +163,7 @@ export class DistrictService {
           if (existing && !existing.deletedAt) {
             throw new ConflictException(`District ${code} already exists`);
           }
+
           districtsToUpsert.push(
             this.districtRepository.create({
               ...existing,
@@ -171,12 +174,14 @@ export class DistrictService {
               deletedAt: null,
             }),
           );
+
           break;
         }
         case DISTRICT_SYNC_ACTION.UPDATE: {
           if (!existing || existing.deletedAt) {
             throw new NotFoundException(`District ${code} not found`);
           }
+
           districtsToUpsert.push(
             this.districtRepository.create({
               ...existing,
@@ -184,13 +189,16 @@ export class DistrictService {
               updatedById: userId,
             }),
           );
+
           break;
         }
         case DISTRICT_SYNC_ACTION.DELETE:
           if (!existing || existing.deletedAt) {
             throw new NotFoundException(`District ${code} not found`);
           }
+
           codesToDelete.push(code);
+
           break;
         default:
           throw new BadRequestException(
@@ -199,15 +207,17 @@ export class DistrictService {
       }
     }
 
-    if (districtsToUpsert.length) {
+    if (districtsToUpsert.length > 0) {
       await this.districtRepository.upsert(districtsToUpsert, ['code']);
     }
-    if (codesToDelete.length) {
+
+    if (codesToDelete.length > 0) {
       await this.districtRepository.update(
         { code: In(codesToDelete) },
         { deletedAt: new Date(), updatedById: userId },
       );
     }
+
     return true;
   }
 }
