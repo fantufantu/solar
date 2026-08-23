@@ -15,45 +15,27 @@ function harness(initial: Partial<Stored>[] = []) {
     initial.map((row) => [row.code!, Object.assign(new District(), row)]),
   );
   const repository: any = {
-    findOne: jest.fn(({ where }: any) =>
-      Promise.resolve(rows.get(where.code) ?? null),
+    find: jest.fn(({ where }: any) =>
+      Promise.resolve(
+        where.code._value.map((code: string) => rows.get(code)).filter(Boolean),
+      ),
     ),
-    findOneBy: jest.fn(({ code }: any) => {
-      const row = rows.get(code);
-      return Promise.resolve(row && !row.deletedAt ? row : null);
-    }),
     create: (value: any) => Object.assign(new District(), value),
-    save: jest.fn((value: Stored) => {
-      rows.set(value.code, value);
-      return Promise.resolve(value);
+    upsert: jest.fn((values: Stored[]) => {
+      for (const value of values) rows.set(value.code, value);
+      return Promise.resolve({
+        identifiers: values.map(({ code }) => ({ code })),
+      });
     }),
-    recover: jest.fn((value: Stored) => {
-      value.deletedAt = null;
-      return Promise.resolve(value);
+    update: jest.fn(({ code }: any, value: Partial<Stored>) => {
+      for (const districtCode of code._value) {
+        Object.assign(rows.get(districtCode)!, value);
+      }
+      return Promise.resolve({ affected: code._value.length });
     }),
-    softRemove: jest.fn((value: Stored) => {
-      value.deletedAt ||= new Date();
-      rows.set(value.code, value);
-      return Promise.resolve(value);
-    }),
-    createQueryBuilder: () => {
-      let inserted: Stored;
-      return {
-        insert() {
-          return this;
-        },
-        values(value: Stored) {
-          inserted = value;
-          return this;
-        },
-        async execute() {
-          rows.set(inserted.code, inserted);
-          return { identifiers: [{ code: inserted.code }] };
-        },
-      };
-    },
   };
   return {
+    repository,
     service: new DistrictService(repository),
     get: (code: string) => rows.get(code),
   };
@@ -90,6 +72,9 @@ describe('DistrictService sync', () => {
     });
     expect(h.get('delete')?.updatedById).toBe('user-1');
     expect(h.get('delete')?.deletedAt).toBeInstanceOf(Date);
+    expect(h.repository.find).toHaveBeenCalledTimes(1);
+    expect(h.repository.upsert).toHaveBeenCalledTimes(1);
+    expect(h.repository.update).toHaveBeenCalledTimes(1);
   });
 
   it('restores a soft-deleted district and refreshes its data', async () => {
@@ -133,5 +118,8 @@ describe('DistrictService sync', () => {
       ),
     ).rejects.toBeInstanceOf(BadRequestException);
     expect(h.get('1')).toBeUndefined();
+    expect(h.repository.find).not.toHaveBeenCalled();
+    expect(h.repository.upsert).not.toHaveBeenCalled();
+    expect(h.repository.update).not.toHaveBeenCalled();
   });
 });

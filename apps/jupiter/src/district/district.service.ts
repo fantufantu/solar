@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { District } from '@/libs/database/entities/jupiter/district.entity';
 import { Query } from 'typings/controller';
 import { FilterDistrictsInput } from './dto/filter-districts.input';
@@ -143,23 +143,70 @@ export class DistrictService {
       codes.add(item.code);
     }
 
+    const existingDistricts = await this.districtRepository.find({
+      where: { code: In([...codes]) },
+      withDeleted: true,
+    });
+    const existingByCode = new Map(
+      existingDistricts.map((district) => [district.code, district]),
+    );
+    const districtsToUpsert: District[] = [];
+    const codesToDelete: string[] = [];
+
     for (const item of items) {
       const { action, code, ...fields } = item;
+      const existing = existingByCode.get(code);
       switch (action) {
-        case DISTRICT_SYNC_ACTION.CREATE:
-          await this.create({ code, ...fields } as CreateDistrictInput, userId);
+        case DISTRICT_SYNC_ACTION.CREATE: {
+          if (existing && !existing.deletedAt) {
+            throw new ConflictException(`District ${code} already exists`);
+          }
+          districtsToUpsert.push(
+            this.districtRepository.create({
+              ...existing,
+              ...fields,
+              code,
+              createdById: existing?.createdById ?? userId,
+              updatedById: userId,
+              deletedAt: null,
+            }),
+          );
           break;
-        case DISTRICT_SYNC_ACTION.UPDATE:
-          await this.update(code, fields, userId);
+        }
+        case DISTRICT_SYNC_ACTION.UPDATE: {
+          if (!existing || existing.deletedAt) {
+            throw new NotFoundException(`District ${code} not found`);
+          }
+          districtsToUpsert.push(
+            this.districtRepository.create({
+              ...existing,
+              ...fields,
+              updatedById: userId,
+            }),
+          );
           break;
+        }
         case DISTRICT_SYNC_ACTION.DELETE:
-          await this.delete(code, userId);
+          if (!existing || existing.deletedAt) {
+            throw new NotFoundException(`District ${code} not found`);
+          }
+          codesToDelete.push(code);
           break;
         default:
           throw new BadRequestException(
             `Unsupported district sync action: ${action}`,
           );
       }
+    }
+
+    if (districtsToUpsert.length) {
+      await this.districtRepository.upsert(districtsToUpsert, ['code']);
+    }
+    if (codesToDelete.length) {
+      await this.districtRepository.update(
+        { code: In(codesToDelete) },
+        { deletedAt: new Date(), updatedById: userId },
+      );
     }
     return true;
   }
