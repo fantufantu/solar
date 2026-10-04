@@ -39,6 +39,23 @@ export class DistrictLoader {
   );
 
   /**
+   * 根据行政区`code`批量查询父级行政区，避免 N+1 查询问题
+   */
+  readonly parent = new DataLoader<string, District | null>(
+    async (parentCodes: readonly string[]) => {
+      const districts = await this.districtRepository.find({
+        where: { code: In(parentCodes) },
+      });
+      const byCode = new Map(districts.map((district) => [district.code, district]));
+
+      return parentCodes.map((code) => byCode.get(code) ?? null);
+    },
+    {
+      cache: false,
+    },
+  );
+
+  /**
    * 根据父级行政区`code`批量查询子级行政区，避免 N+1 查询问题
    */
   readonly children = new DataLoader<string, District[]>(

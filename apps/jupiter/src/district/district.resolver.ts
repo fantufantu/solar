@@ -134,7 +134,7 @@ export class DistrictResolver {
   })
   parent(@Parent() district: District) {
     if (!district.parentCode) return null;
-    return this.districtService.district(district.parentCode);
+    return this.districtLoader.parent.load(district.parentCode);
   }
 
   @ResolveField('children', () => [District], {

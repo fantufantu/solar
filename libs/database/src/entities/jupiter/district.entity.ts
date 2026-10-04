@@ -1,14 +1,6 @@
 import type { ValueOf } from '@aiszlab/relax/types';
-import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
-import { GRAPHQL_ENUM_TOKEN } from 'constants/common.constant';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryColumn,
-} from 'typeorm';
+import { ObjectType, Field } from '@nestjs/graphql';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { Tracked } from '../any-use/tracked.entity';
 
 export const DISTRICT_LEVEL = {
@@ -51,15 +43,4 @@ export class District extends Tracked {
     comment: '父级行政区`code`',
   })
   parentCode?: string;
-
-  @Field(() => District, { nullable: true, description: '父级行政区' })
-  @ManyToOne(() => District, (district) => district.children, {
-    nullable: true,
-  })
-  @JoinColumn({ referencedColumnName: 'code', name: 'parent_code' })
-  parent?: District;
-
-  @Field(() => [District], { description: '子级行政区列表' })
-  @OneToMany(() => District, (district) => district.parent)
-  children!: District[];
 }

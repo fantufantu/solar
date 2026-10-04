@@ -124,7 +124,7 @@ Jupiter uses LangChain with OpenAI-compatible APIs for AI-powered trip planning:
 - SSE streaming uses RxJS `Observable<MessageEvent>` with `map`, `endWith`, `shareReplay`
 
 ### Coding style
-- **分组/聚合优先用 `for...of`**，不用 `reduce`。`for...of` 可读性更好，且避免 `reduce` 里重复 `Map.get` 的问题。
+- **分组/聚合优先用 `reduce`**，让转换逻辑集中表达在累加器中。
 - **判断数组非空时显式写 `array.length > 0`**，不要简写为 `array.length`。
 
 ### Utility library
