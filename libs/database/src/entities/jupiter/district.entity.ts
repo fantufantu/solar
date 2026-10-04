@@ -33,9 +33,14 @@ export class District extends Tracked {
   @Column({ type: 'varchar', length: 20, comment: '行政区级别' })
   level!: DistrictLevel;
 
-  @Field(() => String, { description: '行政区代表图' })
-  @Column({ type: 'varchar', length: 128, comment: '行政区代表图' })
-  image!: string;
+  @Field(() => String, { nullable: true, description: '行政区代表图' })
+  @Column({
+    type: 'varchar',
+    length: 128,
+    nullable: true,
+    comment: '行政区代表图',
+  })
+  image?: string | null;
 
   @Field(() => String, { nullable: true, description: '父级行政区`code`' })
   @Column({

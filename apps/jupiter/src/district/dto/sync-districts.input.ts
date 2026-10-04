@@ -58,10 +58,7 @@ export class SyncDistrictInput {
   level?: DistrictLevel;
 
   @Field(() => String, { nullable: true, description: '行政区代表图' })
-  @ValidateIf(
-    (input: SyncDistrictInput) =>
-      input.action === DISTRICT_SYNC_ACTION.CREATE || input.image !== void 0,
-  )
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   image?: string;

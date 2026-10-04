@@ -33,6 +33,16 @@ describe('SyncDistrictsInput', () => {
 
   it('requires create fields but permits a code-only delete', async () => {
     expect(
+      await validate(
+        item({
+          action: DISTRICT_SYNC_ACTION.CREATE,
+          code: '1',
+          name: 'Test district',
+          level: 'city' as never,
+        }),
+      ),
+    ).toHaveLength(0);
+    expect(
       await validate(item({ action: DISTRICT_SYNC_ACTION.CREATE, code: '1' })),
     ).not.toHaveLength(0);
     expect(
