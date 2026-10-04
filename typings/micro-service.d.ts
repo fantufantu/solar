@@ -4,8 +4,11 @@ import type {
   JwtPropertyToken,
   RsaPropertyToken,
 } from 'constants/common.constant';
-import { type REGISTERED_CONFIGURATION_TOKENS } from '../constants/configuration';
-import { VolcArkPropertyToken } from 'constants/volc-ark.constant';
+import type {
+  AmapPropertyToken,
+  REGISTERED_CONFIGURATION_TOKENS,
+} from 'constants/configuration.constant';
+import type { VolcArkPropertyToken } from 'constants/volc-ark.constant';
 
 /**
  * 微服务指令
@@ -37,6 +40,10 @@ export type GetConfigurationBy =
   | {
       token: typeof REGISTERED_CONFIGURATION_TOKENS.VOLC_ARK;
       property: VolcArkPropertyToken;
+    }
+  | {
+      token: typeof REGISTERED_CONFIGURATION_TOKENS.AMAP;
+      property: AmapPropertyToken;
     };
 
 /**

@@ -15,6 +15,7 @@ import { DatabaseModule } from '@/libs/database';
 import { APPLICATION_TOKEN } from 'constants/app.constant';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
 import { PassportModule } from '@/libs/passport';
+import { LocationModule } from './location/location.module';
 
 @Module({
   imports: [
@@ -57,6 +58,9 @@ import { PassportModule } from '@/libs/passport';
 
     // 景区模块
     AttractionModule,
+
+    // 当前位置解析
+    LocationModule,
   ],
   controllers: [],
   providers: [],
