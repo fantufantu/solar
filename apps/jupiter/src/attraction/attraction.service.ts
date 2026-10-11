@@ -1,11 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Brackets, Repository } from 'typeorm';
+import { Brackets, In, Repository } from 'typeorm';
 import { Attraction } from '@/libs/database/entities/jupiter/attraction.entity';
 import { Query } from 'typings/controller';
 import { FilterAttractionsInput } from './dto/filter-attractions.input';
 import { UpdateAttractionInput } from './dto/update-attraction.input';
 import { CreateAttractionInput } from './dto/create-attraction.input';
+import {
+  ATTRACTION_SYNC_ACTION,
+  SyncAttractionsInput,
+} from './dto/sync-attractions.input';
 
 @Injectable()
 export class AttractionService {
@@ -106,5 +114,81 @@ export class AttractionService {
         .where({ code })
         .execute()
     ).affected;
+  }
+
+  /** 批量同步景点。 */
+  async sync({ items }: SyncAttractionsInput, userId: string) {
+    if (!items.length)
+      throw new BadRequestException('Attraction sync list is empty');
+
+    const codes = new Set<string>();
+    for (const item of items) {
+      if (codes.has(item.code)) {
+        throw new BadRequestException(
+          `Duplicate or conflicting operations for attraction ${item.code}`,
+        );
+      }
+      codes.add(item.code);
+    }
+
+    const existingAttractions = await this.attractionRepository.find({
+      where: { code: In([...codes]) },
+    });
+    const existingByCode = new Map(
+      existingAttractions.map((attraction) => [attraction.code, attraction]),
+    );
+
+    const attractionsToUpsert: Attraction[] = [];
+    const codesToDelete: string[] = [];
+
+    for (const item of items) {
+      const { action, code, ...fields } = item;
+      const existing = existingByCode.get(code);
+      switch (action) {
+        case ATTRACTION_SYNC_ACTION.CREATE:
+          attractionsToUpsert.push(
+            this.attractionRepository.create({
+              ...existing,
+              ...fields,
+              code,
+              createdById: existing?.createdById ?? userId,
+              updatedById: userId,
+            }),
+          );
+          break;
+        case ATTRACTION_SYNC_ACTION.UPDATE:
+          if (!existing) {
+            throw new NotFoundException(`Attraction ${code} not found`);
+          }
+          attractionsToUpsert.push(
+            this.attractionRepository.create({
+              ...existing,
+              ...fields,
+              updatedById: userId,
+            }),
+          );
+          break;
+        case ATTRACTION_SYNC_ACTION.DELETE:
+          if (!existing) {
+            throw new NotFoundException(`Attraction ${code} not found`);
+          }
+          codesToDelete.push(code);
+          break;
+        default:
+          throw new BadRequestException(
+            `Unsupported attraction sync action: ${action}`,
+          );
+      }
+    }
+
+    if (attractionsToUpsert.length > 0) {
+      await this.attractionRepository.upsert(attractionsToUpsert, ['code']);
+    }
+
+    if (codesToDelete.length > 0) {
+      await this.attractionRepository.delete({ code: In(codesToDelete) });
+    }
+
+    return true;
   }
 }

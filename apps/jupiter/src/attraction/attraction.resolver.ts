@@ -21,6 +21,7 @@ import { PaginatedAttractions } from './dto/paginated-attractions.object';
 import { FilterAttractionsInput } from './dto/filter-attractions.input';
 import { UpdateAttractionInput } from './dto/update-attraction.input';
 import { CreateAttractionInput } from './dto/create-attraction.input';
+import { SyncAttractionsInput } from './dto/sync-attractions.input';
 import { Authorization } from 'utils/decorators/authorization.decorator';
 import {
   AUTHORIZATION_ACTION_CODE,
@@ -96,6 +97,18 @@ export class AttractionResolver {
     code: string,
   ) {
     return this.attractionService.delete(code);
+  }
+
+  @Mutation(() => Boolean, { description: '批量同步景点' })
+  @Authorization({
+    resource: AUTHORIZATION_RESOURCE_CODE.ATTRACTION,
+    action: AUTHORIZATION_ACTION_CODE.UPDATE,
+  })
+  async syncAttractions(
+    @Args('input') input: SyncAttractionsInput,
+    @WhoAmI() whoAmI: User,
+  ) {
+    return this.attractionService.sync(input, whoAmI.id);
   }
 
   @ResolveField('district', () => District, { description: '所属行政区' })

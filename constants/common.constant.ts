@@ -73,6 +73,7 @@ export const GRAPHQL_ENUM_TOKEN = {
   // jupiter
   DISTRICT_LEVEL: 'DistrictLevel',
   DISTRICT_SYNC_ACTION: 'DistrictSyncAction',
+  ATTRACTION_SYNC_ACTION: 'AttractionSyncAction',
 
   // cos
   BUCKET_NAME: 'BucketName',
