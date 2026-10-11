@@ -99,6 +99,20 @@ export class AttractionResolver {
     return this.attractionService.delete(code);
   }
 
+  @Mutation(() => Boolean, { description: '批量硬删除景点' })
+  @Authorization({
+    resource: AUTHORIZATION_RESOURCE_CODE.ATTRACTION,
+    action: AUTHORIZATION_ACTION_CODE.DELETE,
+  })
+  async deleteAttractions(
+    @Args('codes', {
+      type: () => [String],
+    })
+    codes: string[],
+  ) {
+    return this.attractionService.deleteMany(codes);
+  }
+
   @Mutation(() => Boolean, { description: '批量同步景点' })
   @Authorization({
     resource: AUTHORIZATION_RESOURCE_CODE.ATTRACTION,

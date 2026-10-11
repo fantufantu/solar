@@ -126,6 +126,7 @@ Jupiter uses LangChain with OpenAI-compatible APIs for AI-powered trip planning:
 ### Coding style
 - **分组/聚合优先用 `reduce`**，让转换逻辑集中表达在累加器中。
 - **判断数组非空时显式写 `array.length > 0`**，不要简写为 `array.length`。
+- **判断数组为空时显式写 `array.length === 0`**，例如 `codes.length === 0`，不要简写为 `!array.length`。
 
 ### Utility library
 The project uses `@aiszlab/relax` for shared utilities: `ValueOf` type (extracts union of values from a const object), `PartialTuple`, `isString`. Constants files use `ValueOf<typeof CONST>` to create narrow string literal unions from `as const` objects.

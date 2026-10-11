@@ -116,6 +116,21 @@ export class AttractionService {
     ).affected;
   }
 
+  /** 批量硬删除景点 */
+  async deleteMany(codes: string[]) {
+    if (codes.length === 0) {
+      throw new BadRequestException('Attraction codes must not be empty');
+    }
+
+    return !!(
+      await this.attractionRepository
+        .createQueryBuilder()
+        .delete()
+        .where({ code: In(codes) })
+        .execute()
+    ).affected;
+  }
+
   /** 批量同步景点。 */
   async sync({ items }: SyncAttractionsInput, userId: string) {
     if (!items.length)
