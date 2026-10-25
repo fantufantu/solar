@@ -109,18 +109,26 @@ export class ConfigService {
   }
 
   /**
-   * 获取高德地图 API 密钥
+   * 获取高德地图`API`密钥及安全密钥
    */
   async amapCredential(): Promise<AmapCredential> {
-    const apiKey = await this.plutoClient.getConfiguration<string>({
-      token: REGISTERED_CONFIGURATION_TOKENS.AMAP,
-      property: AMAP_PROPERTY_TOKEN.API_KEY,
-    });
+    const [apiKey, apiSecret] = await this.plutoClient.getConfigurations<
+      [string, string]
+    >([
+      {
+        token: REGISTERED_CONFIGURATION_TOKENS.AMAP,
+        property: AMAP_PROPERTY_TOKEN.API_KEY,
+      },
+      {
+        token: REGISTERED_CONFIGURATION_TOKENS.AMAP,
+        property: AMAP_PROPERTY_TOKEN.API_SECRET,
+      },
+    ]);
 
     if (!apiKey) {
-      throw new BadRequestException('高德地图 API 密钥未配置');
+      throw new BadRequestException('高德地图`API`密钥未配置');
     }
 
-    return { apiKey };
+    return { apiKey, apiSecret: apiSecret ?? '' };
   }
 }

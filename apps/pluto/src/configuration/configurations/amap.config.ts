@@ -9,5 +9,6 @@ export default registerAs<Record<AmapPropertyToken, string>>(
   REGISTERED_CONFIGURATION_TOKENS.AMAP,
   () => ({
     [AMAP_PROPERTY_TOKEN.API_KEY]: process.env.AMAP_API_KEY ?? '',
+    [AMAP_PROPERTY_TOKEN.API_SECRET]: process.env.AMAP_API_SECRET ?? '',
   }),
 );

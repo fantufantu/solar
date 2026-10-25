@@ -28,10 +28,11 @@ export const OPENAI_PROPERTY_TOKEN = {
 export type OpenaiPropertyToken = ValueOf<typeof OPENAI_PROPERTY_TOKEN>;
 
 /**
- * 高德地图 配置项
+ * 高德地图`API`配置项
  */
 export const AMAP_PROPERTY_TOKEN = {
   API_KEY: 'api-key',
+  API_SECRET: 'api-secret',
 } as const;
 
 export type AmapPropertyToken = ValueOf<typeof AMAP_PROPERTY_TOKEN>;

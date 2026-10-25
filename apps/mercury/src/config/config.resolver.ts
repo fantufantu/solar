@@ -21,7 +21,7 @@ export class ConfigResolver {
   }
 
   @Query(() => AmapCredential, {
-    description: '获取高德地图 API 密钥',
+    description: '获取高德地图`API`密钥及安全密钥',
   })
   async amapCredential() {
     return await this.configService.amapCredential();
