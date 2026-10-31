@@ -59,7 +59,7 @@ export class TouristPlanService {
           }
 
           for await (const chunk of chunks) {
-            subscriber.next(chunk.content.toString());
+            subscriber.next(chunk.text);
           }
         })
         .catch((err) => {
@@ -138,16 +138,46 @@ export class TouristPlanService {
       return _touristPlan.proposal;
     }
 
-    const [districtNames = [], attractionNames = []] = await Promise.all([
-      this.districtService
-        .districtsByCodes(_touristPlan.districtCodes)
-        .then((districts) => districts.map((district) => district.name))
-        .catch(() => void 0),
-      this.attractionService
-        .attractionsByCodes(_touristPlan.attractionCodes)
-        .then((attractions) => attractions.map((item) => item.name))
-        .catch(() => void 0),
+    const [districts, attractions] = await Promise.all([
+      _touristPlan.districtCodes.length > 0
+        ? this.districtService.districtsByCodes(_touristPlan.districtCodes)
+        : Promise.resolve([]),
+      _touristPlan.attractionCodes.length > 0
+        ? this.attractionService.attractionsByCodes(
+            _touristPlan.attractionCodes,
+          )
+        : Promise.resolve([]),
     ]);
+    const districtByCode = new Map(districts.map((item) => [item.code, item]));
+    const attractionByCode = new Map(
+      attractions.map((item) => [item.code, item]),
+    );
+    if (
+      _touristPlan.districtCodes.length === 0 ||
+      _touristPlan.districtCodes.some((code) => !districtByCode.has(code)) ||
+      _touristPlan.attractionCodes.some((code) => !attractionByCode.has(code))
+    ) {
+      throw new BadRequestException('出行目的地或景点不存在，请重新选择');
+    }
+
+    const attractionsByDistrict = _touristPlan.attractionCodes.reduce(
+      (grouped, code) => {
+        const attraction = attractionByCode.get(code)!;
+        if (!_touristPlan.districtCodes.includes(attraction.districtCode)) {
+          throw new BadRequestException('所选景点不属于所选目的地，请重新选择');
+        }
+        const items = grouped.get(attraction.districtCode) ?? [];
+        items.push({ code: attraction.code, name: attraction.name });
+        grouped.set(attraction.districtCode, items);
+        return grouped;
+      },
+      new Map<string, { code: string; name: string }[]>(),
+    );
+    const destinations = _touristPlan.districtCodes.map((code) => ({
+      code,
+      name: districtByCode.get(code)!.name,
+      attractions: attractionsByDistrict.get(code) ?? [],
+    }));
 
     const {
       '0': [model, apiKey, baseURL],
@@ -168,15 +198,15 @@ export class TouristPlanService {
         },
       ]),
       useProposalPrompt({
-        districts: districtNames.join(','),
+        destinations,
         depatureAt: dayjs(_touristPlan.depatureAt).format('YYYY-MM-DD'),
         duration: _touristPlan.duration,
-        attractions: attractionNames.join(','),
       }),
     ]);
 
     const chat = new ChatOpenAI({
       model,
+      useResponsesApi: true,
       configuration: {
         baseURL,
         apiKey,
