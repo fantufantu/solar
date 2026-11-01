@@ -67,6 +67,10 @@ export class AttractionService {
    * 批量查询景点（用于 DataLoader 批处理，避免 N+1 问题）
    */
   async attractionsByCodes(codes: string[]): Promise<Attraction[]> {
+    if (codes.length === 0) {
+      return [];
+    }
+
     return await this.attractionRepository
       .createQueryBuilder()
       .where('code IN (:...codes)', { codes })

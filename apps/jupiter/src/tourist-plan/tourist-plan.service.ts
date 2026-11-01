@@ -80,6 +80,7 @@ export class TouristPlanService {
               proposal = (proposal ?? '') + value;
               subscriber.next(value);
             },
+            error: (err) => subscriber.error(err),
             complete: () => {
               // 记录`Agent`生成的出行方案
               Promise.all([
@@ -139,19 +140,15 @@ export class TouristPlanService {
     }
 
     const [districts, attractions] = await Promise.all([
-      _touristPlan.districtCodes.length > 0
-        ? this.districtService.districtsByCodes(_touristPlan.districtCodes)
-        : Promise.resolve([]),
-      _touristPlan.attractionCodes.length > 0
-        ? this.attractionService.attractionsByCodes(
-            _touristPlan.attractionCodes,
-          )
-        : Promise.resolve([]),
+      this.districtService.districtsByCodes(_touristPlan.districtCodes),
+      this.attractionService.attractionsByCodes(_touristPlan.attractionCodes),
     ]);
+
     const districtByCode = new Map(districts.map((item) => [item.code, item]));
     const attractionByCode = new Map(
       attractions.map((item) => [item.code, item]),
     );
+
     if (
       _touristPlan.districtCodes.length === 0 ||
       _touristPlan.districtCodes.some((code) => !districtByCode.has(code)) ||
@@ -173,6 +170,7 @@ export class TouristPlanService {
       },
       new Map<string, { code: string; name: string }[]>(),
     );
+
     const destinations = _touristPlan.districtCodes.map((code) => ({
       code,
       name: districtByCode.get(code)!.name,
@@ -206,7 +204,6 @@ export class TouristPlanService {
 
     const chat = new ChatOpenAI({
       model,
-      useResponsesApi: true,
       configuration: {
         baseURL,
         apiKey,

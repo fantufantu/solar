@@ -72,6 +72,9 @@ it('groups attractions by district code regardless of query result order', async
     {} as any,
   );
   await service.generateTouristPlan('plan-1');
+  expect(ChatOpenAI).toHaveBeenLastCalledWith(
+    expect.objectContaining({ useResponsesApi: false }),
+  );
   const message = stream.mock.calls[0][0].toChatMessages()[1].text;
   const destinations = JSON.parse(
     message.split('目的地与意向景点（JSON）：\n')[1].split('\n\n')[0],
@@ -119,3 +122,27 @@ it.each([
     expect(getConfigurations).not.toHaveBeenCalled();
   },
 );
+
+it('forwards generation errors without saving an incomplete proposal', async () => {
+  const repository = { update: jest.fn() };
+  const service = new TouristPlanService(
+    {} as any,
+    repository as any,
+    {} as any,
+    {} as any,
+    {} as any,
+    {} as any,
+    {} as any,
+  );
+  const failure = new Error('upstream stream failed');
+  jest.spyOn(service, 'generateTouristPlan').mockResolvedValue(
+    (async function* () {
+      yield new AIMessageChunk({ content: '部分方案' });
+      throw failure;
+    })() as any,
+  );
+  await expect(
+    lastValueFrom(service.proposal('plan-1').pipe(toArray())),
+  ).rejects.toBe(failure);
+  expect(repository.update).not.toHaveBeenCalled();
+});

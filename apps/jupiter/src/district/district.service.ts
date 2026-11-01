@@ -61,6 +61,10 @@ export class DistrictService {
    * 批量查询行政区（用于 DataLoader 批处理，避免 N+1 问题）
    */
   async districtsByCodes(codes: string[]): Promise<District[]> {
+    if (codes.length === 0) {
+      return [];
+    }
+
     return await this.districtRepository
       .createQueryBuilder('district')
       .where('code IN (:...codes)', { codes })
