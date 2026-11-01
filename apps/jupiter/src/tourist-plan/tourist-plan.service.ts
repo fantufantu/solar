@@ -28,7 +28,6 @@ import dayjs from 'dayjs';
 import { isString } from '@aiszlab/relax';
 import { COMPLETED_MESSAGE_EVENT } from 'utils/sse.util';
 import { STATUS_CODE } from 'constants/sse.constant';
-import { OPENAI_PROPERTY_TOKEN } from 'constants/configuration.constant';
 import { TouristPlanItineraryService } from '../tourist-plan-itinerary/tourist-plan-itinerary.service';
 import { MercuryClientService } from '@/libs/mercury-client';
 
@@ -230,16 +229,16 @@ export class TouristPlanService {
       [string, string, string]
     >([
       {
-        token: REGISTERED_CONFIGURATION_TOKENS.OPENAI,
-        property: OPENAI_PROPERTY_TOKEN.MODEL,
+        token: REGISTERED_CONFIGURATION_TOKENS.VOLC_ARK,
+        property: VOLC_ARK_PROPERTY_TOKENS.ARK_CABIN_CAB_MODEL,
       },
       {
-        token: REGISTERED_CONFIGURATION_TOKENS.OPENAI,
-        property: OPENAI_PROPERTY_TOKEN.API_KEY,
+        token: REGISTERED_CONFIGURATION_TOKENS.VOLC_ARK,
+        property: VOLC_ARK_PROPERTY_TOKENS.ARK_CABIN_CAB_API_KEY,
       },
       {
-        token: REGISTERED_CONFIGURATION_TOKENS.OPENAI,
-        property: OPENAI_PROPERTY_TOKEN.BASE_URL,
+        token: REGISTERED_CONFIGURATION_TOKENS.VOLC_ARK,
+        property: VOLC_ARK_PROPERTY_TOKENS.ARK_CABIN_CAB_BASE_URL,
       },
     ]);
 

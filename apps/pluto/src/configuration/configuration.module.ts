@@ -4,7 +4,6 @@ import {
   jwtConfig,
   rsaConfig,
   tencentCloudConfig,
-  openaiConfig,
   volcArkConfig,
   amapConfig,
 } from './configurations';
@@ -19,7 +18,6 @@ import { ConfigurationController } from './configuration.controller';
         jwtConfig,
         rsaConfig,
         tencentCloudConfig,
-        openaiConfig,
         volcArkConfig,
         amapConfig,
       ],

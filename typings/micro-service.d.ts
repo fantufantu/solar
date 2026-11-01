@@ -34,10 +34,6 @@ export type GetConfigurationBy =
       property: RsaPropertyToken;
     }
   | {
-      token: typeof REGISTERED_CONFIGURATION_TOKENS.OPENAI_CONFIG;
-      property: string;
-    }
-  | {
       token: typeof REGISTERED_CONFIGURATION_TOKENS.VOLC_ARK;
       property: VolcArkPropertyToken;
     }
