@@ -66,6 +66,9 @@ NODE
 
 cd -- "$ROOT_DIR"
 
+# Stop every old service before nest start rebuilds and starts the new version.
+pm2 stop all
+
 for service in "${SERVICES[@]}"; do
   service_name="${service%%:*}"
   port="${service##*:}"

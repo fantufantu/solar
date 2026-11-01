@@ -16,7 +16,7 @@ jobs:
   deploy:
     name: Update the remote repository
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 40
     env:
       DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
       SSH_HOST: ${{ secrets.SSH_HOST }}
@@ -36,7 +36,7 @@ jobs:
           printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
 
-      - name: Pull changes and install dependencies
+      - name: Pull changes, install dependencies and restart services
         run: |
           set -euo pipefail
           ssh_port="${SSH_PORT:-22}"
@@ -51,7 +51,12 @@ jobs:
             "bash -se -- $quoted_deploy_path" <<'REMOTE_SCRIPT'
           set -euo pipefail
           cd -- "$1"
+          # Load Node.js installed through nvm for non-interactive SSH.
+          export NVM_DIR="$HOME/.nvm"
+          if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+            source "$NVM_DIR/nvm.sh"
+          fi
           git pull --ff-only
-          pnpm i
+          pnpm install --frozen-lockfile --prod=false
           pnpm deploy:pm2
           REMOTE_SCRIPT
