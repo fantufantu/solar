@@ -20,6 +20,7 @@ export type RegisteredConfigurationToken = ValueOf<
  */
 export const AMAP_PROPERTY_TOKEN = {
   API_KEY: 'api-key',
+  WEB_API_KEY: 'web-api-key',
   API_SECRET: 'api-secret',
 } as const;
 

@@ -60,10 +60,10 @@ export class LocationService {
 
     const apiKey = await this.plutoClient.getConfiguration<string>({
       token: REGISTERED_CONFIGURATION_TOKENS.AMAP,
-      property: AMAP_PROPERTY_TOKEN.API_KEY,
+      property: AMAP_PROPERTY_TOKEN.WEB_API_KEY,
     });
     if (!apiKey) {
-      throw new ServiceUnavailableException('Amap API key is not configured');
+      throw new ServiceUnavailableException('Amap Web API key is not configured');
     }
 
     const amapCoordinates = await this.convertGpsCoordinates(
