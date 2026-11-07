@@ -2,6 +2,13 @@
 
 This file provides guidance for AI coding agents working with this repository.
 
+## Documentation updates
+
+- Keep documentation in sync with behavior changes, including deployment scripts, workflows, and configuration.
+- Document behavior or operational details that are not clear from the code in the relevant README or operational documentation.
+- Update this file only when a distilled rule or fact will help future coding agents across tasks; do not copy task-specific change notes here.
+- Whenever updating this file, review the surrounding guidance and remove or revise anything that is obsolete, duplicated, or no longer useful.
+
 ## Commands
 
 ### Development (watch mode)

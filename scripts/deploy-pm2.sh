@@ -66,8 +66,13 @@ NODE
 
 cd -- "$ROOT_DIR"
 
-# Stop every old service before nest start rebuilds and starts the new version.
-pm2 stop all
+# Stop only this application's services before starting the new version.
+for service in "${SERVICES[@]}"; do
+  service_name="${service%%:*}"
+  if pm2 describe "$service_name" >/dev/null 2>&1; then
+    pm2 stop "$service_name"
+  fi
+done
 
 for service in "${SERVICES[@]}"; do
   service_name="${service%%:*}"

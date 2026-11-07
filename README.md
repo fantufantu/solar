@@ -50,14 +50,14 @@ apt install -y nginx
 
 推送任意 Git tag 后，GitHub Actions 会通过 SSH 进入服务器，在部署目录依次执行
 `git pull --ff-only`、`pnpm install --frozen-lockfile --prod=false` 和 `pnpm deploy:pm2`。
-安装完整依赖（含 Nest CLI、TypeScript 等构建工具）成功后，部署脚本先执行 `pm2 stop all`，
-再通过 PM2 调用现有 `start:*` scripts，即 `nest start <service>`，在服务器逐个构建并启动。
+安装完整依赖（含 Nest CLI、TypeScript 等构建工具）成功后，部署脚本只停止 Solar 的七个 PM2
+应用（若已存在），再通过 PM2 调用现有 `start:*` scripts，即 `nest start <service>`，在服务器逐个构建并启动。
 
 Tag 仅作为部署触发信号，实际发布服务器当前分支拉取后的最新提交，不保证与 tag 指向的提交一致。
 此流程会有停机窗口；启动失败时终止部署，不自动回滚。
 服务器需预装 Node.js、pnpm、PM2 和 Git，部署用户需具备仓库拉取权限。
 SSH 步骤会在存在时加载 `$HOME/.nvm/nvm.sh`。
-`pm2 stop all` 会停止同一 PM2 用户下的全部应用，此流程只重新启动 Solar 的七个服务。
+部署脚本不会停止同一 PM2 用户下的其他应用。
 
 `deploy:pm2` 不使用并行的 `pm2 restart all`，而是按照
 Pluto → Mercury → Venus → Earth → Mars → Jupiter → Halley 的依赖顺序逐个启动。
