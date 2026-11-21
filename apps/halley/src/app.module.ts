@@ -3,7 +3,6 @@ import {
   IntrospectAndCompose,
   RemoteGraphQLDataSource,
 } from '@apollo/gateway';
-import { GraphQLDataSourceRequestKind } from '@apollo/gateway/dist/datasources/types.js';
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { Context, GraphQLModule } from '@nestjs/graphql';
@@ -17,13 +16,10 @@ interface Context {
 }
 
 class RouterDataSource extends RemoteGraphQLDataSource {
-  willSendRequest({
-    request,
-    context,
-    kind,
-  }: GraphQLDataSourceProcessOptions<Context>) {
-    if (kind !== GraphQLDataSourceRequestKind.INCOMING_OPERATION) return;
+  willSendRequest(options: GraphQLDataSourceProcessOptions<Context>) {
+    if (!('incomingRequestContext' in options)) return;
 
+    const { context, request } = options;
     const _authorization = context.req?.headers.authorization;
     if (_authorization) {
       request.http?.headers.set(METADATA_TOKEN.AUTHORIZATION, _authorization);

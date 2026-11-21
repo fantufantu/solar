@@ -12,7 +12,7 @@ import {
   Brackets,
 } from 'typeorm';
 import dayjs from 'dayjs';
-import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client.js';
+import { ses } from 'tencentcloud-sdk-nodejs-ses';
 import { CACHE_TOKEN } from 'constants/cache.constant';
 import type { CacheToken } from 'constants/cache.constant';
 import { PlutoClientService } from '@/libs/pluto-client';
@@ -31,7 +31,7 @@ import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration.constan
 
 @Injectable()
 export class UserService {
-  private sesClient: SesClient | null = null;
+  private sesClient: InstanceType<typeof ses.v20201002.Client> | null = null;
 
   constructor(
     @InjectEntityManager()
@@ -163,7 +163,7 @@ export class UserService {
       }),
     ]);
 
-    this.sesClient = new SesClient({
+    this.sesClient = new ses.v20201002.Client({
       credential: {
         secretId,
         secretKey,

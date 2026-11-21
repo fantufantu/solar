@@ -110,9 +110,9 @@ importers:
       rxjs:
         specifier: ^7.8.2
         version: 7.8.2
-      tencentcloud-sdk-nodejs:
-        specifier: ^4.1.216
-        version: 4.1.216(supports-color@8.1.1)
+      tencentcloud-sdk-nodejs-ses:
+        specifier: ^4.1.271
+        version: 4.1.271(supports-color@8.1.1)
       typeorm:
         specifier: ^0.3.28
         version: 0.3.30(mysql2@3.22.1(@types/node@24.12.2))(supports-color@8.1.1)(ts-node@10.9.2(@types/node@24.12.2)(typescript@6.0.3))
@@ -2950,9 +2950,9 @@ packages:
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
-  ini@5.0.0:
-    resolution: {integrity: sha512-+N0ngpO3e7cRUWOJAS7qw0IZIVc6XPrW4MlFBdD066F2L4k1L6ker3hLqSq7iXxU5tgS4WGkIUElWn5vogAEnw==}
-    engines: {node: ^18.17.0 || >=20.5.0}
+  ini@2.0.0:
+    resolution: {integrity: sha512-7PnF4oN3CvZF23ADhA5wRaYEQpJ8qygSkbtTXWBeXWXmEVRXK+1ITciHWwHhsjv1TmW0MgacIv6hEi5pX5NQdA==}
+    engines: {node: '>=10'}
 
   internal-slot@1.1.0:
     resolution: {integrity: sha512-4gd7VpWNQNB4UKKCFFVcp1AVv+FMOgs9NKzjHKusc8jTMhd5eL1NqQqOpE0KzMds804/yHlglp3uxgluOqAPLw==}
@@ -4214,8 +4214,12 @@ packages:
     resolution: {integrity: sha512-Xj0ZAQ0CeuQn6UxCDPLbFRlgcSTUEyO3+wiepr2grjIjyL/lMMs1Z4OwXn8kLvn/V1OuaEP0UY7Na6UDNNsYrQ==}
     engines: {node: '>=18'}
 
-  tencentcloud-sdk-nodejs@4.1.216:
-    resolution: {integrity: sha512-1lkiahb067pH/fDCfXeUlC/NvyQphREcrndcxgBdR4pjiwBI5ga3RJhIQ6H6fz3hToTYibCwijyP7j23dtXRrQ==}
+  tencentcloud-sdk-nodejs-common@4.1.220:
+    resolution: {integrity: sha512-FlRJzgFYqSz1blKyN39Jhy/WdK3VuyFkn2+naKJfpwWcSpLF0F9AqSzPAtgorb5/Ezs8sLmFSCuaqFcCw+uIWw==}
+    engines: {node: '>=10'}
+
+  tencentcloud-sdk-nodejs-ses@4.1.271:
+    resolution: {integrity: sha512-ayFQsDQzyOZKI2HinrdEaKbzJizJcH+j1SwMWynFdodHgL8a1+Sq280xCjHNPIZPAFa8M+Jc1qCCqPvIEiHKCg==}
     engines: {node: '>=10'}
 
   terser-webpack-plugin@5.4.0:
@@ -5109,12 +5113,12 @@ snapshots:
   '@emnapi/core@2.0.0-beta.3':
     dependencies:
       '@emnapi/wasi-threads': 2.2.0
-      tslib: 2.8.1
+      tslib: 2.9.1
     optional: true
 
   '@emnapi/runtime@1.10.0':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
     optional: true
 
   '@emnapi/runtime@2.0.0-beta.2':
@@ -5124,12 +5128,12 @@ snapshots:
 
   '@emnapi/runtime@2.0.0-beta.3':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
     optional: true
 
   '@emnapi/wasi-threads@2.2.0':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
     optional: true
 
   '@eslint-community/eslint-utils@4.9.1(eslint@9.39.4(supports-color@8.1.1))':
@@ -5190,27 +5194,27 @@ snapshots:
     dependencies:
       '@graphql-tools/utils': 11.0.0(graphql@16.15.0)
       graphql: 16.15.0
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@graphql-tools/merge@9.2.8(graphql@16.15.0)':
     dependencies:
       '@graphql-tools/utils': 12.1.0(graphql@16.15.0)
       graphql: 16.15.0
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@graphql-tools/schema@10.0.31(graphql@16.15.0)':
     dependencies:
       '@graphql-tools/merge': 9.1.7(graphql@16.15.0)
       '@graphql-tools/utils': 11.0.0(graphql@16.15.0)
       graphql: 16.15.0
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@graphql-tools/schema@10.1.5(graphql@16.15.0)':
     dependencies:
       '@graphql-tools/merge': 9.2.8(graphql@16.15.0)
       '@graphql-tools/utils': 12.1.0(graphql@16.15.0)
       graphql: 16.15.0
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@graphql-tools/utils@11.0.0(graphql@16.15.0)':
     dependencies:
@@ -5218,7 +5222,7 @@ snapshots:
       '@whatwg-node/promise-helpers': 1.3.2
       cross-inspect: 1.0.1
       graphql: 16.15.0
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@graphql-tools/utils@12.1.0(graphql@16.15.0)':
     dependencies:
@@ -5226,7 +5230,7 @@ snapshots:
       '@whatwg-node/promise-helpers': 2.0.2
       cross-inspect: 1.0.1
       graphql: 16.15.0
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@graphql-typed-document-node/core@3.2.0(graphql@16.15.0)':
     dependencies:
@@ -6101,7 +6105,7 @@ snapshots:
 
   '@swc/helpers@0.5.15':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@tokenizer/inflate@0.6.1(supports-color@8.1.1)':
     dependencies:
@@ -6123,7 +6127,7 @@ snapshots:
 
   '@tybys/wasm-util@0.10.5':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
     optional: true
 
   '@types/bcrypt@6.0.0':
@@ -6420,7 +6424,7 @@ snapshots:
 
   '@whatwg-node/promise-helpers@1.3.2':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@whatwg-node/promise-helpers@2.0.2':
     dependencies:
@@ -6828,7 +6832,7 @@ snapshots:
 
   cross-inspect@1.0.1:
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   cross-spawn@7.0.6:
     dependencies:
@@ -7459,7 +7463,7 @@ snapshots:
   graphql-tag@2.12.7(graphql@16.15.0):
     dependencies:
       graphql: 16.15.0
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   graphql-ws@6.4.1(graphql@16.15.0)(ws@8.22.1):
     dependencies:
@@ -7560,7 +7564,7 @@ snapshots:
 
   inherits@2.0.4: {}
 
-  ini@5.0.0: {}
+  ini@2.0.0: {}
 
   internal-slot@1.1.0:
     dependencies:
@@ -8818,17 +8822,25 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  tencentcloud-sdk-nodejs@4.1.216(supports-color@8.1.1):
+  tencentcloud-sdk-nodejs-common@4.1.220(supports-color@8.1.1):
     dependencies:
       form-data: 3.0.4
       get-stream: 6.0.1
       https-proxy-agent: 5.0.1(supports-color@8.1.1)
-      ini: 5.0.0
+      ini: 2.0.0
       is-stream: 2.0.1
       json-bigint: 1.0.0
       node-fetch: 2.7.0
       tslib: 1.13.0
       uuid: 9.0.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+
+  tencentcloud-sdk-nodejs-ses@4.1.271(supports-color@8.1.1):
+    dependencies:
+      tencentcloud-sdk-nodejs-common: 4.1.220(supports-color@8.1.1)
+      tslib: 1.13.0
     transitivePeerDependencies:
       - encoding
       - supports-color
