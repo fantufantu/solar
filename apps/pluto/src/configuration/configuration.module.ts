@@ -6,7 +6,7 @@ import {
   tencentCloudConfig,
   volcArkConfig,
   amapConfig,
-} from './configurations/index';
+} from './configurations';
 import { ConfigurationService } from './configuration.service';
 import { ConfigurationController } from './configuration.controller';
 

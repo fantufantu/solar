@@ -5,7 +5,7 @@ import { PassportService } from './passport.service';
 import { MercuryClientModule } from 'libs/mercury-client/src';
 import { JwtSecretModule } from './jwt-secret/jwt-secret.module';
 import { PROVIDER_TOKEN } from 'constants/app.constant';
-import { JwtStrategy } from './strategies/index';
+import { JwtStrategy } from './strategies';
 
 @Global()
 @Module({
