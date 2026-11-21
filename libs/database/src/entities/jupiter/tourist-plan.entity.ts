@@ -5,8 +5,8 @@ import {
   Entity,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TimeStamped } from '../any-use/time-stamped.entity.js';
-import { ITINERARY_SCHEMA } from './tourist-plan-itinerary.entity.js';
+import { TimeStamped } from '../any-use/time-stamped.entity';
+import { ITINERARY_SCHEMA } from './tourist-plan-itinerary.entity';
 import { z } from 'zod';
 
 export const TOURIST_PLAN_SCHEMA = z.object({

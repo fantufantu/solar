@@ -1,9 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { TouristPlanItinerary } from '@/libs/database/entities/jupiter/tourist-plan-itinerary.entity';
-import { TouristPlanItineraryService } from './tourist-plan-itinerary.service.js';
-import { CreateTouristPlanItineraryInput } from './dto/create-tourist-plan-itinerary.input.js';
-import { UpdateTouristPlanItineraryInput } from './dto/update-tourist-plan-itinerary.input.js';
-import { ReorderTouristPlanItineraryInput } from './dto/reorder-tourist-plan-itinerary.input.js';
+import { TouristPlanItineraryService } from './tourist-plan-itinerary.service';
+import { CreateTouristPlanItineraryInput } from './dto/create-tourist-plan-itinerary.input';
+import { UpdateTouristPlanItineraryInput } from './dto/update-tourist-plan-itinerary.input';
+import { ReorderTouristPlanItineraryInput } from './dto/reorder-tourist-plan-itinerary.input';
 
 @Resolver(() => TouristPlanItinerary)
 export class TouristPlanItineraryResolver {

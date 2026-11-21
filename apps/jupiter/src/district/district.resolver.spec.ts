@@ -1,6 +1,6 @@
 import { GUARDS_METADATA } from '@nestjs/common/constants';
 import { JwtAuthGuard } from '@/libs/passport/guards';
-import { DistrictResolver } from './district.resolver.js';
+import { DistrictResolver } from './district.resolver';
 
 describe('DistrictResolver', () => {
   it('protects syncDistricts with JwtAuthGuard', () => {

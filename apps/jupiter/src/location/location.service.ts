@@ -16,7 +16,7 @@ import {
   AMAP_PROPERTY_TOKEN,
   REGISTERED_CONFIGURATION_TOKENS,
 } from 'constants/configuration.constant';
-import { ReverseGeocodeInput } from './dto/reverse-geocode.input.js';
+import { ReverseGeocodeInput } from './dto/reverse-geocode.input';
 
 const AMAP_COORDINATE_CONVERT_URL =
   'https://restapi.amap.com/v3/assistant/coordinate/convert';

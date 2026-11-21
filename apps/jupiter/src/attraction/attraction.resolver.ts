@@ -7,8 +7,8 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { UseInterceptors } from '@nestjs/common';
-import { AttractionService } from './attraction.service.js';
-import { AttractionLoader } from './attraction.loader.js';
+import { AttractionService } from './attraction.service';
+import { AttractionLoader } from './attraction.loader';
 import { Attraction } from '@/libs/database/entities/jupiter/attraction.entity';
 import { District } from '@/libs/database/entities/jupiter/district.entity';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
@@ -17,11 +17,11 @@ import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { FilterArgs } from 'utils/decorators/filter.decorator';
 import { Pagination } from 'assets/dto/pagination.input';
-import { PaginatedAttractions } from './dto/paginated-attractions.object.js';
-import { FilterAttractionsInput } from './dto/filter-attractions.input.js';
-import { UpdateAttractionInput } from './dto/update-attraction.input.js';
-import { CreateAttractionInput } from './dto/create-attraction.input.js';
-import { SyncAttractionsInput } from './dto/sync-attractions.input.js';
+import { PaginatedAttractions } from './dto/paginated-attractions.object';
+import { FilterAttractionsInput } from './dto/filter-attractions.input';
+import { UpdateAttractionInput } from './dto/update-attraction.input';
+import { CreateAttractionInput } from './dto/create-attraction.input';
+import { SyncAttractionsInput } from './dto/sync-attractions.input';
 import { Authorization } from 'utils/decorators/authorization.decorator';
 import {
   AUTHORIZATION_ACTION_CODE,

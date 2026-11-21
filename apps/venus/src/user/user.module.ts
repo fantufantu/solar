@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserService } from './user.service.js';
+import { UserService } from './user.service';
 import { User } from '@/libs/database/entities/venus/user.entity';
-import { UserResolver } from './user.resolver.js';
-import { UserLoader } from './user.loader.js';
-import { BillingModule } from '../billing/billing.module.js';
+import { UserResolver } from './user.resolver';
+import { UserLoader } from './user.loader';
+import { BillingModule } from '../billing/billing.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), BillingModule],

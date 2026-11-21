@@ -1,6 +1,6 @@
 import { Directive, Field, Int, ObjectType, OmitType } from '@nestjs/graphql';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import { TimeStamped } from '../any-use/time-stamped.entity.js';
+import { TimeStamped } from '../any-use/time-stamped.entity';
 import { Membership } from '@/libs/database/entities/jupiter/membership.entity';
 
 @ObjectType()

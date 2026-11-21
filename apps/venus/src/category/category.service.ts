@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
-import { CreateTransactionCategoryInput } from './dto/create-category.input.js';
-import { FilterTransactionCategoryInput } from './dto/filter-categories.input.js';
-import { UpdateTransactionCategoryInput } from './dto/update-category.input.js';
+import { CreateTransactionCategoryInput } from './dto/create-category.input';
+import { FilterTransactionCategoryInput } from './dto/filter-categories.input';
+import { UpdateTransactionCategoryInput } from './dto/update-category.input';
 import { Category } from '@/libs/database/entities/venus/category.entity';
 import { Query } from 'typings/controller';
 import { paginateQuery } from 'utils/query-builder';

@@ -1,7 +1,7 @@
-import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity.js';
+import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
 import { Column, Entity, JoinColumn, ManyToOne, type Relation } from 'typeorm';
-import { Article } from './article.entity.js';
-import { Category } from './category.entity.js';
+import { Article } from './article.entity';
+import { Category } from './category.entity';
 
 @Entity({ name: 'article_with_category' })
 export class ArticleWithCategory extends IdentifiedTimeStamped {

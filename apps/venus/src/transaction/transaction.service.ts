@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
-import { CreateTransactionInput } from './dto/create-transaction.input.js';
-import { FilterTransactionsInput } from './dto/filter-transactions.input.js';
-import { UpdateTransactionInput } from './dto/update-transaction.input.js';
+import { CreateTransactionInput } from './dto/create-transaction.input';
+import { FilterTransactionsInput } from './dto/filter-transactions.input';
+import { UpdateTransactionInput } from './dto/update-transaction.input';
 import { Transaction } from '@/libs/database/entities/venus/transaction.entity';
 import { paginateQuery } from 'utils/query-builder';
-import { FilterTransactionsAmountInput } from './dto/filter-transactions-amount.input.js';
+import { FilterTransactionsAmountInput } from './dto/filter-transactions-amount.input';
 import { Query } from 'typings/controller';
-import { TransactionsAmount } from './dto/transactions-amount.object.js';
+import { TransactionsAmount } from './dto/transactions-amount.object';
 
 @Injectable()
 export class TransactionService {

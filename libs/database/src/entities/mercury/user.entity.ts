@@ -4,7 +4,7 @@ import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } fr
 import { randomUUID } from 'crypto';
 import { hashSync } from 'bcrypt';
 import { IsEmail, MaxLength, MinLength, isURL } from 'class-validator';
-import { TimeStamped } from '../any-use/time-stamped.entity.js';
+import { TimeStamped } from '../any-use/time-stamped.entity';
 
 @ObjectType()
 @Directive('@key(fields: "id")')

@@ -1,4 +1,4 @@
-import { CreateArticleInput } from './create-article.input.js';
+import { CreateArticleInput } from './create-article.input';
 import { InputType, PartialType } from '@nestjs/graphql';
 
 @InputType()

@@ -1,7 +1,7 @@
 import type { ValueOf } from '@aiszlab/relax/types';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { Tracked } from '../any-use/tracked.entity.js';
+import { Tracked } from '../any-use/tracked.entity';
 
 export const DISTRICT_LEVEL = {
   CITY: 'city',

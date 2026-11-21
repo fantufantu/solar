@@ -1,5 +1,5 @@
 import { InputType, PartialType, PickType } from '@nestjs/graphql';
-import { CreateArticleCategoryInput } from './create-category.input.js';
+import { CreateArticleCategoryInput } from './create-category.input';
 
 /**
  * @description 更新文章分类

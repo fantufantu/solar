@@ -10,12 +10,12 @@ import { ChatOpenAI } from '@langchain/openai';
 import { PlutoClientService } from '@/libs/pluto-client';
 import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration.constant';
 import { VOLC_ARK_PROPERTY_TOKENS } from 'constants/volc-ark.constant';
-import { useProposalPrompt } from './prompts/proposal.prompt.js';
-import { useParseTextPrompt } from './prompts/parse-text.prompt.js';
-import { CreateTouristPlanInput } from './dto/create-tourist-plan.input.js';
-import { UserService } from '../user/user.service.js';
-import { DistrictService } from '../district/district.service.js';
-import { AttractionService } from '../attraction/attraction.service.js';
+import { useProposalPrompt } from './prompts/proposal.prompt';
+import { useParseTextPrompt } from './prompts/parse-text.prompt';
+import { CreateTouristPlanInput } from './dto/create-tourist-plan.input';
+import { UserService } from '../user/user.service';
+import { DistrictService } from '../district/district.service';
+import { AttractionService } from '../attraction/attraction.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   TouristPlan,
@@ -23,12 +23,12 @@ import {
 } from '@/libs/database/entities/jupiter/tourist-plan.entity';
 import { Between, IsNull, Repository } from 'typeorm';
 import { Query } from 'typings/controller';
-import { FilterTouristPlansInput } from './dto/filter-tourist-plans.input.js';
+import { FilterTouristPlansInput } from './dto/filter-tourist-plans.input';
 import dayjs from 'dayjs';
 import { isString } from '@aiszlab/relax';
 import { COMPLETED_MESSAGE_EVENT } from 'utils/sse.util';
 import { STATUS_CODE } from 'constants/sse.constant';
-import { TouristPlanItineraryService } from '../tourist-plan-itinerary/tourist-plan-itinerary.service.js';
+import { TouristPlanItineraryService } from '../tourist-plan-itinerary/tourist-plan-itinerary.service';
 import { MercuryClientService } from '@/libs/mercury-client';
 
 @Injectable()

@@ -2,7 +2,7 @@ import { Global, Module } from '@nestjs/common';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { PROVIDER_TOKEN } from 'constants/app.constant';
 import { MICRO_SERVICE_PORTS } from 'constants/ports.constant';
-import { MercuryClientService } from './mercury-client.service.js';
+import { MercuryClientService } from './mercury-client.service';
 
 @Global()
 @Module({

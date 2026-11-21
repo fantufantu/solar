@@ -1,2 +1,2 @@
-export * from './pluto-client.module.js';
-export * from './pluto-client.service.js';
+export * from './pluto-client.module';
+export * from './pluto-client.service';

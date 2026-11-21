@@ -7,20 +7,20 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-import { ResumeTemplateService } from './resume-template.service.js';
+import { ResumeTemplateService } from './resume-template.service';
 import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.entity';
-import { CreateResumeTemplateInput } from './dto/create-resume-template.input.js';
-import { UpdateResumeTemplateInput } from './dto/update-resume-template.input.js';
+import { CreateResumeTemplateInput } from './dto/create-resume-template.input';
+import { UpdateResumeTemplateInput } from './dto/update-resume-template.input';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { User } from '@/libs/database/entities/mars/user.entity';
-import { PaginatedResumeTemplates } from './dto/paginated-resume-templates.object.js';
+import { PaginatedResumeTemplates } from './dto/paginated-resume-templates.object';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { Pagination } from 'assets/dto/pagination.input';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
-import { ResumeTemplateLoader } from './resume-template.loader.js';
-import { RecommendedResumeTemplatesArgs } from './dto/recommended-resume-templates.args.js';
+import { ResumeTemplateLoader } from './resume-template.loader';
+import { RecommendedResumeTemplatesArgs } from './dto/recommended-resume-templates.args';
 import { Authorization } from 'utils/decorators/authorization.decorator';
 import {
   AUTHORIZATION_ACTION_CODE,

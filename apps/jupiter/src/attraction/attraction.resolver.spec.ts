@@ -1,6 +1,6 @@
 import { GUARDS_METADATA } from '@nestjs/common/constants';
 import { JwtAuthGuard } from '@/libs/passport/guards';
-import { AttractionResolver } from './attraction.resolver.js';
+import { AttractionResolver } from './attraction.resolver';
 
 describe('AttractionResolver', () => {
   it('protects syncAttractions with JwtAuthGuard', () => {

@@ -1,10 +1,10 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { DictionaryService } from './dictionary.service.js';
+import { DictionaryService } from './dictionary.service';
 import { Dictionary } from '@/libs/database/entities/mercury/dictionary.entity';
-import { PaginatedDictionaries } from './dto/paginated-dictionaries.object.js';
+import { PaginatedDictionaries } from './dto/paginated-dictionaries.object';
 import { Pagination } from 'assets/dto/pagination.input';
-import { CreateDictionaryInput } from './dto/create-dictionary.input.js';
-import { UpdateDictionaryInput } from './dto/update-dictionary.input.js';
+import { CreateDictionaryInput } from './dto/create-dictionary.input';
+import { UpdateDictionaryInput } from './dto/update-dictionary.input';
 import { Authorization } from 'utils/decorators/authorization.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import {

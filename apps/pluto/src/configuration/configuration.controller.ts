@@ -2,7 +2,7 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { COMMAND_TOKENS } from 'constants/common.constant';
 import type { GetConfigurationBy } from 'typings/micro-service';
-import { ConfigurationService } from './configuration.service.js';
+import { ConfigurationService } from './configuration.service';
 
 @Controller()
 export class ConfigurationController {

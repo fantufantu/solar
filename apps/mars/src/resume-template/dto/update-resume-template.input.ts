@@ -1,4 +1,4 @@
-import { CreateResumeTemplateInput } from './create-resume-template.input.js';
+import { CreateResumeTemplateInput } from './create-resume-template.input';
 import { InputType, PartialType } from '@nestjs/graphql';
 
 @InputType()

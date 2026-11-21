@@ -4,7 +4,7 @@ import {
   LIMIT_DURATION,
   LimitDuration,
 } from 'assets/entities/limit-duration.billing.enum';
-import { IdentifiedTracked } from '../any-use/identified-tracked.entity.js';
+import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
 
 @ObjectType()
 @Entity()

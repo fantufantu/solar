@@ -3,9 +3,9 @@ import {
   BUCKET_NAME,
   type BucketName,
   CosCredential,
-} from './dto/cos-credential.object.js';
-import { AmapCredential } from './dto/amap-credential.object.js';
-import { ConfigService } from './config.service.js';
+} from './dto/cos-credential.object';
+import { AmapCredential } from './dto/amap-credential.object';
+import { ConfigService } from './config.service';
 
 @Resolver()
 export class ConfigResolver {

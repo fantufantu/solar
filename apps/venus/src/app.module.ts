@@ -7,11 +7,11 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { DatabaseModule } from '@/libs/database';
 import { PassportModule } from '@/libs/passport';
 import { APPLICATION_TOKEN } from 'constants/app.constant';
-import { BillingModule } from './billing/billing.module.js';
-import { SharingModule } from './sharing/sharing.module.js';
-import { UserModule } from './user/user.module.js';
-import { CategoryModule } from './category/category.module.js';
-import { TransactionModule } from './transaction/transaction.module.js';
+import { BillingModule } from './billing/billing.module';
+import { SharingModule } from './sharing/sharing.module';
+import { UserModule } from './user/user.module';
+import { CategoryModule } from './category/category.module';
+import { TransactionModule } from './transaction/transaction.module';
 import { MercuryClientModule } from '@/libs/mercury-client';
 import { User } from '@/libs/database/entities/venus/user.entity';
 

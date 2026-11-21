@@ -1,7 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Column, Entity, JoinColumn, ManyToOne, type Relation } from 'typeorm';
-import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity.js';
-import { Dictionary } from './dictionary.entity.js';
+import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
+import { Dictionary } from './dictionary.entity';
 
 @Entity({
   name: 'dictionary_enum',

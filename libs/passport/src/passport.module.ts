@@ -1,11 +1,11 @@
 import { Global, Module } from '@nestjs/common';
 import { PassportModule as _PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { PassportService } from './passport.service.js';
+import { PassportService } from './passport.service';
 import { MercuryClientModule } from 'libs/mercury-client/src';
-import { JwtSecretModule } from './jwt-secret/jwt-secret.module.js';
+import { JwtSecretModule } from './jwt-secret/jwt-secret.module';
 import { PROVIDER_TOKEN } from 'constants/app.constant';
-import { JwtStrategy } from './strategies/index.js';
+import { JwtStrategy } from './strategies/index';
 
 @Global()
 @Module({

@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
 import { District } from '@/libs/database/entities/jupiter/district.entity';
-import { DistrictService } from '../district/district.service.js';
+import { DistrictService } from '../district/district.service';
 import { Attraction } from '@/libs/database/entities/jupiter/attraction.entity';
-import { AttractionService } from '../attraction/attraction.service.js';
+import { AttractionService } from '../attraction/attraction.service';
 import { TouristPlanItinerary } from '@/libs/database/entities/jupiter/tourist-plan-itinerary.entity';
-import { TouristPlanItineraryService } from '../tourist-plan-itinerary/tourist-plan-itinerary.service.js';
+import { TouristPlanItineraryService } from '../tourist-plan-itinerary/tourist-plan-itinerary.service';
 import { toArray } from '@aiszlab/relax';
 
 @Injectable()

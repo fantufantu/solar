@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
-import { BillingService } from '../billing/billing.service.js';
+import { BillingService } from '../billing/billing.service';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
 
 @Injectable()

@@ -1,12 +1,12 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import { AuthenticationService } from './authentication.service.js';
-import { LoginInput } from './dto/login.input.js';
-import { RegisterInput } from './dto/register.input.js';
+import { AuthenticationService } from './authentication.service';
+import { LoginInput } from './dto/login.input';
+import { RegisterInput } from './dto/register.input';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthenticatedInterceptor } from 'utils/interceptors/authenticated.interceptor';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { User } from '@/libs/database/entities/mercury/user.entity';
-import { ChangePasswordInput } from './dto/change-password.input.js';
+import { ChangePasswordInput } from './dto/change-password.input';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 
 @Resolver()

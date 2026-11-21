@@ -6,8 +6,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ResumeTemplate } from './resume-template.entity.js';
-import { Tracked } from '../any-use/tracked.entity.js';
+import { ResumeTemplate } from './resume-template.entity';
+import { Tracked } from '../any-use/tracked.entity';
 
 @ObjectType()
 @Entity({ comment: '简历' })

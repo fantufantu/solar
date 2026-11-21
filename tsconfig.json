@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
+    "module": "ESNext",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -50,7 +50,7 @@
       "utils/*": ["utils/*.js", "utils/*/index.js"],
       "typings/*": ["typings/*.js", "typings/*/index.js"]
     },
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Bundler",
     "strictPropertyInitialization": false,
     "types": ["node", "vitest/globals"],
     "isolatedModules": true

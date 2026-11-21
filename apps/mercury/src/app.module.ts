@@ -3,18 +3,18 @@ import { APPLICATION_TOKEN } from 'constants/app.constant';
 import { DatabaseModule } from '@/libs/database';
 import { PassportModule } from '@/libs/passport';
 import { PlutoClientModule } from '@/libs/pluto-client';
-import { AuthorizationModule } from './authorization/authorization.module.js';
-import { RoleModule } from './role/role.module.js';
-import { DictionaryModule } from './dictionary/dictionary.module.js';
-import { DictionaryEnumModule } from './dictionary-enum/dictionary-enum.module.js';
+import { AuthorizationModule } from './authorization/authorization.module';
+import { RoleModule } from './role/role.module';
+import { DictionaryModule } from './dictionary/dictionary.module';
+import { DictionaryEnumModule } from './dictionary-enum/dictionary-enum.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import {
   ApolloFederationDriver,
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
-import { UserModule } from './user/user.module.js';
-import { ConfigModule } from './config/config.module.js';
-import { AuthenticationModule } from './authentication/authentication.module.js';
+import { UserModule } from './user/user.module';
+import { ConfigModule } from './config/config.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 import { CacheModule } from '@/libs/cache';
 
 @Module({

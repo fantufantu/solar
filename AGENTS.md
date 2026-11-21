@@ -80,7 +80,7 @@ Pluto (TCP:3010)          ← Config server — all other services depend on it 
 - `@/libs/<name>` or `@/libs/<name>/*` — maps to `libs/<name>/src` and `libs/<name>/src/*`
 - `libs/*` — relative resolution (also works due to `rootDir: "."`)
 
-Vitest and Rspack resolve these aliases from `tsconfig.json`. Use explicit `.js` extensions for relative ESM imports.
+Vitest and Rspack resolve these aliases from `tsconfig.json`. Use extensionless relative imports in application and library TypeScript. Rspack resolves them when it builds the ESM bundles.
 
 ### Service AppModule boilerplate
 Every service's `AppModule` imports a standard set:

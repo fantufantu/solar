@@ -3,13 +3,13 @@ import { compareSync } from 'bcrypt';
 import { constants, privateDecrypt, randomUUID } from 'crypto';
 import { PlutoClientService } from '@/libs/pluto-client';
 import { PassportService } from '@/libs/passport';
-import { RegisterInput } from './dto/register.input.js';
+import { RegisterInput } from './dto/register.input';
 import { RSA_PROPERTY_TOKEN } from 'constants/common.constant';
 import { CACHE_TOKEN } from 'constants/cache.constant';
-import { UserService } from '../user/user.service.js';
-import { LoginInput } from './dto/login.input.js';
+import { UserService } from '../user/user.service';
+import { LoginInput } from './dto/login.input';
 import { CacheService } from '@/libs/cache';
-import { ChangePasswordInput } from './dto/change-password.input.js';
+import { ChangePasswordInput } from './dto/change-password.input';
 import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration.constant';
 
 @Injectable()

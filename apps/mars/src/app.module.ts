@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ResumeModule } from './resume/resume.module.js';
+import { ResumeModule } from './resume/resume.module';
 import { DatabaseModule } from '@/libs/database';
 import { APPLICATION_TOKEN } from 'constants/app.constant';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -8,9 +8,9 @@ import {
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
 import { PassportModule } from '@/libs/passport';
-import { ResumeTemplateModule } from './resume-template/resume-template.module.js';
+import { ResumeTemplateModule } from './resume-template/resume-template.module';
 import { MercuryClientModule } from '@/libs/mercury-client';
-import { UserModule } from './user/user.module.js';
+import { UserModule } from './user/user.module';
 import { User } from '@/libs/database/entities/mars/user.entity';
 
 @Module({

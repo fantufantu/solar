@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Membership } from '@/libs/database/entities/jupiter/membership.entity';
-import { MembershipService } from './membership.service.js';
-import { MembershipResolver } from './membership.resolver.js';
+import { MembershipService } from './membership.service';
+import { MembershipResolver } from './membership.resolver';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Membership])],

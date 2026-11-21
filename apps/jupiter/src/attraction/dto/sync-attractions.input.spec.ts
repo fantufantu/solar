@@ -3,7 +3,7 @@ import {
   ATTRACTION_SYNC_ACTION,
   SyncAttractionInput,
   SyncAttractionsInput,
-} from './sync-attractions.input.js';
+} from './sync-attractions.input';
 
 const item = (values: Partial<SyncAttractionInput>) =>
   Object.assign(new SyncAttractionInput(), values);

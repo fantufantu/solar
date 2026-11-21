@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
-import { ResumeTemplateService } from '../resume-template/resume-template.service.js';
+import { ResumeTemplateService } from '../resume-template/resume-template.service';
 import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.entity';
 import { Nullable } from '@aiszlab/relax/types';
 

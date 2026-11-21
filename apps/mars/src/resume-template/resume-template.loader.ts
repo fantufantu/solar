@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
-import { ResumeService } from '../resume/resume.service.js';
+import { ResumeService } from '../resume/resume.service';
 
 @Injectable()
 export class ResumeTemplateLoader {

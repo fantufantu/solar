@@ -1,6 +1,6 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { Authored } from '../any-use/authored.entity.js';
+import { Authored } from '../any-use/authored.entity';
 
 @ObjectType()
 @Entity({ comment: '景区', name: 'attraction' })

@@ -1,6 +1,6 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { Tracked } from '../any-use/tracked.entity.js';
+import { Tracked } from '../any-use/tracked.entity';
 
 @ObjectType()
 @Entity({ comment: '简历模板', name: 'resume_template' })

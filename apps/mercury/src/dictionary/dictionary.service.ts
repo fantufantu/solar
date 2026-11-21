@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
 import { Dictionary } from '@/libs/database/entities/mercury/dictionary.entity';
 import { paginateQuery } from 'utils/query-builder';
-import type { CreateDictionaryInput } from './dto/create-dictionary.input.js';
+import type { CreateDictionaryInput } from './dto/create-dictionary.input';
 import type { Query } from 'typings/controller';
-import type { UpdateDictionaryInput } from './dto/update-dictionary.input.js';
+import type { UpdateDictionaryInput } from './dto/update-dictionary.input';
 
 @Injectable()
 export class DictionaryService {

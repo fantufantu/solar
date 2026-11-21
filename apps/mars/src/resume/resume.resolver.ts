@@ -6,10 +6,10 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { ResumeService } from './resume.service.js';
+import { ResumeService } from './resume.service';
 import { Resume } from '@/libs/database/entities/mars/resume.entity';
-import { CreateResumeInput } from './dto/create-resume.input.js';
-import { UpdateResumeInput } from './dto/update-resume.input.js';
+import { CreateResumeInput } from './dto/create-resume.input';
+import { UpdateResumeInput } from './dto/update-resume.input';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { User } from '@/libs/database/entities/mars/user.entity';
@@ -17,9 +17,9 @@ import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { Pagination } from 'assets/dto/pagination.input';
-import { PaginatedResumes } from './dto/paginated-resumes.object.js';
+import { PaginatedResumes } from './dto/paginated-resumes.object';
 import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.entity';
-import { ResumeLoader } from './resume.loader.js';
+import { ResumeLoader } from './resume.loader';
 
 @Resolver(() => Resume)
 export class ResumeResolver {

@@ -3,7 +3,7 @@ import {
   DISTRICT_SYNC_ACTION,
   SyncDistrictInput,
   SyncDistrictsInput,
-} from './sync-districts.input.js';
+} from './sync-districts.input';
 
 const item = (values: Partial<SyncDistrictInput>) =>
   Object.assign(new SyncDistrictInput(), values);

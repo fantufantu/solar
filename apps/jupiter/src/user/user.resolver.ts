@@ -5,10 +5,10 @@ import {
   Resolver,
   ResolveReference,
 } from '@nestjs/graphql';
-import { UserService } from './user.service.js';
+import { UserService } from './user.service';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
-import { UserMembership } from './dto/user-membership.object.js';
-import { TouristPlanService } from '../tourist-plan/tourist-plan.service.js';
+import { UserMembership } from './dto/user-membership.object';
+import { TouristPlanService } from '../tourist-plan/tourist-plan.service';
 import { forwardRef, Inject } from '@nestjs/common';
 
 @Resolver(() => User)

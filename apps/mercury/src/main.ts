@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { AppModule } from './app.module.js';
+import { AppModule } from './app.module';
 import { MICRO_SERVICE_PORTS, SERVICE_PORTS } from 'constants/ports.constant';
 
 async function bootstrap() {

@@ -4,8 +4,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { District } from '@/libs/database/entities/jupiter/district.entity';
-import { DistrictService } from './district.service.js';
-import { DISTRICT_SYNC_ACTION } from './dto/sync-districts.input.js';
+import { DistrictService } from './district.service';
+import { DISTRICT_SYNC_ACTION } from './dto/sync-districts.input';
 
 type Stored = District & { deletedAt: Date | null };
 

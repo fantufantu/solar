@@ -1,8 +1,8 @@
 import { ObjectType, Field, Float, Int } from '@nestjs/graphql';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Category } from './category.entity.js';
-import { Billing } from './billing.entity.js';
-import { IdentifiedTracked } from '../any-use/identified-tracked.entity.js';
+import { Category } from './category.entity';
+import { Billing } from './billing.entity';
+import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
 
 @ObjectType()
 @Entity()

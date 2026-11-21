@@ -1,10 +1,10 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { AuthorizationService } from './authorization.service.js';
-import { PaginatedAuthorizations } from './dto/paginated-authorizations.object.js';
+import { AuthorizationService } from './authorization.service';
+import { PaginatedAuthorizations } from './dto/paginated-authorizations.object';
 import { UseInterceptors } from '@nestjs/common';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { User } from '@/libs/database/entities/mercury/user.entity';
-import { CreateAuthorizationInput } from './dto/create-authorization.input.js';
+import { CreateAuthorizationInput } from './dto/create-authorization.input';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 import { Pagination } from 'assets/dto/pagination.input';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';

@@ -1,6 +1,6 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, Entity } from 'typeorm';
-import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity.js';
+import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
 import {
   DIRECTION,
   type Direction,

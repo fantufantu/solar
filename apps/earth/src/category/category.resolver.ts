@@ -1,13 +1,13 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CategoryService } from './category.service.js';
+import { CategoryService } from './category.service';
 import { Category } from '@/libs/database/entities/earth/category.entity';
-import { PaginatedCategories } from './dto/paginated-categories.object.js';
+import { PaginatedCategories } from './dto/paginated-categories.object';
 import { UseInterceptors } from '@nestjs/common';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { Pagination } from 'assets/dto/pagination.input';
-import { FilterArticleCategoriesInput } from './dto/filter-categories.input.js';
-import { CreateArticleCategoryInput } from './dto/create-category.input.js';
-import { UpdateArticleCategoryInput } from './dto/update-category.input.js';
+import { FilterArticleCategoriesInput } from './dto/filter-categories.input';
+import { CreateArticleCategoryInput } from './dto/create-category.input';
+import { UpdateArticleCategoryInput } from './dto/update-category.input';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { FilterArgs } from 'utils/decorators/filter.decorator';
 import { Authorization } from 'utils/decorators/authorization.decorator';

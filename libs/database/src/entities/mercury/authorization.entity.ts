@@ -1,7 +1,7 @@
 import type { ValueOf } from '@aiszlab/relax/types';
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Column, Entity } from 'typeorm';
-import { IdentifiedTracked } from '../any-use/identified-tracked.entity.js';
+import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
 import { GRAPHQL_ENUM_TOKEN } from 'constants/common.constant';
 import { SYSTEM_WILDCARD } from 'constants/common.constant';
 

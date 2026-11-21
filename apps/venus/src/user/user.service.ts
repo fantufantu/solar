@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UpdateDefaultBillingInput } from './dto/update-default-billing.input.js';
+import { UpdateDefaultBillingInput } from './dto/update-default-billing.input';
 import { User } from '@/libs/database/entities/venus/user.entity';
 
 @Injectable()

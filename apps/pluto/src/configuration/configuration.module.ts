@@ -6,9 +6,9 @@ import {
   tencentCloudConfig,
   volcArkConfig,
   amapConfig,
-} from './configurations/index.js';
-import { ConfigurationService } from './configuration.service.js';
-import { ConfigurationController } from './configuration.controller.js';
+} from './configurations/index';
+import { ConfigurationService } from './configuration.service';
+import { ConfigurationController } from './configuration.controller';
 
 @Module({
   imports: [

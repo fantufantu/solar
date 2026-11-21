@@ -5,11 +5,11 @@ import {
   Sharing,
   TARGET_TYPE,
 } from '@/libs/database/entities/venus/sharing.entity';
-import { SharingService } from '../sharing/sharing.service.js';
-import { CreateBillingInput } from './dto/create-billing.input.js';
-import { UpdateBillingInput } from './dto/update-billing.input.js';
+import { SharingService } from '../sharing/sharing.service';
+import { CreateBillingInput } from './dto/create-billing.input';
+import { UpdateBillingInput } from './dto/update-billing.input';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
-import { UpdateBillingLimitationInput } from './dto/update-billing-limitation.input.js';
+import { UpdateBillingLimitationInput } from './dto/update-billing-limitation.input';
 
 @Injectable()
 export class BillingService {

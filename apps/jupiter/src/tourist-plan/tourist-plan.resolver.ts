@@ -1,4 +1,4 @@
-import { TouristPlanService } from './tourist-plan.service.js';
+import { TouristPlanService } from './tourist-plan.service';
 import {
   Args,
   Int,
@@ -12,18 +12,18 @@ import { TouristPlan } from '@/libs/database/entities/jupiter/tourist-plan.entit
 import { TouristPlanItinerary } from '@/libs/database/entities/jupiter/tourist-plan-itinerary.entity';
 import { District } from '@/libs/database/entities/jupiter/district.entity';
 import { Attraction } from '@/libs/database/entities/jupiter/attraction.entity';
-import { CreateTouristPlanInput } from './dto/create-tourist-plan.input.js';
+import { CreateTouristPlanInput } from './dto/create-tourist-plan.input';
 import { Pagination } from 'assets/dto/pagination.input';
-import { PaginatedTouristPlans } from './dto/paginated-tourist-plans.object.js';
+import { PaginatedTouristPlans } from './dto/paginated-tourist-plans.object';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { FilterArgs } from 'utils/decorators/filter.decorator';
-import { FilterTouristPlansInput } from './dto/filter-tourist-plans.input.js';
+import { FilterTouristPlansInput } from './dto/filter-tourist-plans.input';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { User } from '@/libs/database/entities/mercury/user.entity';
-import { TouristPlanLoader } from './tourist-plan.loader.js';
+import { TouristPlanLoader } from './tourist-plan.loader';
 
 @Resolver(() => TouristPlan)
 export class TouristPlanResolver {

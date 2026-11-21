@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DictionaryService } from './dictionary.service.js';
-import { DictionaryResolver } from './dictionary.resolver.js';
+import { DictionaryService } from './dictionary.service';
+import { DictionaryResolver } from './dictionary.resolver';
 import { Dictionary } from '@/libs/database/entities/mercury/dictionary.entity';
 
 @Module({

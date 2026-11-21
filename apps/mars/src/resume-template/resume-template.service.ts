@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { CreateResumeTemplateInput } from './dto/create-resume-template.input.js';
-import { UpdateResumeTemplateInput } from './dto/update-resume-template.input.js';
+import { CreateResumeTemplateInput } from './dto/create-resume-template.input';
+import { UpdateResumeTemplateInput } from './dto/update-resume-template.input';
 import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.entity';
 import { Brackets, In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pagination } from 'assets/dto/pagination.input';
 import { User } from '@/libs/database/entities/mars/user.entity';
-import { ResumeService } from '../resume/resume.service.js';
-import { RecommendedResumeTemplatesArgs } from './dto/recommended-resume-templates.args.js';
+import { ResumeService } from '../resume/resume.service';
+import { RecommendedResumeTemplatesArgs } from './dto/recommended-resume-templates.args';
 
 @Injectable()
 export class ResumeTemplateService {

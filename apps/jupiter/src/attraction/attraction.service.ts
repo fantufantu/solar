@@ -7,13 +7,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, In, Repository } from 'typeorm';
 import { Attraction } from '@/libs/database/entities/jupiter/attraction.entity';
 import { Query } from 'typings/controller';
-import { FilterAttractionsInput } from './dto/filter-attractions.input.js';
-import { UpdateAttractionInput } from './dto/update-attraction.input.js';
-import { CreateAttractionInput } from './dto/create-attraction.input.js';
+import { FilterAttractionsInput } from './dto/filter-attractions.input';
+import { UpdateAttractionInput } from './dto/update-attraction.input';
+import { CreateAttractionInput } from './dto/create-attraction.input';
 import {
   ATTRACTION_SYNC_ACTION,
   SyncAttractionsInput,
-} from './dto/sync-attractions.input.js';
+} from './dto/sync-attractions.input';
 
 @Injectable()
 export class AttractionService {

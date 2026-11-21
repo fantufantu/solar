@@ -3,8 +3,8 @@ import {
   ForbiddenException,
   Injectable,
 } from '@nestjs/common';
-import { CreateResumeInput } from './dto/create-resume.input.js';
-import { UpdateResumeInput } from './dto/update-resume.input.js';
+import { CreateResumeInput } from './dto/create-resume.input';
+import { UpdateResumeInput } from './dto/update-resume.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Resume } from '@/libs/database/entities/mars/resume.entity';
 import { Brackets, Repository } from 'typeorm';
@@ -15,7 +15,7 @@ import {
   AUTHORIZATION_RESOURCE_CODE,
 } from '@/libs/database/entities/mercury/authorization.entity';
 import dayjs from 'dayjs';
-import { ResumesWhere } from './dto/resumes.js';
+import { ResumesWhere } from './dto/resumes';
 
 @Injectable()
 export class ResumeService {

@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
-import { PlutoClientService } from './pluto-client.service.js';
+import { PlutoClientService } from './pluto-client.service';
 import { PROVIDER_TOKEN } from 'constants/app.constant';
 import { MICRO_SERVICE_PORTS } from 'constants/ports.constant';
 

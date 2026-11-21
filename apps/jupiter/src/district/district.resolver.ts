@@ -8,8 +8,8 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { UseInterceptors } from '@nestjs/common';
-import { DistrictService } from './district.service.js';
-import { DistrictLoader } from './district.loader.js';
+import { DistrictService } from './district.service';
+import { DistrictLoader } from './district.loader';
 import { District } from '@/libs/database/entities/jupiter/district.entity';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
@@ -17,11 +17,11 @@ import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { FilterArgs } from 'utils/decorators/filter.decorator';
 import { Pagination } from 'assets/dto/pagination.input';
-import { PaginatedDistricts } from './dto/paginated-districts.object.js';
-import { FilterDistrictsInput } from './dto/filter-districts.input.js';
-import { UpdateDistrictInput } from './dto/update-district.input.js';
-import { CreateDistrictInput } from './dto/create-district.input.js';
-import { SyncDistrictsInput } from './dto/sync-districts.input.js';
+import { PaginatedDistricts } from './dto/paginated-districts.object';
+import { FilterDistrictsInput } from './dto/filter-districts.input';
+import { UpdateDistrictInput } from './dto/update-district.input';
+import { CreateDistrictInput } from './dto/create-district.input';
+import { SyncDistrictsInput } from './dto/sync-districts.input';
 import { Authorization } from 'utils/decorators/authorization.decorator';
 import {
   AUTHORIZATION_ACTION_CODE,

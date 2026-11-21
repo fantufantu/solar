@@ -2,10 +2,10 @@ import { Category } from '@/libs/database/entities/earth/category.entity';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { FilterArticleCategoriesInput } from './dto/filter-categories.input.js';
+import { FilterArticleCategoriesInput } from './dto/filter-categories.input';
 import { Query } from 'typings/controller';
-import { CreateArticleCategoryInput } from './dto/create-category.input.js';
-import { UpdateArticleCategoryInput } from './dto/update-category.input.js';
+import { CreateArticleCategoryInput } from './dto/create-category.input';
+import { UpdateArticleCategoryInput } from './dto/update-category.input';
 import { ArticleWithCategory } from '@/libs/database/entities/earth/article-with-category.entity';
 
 @Injectable()

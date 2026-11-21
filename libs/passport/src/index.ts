@@ -1,2 +1,2 @@
-export * from './passport.module.js';
-export * from './passport.service.js';
+export * from './passport.module';
+export * from './passport.service';

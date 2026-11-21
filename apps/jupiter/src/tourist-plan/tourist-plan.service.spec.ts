@@ -1,7 +1,7 @@
 import { ChatOpenAI } from '@langchain/openai';
 import { AIMessageChunk } from '@langchain/core/messages';
 import { lastValueFrom, toArray } from 'rxjs';
-import { TouristPlanService } from './tourist-plan.service.js';
+import { TouristPlanService } from './tourist-plan.service';
 
 vi.mock('@langchain/openai', () => ({ ChatOpenAI: vi.fn() }));
 

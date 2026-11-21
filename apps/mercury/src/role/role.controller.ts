@@ -1,8 +1,8 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { RoleService } from './role.service.js';
+import { RoleService } from './role.service';
 import { COMMAND_TOKENS } from 'constants/common.constant';
-import { AuthorizationPoint } from './dto/authorization.js';
+import { AuthorizationPoint } from './dto/authorization';
 
 @Controller()
 export class RoleController {

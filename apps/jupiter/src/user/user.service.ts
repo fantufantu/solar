@@ -9,8 +9,8 @@ import { User } from '@/libs/database/entities/jupiter/user.entity';
 import { Repository } from 'typeorm';
 import { MercuryClientService } from '@/libs/mercury-client';
 import { isVoid } from '@aiszlab/relax';
-import { UserMembership } from './dto/user-membership.object.js';
-import { TouristPlanService } from '../tourist-plan/tourist-plan.service.js';
+import { UserMembership } from './dto/user-membership.object';
+import { TouristPlanService } from '../tourist-plan/tourist-plan.service';
 
 @Injectable()
 export class UserService {

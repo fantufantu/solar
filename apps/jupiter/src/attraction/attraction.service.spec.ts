@@ -1,7 +1,7 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Attraction } from '@/libs/database/entities/jupiter/attraction.entity';
-import { AttractionService } from './attraction.service.js';
-import { ATTRACTION_SYNC_ACTION } from './dto/sync-attractions.input.js';
+import { AttractionService } from './attraction.service';
+import { ATTRACTION_SYNC_ACTION } from './dto/sync-attractions.input';
 
 function harness(initial: Partial<Attraction>[] = []) {
   const rows = new Map(

@@ -1,7 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
-import { DictionaryEnum } from './dictionary-enum.entity.js';
-import { TimeStamped } from '../any-use/time-stamped.entity.js';
+import { DictionaryEnum } from './dictionary-enum.entity';
+import { TimeStamped } from '../any-use/time-stamped.entity';
 
 @Entity({
   name: 'dictionary',

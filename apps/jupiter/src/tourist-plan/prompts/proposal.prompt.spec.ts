@@ -1,4 +1,4 @@
-import { useProposalPrompt } from './proposal.prompt.js';
+import { useProposalPrompt } from './proposal.prompt';
 
 it('preserves each destination and its selected attractions in the human message', async () => {
   const prompt = await useProposalPrompt({
