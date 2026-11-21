@@ -75,9 +75,7 @@ it('groups attractions by district code regardless of query result order', async
     {} as any,
   );
   await service.generateTouristPlan('plan-1');
-  expect(ChatOpenAI).toHaveBeenLastCalledWith(
-    expect.objectContaining({ useResponsesApi: false }),
-  );
+  expect(stream).toHaveBeenCalledOnce();
   const message = stream.mock.calls[0][0].toChatMessages()[1].text;
   const destinations = JSON.parse(
     message.split('目的地与意向景点（JSON）：\n')[1].split('\n\n')[0],

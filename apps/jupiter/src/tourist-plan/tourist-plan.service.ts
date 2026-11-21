@@ -202,7 +202,6 @@ export class TouristPlanService {
     ]);
 
     const chat = new ChatOpenAI({
-      useResponsesApi: false,
       model,
       configuration: {
         baseURL,
