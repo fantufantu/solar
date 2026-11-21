@@ -1,5 +1,5 @@
 import { Args, Mutation, Resolver, ResolveReference } from '@nestjs/graphql';
-import { UserService } from './user.service';
+import { UserService } from './user.service.js';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';

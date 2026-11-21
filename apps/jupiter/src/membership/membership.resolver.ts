@@ -1,5 +1,5 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { MembershipService } from './membership.service';
+import { MembershipService } from './membership.service.js';
 import { Membership } from '@/libs/database/entities/jupiter/membership.entity';
 import { Authorization } from 'utils/decorators/authorization.decorator';
 import {

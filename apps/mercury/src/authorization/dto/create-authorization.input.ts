@@ -1,8 +1,8 @@
 import {
   AUTHORIZATION_ACTION_CODE,
   AUTHORIZATION_RESOURCE_CODE,
-  AuthorizationActionCode,
-  AuthorizationResourceCode,
+  type AuthorizationActionCode,
+  type AuthorizationResourceCode,
 } from '@/libs/database/entities/mercury/authorization.entity';
 import { Field, InputType } from '@nestjs/graphql';
 

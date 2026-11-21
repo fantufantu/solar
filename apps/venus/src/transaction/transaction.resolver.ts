@@ -8,21 +8,21 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-import { TransactionService } from './transaction.service';
+import { TransactionService } from './transaction.service.js';
 import { Transaction } from '@/libs/database/entities/venus/transaction.entity';
-import { CreateTransactionInput } from './dto/create-transaction.input';
-import { UpdateTransactionInput } from './dto/update-transaction.input';
-import { TransactionLoader } from './transaction.loader';
+import { CreateTransactionInput } from './dto/create-transaction.input.js';
+import { UpdateTransactionInput } from './dto/update-transaction.input.js';
+import { TransactionLoader } from './transaction.loader.js';
 import { JwtAuthGuard } from '@/libs/passport/guards';
-import { FilterTransactionsInput } from './dto/filter-transactions.input';
+import { FilterTransactionsInput } from './dto/filter-transactions.input.js';
 import { Pagination } from 'assets/dto/pagination.input';
 import { Category } from '@/libs/database/entities/venus/category.entity';
 import { User } from '@/libs/database/entities/venus/user.entity';
-import { PaginatedTransactions } from './dto/paginated-transactions.object';
+import { PaginatedTransactions } from './dto/paginated-transactions.object.js';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
-import { TransactionsAmount } from './dto/transactions-amount.object';
-import { FilterTransactionsAmountInput } from './dto/filter-transactions-amount.input';
+import { TransactionsAmount } from './dto/transactions-amount.object.js';
+import { FilterTransactionsAmountInput } from './dto/filter-transactions-amount.input.js';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { FilterArgs } from 'utils/decorators/filter.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';

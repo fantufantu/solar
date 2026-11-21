@@ -1,7 +1,7 @@
 import { Directive, Field, Int, ObjectType, OmitType } from '@nestjs/graphql';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
-import { TimeStamped } from '../any-use/time-stamped.entity';
+import { TimeStamped } from '../any-use/time-stamped.entity.js';
 
 @ObjectType()
 @Directive('@key(fields: "id")')

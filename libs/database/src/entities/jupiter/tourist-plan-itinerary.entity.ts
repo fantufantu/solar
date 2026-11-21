@@ -4,7 +4,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TimeStamped } from '../any-use/time-stamped.entity';
+import { TimeStamped } from '../any-use/time-stamped.entity.js';
 import { z } from 'zod';
 
 export const ITINERARY_SCHEMA = z.object({

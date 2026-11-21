@@ -9,8 +9,8 @@ import { User } from '@/libs/database/entities/jupiter/user.entity';
 import { Repository } from 'typeorm';
 import { MercuryClientService } from '@/libs/mercury-client';
 import { isVoid } from '@aiszlab/relax';
-import { UserMembership } from './dto/user-membership.object';
-import { TouristPlanService } from '../tourist-plan/tourist-plan.service';
+import { UserMembership } from './dto/user-membership.object.js';
+import { TouristPlanService } from '../tourist-plan/tourist-plan.service.js';
 
 @Injectable()
 export class UserService {
@@ -19,7 +19,7 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     private readonly mercuryClient: MercuryClientService,
     @Inject(forwardRef(() => TouristPlanService))
-    private readonly touristPlanService: TouristPlanService,
+    private readonly touristPlanService: Pick<TouristPlanService, 'countTodayByBelongToId'>,
   ) {}
 
   /**

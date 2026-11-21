@@ -4,8 +4,8 @@ import type { Repository } from 'typeorm';
 import { DictionaryEnum } from '@/libs/database/entities/mercury/dictionary-enum.entity';
 import { paginateQuery } from 'utils/query-builder';
 import type { Query } from 'typings/controller';
-import type { CreateDictionaryEnumInput } from './dto/create-dictionary-enum.input';
-import type { UpdateDictionaryEnumInput } from './dto/update-dictionary-enum.input';
+import type { CreateDictionaryEnumInput } from './dto/create-dictionary-enum.input.js';
+import type { UpdateDictionaryEnumInput } from './dto/update-dictionary-enum.input.js';
 
 @Injectable()
 export class DictionaryEnumService {

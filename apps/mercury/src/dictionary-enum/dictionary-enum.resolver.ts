@@ -1,10 +1,10 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { DictionaryEnumService } from './dictionary-enum.service';
-import { PaginatedDictionaryEnum } from './dto/paginated-dictionary-enums.object';
+import { DictionaryEnumService } from './dictionary-enum.service.js';
+import { PaginatedDictionaryEnum } from './dto/paginated-dictionary-enums.object.js';
 import { DictionaryEnum } from '@/libs/database/entities/mercury/dictionary-enum.entity';
 import { Pagination } from 'assets/dto/pagination.input';
-import { CreateDictionaryEnumInput } from './dto/create-dictionary-enum.input';
-import { UpdateDictionaryEnumInput } from './dto/update-dictionary-enum.input';
+import { CreateDictionaryEnumInput } from './dto/create-dictionary-enum.input.js';
+import { UpdateDictionaryEnumInput } from './dto/update-dictionary-enum.input.js';
 import { Authorization } from 'utils/decorators/authorization.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import {

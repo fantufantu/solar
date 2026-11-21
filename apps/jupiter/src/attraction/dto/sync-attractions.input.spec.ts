@@ -1,10 +1,9 @@
-/// <reference types="jest" />
 import { validate } from 'class-validator';
 import {
   ATTRACTION_SYNC_ACTION,
   SyncAttractionInput,
   SyncAttractionsInput,
-} from './sync-attractions.input';
+} from './sync-attractions.input.js';
 
 const item = (values: Partial<SyncAttractionInput>) =>
   Object.assign(new SyncAttractionInput(), values);

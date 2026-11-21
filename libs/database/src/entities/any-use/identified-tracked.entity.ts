@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { PrimaryGeneratedColumn } from 'typeorm';
-import { Tracked } from './tracked.entity';
+import { Tracked } from './tracked.entity.js';
 
 @ObjectType()
 export class IdentifiedTracked extends Tracked {

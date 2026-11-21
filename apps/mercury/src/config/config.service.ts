@@ -5,8 +5,8 @@ import {
   BUCKET_NAME,
   BucketName,
   CosCredential,
-} from './dto/cos-credential.object';
-import { AmapCredential } from './dto/amap-credential.object';
+} from './dto/cos-credential.object.js';
+import { AmapCredential } from './dto/amap-credential.object.js';
 import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud.constant';
 import {
   AMAP_PROPERTY_TOKEN,

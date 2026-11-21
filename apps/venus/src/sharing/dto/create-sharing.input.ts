@@ -1,7 +1,7 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 import {
   TARGET_TYPE,
-  TargetType,
+  type TargetType,
 } from '@/libs/database/entities/venus/sharing.entity';
 
 @InputType()

@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Column, DeleteDateColumn, Entity } from 'typeorm';
-import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
+import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity.js';
 
 @ObjectType()
 @Entity({ comment: '会员等级', name: 'membership' })

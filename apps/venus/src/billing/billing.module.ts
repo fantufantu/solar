@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SharingModule } from '../sharing/sharing.module';
-import { BillingService } from './billing.service';
-import { BillingResolver } from './billing.resolver';
-import { BillingLoader } from './billing.loader';
+import { SharingModule } from '../sharing/sharing.module.js';
+import { BillingService } from './billing.service.js';
+import { BillingResolver } from './billing.resolver.js';
+import { BillingLoader } from './billing.loader.js';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
 
 @Module({

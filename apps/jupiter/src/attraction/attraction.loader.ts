@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
 import { District } from '@/libs/database/entities/jupiter/district.entity';
-import { DistrictService } from '../district/district.service';
+import { DistrictService } from '../district/district.service.js';
 import { toArray } from '@aiszlab/relax';
 
 @Injectable()

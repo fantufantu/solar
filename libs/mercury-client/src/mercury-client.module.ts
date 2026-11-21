@@ -2,7 +2,7 @@ import { Global, Module } from '@nestjs/common';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { PROVIDER_TOKEN } from 'constants/app.constant';
 import { MICRO_SERVICE_PORTS } from 'constants/ports.constant';
-import { MercuryClientService } from './mercury-client.service';
+import { MercuryClientService } from './mercury-client.service.js';
 
 @Global()
 @Module({
@@ -14,6 +14,7 @@ import { MercuryClientService } from './mercury-client.service';
         ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
+            host: '127.0.0.1',
             port: MICRO_SERVICE_PORTS.MERCURY,
           },
         }),

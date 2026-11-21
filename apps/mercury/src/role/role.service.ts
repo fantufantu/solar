@@ -7,13 +7,13 @@ import {
   AUTHORIZATION_ACTION_CODE,
   AUTHORIZATION_RESOURCE_CODE,
 } from '@/libs/database/entities/mercury/authorization.entity';
-import type { CreateRoleInput } from './dto/create-role.input';
-import type { UpdateRoleInput } from './dto/update-role.input';
+import type { CreateRoleInput } from './dto/create-role.input.js';
+import type { UpdateRoleInput } from './dto/update-role.input.js';
 import type { Query } from 'typings/controller';
 import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role-with-authorization.entity';
-import { AuthorizationPoint } from './dto/authorization';
-import { UserService } from '../user/user.service';
-import { AssignAuthorizationsInput } from './dto/assign-authorizations.input';
+import { AuthorizationPoint } from './dto/authorization.js';
+import { UserService } from '../user/user.service.js';
+import { AssignAuthorizationsInput } from './dto/assign-authorizations.input.js';
 
 @Injectable()
 export class RoleService {

@@ -1,6 +1,6 @@
 import { Directive, Field, ObjectType, OmitType } from '@nestjs/graphql';
 import { Entity, PrimaryColumn } from 'typeorm';
-import { TimeStamped } from '../any-use/time-stamped.entity';
+import { TimeStamped } from '../any-use/time-stamped.entity.js';
 
 @ObjectType()
 @Directive('@key(fields: "id")')

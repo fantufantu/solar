@@ -1,2 +1,2 @@
-export * from './cache.module';
-export * from './cache.service';
+export * from './cache.module.js';
+export * from './cache.service.js';

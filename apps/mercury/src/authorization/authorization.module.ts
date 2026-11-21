@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthorizationService } from './authorization.service';
-import { AuthorizationResolver } from './authorization.resolver';
+import { AuthorizationService } from './authorization.service.js';
+import { AuthorizationResolver } from './authorization.resolver.js';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 
 @Module({

@@ -1,4 +1,4 @@
-import { CreateTransactionInput } from './create-transaction.input';
+import { CreateTransactionInput } from './create-transaction.input.js';
 import { InputType, PartialType } from '@nestjs/graphql';
 
 @InputType()

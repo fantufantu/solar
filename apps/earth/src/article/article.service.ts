@@ -3,18 +3,18 @@ import {
   ForbiddenException,
   Injectable,
 } from '@nestjs/common';
-import { CreateArticleInput } from './dto/create-article.input';
+import { CreateArticleInput } from './dto/create-article.input.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from '@/libs/database/entities/earth/article.entity';
 import { Repository } from 'typeorm';
-import { UpdateArticleInput } from './dto/update-article.input';
-import { FilterArticlesInput } from './dto/filter-articles.input';
+import { UpdateArticleInput } from './dto/update-article.input.js';
+import { FilterArticlesInput } from './dto/filter-articles.input.js';
 import { Query } from 'typings/controller';
 import { ArticleWithCategory } from '@/libs/database/entities/earth/article-with-category.entity';
 import { isEmpty } from '@aiszlab/relax';
-import { FilterArticleContributionsInput } from './dto/filter-article-contributions.input';
+import { FilterArticleContributionsInput } from './dto/filter-article-contributions.input.js';
 import dayjs from 'dayjs';
-import { ArticleContribution } from './dto/article-contribution.object';
+import { ArticleContribution } from './dto/article-contribution.object.js';
 
 @Injectable()
 export class ArticleService {

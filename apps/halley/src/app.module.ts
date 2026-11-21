@@ -3,7 +3,7 @@ import {
   IntrospectAndCompose,
   RemoteGraphQLDataSource,
 } from '@apollo/gateway';
-import { GraphQLDataSourceRequestKind } from '@apollo/gateway/dist/datasources/types';
+import { GraphQLDataSourceRequestKind } from '@apollo/gateway/dist/datasources/types.js';
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { Context, GraphQLModule } from '@nestjs/graphql';

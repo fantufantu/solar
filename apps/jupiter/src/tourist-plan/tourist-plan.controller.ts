@@ -1,5 +1,5 @@
 import { Controller, Param, Sse, UseInterceptors } from '@nestjs/common';
-import { TouristPlanService } from './tourist-plan.service';
+import { TouristPlanService } from './tourist-plan.service.js';
 import { CacheableSseInterceptor } from 'utils/interceptors/cacheable-sse.interceptor';
 
 @Controller('tourist-plan')

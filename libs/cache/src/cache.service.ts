@@ -4,8 +4,8 @@ import { CACHE_TOKEN } from 'constants/cache.constant';
 import type { CacheToken } from 'constants/cache.constant';
 import type { Cache } from 'cache-manager';
 import { toCacheKey } from 'utils/cache';
-import type { CaptchaValidation } from './dto/captcha-validation';
-import type { isLoggedIn } from './dto/authenticated';
+import type { CaptchaValidation } from './dto/captcha-validation.js';
+import type { isLoggedIn } from './dto/authenticated.js';
 
 @Injectable()
 export class CacheService {

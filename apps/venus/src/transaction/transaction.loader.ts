@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
-import { CategoryService } from '../category/category.service';
+import { CategoryService } from '../category/category.service.js';
 import { Category } from '@/libs/database/entities/venus/category.entity';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
-import { BillingService } from '../billing/billing.service';
+import { BillingService } from '../billing/billing.service.js';
 
 @Injectable()
 export class TransactionLoader {
@@ -18,7 +18,8 @@ export class TransactionLoader {
    * 根据交易分类`id`获取分类信息
    */
   readonly categoryLoader = new DataLoader<number, Category | null>(
-    async (ids: number[]) => {
+    async (keys) => {
+      const ids = [...keys];
       const [categories] = await this.categoryService.categories({
         filter: {
           ids,
@@ -37,7 +38,8 @@ export class TransactionLoader {
    * 根据账本`id`获取账本
    */
   readonly billingLoader = new DataLoader<number, Billing | null>(
-    async (ids: number[]) => {
+    async (keys) => {
+      const ids = [...keys];
       const billings = await this.billingService.billings({
         ids,
       });

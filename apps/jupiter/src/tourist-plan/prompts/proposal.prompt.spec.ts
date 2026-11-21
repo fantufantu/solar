@@ -1,5 +1,4 @@
-/// <reference types="jest" />
-import { useProposalPrompt } from './proposal.prompt';
+import { useProposalPrompt } from './proposal.prompt.js';
 
 it('preserves each destination and its selected attractions in the human message', async () => {
   const prompt = await useProposalPrompt({

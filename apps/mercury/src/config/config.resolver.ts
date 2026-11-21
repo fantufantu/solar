@@ -1,11 +1,11 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import {
   BUCKET_NAME,
-  BucketName,
+  type BucketName,
   CosCredential,
-} from './dto/cos-credential.object';
-import { AmapCredential } from './dto/amap-credential.object';
-import { ConfigService } from './config.service';
+} from './dto/cos-credential.object.js';
+import { AmapCredential } from './dto/amap-credential.object.js';
+import { ConfigService } from './config.service.js';
 
 @Resolver()
 export class ConfigResolver {

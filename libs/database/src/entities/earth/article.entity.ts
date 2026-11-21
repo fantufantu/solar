@@ -2,8 +2,8 @@ import { BadRequestException } from '@nestjs/common';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { isURL } from 'class-validator';
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
-import { ArticleWithCategory } from './article-with-category.entity';
-import { IdentifiedTracked } from '../any-use/identified-tracked.entity';
+import { ArticleWithCategory } from './article-with-category.entity.js';
+import { IdentifiedTracked } from '../any-use/identified-tracked.entity.js';
 
 @ObjectType()
 @Entity()

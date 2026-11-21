@@ -2,8 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TouristPlanItinerary } from '@/libs/database/entities/jupiter/tourist-plan-itinerary.entity';
-import { CreateTouristPlanItineraryInput } from './dto/create-tourist-plan-itinerary.input';
-import { UpdateTouristPlanItineraryInput } from './dto/update-tourist-plan-itinerary.input';
+import { CreateTouristPlanItineraryInput } from './dto/create-tourist-plan-itinerary.input.js';
+import { UpdateTouristPlanItineraryInput } from './dto/update-tourist-plan-itinerary.input.js';
 
 @Injectable()
 export class TouristPlanItineraryService {

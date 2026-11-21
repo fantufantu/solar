@@ -1,6 +1,6 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { TimeStamped } from '../any-use/time-stamped.entity';
+import { TimeStamped } from '../any-use/time-stamped.entity.js';
 
 @Entity({
   name: 'role',

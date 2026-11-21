@@ -4,7 +4,7 @@ import {
   Sharing,
   TARGET_TYPE,
 } from '@/libs/database/entities/venus/sharing.entity';
-import { SharingService } from '../sharing/sharing.service';
+import { SharingService } from '../sharing/sharing.service.js';
 import { toArray } from '@aiszlab/relax';
 
 @Injectable()

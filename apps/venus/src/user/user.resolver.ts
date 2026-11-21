@@ -8,10 +8,10 @@ import {
   ResolveReference,
 } from '@nestjs/graphql';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
-import { UpdateDefaultBillingInput } from './dto/update-default-billing.input';
+import { UpdateDefaultBillingInput } from './dto/update-default-billing.input.js';
 import { User } from '@/libs/database/entities/venus/user.entity';
-import { UserLoader } from './user.loader';
-import { UserService } from './user.service';
+import { UserLoader } from './user.loader.js';
+import { UserService } from './user.service.js';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 

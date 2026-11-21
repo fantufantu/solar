@@ -1,4 +1,4 @@
-import { CreateBillingInput } from './create-billing.input';
+import { CreateBillingInput } from './create-billing.input.js';
 import { InputType, PartialType } from '@nestjs/graphql';
 
 @InputType()

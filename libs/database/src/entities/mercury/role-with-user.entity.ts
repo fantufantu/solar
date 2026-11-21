@@ -1,8 +1,8 @@
 import { ObjectType } from '@nestjs/graphql';
 import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import { User } from './user.entity';
-import { TimeStamped } from '../any-use/time-stamped.entity';
-import { Role } from './role.entity';
+import { User } from './user.entity.js';
+import { TimeStamped } from '../any-use/time-stamped.entity.js';
+import { Role } from './role.entity.js';
 
 @Entity({ name: 'role_with_user' })
 @ObjectType()

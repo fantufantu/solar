@@ -12,21 +12,21 @@ import {
   Brackets,
 } from 'typeorm';
 import dayjs from 'dayjs';
-import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client';
+import { Client as SesClient } from 'tencentcloud-sdk-nodejs/tencentcloud/services/ses/v20201002/ses_client.js';
 import { CACHE_TOKEN } from 'constants/cache.constant';
 import type { CacheToken } from 'constants/cache.constant';
 import { PlutoClientService } from '@/libs/pluto-client';
-import { VerifyInput } from './dto/verify.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import { VerifyInput } from './dto/verify.input.js';
+import { UpdateUserInput } from './dto/update-user.input.js';
 import { User } from '@/libs/database/entities/mercury/user.entity';
 import { CacheService } from '@/libs/cache';
 import { TENCENT_CLOUD_CONFIGURATION } from 'constants/cloud.constant';
 import { Pagination } from 'assets/dto/pagination.input';
-import { FilterUserInput } from './dto/filter-user.input';
+import { FilterUserInput } from './dto/filter-user.input.js';
 import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
 import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role-with-authorization.entity';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
-import { AssignRolesInput } from './dto/assign-roles.input';
+import { AssignRolesInput } from './dto/assign-roles.input.js';
 import { REGISTERED_CONFIGURATION_TOKENS } from 'constants/configuration.constant';
 
 @Injectable()

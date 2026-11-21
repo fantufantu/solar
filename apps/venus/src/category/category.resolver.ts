@@ -1,12 +1,12 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UseInterceptors } from '@nestjs/common';
-import { CategoryService } from './category.service';
+import { CategoryService } from './category.service.js';
 import { Category } from '@/libs/database/entities/venus/category.entity';
-import { CreateTransactionCategoryInput } from './dto/create-category.input';
-import { UpdateTransactionCategoryInput } from './dto/update-category.input';
-import { FilterTransactionCategoryInput } from './dto/filter-categories.input';
+import { CreateTransactionCategoryInput } from './dto/create-category.input.js';
+import { UpdateTransactionCategoryInput } from './dto/update-category.input.js';
+import { FilterTransactionCategoryInput } from './dto/filter-categories.input.js';
 import { Pagination } from 'assets/dto/pagination.input';
-import { PaginatedCategories } from './dto/paginated-categories.object';
+import { PaginatedCategories } from './dto/paginated-categories.object.js';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { FilterArgs } from 'utils/decorators/filter.decorator';

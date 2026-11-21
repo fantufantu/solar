@@ -21,16 +21,38 @@
     "esModuleInterop": true,
     "ignoreDeprecations": "6.0",
     "paths": {
-      "@/libs/cache": ["libs/cache/src"],
-      "@/libs/cache/*": ["libs/cache/src/*"],
-      "@/libs/database": ["libs/database/src"],
-      "@/libs/database/*": ["libs/database/src/*"],
-      "@/libs/mercury-client": ["libs/mercury-client/src"],
-      "@/libs/mercury-client/*": ["libs/mercury-client/src/*"],
-      "@/libs/passport": ["libs/passport/src"],
-      "@/libs/passport/*": ["libs/passport/src/*"],
-      "@/libs/pluto-client": ["libs/pluto-client/src"],
-      "@/libs/pluto-client/*": ["libs/pluto-client/src/*"]
-    }
+      "@/libs/cache": ["libs/cache/src/index.js"],
+      "@/libs/cache/*": ["libs/cache/src/*.js", "libs/cache/src/*/index.js"],
+      "@/libs/database": ["libs/database/src/index.js"],
+      "@/libs/database/*": [
+        "libs/database/src/*.js",
+        "libs/database/src/*/index.js"
+      ],
+      "@/libs/mercury-client": ["libs/mercury-client/src/index.js"],
+      "@/libs/mercury-client/*": [
+        "libs/mercury-client/src/*.js",
+        "libs/mercury-client/src/*/index.js"
+      ],
+      "@/libs/passport": ["libs/passport/src/index.js"],
+      "@/libs/passport/*": [
+        "libs/passport/src/*.js",
+        "libs/passport/src/*/index.js"
+      ],
+      "@/libs/pluto-client": ["libs/pluto-client/src/index.js"],
+      "@/libs/pluto-client/*": [
+        "libs/pluto-client/src/*.js",
+        "libs/pluto-client/src/*/index.js"
+      ],
+      "apps/*": ["apps/*.js", "apps/*/index.js"],
+      "assets/*": ["assets/*.js", "assets/*/index.js"],
+      "libs/*": ["libs/*.js", "libs/*/index.js"],
+      "constants/*": ["constants/*.js", "constants/*/index.js"],
+      "utils/*": ["utils/*.js", "utils/*/index.js"],
+      "typings/*": ["typings/*.js", "typings/*/index.js"]
+    },
+    "moduleResolution": "NodeNext",
+    "strictPropertyInitialization": false,
+    "types": ["node", "vitest/globals"],
+    "isolatedModules": true
   }
 }

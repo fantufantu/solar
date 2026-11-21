@@ -10,18 +10,18 @@ import {
 } from '@nestjs/graphql';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { User } from '@/libs/database/entities/mercury/user.entity';
-import { UserService } from './user.service';
-import { UpdateUserInput } from './dto/update-user.input';
+import { UserService } from './user.service.js';
+import { UpdateUserInput } from './dto/update-user.input.js';
 import { CACHE_TOKEN } from 'constants/cache.constant';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { Pagination } from 'assets/dto/pagination.input';
 import { FilterArgs } from 'utils/decorators/filter.decorator';
-import { FilterUserInput } from './dto/filter-user.input';
-import { PaginatedUsers } from './dto/paginated-users.object';
+import { FilterUserInput } from './dto/filter-user.input.js';
+import { PaginatedUsers } from './dto/paginated-users.object.js';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
-import { AssignRolesInput } from './dto/assign-roles.input';
+import { AssignRolesInput } from './dto/assign-roles.input.js';
 import { toArray } from '@aiszlab/relax';
 import { Authorization as RequireAuthorization } from 'utils/decorators/authorization.decorator';
 import {

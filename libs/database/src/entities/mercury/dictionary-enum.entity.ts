@@ -1,7 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
-import { Dictionary } from './dictionary.entity';
+import { Column, Entity, JoinColumn, ManyToOne, type Relation } from 'typeorm';
+import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity.js';
+import { Dictionary } from './dictionary.entity.js';
 
 @Entity({
   name: 'dictionary_enum',
@@ -48,5 +48,5 @@ export class DictionaryEnum extends IdentifiedTimeStamped {
 
   @ManyToOne(() => Dictionary, (dictionary) => dictionary.children)
   @JoinColumn({ referencedColumnName: 'code', name: 'parent_code' })
-  parent!: Dictionary;
+  parent!: Relation<Dictionary>;
 }

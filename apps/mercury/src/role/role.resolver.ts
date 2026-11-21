@@ -7,11 +7,11 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { Pagination } from 'assets/dto/pagination.input';
-import { PaginatedRole } from './dto/paginated-roles.object';
+import { PaginatedRole } from './dto/paginated-roles.object.js';
 import { Role } from '@/libs/database/entities/mercury/role.entity';
-import { RoleService } from './role.service';
-import { CreateRoleInput } from './dto/create-role.input';
-import { UpdateRoleInput } from './dto/update-role.input';
+import { RoleService } from './role.service.js';
+import { CreateRoleInput } from './dto/create-role.input.js';
+import { UpdateRoleInput } from './dto/update-role.input.js';
 import { Authorization } from 'utils/decorators/authorization.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import {
@@ -21,7 +21,7 @@ import {
 } from '@/libs/database/entities/mercury/authorization.entity';
 import { UseInterceptors } from '@nestjs/common';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
-import { AssignAuthorizationsInput } from './dto/assign-authorizations.input';
+import { AssignAuthorizationsInput } from './dto/assign-authorizations.input.js';
 
 @Resolver(() => Role)
 export class RoleResolver {

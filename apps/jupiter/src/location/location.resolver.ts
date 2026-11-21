@@ -1,7 +1,7 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { ReverseGeocodeInput } from './dto/reverse-geocode.input';
-import { ReverseGeocodeResult } from './dto/reverse-geocode.object';
-import { LocationService } from './location.service';
+import { ReverseGeocodeInput } from './dto/reverse-geocode.input.js';
+import { ReverseGeocodeResult } from './dto/reverse-geocode.object.js';
+import { LocationService } from './location.service.js';
 
 @Resolver()
 export class LocationResolver {

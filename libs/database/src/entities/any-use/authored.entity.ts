@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BeforeInsert, Column } from 'typeorm';
-import { TimeStamped } from './time-stamped.entity';
+import { TimeStamped } from './time-stamped.entity.js';
 
 @ObjectType()
 export class Authored extends TimeStamped {

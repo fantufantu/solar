@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService } from './authentication.service.js';
 import { COMMAND_TOKENS } from 'constants/common.constant';
 
 @Controller()

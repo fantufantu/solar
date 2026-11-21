@@ -10,9 +10,9 @@ import {
   PrimaryColumn,
   Unique,
 } from 'typeorm';
-import { ArticleWithCategory } from './article-with-category.entity';
+import { ArticleWithCategory } from './article-with-category.entity.js';
 import { isUndefined } from '@aiszlab/relax';
-import { TimeStamped } from '../any-use/time-stamped.entity';
+import { TimeStamped } from '../any-use/time-stamped.entity.js';
 
 @ObjectType('ArticleCategory')
 @Unique(['code'])

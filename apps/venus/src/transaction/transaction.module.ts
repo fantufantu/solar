@@ -1,11 +1,11 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TransactionService } from './transaction.service';
-import { TransactionResolver } from './transaction.resolver';
+import { TransactionService } from './transaction.service.js';
+import { TransactionResolver } from './transaction.resolver.js';
 import { Transaction } from '@/libs/database/entities/venus/transaction.entity';
-import { CategoryModule } from '../category/category.module';
-import { TransactionLoader } from './transaction.loader';
-import { BillingModule } from '../billing/billing.module';
+import { CategoryModule } from '../category/category.module.js';
+import { TransactionLoader } from './transaction.loader.js';
+import { BillingModule } from '../billing/billing.module.js';
 
 @Module({
   imports: [

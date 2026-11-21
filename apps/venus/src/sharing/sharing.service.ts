@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateSharingInput } from './dto/create-sharing.input';
-import { FilterSharingsInput } from './dto/filter-sharings.input';
-import { RemoveSharingInput } from './dto/remove-sharing.input';
+import { CreateSharingInput } from './dto/create-sharing.input.js';
+import { FilterSharingsInput } from './dto/filter-sharings.input.js';
+import { RemoveSharingInput } from './dto/remove-sharing.input.js';
 import { Sharing } from '@/libs/database/entities/venus/sharing.entity';
 
 @Injectable()

@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '@/libs/database';
 import { APPLICATION_TOKEN } from 'constants/app.constant';
-import { ArticleModule } from './article/article.module';
+import { ArticleModule } from './article/article.module.js';
 import { GraphQLModule } from '@nestjs/graphql';
 import {
   ApolloFederationDriver,
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
-import { CategoryModule } from './category/category.module';
+import { CategoryModule } from './category/category.module.js';
 import { PassportModule } from '@/libs/passport';
 
 @Module({

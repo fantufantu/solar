@@ -1,10 +1,9 @@
-/// <reference types="jest" />
 import { validate } from 'class-validator';
 import {
   DISTRICT_SYNC_ACTION,
   SyncDistrictInput,
   SyncDistrictsInput,
-} from './sync-districts.input';
+} from './sync-districts.input.js';
 
 const item = (values: Partial<SyncDistrictInput>) =>
   Object.assign(new SyncDistrictInput(), values);

@@ -1,4 +1,4 @@
-import { CreateResumeInput } from './create-resume.input';
+import { CreateResumeInput } from './create-resume.input.js';
 import { InputType, PartialType } from '@nestjs/graphql';
 
 @InputType()

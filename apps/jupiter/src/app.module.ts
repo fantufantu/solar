@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { TouristPlanModule } from './tourist-plan/tourist-plan.module';
-import { TouristPlanItineraryModule } from './tourist-plan-itinerary/tourist-plan-itinerary.module';
-import { MembershipModule } from './membership/membership.module';
-import { DistrictModule } from './district/district.module';
-import { AttractionModule } from './attraction/attraction.module';
+import { TouristPlanModule } from './tourist-plan/tourist-plan.module.js';
+import { TouristPlanItineraryModule } from './tourist-plan-itinerary/tourist-plan-itinerary.module.js';
+import { MembershipModule } from './membership/membership.module.js';
+import { DistrictModule } from './district/district.module.js';
+import { AttractionModule } from './attraction/attraction.module.js';
 import { PlutoClientModule } from '@/libs/pluto-client';
 import { MercuryClientModule } from '@/libs/mercury-client';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -15,7 +15,7 @@ import { DatabaseModule } from '@/libs/database';
 import { APPLICATION_TOKEN } from 'constants/app.constant';
 import { User } from '@/libs/database/entities/jupiter/user.entity';
 import { PassportModule } from '@/libs/passport';
-import { LocationModule } from './location/location.module';
+import { LocationModule } from './location/location.module.js';
 
 @Module({
   imports: [

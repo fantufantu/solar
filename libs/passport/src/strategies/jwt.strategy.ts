@@ -8,7 +8,7 @@ import {
 import type { Request } from 'express';
 import { MercuryClientService } from 'libs/mercury-client/src';
 import { PROVIDER_TOKEN } from 'constants/app.constant';
-import type { Authentication } from '../dto/authentication';
+import type { Authentication } from '../dto/authentication.js';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

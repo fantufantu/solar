@@ -7,21 +7,21 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { ArticleService } from './article.service';
+import { ArticleService } from './article.service.js';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '@/libs/passport/guards';
-import { CreateArticleInput } from './dto/create-article.input';
+import { CreateArticleInput } from './dto/create-article.input.js';
 import { User } from '@/libs/database/entities/earth/user.entity';
-import { UpdateArticleInput } from './dto/update-article.input';
-import { PaginatedArticles } from './dto/paginated-articles.object';
+import { UpdateArticleInput } from './dto/update-article.input.js';
+import { PaginatedArticles } from './dto/paginated-articles.object.js';
 import { Pagination } from 'assets/dto/pagination.input';
-import { FilterArticlesInput } from './dto/filter-articles.input';
+import { FilterArticlesInput } from './dto/filter-articles.input.js';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
-import { ArticleLoader } from './article.loader';
+import { ArticleLoader } from './article.loader.js';
 import { Category } from '@/libs/database/entities/earth/category.entity';
 import { Article } from '@/libs/database/entities/earth/article.entity';
-import { ArticleContribution } from './dto/article-contribution.object';
-import { FilterArticleContributionsInput } from './dto/filter-article-contributions.input';
+import { ArticleContribution } from './dto/article-contribution.object.js';
+import { FilterArticleContributionsInput } from './dto/filter-article-contributions.input.js';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 import { PaginationArgs } from 'utils/decorators/pagination.decorator';
 import { FilterArgs } from 'utils/decorators/filter.decorator';

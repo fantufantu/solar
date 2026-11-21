@@ -1,4 +1,4 @@
-import { AUTHORIZATION_RESOURCE_CODE } from './authorization.entity';
+import { AUTHORIZATION_RESOURCE_CODE } from './authorization.entity.js';
 
 describe('AUTHORIZATION_RESOURCE_CODE', () => {
   test('补全系统中全部资源`code`', () => {

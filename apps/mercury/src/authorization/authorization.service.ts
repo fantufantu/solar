@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Authorization } from '@/libs/database/entities/mercury/authorization.entity';
 import type { Query } from 'typings/controller';
 import type { Repository } from 'typeorm';
-import { CreateAuthorizationInput } from './dto/create-authorization.input';
+import { CreateAuthorizationInput } from './dto/create-authorization.input.js';
 
 @Injectable()
 export class AuthorizationService {

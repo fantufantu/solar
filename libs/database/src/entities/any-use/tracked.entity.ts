@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
 import { DeleteDateColumn } from 'typeorm';
-import { Authored } from './authored.entity';
+import { Authored } from './authored.entity.js';
 
 @ObjectType()
 export class Tracked extends Authored {

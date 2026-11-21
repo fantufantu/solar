@@ -5,11 +5,11 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-import { SharingService } from './sharing.service';
+import { SharingService } from './sharing.service.js';
 import { Sharing } from '@/libs/database/entities/venus/sharing.entity';
-import { CreateSharingInput } from './dto/create-sharing.input';
-import { SharingLoader } from './sharing.loader';
-import { RemoveSharingInput } from './dto/remove-sharing.input';
+import { CreateSharingInput } from './dto/create-sharing.input.js';
+import { SharingLoader } from './sharing.loader.js';
+import { RemoveSharingInput } from './dto/remove-sharing.input.js';
 import { User } from '@/libs/database/entities/venus/user.entity';
 
 @Resolver(() => Sharing)

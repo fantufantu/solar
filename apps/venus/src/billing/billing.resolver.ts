@@ -8,17 +8,17 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-import { BillingService } from './billing.service';
+import { BillingService } from './billing.service.js';
 import { Billing } from '@/libs/database/entities/venus/billing.entity';
-import { CreateBillingInput } from './dto/create-billing.input';
-import { UpdateBillingInput } from './dto/update-billing.input';
+import { CreateBillingInput } from './dto/create-billing.input.js';
+import { UpdateBillingInput } from './dto/update-billing.input.js';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { Sharing } from '@/libs/database/entities/venus/sharing.entity';
-import { BillingLoader } from './billing.loader';
+import { BillingLoader } from './billing.loader.js';
 import { User } from '@/libs/database/entities/venus/user.entity';
 import { PaginatedInterceptor } from 'utils/interceptors/paginated.interceptor';
-import { PaginatedBillings } from './dto/paginated-billings.object';
-import { UpdateBillingLimitationInput } from './dto/update-billing-limitation.input';
+import { PaginatedBillings } from './dto/paginated-billings.object.js';
+import { UpdateBillingLimitationInput } from './dto/update-billing-limitation.input.js';
 import { WhoAmI } from 'utils/decorators/who-am-i.decorator';
 
 @Resolver(() => Billing)

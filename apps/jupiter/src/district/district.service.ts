@@ -8,13 +8,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { District } from '@/libs/database/entities/jupiter/district.entity';
 import { Query } from 'typings/controller';
-import { FilterDistrictsInput } from './dto/filter-districts.input';
-import { UpdateDistrictInput } from './dto/update-district.input';
-import { CreateDistrictInput } from './dto/create-district.input';
+import { FilterDistrictsInput } from './dto/filter-districts.input.js';
+import { UpdateDistrictInput } from './dto/update-district.input.js';
+import { CreateDistrictInput } from './dto/create-district.input.js';
 import {
   DISTRICT_SYNC_ACTION,
   SyncDistrictsInput,
-} from './dto/sync-districts.input';
+} from './dto/sync-districts.input.js';
 
 @Injectable()
 export class DistrictService {

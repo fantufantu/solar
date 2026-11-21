@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
-import { ResumeTemplateService } from '../resume-template/resume-template.service';
+import { ResumeTemplateService } from '../resume-template/resume-template.service.js';
 import { ResumeTemplate } from '@/libs/database/entities/mars/resume-template.entity';
 import { Nullable } from '@aiszlab/relax/types';
 
@@ -14,7 +14,8 @@ export class ResumeLoader {
    * 根据模板`code`查询模板列表
    */
   readonly resumeTemplates = new DataLoader<string, Nullable<ResumeTemplate>>(
-    async (codes: string[]) => {
+    async (keys) => {
+      const codes = [...keys];
       const [resumeTemplates] =
         await this.resumeTemplateService.resumeTemplates({
           where: { codes },

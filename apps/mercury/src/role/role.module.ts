@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RoleService } from './role.service';
-import { RoleResolver } from './role.resolver';
+import { RoleService } from './role.service.js';
+import { RoleResolver } from './role.resolver.js';
 import { Role } from '@/libs/database/entities/mercury/role.entity';
-import { RoleController } from './role.controller';
+import { RoleController } from './role.controller.js';
 import { RoleWithUser } from '@/libs/database/entities/mercury/role-with-user.entity';
-import { AuthorizationModule } from '../authorization/authorization.module';
+import { AuthorizationModule } from '../authorization/authorization.module.js';
 import { RoleWithAuthorization } from '@/libs/database/entities/mercury/role-with-authorization.entity';
-import { UserModule } from '../user/user.module';
+import { UserModule } from '../user/user.module.js';
 
 @Module({
   imports: [

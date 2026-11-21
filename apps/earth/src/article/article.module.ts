@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ArticleResolver } from './article.resolver';
-import { ArticleService } from './article.service';
-import { ArticleLoader } from './article.loader';
+import { ArticleResolver } from './article.resolver.js';
+import { ArticleService } from './article.service.js';
+import { ArticleLoader } from './article.loader.js';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Article } from '@/libs/database/entities/earth/article.entity';
 import { ArticleWithCategory } from '@/libs/database/entities/earth/article-with-category.entity';
