@@ -1,4 +1,3 @@
-/// <reference types="jest" />
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Attraction } from '@/libs/database/entities/jupiter/attraction.entity';
 import { AttractionService } from './attraction.service';
@@ -9,17 +8,17 @@ function harness(initial: Partial<Attraction>[] = []) {
     initial.map((row) => [row.code!, Object.assign(new Attraction(), row)]),
   );
   const repository: any = {
-    find: jest.fn(({ where }: any) =>
+    find: vi.fn(({ where }: any) =>
       Promise.resolve(
         where.code._value.map((code: string) => rows.get(code)).filter(Boolean),
       ),
     ),
     create: (value: any) => Object.assign(new Attraction(), value),
-    upsert: jest.fn((values: Attraction[]) => {
+    upsert: vi.fn((values: Attraction[]) => {
       for (const value of values) rows.set(value.code, value);
       return Promise.resolve({ identifiers: values.map(({ code }) => ({ code })) });
     }),
-    delete: jest.fn(({ code }: any) => {
+    delete: vi.fn(({ code }: any) => {
       for (const attractionCode of code._value) rows.delete(attractionCode);
       return Promise.resolve({ affected: code._value.length });
     }),

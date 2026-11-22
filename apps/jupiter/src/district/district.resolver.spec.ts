@@ -1,4 +1,3 @@
-/// <reference types="jest" />
 import { GUARDS_METADATA } from '@nestjs/common/constants';
 import { JwtAuthGuard } from '@/libs/passport/guards';
 import { DistrictResolver } from './district.resolver';
@@ -13,7 +12,7 @@ describe('DistrictResolver', () => {
   });
 
   it('passes the authenticated user id to the service', async () => {
-    const service = { sync: jest.fn().mockResolvedValue(true) };
+    const service = { sync: vi.fn().mockResolvedValue(true) };
     const resolver = new DistrictResolver(service as never, {} as never);
     const input = { items: [] };
     await expect(

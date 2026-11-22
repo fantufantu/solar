@@ -31,11 +31,11 @@ pnpm start:<service>
 ### Lint and test
 ```
 npx eslint .
-npx jest                           # Run all tests
-npx jest --testPathPattern=<file>  # Run a single test
+pnpm test                          # Run all tests
+pnpm test <file>                   # Run a single test
 ```
 
-Jest is configured in `package.json` (Jest 30, ts-jest). Test files match `*.spec.ts` in `apps/` and `libs/`. NestJS generators are configured with `"spec": false` in `nest-cli.json`.
+Vitest is configured in `vitest.config.ts`. Test files match `*.spec.ts` in `apps/` and `libs/`. NestJS generators are configured with `"spec": false` in `nest-cli.json`.
 
 ## Architecture
 
@@ -80,7 +80,7 @@ Pluto (TCP:3010)          ← Config server — all other services depend on it 
 - `@/libs/<name>` or `@/libs/<name>/*` — maps to `libs/<name>/src` and `libs/<name>/src/*`
 - `libs/*` — relative resolution (also works due to `rootDir: "."`)
 
-Jest mirrors these via `moduleNameMapper` in `package.json`.
+Vitest and Rspack resolve these aliases from `tsconfig.json`. Use extensionless relative imports in application and library TypeScript. Rspack resolves them when it builds the ESM bundles.
 
 ### Service AppModule boilerplate
 Every service's `AppModule` imports a standard set:

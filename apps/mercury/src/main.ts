@@ -16,6 +16,7 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,
     options: {
+      host: '127.0.0.1',
       port: MICRO_SERVICE_PORTS.MERCURY,
     },
   });

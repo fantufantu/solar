@@ -5,3 +5,7 @@ allowBuilds:
   protobufjs: true
   sharp: true
   unrs-resolver: true
+  '@parcel/watcher': true
+minimumReleaseAgeExclude:
+  - '@nestjs/cli@12.0.14'
+  - '@nestjs/schematics@12.0.14'

@@ -1,5 +1,5 @@
 import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, type Relation } from 'typeorm';
 import { Article } from './article.entity';
 import { Category } from './category.entity';
 
@@ -13,7 +13,7 @@ export class ArticleWithCategory extends IdentifiedTimeStamped {
 
   @ManyToOne(() => Article, (article) => article.articleWithCategory)
   @JoinColumn({ referencedColumnName: 'id', name: 'article_id' })
-  article!: Article;
+  article!: Relation<Article>;
 
   @Column({
     name: 'category_code',
@@ -25,5 +25,5 @@ export class ArticleWithCategory extends IdentifiedTimeStamped {
 
   @ManyToOne(() => Category, (category) => category.articleWithCategory)
   @JoinColumn({ referencedColumnName: 'code', name: 'category_code' })
-  category!: Category;
+  category!: Relation<Category>;
 }

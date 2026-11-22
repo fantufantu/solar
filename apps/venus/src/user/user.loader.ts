@@ -11,7 +11,8 @@ export class UserLoader {
    * @description 根据账本`id`获取账本信息
    */
   public readonly billings = new DataLoader<number, Billing | null>(
-    async (ids: number[]) => {
+    async (keys) => {
+      const ids = [...keys];
       // 查询账本列表
       const _billings = (await this.billingService.billings({ ids })).reduce(
         (prev, _billing) => prev.set(_billing.id, _billing),

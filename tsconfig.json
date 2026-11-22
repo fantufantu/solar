@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
+    "module": "ESNext",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -31,6 +31,10 @@
       "@/libs/passport/*": ["libs/passport/src/*"],
       "@/libs/pluto-client": ["libs/pluto-client/src"],
       "@/libs/pluto-client/*": ["libs/pluto-client/src/*"]
-    }
+    },
+    "moduleResolution": "Bundler",
+    "strictPropertyInitialization": false,
+    "types": ["node", "vitest/globals"],
+    "isolatedModules": true
   }
 }

@@ -38,7 +38,7 @@ export class TouristPlanService {
     @InjectRepository(TouristPlan)
     private readonly touristPlanRepository: Repository<TouristPlan>,
     @Inject(forwardRef(() => UserService))
-    private readonly userService: UserService,
+    private readonly userService: Pick<UserService, 'isQuotaOverflow'>,
     private readonly districtService: DistrictService,
     private readonly attractionService: AttractionService,
     private readonly itineraryService: TouristPlanItineraryService,

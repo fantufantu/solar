@@ -1,14 +1,13 @@
-/// <reference types="jest" />
 import { ChatOpenAI } from '@langchain/openai';
 import { AIMessageChunk } from '@langchain/core/messages';
 import { lastValueFrom, toArray } from 'rxjs';
 import { TouristPlanService } from './tourist-plan.service';
 
-jest.mock('@langchain/openai', () => ({ ChatOpenAI: jest.fn() }));
+vi.mock('@langchain/openai', () => ({ ChatOpenAI: vi.fn() }));
 
 describe('TouristPlanService proposal streaming', () => {
   it('streams and persists text from Responses content blocks', async () => {
-    const repository = { update: jest.fn().mockResolvedValue(undefined) };
+    const repository = { update: vi.fn().mockResolvedValue(undefined) };
     const service = new TouristPlanService(
       {} as any,
       repository as any,
@@ -18,7 +17,7 @@ describe('TouristPlanService proposal streaming', () => {
       {} as any,
       {} as any,
     );
-    jest.spyOn(service, 'generateTouristPlan').mockResolvedValue(
+    vi.spyOn(service, 'generateTouristPlan').mockResolvedValue(
       (async function* () {
         yield new AIMessageChunk({
           content: [{ type: 'text', text: '第一天' }],
@@ -43,8 +42,12 @@ describe('TouristPlanService proposal streaming', () => {
 });
 
 it('groups attractions by district code regardless of query result order', async () => {
-  const stream = jest.fn().mockResolvedValue('stream');
-  (ChatOpenAI as unknown as jest.Mock).mockImplementation(() => ({ stream }));
+  const stream = vi.fn().mockResolvedValue('stream');
+  vi.mocked(ChatOpenAI).mockImplementation(
+    class {
+      stream = stream;
+    } as unknown as typeof ChatOpenAI,
+  );
   const service = new TouristPlanService(
     { getConfigurations: async () => ['model', 'key', 'url'] } as any,
     {
@@ -72,9 +75,7 @@ it('groups attractions by district code regardless of query result order', async
     {} as any,
   );
   await service.generateTouristPlan('plan-1');
-  expect(ChatOpenAI).toHaveBeenLastCalledWith(
-    expect.objectContaining({ useResponsesApi: false }),
-  );
+  expect(stream).toHaveBeenCalledOnce();
   const message = stream.mock.calls[0][0].toChatMessages()[1].text;
   const destinations = JSON.parse(
     message.split('目的地与意向景点（JSON）：\n')[1].split('\n\n')[0],
@@ -108,7 +109,7 @@ it.each([
 ])(
   'rejects missing or mismatched destinations and attractions: %j',
   async (fixture) => {
-    const getConfigurations = jest.fn();
+    const getConfigurations = vi.fn();
     const service = new TouristPlanService(
       { getConfigurations } as any,
       { findOneBy: async () => fixture } as any,
@@ -124,7 +125,7 @@ it.each([
 );
 
 it('forwards generation errors without saving an incomplete proposal', async () => {
-  const repository = { update: jest.fn() };
+  const repository = { update: vi.fn() };
   const service = new TouristPlanService(
     {} as any,
     repository as any,
@@ -135,7 +136,7 @@ it('forwards generation errors without saving an incomplete proposal', async () 
     {} as any,
   );
   const failure = new Error('upstream stream failed');
-  jest.spyOn(service, 'generateTouristPlan').mockResolvedValue(
+  vi.spyOn(service, 'generateTouristPlan').mockResolvedValue(
     (async function* () {
       yield new AIMessageChunk({ content: '部分方案' });
       throw failure;

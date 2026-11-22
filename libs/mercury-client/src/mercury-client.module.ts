@@ -14,6 +14,7 @@ import { MercuryClientService } from './mercury-client.service';
         ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
+            host: '127.0.0.1',
             port: MICRO_SERVICE_PORTS.MERCURY,
           },
         }),

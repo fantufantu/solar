@@ -30,7 +30,7 @@
 https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating
 
 ```
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
+curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash - &&\
 sudo apt-get install -y nodejs
 ```
 
@@ -45,6 +45,11 @@ npm i -g pm2
 ```
 apt install -y nginx
 ```
+
+### 开发与验证
+
+使用 Node.js 24.15+（24.x）或 26+，在项目根目录运行 `pnpm install --frozen-lockfile`。
+应用使用 ESM，Rspack 构建每个服务。`pnpm typecheck` 检查类型，`pnpm test` 运行 Vitest，`pnpm build:halley` 构建网关。
 
 ### Tag 自动部署
 

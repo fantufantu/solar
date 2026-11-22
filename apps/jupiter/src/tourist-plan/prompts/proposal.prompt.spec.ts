@@ -1,4 +1,3 @@
-/// <reference types="jest" />
 import { useProposalPrompt } from './proposal.prompt';
 
 it('preserves each destination and its selected attractions in the human message', async () => {

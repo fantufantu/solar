@@ -1,4 +1,3 @@
-/// <reference types="jest" />
 import { validate } from 'class-validator';
 import {
   ATTRACTION_SYNC_ACTION,

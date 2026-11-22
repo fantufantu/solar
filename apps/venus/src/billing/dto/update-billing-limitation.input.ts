@@ -1,6 +1,6 @@
 import {
   LIMIT_DURATION,
-  LimitDuration,
+  type LimitDuration,
 } from 'assets/entities/limit-duration.billing.enum';
 import { InputType, Field, Float } from '@nestjs/graphql';
 

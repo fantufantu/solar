@@ -1,6 +1,7 @@
 import {
   ExecutionContext,
   Injectable,
+  Optional,
   UnauthorizedException,
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
@@ -13,7 +14,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   // 严格模式下。认证不通过返回401
   #isLoose: boolean;
 
-  constructor(isLoose?: boolean) {
+  constructor(@Optional() isLoose?: boolean) {
     super();
     this.#isLoose = !!isLoose;
   }

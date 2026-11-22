@@ -13,7 +13,7 @@ import {
 } from 'class-validator';
 import {
   DISTRICT_LEVEL,
-  DistrictLevel,
+  type DistrictLevel,
 } from '@/libs/database/entities/jupiter/district.entity';
 
 export const DISTRICT_SYNC_ACTION = {

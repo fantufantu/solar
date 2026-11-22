@@ -14,7 +14,8 @@ export class ResumeLoader {
    * 根据模板`code`查询模板列表
    */
   readonly resumeTemplates = new DataLoader<string, Nullable<ResumeTemplate>>(
-    async (codes: string[]) => {
+    async (keys) => {
+      const codes = [...keys];
       const [resumeTemplates] =
         await this.resumeTemplateService.resumeTemplates({
           where: { codes },

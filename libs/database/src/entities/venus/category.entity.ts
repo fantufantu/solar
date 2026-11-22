@@ -3,7 +3,7 @@ import { Column, Entity } from 'typeorm';
 import { IdentifiedTimeStamped } from '../any-use/identified-time-stamped.entity';
 import {
   DIRECTION,
-  Direction,
+  type Direction,
 } from 'assets/entities/direction.transaction.enum';
 
 @ObjectType('TransactionCategory')

@@ -10,7 +10,8 @@ export class ResumeTemplateLoader {
    * 根据模板`code`统计引用次数
    */
   readonly citationCount = new DataLoader<string, number>(
-    async (codes: string[]) => {
+    async (keys) => {
+      const codes = [...keys];
       const citationCounts = new Map(
         (await this.resumeService.countByTemplateCode(codes)).map(
           ({ count, templateCode }) => [templateCode, count],

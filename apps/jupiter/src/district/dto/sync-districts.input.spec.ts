@@ -1,4 +1,3 @@
-/// <reference types="jest" />
 import { validate } from 'class-validator';
 import {
   DISTRICT_SYNC_ACTION,

@@ -1,7 +1,7 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import {
   BUCKET_NAME,
-  BucketName,
+  type BucketName,
   CosCredential,
 } from './dto/cos-credential.object';
 import { AmapCredential } from './dto/amap-credential.object';

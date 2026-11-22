@@ -6,7 +6,8 @@
   },
   "monorepo": true,
   "compilerOptions": {
-    "webpack": true
+    "builder": "rspack",
+    "typeCheck": true
   },
   "projects": {
     "cache": {

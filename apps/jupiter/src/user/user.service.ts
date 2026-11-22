@@ -19,7 +19,7 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     private readonly mercuryClient: MercuryClientService,
     @Inject(forwardRef(() => TouristPlanService))
-    private readonly touristPlanService: TouristPlanService,
+    private readonly touristPlanService: Pick<TouristPlanService, 'countTodayByBelongToId'>,
   ) {}
 
   /**

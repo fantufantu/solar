@@ -3,7 +3,7 @@
 set -euo pipefail
 
 readonly ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
-readonly ECOSYSTEM_FILE="$ROOT_DIR/ecosystem.config.js"
+readonly ECOSYSTEM_FILE="$ROOT_DIR/ecosystem.config.cjs"
 readonly START_TIMEOUT_SECONDS="${PM2_START_TIMEOUT_SECONDS:-60}"
 
 # The order reflects the runtime dependencies documented in AGENTS.md.

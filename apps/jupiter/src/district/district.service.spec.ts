@@ -1,4 +1,3 @@
-/// <reference types="jest" />
 import {
   BadRequestException,
   ConflictException,
@@ -15,19 +14,19 @@ function harness(initial: Partial<Stored>[] = []) {
     initial.map((row) => [row.code!, Object.assign(new District(), row)]),
   );
   const repository: any = {
-    find: jest.fn(({ where }: any) =>
+    find: vi.fn(({ where }: any) =>
       Promise.resolve(
         where.code._value.map((code: string) => rows.get(code)).filter(Boolean),
       ),
     ),
     create: (value: any) => Object.assign(new District(), value),
-    upsert: jest.fn((values: Stored[]) => {
+    upsert: vi.fn((values: Stored[]) => {
       for (const value of values) rows.set(value.code, value);
       return Promise.resolve({
         identifiers: values.map(({ code }) => ({ code })),
       });
     }),
-    update: jest.fn(({ code }: any, value: Partial<Stored>) => {
+    update: vi.fn(({ code }: any, value: Partial<Stored>) => {
       for (const districtCode of code._value) {
         Object.assign(rows.get(districtCode)!, value);
       }
